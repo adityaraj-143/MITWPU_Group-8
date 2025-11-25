@@ -25,3 +25,8 @@ enum Conditions{ // more conditions to be added, research needed
     case blurredVision
     case wateryEyes
 }
+
+struct EyeTips{
+    var tip: String
+    var condition: [Conditions]
+}
