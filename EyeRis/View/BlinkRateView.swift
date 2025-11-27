@@ -63,49 +63,63 @@ class BlinkRateView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        let barHeight: CGFloat = 10
+        let barHeight: CGFloat = 12
+        let pointerSize: CGFloat = 16
 
-        // Gradient bar frame
+        // -------- Gradient Bar --------
         gradientLayer.frame = CGRect(
             x: 0,
-            y: bounds.height - barHeight,
+            y: bounds.height - barHeight - 10,   // move bar UP
             width: bounds.width,
             height: barHeight
         )
+        gradientLayer.cornerRadius = barHeight / 2
 
+        // -------- Min / Max Labels --------
         minLabel.frame = CGRect(
             x: 0,
-            y: gradientLayer.frame.minY - 15,
+            y: gradientLayer.frame.minY - 20,
             width: 30,
-            height: 14
+            height: 18
         )
 
         maxLabel.frame = CGRect(
             x: bounds.width - 30,
-            y: gradientLayer.frame.minY - 15,
+            y: gradientLayer.frame.minY - 20,
             width: 30,
-            height: 14
+            height: 18
         )
 
-        updatePointer()
+        // -------- Pointer + BPM Label --------
+        updatePointer(pointerSize: pointerSize)
     }
 
-    private func updatePointer() {
+
+    private func updatePointer(pointerSize: CGFloat = 14, labelSpacing: CGFloat = 2) {
 
         let pos = (value - minValue) / (maxValue - minValue)
         let x = pos * bounds.width
 
-        // Triangle
-        let size: CGFloat = 12
+        let barTop = gradientLayer.frame.minY
+
         let path = UIBezierPath()
-        path.move(to: CGPoint(x: x - size/2, y: gradientLayer.frame.minY - size))
-        path.addLine(to: CGPoint(x: x + size/2, y: gradientLayer.frame.minY - size))
-        path.addLine(to: CGPoint(x: x, y: gradientLayer.frame.minY))
+        path.move(to: CGPoint(x: x, y: barTop - 2))
+        path.addLine(to: CGPoint(x: x - pointerSize/2, y: barTop - pointerSize))
+        path.addLine(to: CGPoint(x: x + pointerSize/2, y: barTop - pointerSize))
         path.close()
         pointer.path = path.cgPath
 
-        // BPM label
+        // --- BPM LABEL (just above the pointer) ---
         bpmLabel.text = "\(Int(value)) bpm"
-        bpmLabel.frame = CGRect(x: x - 30, y: pointer.frame.minY - 28, width: 60, height: 24)
+        bpmLabel.sizeToFit()
+
+        bpmLabel.frame = CGRect(
+            x: x - bpmLabel.frame.width / 2,
+            y: (barTop - pointerSize) - bpmLabel.frame.height - labelSpacing,
+            width: bpmLabel.frame.width,
+            height: bpmLabel.frame.height
+        )
     }
+
+
 }
