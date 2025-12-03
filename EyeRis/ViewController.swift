@@ -1,102 +1,79 @@
-//
-//  ViewController.swift
-//  EyeRis
-//
-//  Created by SDC-USER on 24/11/25.
-//
-
 import UIKit
 
 class ViewController: UIViewController {
     
     @IBOutlet weak var CollectionView: UICollectionView!
+    
+    private let headerKind = "header-kind"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
-        let layout = generateLayout()
-        CollectionView.setCollectionViewLayout(layout, animated: true)
+        CollectionView.setCollectionViewLayout(generateLayout(), animated: false)
         CollectionView.dataSource = self
-        registerCell()
         
-        
+        registerCells()
     }
     
-    func registerCell () {
+    private func registerCells() {
         CollectionView.register(UINib(nibName: "DailyTipCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "tip_cell")
-        
         CollectionView.register(UINib(nibName: "TodayExerciseCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "todayExercise_cell")
-        
         CollectionView.register(UINib(nibName: "PracTestCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "pracTest_cell")
-        
         CollectionView.register(UINib(nibName: "BlinkRateCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "blinkRate_cell")
-        
         CollectionView.register(UINib(nibName: "LastExerciseCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "lastExercise_cell")
-        
         CollectionView.register(UINib(nibName: "LastTestCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "lastTest_cell")
+        
+        // Header
+        CollectionView.register(
+            UINib(nibName: "HeaderView", bundle: nil),
+            forSupplementaryViewOfKind: headerKind,
+            withReuseIdentifier: "header_cell"
+        )
     }
-    
+}
+
+extension ViewController {
     
     func generateLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { section, env in
+        
+        return UICollectionViewCompositionalLayout { sectionIndex, env in
             
-            // MARK: - SECTION 0  ("Tip of the day")
-            if section == 0 {
-                let item = NSCollectionLayoutItem(
-                    layoutSize: NSCollectionLayoutSize(
-                        widthDimension: .fractionalWidth(1.0),
-                        heightDimension: .absolute(84)
-                    )
+            let headerItem: NSCollectionLayoutBoundarySupplementaryItem = {
+                let size = NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .absolute(50)
                 )
                 
-                let groupSize = NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(1.0),
-                    heightDimension: .absolute(84)
+                return NSCollectionLayoutBoundarySupplementaryItem(
+                    layoutSize: size,
+                    elementKind: self.headerKind,
+                    alignment: .top
+                )
+            }()
+            
+            switch sectionIndex {
+                
+                // MARK: Section 0 — Tip of the day
+            case 0:
+                return Self.makeFullWidthSection(
+                    height: 84,
+                    top: 20, bottom: 12
                 )
                 
-                let group = NSCollectionLayoutGroup.vertical(
-                    layoutSize: groupSize,
-                    subitems: [item]
+                // MARK: Section 1 — Today's Exercise
+            case 1:
+                let section = Self.makeFullWidthSection(
+                    height: 71,
+                    top: 0, bottom: 20
                 )
-                
-                let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 12, trailing: 20)
+                section.boundarySupplementaryItems = [headerItem]
                 
                 return section
-            }
-            
-            // MARK: - SECTION 1  ("Today's Exercise Set")
-            else if section == 1 {
-                let item = NSCollectionLayoutItem(
-                    layoutSize: NSCollectionLayoutSize(
-                        widthDimension: .fractionalWidth(1.0),
-                        heightDimension: .absolute(71)
-                    )
-                )
-                
-                let groupSize = NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(1.0),
-                    heightDimension: .absolute(71)
-                )
-                
-                let group = NSCollectionLayoutGroup.vertical(
-                    layoutSize: groupSize,
-                    subitems: [item]
-                )
-                
-                let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20)
-                
-                return section
-            }
-            
-            // MARK: - SECTION 2  ("PracTest" 3 small cards)
-            else if section == 2 {
-                let item = NSCollectionLayoutItem(
-                    layoutSize: NSCollectionLayoutSize(
-                        widthDimension: .fractionalWidth(1.0),
-                        heightDimension: .absolute(152)
-                    )
+                // MARK: Section 2 — Horizontal Practice Test Cards
+            case 2:
+                let itemSize = NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .absolute(152)
                 )
                 
                 let groupSize = NSCollectionLayoutSize(
@@ -104,104 +81,65 @@ class ViewController: UIViewController {
                     heightDimension: .absolute(152)
                 )
                 
-                let group = NSCollectionLayoutGroup.horizontal(
-                    layoutSize: groupSize,
-                    subitems: [item]
-                )
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
                 
                 let section = NSCollectionLayoutSection(group: group)
                 section.orthogonalScrollingBehavior = .continuous
-                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20)
                 section.interGroupSpacing = 12
+                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20)
+                return section
                 
+                // MARK: Section 3 — Blink Rate
+            case 3:
+                let section = Self.makeFullWidthSection(
+                    height: 165,
+                    top: 0, bottom: 20
+                )
+                section.boundarySupplementaryItems = [headerItem]
                 return section
+                // MARK: Section 4 — Last Exercise + Header
+            case 4:
+                return Self.makeFullWidthSection(
+                    height: 165,
+                    top: 0, bottom: 20
+                )
+                
+                // MARK: Section 5 — Last Test
+            case 5:
+                return Self.makeFullWidthSection(
+                    height: 216,
+                    top: 0, bottom: 20
+                )
+                
+            default:
+                return nil
             }
-            
-            else if section == 3 {
-
-                let item = NSCollectionLayoutItem(
-                    layoutSize: NSCollectionLayoutSize(
-                        widthDimension: .fractionalWidth(1.0),
-                        heightDimension: .absolute(165)                    )
-                )
-
-                let groupSize = NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(1.0),
-                    heightDimension: .absolute(165)
-                )
-
-                let group = NSCollectionLayoutGroup.vertical(
-                    layoutSize: groupSize,
-                    subitems: [item]
-                )
-
-                let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(
-                    top: 0, leading: 20, bottom: 20, trailing: 20
-                )
-
-                return section
-            }
-            
-            else if section == 4 {
-
-                let item = NSCollectionLayoutItem(
-                    layoutSize: NSCollectionLayoutSize(
-                        widthDimension: .fractionalWidth(1.0),
-                        heightDimension: .absolute(165)                    )
-                )
-
-                let groupSize = NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(1.0),
-                    heightDimension: .absolute(165)
-                )
-
-                let group = NSCollectionLayoutGroup.vertical(
-                    layoutSize: groupSize,
-                    subitems: [item]
-                )
-
-                let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(
-                    top: 0, leading: 20, bottom: 20, trailing: 20
-                )
-
-                return section
-            }
-            else if section == 5{
-                let item = NSCollectionLayoutItem(
-                    layoutSize: NSCollectionLayoutSize(
-                        widthDimension: .fractionalWidth(1.0),
-                        heightDimension: .absolute(216)                    )
-                )
-
-                let groupSize = NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(1.0),
-                    heightDimension: .absolute(216)
-                )
-
-                let group = NSCollectionLayoutGroup.vertical(
-                    layoutSize: groupSize,
-                    subitems: [item]
-                )
-
-                let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = NSDirectionalEdgeInsets(
-                    top: 0, leading: 20, bottom: 20, trailing: 20
-                )
-
-                return section
-            }
-            
-            return nil
         }
-        
-        return layout
     }
-
     
-    
+    static func makeFullWidthSection(height: CGFloat, top: CGFloat, bottom: CGFloat) -> NSCollectionLayoutSection {
+        let item = NSCollectionLayoutItem(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .absolute(height)
+            )
+        )
+        
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .absolute(height)
+            ),
+            subitems: [item]
+        )
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: top, leading: 20, bottom: bottom, trailing: 20)
+        return section
+    }
 }
+
 
 extension ViewController: UICollectionViewDataSource {
     
@@ -209,40 +147,60 @@ extension ViewController: UICollectionViewDataSource {
         return 6
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
         return 1
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.section == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "tip_cell", for: indexPath) as! DailyTipCollectionViewCell
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        switch indexPath.section {
             
-            return cell
-        } else if indexPath.section == 1 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "todayExercise_cell", for: indexPath) as! TodayExerciseCollectionViewCell
+        case 0:
+            return collectionView.dequeueReusableCell(withReuseIdentifier: "tip_cell", for: indexPath)
             
-            return cell
-        }
-        else if indexPath.section == 2{
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pracTest_cell", for: indexPath) as! PracTestCollectionViewCell
+        case 1:
+            return collectionView.dequeueReusableCell(withReuseIdentifier: "todayExercise_cell", for: indexPath)
             
-            return cell
-        } else if indexPath.section == 3{
+        case 2:
+            return collectionView.dequeueReusableCell(withReuseIdentifier: "pracTest_cell", for: indexPath)
+            
+        case 3:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "blinkRate_cell", for: indexPath) as! BlinkRateCollectionViewCell
-            
             cell.blinkRateSliderView.value = 9
             cell.blinkRateSliderView.maxValue = 22
-            
             return cell
-        } else if indexPath.section == 4{
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "lastExercise_cell", for: indexPath) as! LastExerciseCollectionViewCell
             
-            return cell
-        } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "lastTest_cell", for: indexPath) as! LastTestCollectionViewCell
+        case 4:
+            return collectionView.dequeueReusableCell(withReuseIdentifier: "lastExercise_cell", for: indexPath)
             
-            return cell
+        case 5:
+            return collectionView.dequeueReusableCell(withReuseIdentifier: "lastTest_cell", for: indexPath)
+            
+        default:
+            fatalError("Unknown section")
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
         
+        let header = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: "header_cell",
+            for: indexPath
+        ) as! HeaderView
+        
+        if indexPath.section == 1 {
+            header.configure(str: "Perform")
+        }
+        
+        if indexPath.section == 3 {
+            header.configure(str: "Summary")
+        }
+        
+        return header
+    }
 }
