@@ -13,7 +13,7 @@ class DailyTipCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        mainView.layer.cornerRadius = 17
+        setCornerRadius(mainView)
     }
 
 }
