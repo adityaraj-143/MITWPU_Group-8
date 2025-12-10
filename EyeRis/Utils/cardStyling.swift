@@ -20,8 +20,8 @@ func setCornerRadius(_ views: [UIView]) {
 
 func setShadows(_ view: UIView) {
     view.layer.shadowColor = UIColor.black.cgColor
-    view.layer.shadowOpacity = 0.1
-    view.layer.shadowRadius = 10
+    view.layer.shadowOpacity = 0.07
+    view.layer.shadowRadius = 6
     view.layer.shadowOffset = .zero
     view.layer.masksToBounds = false
 }
@@ -29,8 +29,8 @@ func setShadows(_ view: UIView) {
 func setShadows(_ views: [UIView]) {
     for view in views{
         view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.1
-        view.layer.shadowRadius = 10
+        view.layer.shadowOpacity = 0.07
+        view.layer.shadowRadius = 6
         view.layer.shadowOffset = .zero
         view.layer.masksToBounds = false
     }

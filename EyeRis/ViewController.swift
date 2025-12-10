@@ -156,7 +156,7 @@ extension ViewController {
         
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1),
+                widthDimension: .absolute(354),
                 heightDimension: .absolute(height)
             ),
             subitems: [item]
@@ -170,6 +170,22 @@ extension ViewController {
 
 
 extension ViewController: UICollectionViewDataSource {
+    
+    func goToTestResult() {
+        let storyboard = UIStoryboard(
+            name: "TestResultFlow",
+            bundle: nil
+        )
+        
+        let vc = storyboard.instantiateViewController(
+            withIdentifier: "TestResultViewController"
+        ) as! TestResultViewController
+        
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
+    
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 7
@@ -225,10 +241,16 @@ extension ViewController: UICollectionViewDataSource {
             )
             
         case 6:
-            return collectionView.dequeueReusableCell(
+            let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "lastTest_cell",
                 for: indexPath
-            )
+            ) as! LastTestCollectionViewCell
+            
+            cell.onTapNavigation = { [weak self] in
+                self?.goToTestResult()
+            }
+            
+            return cell
             
         default:
             fatalError("Unknown section")

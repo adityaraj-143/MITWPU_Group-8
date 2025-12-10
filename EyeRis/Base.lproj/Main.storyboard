@@ -53,11 +53,22 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="CollectionView" destination="VdG-cA-bfb" id="DWm-ZD-FSz"/>
+                        <segue destination="7Wc-Fy-gFn" kind="show" id="zoI-H2-spH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2864.8854961832062" y="132.3943661971831"/>
+        </scene>
+        <!--Storyboard Reference-->
+        <scene sceneID="hOh-dr-p3X">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="TestResultViewController" id="7Wc-Fy-gFn" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="rPi-r0-5mi"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Zd-gv-y65" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3940" y="149"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="iyi-48-a1o">
