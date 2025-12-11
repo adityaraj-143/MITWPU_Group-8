@@ -7,6 +7,7 @@
 
 import Foundation
 
+//MARK: TEST RESULTS
 // Dummy data for Test Results
 let dummyAcuityResults: [AcuityTestResult] = [
     // 1) May 8, 2025
@@ -119,6 +120,7 @@ let dummyAcuityResults: [AcuityTestResult] = [
 ]
 
 
+//MARK: EXERCISE HISTORY
 // Dummy data for Exercise History
 let dummyExerciseHistory: [ExerciseHistory] = [
     ExerciseHistory(
