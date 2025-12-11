@@ -7,6 +7,8 @@
 
 import Foundation
 
+
+// MARK: USER DETAILS
 struct User{
     var firstName: String
     var lastName: String
@@ -28,6 +30,14 @@ struct UserEyeHealthData{
     }
 }
 
+enum Conditions{ // more conditions to be added, research needed
+    case dryEyes
+    case eyeFatigue
+    case blurredVision
+    case wateryEyes
+}
+
+//MARK: EXERCISE
 struct Exercise{
     var id: Int
     var name: String
@@ -51,6 +61,7 @@ struct ExerciseInstruction{
     var video: String
 }
 
+//MARK: COMMENT & TIP
 // to get the comment for either test or exercise based on the details passed as params
 struct Comment {
     var exerciseComments: [String]
@@ -66,18 +77,13 @@ struct Comment {
     }
 }
 
-enum Conditions{ // more conditions to be added, research needed
-    case dryEyes
-    case eyeFatigue
-    case blurredVision
-    case wateryEyes
-}
-
 struct EyeTips{
     var tip: String
     var condition: [Conditions]
 }
 
+
+//MARK: EXERCISE HISTORY
 struct PerformedExerciseStat {
     var id: Int
     var name: String
@@ -96,6 +102,8 @@ struct ExerciseHistory{
     var exercisesDetails: [PerformedExerciseStat]
 }
 
+
+//MARK: TEST HISTORY
 struct AcuityScore{ // need to change this (research needed)
     var temp: String
     
@@ -133,6 +141,7 @@ struct TestInstruction{
 }
 
 
+//MARK: DATE HELPER
 // Helper to create a Date like makeDate(year: 2025, month: 5, day: 8)
 func makeDate(year: Int, month: Int, day: Int) -> Date {
     var components = DateComponents()
