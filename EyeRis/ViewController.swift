@@ -84,14 +84,14 @@ extension ViewController {
                 return Self.makeFullWidthSection(
                     height: 84,
                     top: 0,
-                    bottom: 0
+                    bottom: 5
                 )
                 
             case 2: // Today's Exercise
                 let section = Self.makeFullWidthSection(
                     height: 71,
                     top: 0,
-                    bottom: 10
+                    bottom: 15
                 )
                 section.boundarySupplementaryItems = [headerItem]
                 return section
@@ -113,14 +113,14 @@ extension ViewController {
                 let section = NSCollectionLayoutSection(group: group)
                 section.orthogonalScrollingBehavior = .continuous
                 section.interGroupSpacing = 12
-                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20)
                 return section
                 
             case 4: // Blink Rate
                 let section = Self.makeFullWidthSection(
                     height: 165,
                     top: 0,
-                    bottom: 10
+                    bottom: 15
                 )
                 section.boundarySupplementaryItems = [headerItem]
                 return section
@@ -129,14 +129,14 @@ extension ViewController {
                 return Self.makeFullWidthSection(
                     height: 165,
                     top: 0,
-                    bottom: 10
+                    bottom: 15
                 )
                 
             case 6: // Last Test
                 return Self.makeFullWidthSection(
                     height: 216,
                     top: 0,
-                    bottom: 10
+                    bottom: 40
                 )
                 
             default:
