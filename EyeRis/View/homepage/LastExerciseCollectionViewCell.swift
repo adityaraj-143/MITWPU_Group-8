@@ -15,8 +15,9 @@ class LastExerciseCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        setCornerRadius([mainView,commentView])
-        navigatorButton.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
+        [mainView,commentView].forEach {
+            $0?.applyCornerRadius()
+        }
     }
     
     
