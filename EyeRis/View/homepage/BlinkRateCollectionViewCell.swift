@@ -16,8 +16,9 @@ class BlinkRateCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        setCornerRadius([MainView, commentView])
-        navigatorButton.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
+        [MainView, commentView].forEach {
+            $0?.applyCornerRadius()
+        }
     }
 
 }

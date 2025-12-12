@@ -16,10 +16,7 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        setCornerRadius(mainView)
-        todayExerciseLabel.font = .systemFont(ofSize: 20, weight: .semibold)
-        timeLabel.font = .systemFont(ofSize: 15, weight: .bold)
-        playButtonOutlet.applyLiquidGlassEffect()
+        mainView.applyCornerRadius()
     }
 
     @IBAction func playButtonAction(_ sender: Any) {
