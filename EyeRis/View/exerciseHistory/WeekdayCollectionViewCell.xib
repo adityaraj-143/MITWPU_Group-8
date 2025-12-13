@@ -20,19 +20,21 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yIR-0x-pd4">
                         <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="M" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m99-XC-pC6">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OO7-iu-9Wl">
                                 <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="M"/>
+                                <connections>
+                                    <action selector="weekdayTapped:" destination="gTV-IL-0wX" eventType="touchUpInside" id="w2k-56-CFK"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="m99-XC-pC6" secondAttribute="trailing" id="8RI-eq-hzu"/>
-                            <constraint firstAttribute="bottom" secondItem="m99-XC-pC6" secondAttribute="bottom" id="Ezn-Ta-5g3"/>
-                            <constraint firstItem="m99-XC-pC6" firstAttribute="top" secondItem="yIR-0x-pd4" secondAttribute="top" id="aCP-tg-WWK"/>
-                            <constraint firstItem="m99-XC-pC6" firstAttribute="leading" secondItem="yIR-0x-pd4" secondAttribute="leading" id="kAj-Px-hR7"/>
+                            <constraint firstItem="OO7-iu-9Wl" firstAttribute="top" secondItem="yIR-0x-pd4" secondAttribute="top" id="1Ad-tY-Euy"/>
+                            <constraint firstItem="OO7-iu-9Wl" firstAttribute="leading" secondItem="yIR-0x-pd4" secondAttribute="leading" id="5hS-o6-Jmh"/>
+                            <constraint firstAttribute="trailing" secondItem="OO7-iu-9Wl" secondAttribute="trailing" id="nIQ-4j-Y8F"/>
+                            <constraint firstAttribute="bottom" secondItem="OO7-iu-9Wl" secondAttribute="bottom" id="z79-13-tC4"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -45,8 +47,8 @@
                 <constraint firstAttribute="trailing" secondItem="yIR-0x-pd4" secondAttribute="trailing" id="ctb-O8-bVL"/>
             </constraints>
             <connections>
-                <outlet property="mainView" destination="yIR-0x-pd4" id="w4U-te-aR4"/>
-                <outlet property="weekdayLabel" destination="m99-XC-pC6" id="rwr-nI-lTB"/>
+                <outlet property="mainView" destination="yIR-0x-pd4" id="GWz-r8-C3P"/>
+                <outlet property="weekdayButton" destination="OO7-iu-9Wl" id="fhW-He-x5L"/>
             </connections>
             <point key="canvasLocation" x="-76.33587786259541" y="153.52112676056339"/>
         </collectionViewCell>
