@@ -5,6 +5,8 @@
 //  Created by SDC-USER on 12/12/25.
 //
 
+import Foundation
+
 //MARK: TEST RESULTS
 // Dummy data for Test Results
 let dummyAcuityResults: [AcuityTestResult] = [
@@ -141,3 +143,32 @@ let mockTest = AcuityTest(
         ]
     )
 )
+
+
+struct BlinkRateMockData {
+
+    static let calendar = Calendar.current
+
+    static let mockBlinkRateResults: [BlinkRateTestResult] = {
+        let today = Date()
+        var results: [BlinkRateTestResult] = []
+
+        // last 28 days (4 weeks)
+        for i in 0..<28 {
+            guard let date = calendar.date(byAdding: .day, value: -i, to: today) else {
+                continue
+            }
+
+            let blinks = Int.random(in: 28...50) // bpm ~ 14–25
+            results.append(
+                BlinkRateTestResult(
+                    id: i,
+                    blinks: blinks,
+                    performedOn: date
+                )
+            )
+        }
+
+        return results
+    }()
+}
