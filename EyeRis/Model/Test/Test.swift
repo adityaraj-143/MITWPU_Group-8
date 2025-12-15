@@ -56,3 +56,12 @@ struct BlinkRateTest{
     var passages: [String]
     var duration: Int = 120
 }
+
+struct BlinkRateTestResult {
+    var id: Int
+    var blinks: Int
+    var bpm: Int {
+        blinks/2
+    }
+    var performedOn: Date
+}
