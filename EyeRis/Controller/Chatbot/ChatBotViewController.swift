@@ -98,7 +98,6 @@ class ChatBotViewController: UIViewController, UITextFieldDelegate {
     }
 }
     @IBAction func FAQTapped(_ sender: UIButton) {
-            print("Nigga")
             print("FAQ tapped")
             print("TextField outlet:", TextField as Any)
             view.endEditing(true)

@@ -62,7 +62,6 @@
                                 <buttonConfiguration key="configuration" style="tinted" image="chevron.right" catalog="system" cornerStyle="capsule"/>
                                 <connections>
                                     <action selector="NextBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="ukJ-1T-0qG"/>
-                                    <segue destination="Kd6-Lj-d4X" kind="show" id="Er9-zp-0yb"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Not Recording" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gvl-zG-zYC">
@@ -87,46 +86,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1064.885496183206" y="130.98591549295776"/>
-        </scene>
-        <!--Chart2 View Controller-->
-        <scene sceneID="y7d-jq-jQ7">
-            <objects>
-                <viewController storyboardIdentifier="Chart2ViewController" id="Kd6-Lj-d4X" customClass="Chart2ViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="kuU-PP-acn">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Wassup Nigga" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oss-cs-Swy">
-                                <rect key="frame" x="141" y="234" width="110" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="jnU-uX-5Yb"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="w5B-zG-VvJ"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ccz-XC-yHC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1892.3664122137404" y="130.98591549295776"/>
-        </scene>
-        <!--Chart3 View Controller-->
-        <scene sceneID="i27-6S-hkD">
-            <objects>
-                <viewController storyboardIdentifier="Chart3" id="Ql9-4P-8pu" customClass="Chart3ViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="cLe-Yn-xZI">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="RJk-G3-cgv"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gnJ-ls-DEX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2730.5343511450383" y="130.98591549295776"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="VYl-qU-8rW">
