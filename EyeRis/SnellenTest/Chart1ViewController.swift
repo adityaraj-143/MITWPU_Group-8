@@ -86,6 +86,7 @@ class Chart1ViewController: UIViewController {
                     print("🎙️ Final text:", spokenText)
                     self.TextField.text = spokenText
                     if normalized == "NEXT" {
+                        print("Nigga said Next")
                         let sb = UIStoryboard(name: "Chart2", bundle: nil)
                         if let vc = sb.instantiateViewController(
                             withIdentifier: "Chart2ViewController"
@@ -129,7 +130,18 @@ class Chart1ViewController: UIViewController {
     view.endEditing(true)
 }
 
+    @IBAction func NextBtn(_ sender: UIButton) {
+        
+        //i wanna store the text in the textfield somewhere and move to the nect screen
+        let sb = UIStoryboard(name: "Chart2", bundle: nil)
+        if let vc = sb.instantiateViewController(
+            withIdentifier: "Chart2ViewController"
+        ) as? Chart2ViewController {
 
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
     @IBAction func MicBtn(_ sender: UIButton) {
         print("button Pressed")
         if audioEngine.isRunning {
