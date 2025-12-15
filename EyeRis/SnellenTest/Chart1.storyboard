@@ -60,6 +60,10 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="tinted" image="chevron.right" catalog="system" cornerStyle="capsule"/>
+                                <connections>
+                                    <action selector="NextBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="ukJ-1T-0qG"/>
+                                    <segue destination="Kd6-Lj-d4X" kind="show" id="Er9-zp-0yb"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Not Recording" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gvl-zG-zYC">
                                 <rect key="frame" x="16" y="257" width="361" height="24"/>
@@ -87,7 +91,7 @@
         <!--Chart2 View Controller-->
         <scene sceneID="y7d-jq-jQ7">
             <objects>
-                <viewController storyboardIdentifier="Chart2" id="Kd6-Lj-d4X" customClass="Chart2ViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Chart2ViewController" id="Kd6-Lj-d4X" customClass="Chart2ViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kuU-PP-acn">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -103,6 +107,7 @@
                         <viewLayoutGuide key="safeArea" id="jnU-uX-5Yb"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="w5B-zG-VvJ"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ccz-XC-yHC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
