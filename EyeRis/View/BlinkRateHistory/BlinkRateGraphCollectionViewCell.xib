@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="BlinkRateGraphCollectionViewCell" customModule="EyeRis" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="350" height="248"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="350" height="248"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1hC-NN-Uxv">
+                        <rect key="frame" x="0.0" y="0.0" width="350" height="248"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wgJ-wm-lCM" customClass="BlinkRateGraphView" customModule="EyeRis" customModuleProvider="target">
+                                <rect key="frame" x="5" y="91" width="340" height="137"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v0W-fW-Chb">
+                                <rect key="frame" x="10" y="10" width="43.666666666666664" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Vg-Fc-gyH">
+                                <rect key="frame" x="10" y="32" width="39.666666666666664" height="19.333333333333329"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" systemColor="secondaryLabelColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="wgJ-wm-lCM" firstAttribute="top" secondItem="1Vg-Fc-gyH" secondAttribute="bottom" constant="39.670000000000002" id="3cZ-hS-EfI"/>
+                            <constraint firstItem="1Vg-Fc-gyH" firstAttribute="top" secondItem="v0W-fW-Chb" secondAttribute="bottom" constant="1" id="42x-6c-zAA"/>
+                            <constraint firstItem="v0W-fW-Chb" firstAttribute="leading" secondItem="1hC-NN-Uxv" secondAttribute="leading" constant="10" id="BRj-aW-qpd"/>
+                            <constraint firstItem="1Vg-Fc-gyH" firstAttribute="leading" secondItem="1hC-NN-Uxv" secondAttribute="leading" constant="10" id="EXe-4F-CpT"/>
+                            <constraint firstItem="v0W-fW-Chb" firstAttribute="top" secondItem="1hC-NN-Uxv" secondAttribute="top" constant="10" id="ImG-cz-2HG"/>
+                            <constraint firstAttribute="bottom" secondItem="wgJ-wm-lCM" secondAttribute="bottom" constant="20" id="LDg-zy-IqV"/>
+                            <constraint firstItem="wgJ-wm-lCM" firstAttribute="leading" secondItem="1hC-NN-Uxv" secondAttribute="leading" constant="5" id="hNd-93-itC"/>
+                            <constraint firstAttribute="trailing" secondItem="wgJ-wm-lCM" secondAttribute="trailing" constant="5" id="tmE-EA-ats"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="1hC-NN-Uxv" secondAttribute="trailing" id="cy7-m6-VSE"/>
+                <constraint firstItem="1hC-NN-Uxv" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="fDz-Es-mJE"/>
+                <constraint firstAttribute="bottom" secondItem="1hC-NN-Uxv" secondAttribute="bottom" id="p6l-vt-Wjj"/>
+                <constraint firstItem="1hC-NN-Uxv" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="q2A-3R-9re"/>
+            </constraints>
+            <connections>
+                <outlet property="graphView" destination="wgJ-wm-lCM" id="6bs-c8-UBX"/>
+                <outlet property="mainView" destination="1hC-NN-Uxv" id="E9C-0A-aCP"/>
+                <outlet property="weekLabel" destination="1Vg-Fc-gyH" id="rmY-Um-gxv"/>
+                <outlet property="weeklyBPM" destination="v0W-fW-Chb" id="ROj-HB-yVD"/>
+            </connections>
+            <point key="canvasLocation" x="-482.44274809160305" y="153.52112676056339"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
