@@ -41,6 +41,10 @@ class ExerciseListViewController: UIViewController {
     private func setupCardViews() {
         [recommendedCardView,allExercisesCardView].forEach {
             $0?.applyCornerRadius()
+            $0?.applyShadow()
+        }
+        [recommendedTableView,allExercisesTableView].forEach {
+            $0?.applyCornerRadiusToTable()
         }
     }
     
@@ -55,10 +59,6 @@ class ExerciseListViewController: UIViewController {
         let nib = UINib(nibName: "ExerciseTableViewCell", bundle: nil)
         recommendedTableView.register(nib, forCellReuseIdentifier: "ExerciseTableViewCell")
         allExercisesTableView.register(nib, forCellReuseIdentifier: "ExerciseTableViewCell")
-        
-        // Register XIB for instruction controller (optional, but clean)
-        recommendedTableView.tableFooterView = UIView()
-        allExercisesTableView.tableFooterView = UIView()
     }
 
     
@@ -145,7 +145,7 @@ extension ExerciseListViewController: UITableViewDataSource, UITableViewDelegate
     private func playButtonTapped(for exercise: Exercise) {
         
         // Get calibration VC from storyboard
-        let storyboard = UIStoryboard(name: "exerciseList", bundle: nil)
+        let storyboard = UIStoryboard(name: "CalibrationScreen", bundle: nil)
         let calibrationVC = storyboard.instantiateViewController(withIdentifier: "CalibrationViewController") as! CalibrationViewController
         calibrationVC.exercise = exercise
         
