@@ -26,6 +26,8 @@ class Chart1ViewController: UIViewController {
     
  
     var capturedTexts: [String] = []
+    var currentSpeechBuffer = ""
+
     let totalImages = 7
     var currentImageIndex = 0   // starts at Image 1
 
@@ -94,7 +96,9 @@ class Chart1ViewController: UIViewController {
                 DispatchQueue.main.async {
                     
                     print("🎙️ Final text:", spokenText)
+                    self.currentSpeechBuffer = spokenText
                     self.TextField.text = spokenText
+
                     if normalized.hasSuffix("NEXT") {
                     self.next()
                         print("text detected")
@@ -141,28 +145,7 @@ class Chart1ViewController: UIViewController {
         }
     }
     
-    func hardStopSpeech() {
-        if audioEngine.isRunning {
-            audioEngine.stop()
-        }
 
-        recognitionRequest?.endAudio()
-        recognitionRequest = nil
-
-        recognitionTask?.cancel()
-        recognitionTask = nil
-
-        audioEngine.inputNode.removeTap(onBus: 0)
-
-        Recording = false
-
-        DispatchQueue.main.async {
-            self.RecordingStatus.text = "Not Recording"
-            self.RecordingStatus.textColor = .systemGray
-        }
-
-        print("🛑 Speech hard-stopped")
-    }
     
     func restartRecognitionSession() {
         // Stop only the recognition task (NOT the mic)
@@ -206,35 +189,41 @@ class Chart1ViewController: UIViewController {
     
     
     func next() {
-        // 1️⃣ Store text
         print("next is called")
-        restartRecognitionSession()
-        if let text = TextField.text, !text.isEmpty {
-            capturedTexts.append(text)
-            print("📦 Stored:", text)
+
+        // 📦 Save current speech chunk
+        if !currentSpeechBuffer.isEmpty {
+            capturedTexts.append(currentSpeechBuffer)
+            print("📦 Stored chunk:", currentSpeechBuffer)
         }
 
-        // 2️⃣ Clear text field
+        // 🛑 HARD RESET speech recognition (this clears Apple’s internal result buffer)
+        recognitionTask?.cancel()
+        recognitionTask = nil
+        recognitionRequest = nil
+
+        // 🔄 Reset local buffers
+        currentSpeechBuffer = ""
+
+        // 🧹 Clear UI
         TextField.text = ""
 
-        // 3️⃣ Move to next image
+        // 🖼️ Move to next image
         currentImageIndex += 1
-        
-        // 4️⃣ Loop back if exceeded
         if currentImageIndex > totalImages {
             currentImageIndex = 1
-            
         }
 
-        // 5️⃣ Set image (WITH SPACE IN NAME)
         let imageName = "Image \(currentImageIndex)"
         SnellenImg.image = UIImage(named: imageName)
 
         print("🖼️ Showing:", imageName)
-    }
 
-    
-    
+        // 🎧 Restart listening fresh (NEW result, NEW buffer)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+            self.startListening()
+        }
+    }
 
     @objc func dismissKeyboard() {
     view.endEditing(true)
