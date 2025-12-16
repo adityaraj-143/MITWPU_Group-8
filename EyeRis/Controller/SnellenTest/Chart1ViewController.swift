@@ -95,11 +95,11 @@ class Chart1ViewController: UIViewController {
                     
                     print("🎙️ Final text:", spokenText)
                     self.TextField.text = spokenText
-                    if normalized == "NEXT" {
+                    if normalized == "NEXT" && result.isFinal{
                         self.next()
-                        
-                        
                         print("text detected")
+                        
+                        
 //                        let sb = UIStoryboard(name: "Chart2", bundle: nil)
 //                        if let vc = sb.instantiateViewController(
 //                            withIdentifier: "Chart2ViewController"
@@ -107,6 +107,8 @@ class Chart1ViewController: UIViewController {
 //
 //                            self.navigationController?.pushViewController(vc, animated: true)
 //                        }
+                        
+                        
                     }
                 }
             }
@@ -138,6 +140,33 @@ class Chart1ViewController: UIViewController {
             self.RecordingStatus.textColor = .systemGray
         }
     }
+    
+    func next() {
+        // 1️⃣ Store text
+        print("next is called")
+        if let text = TextField.text, !text.isEmpty {
+            capturedTexts.append(text)
+            print("📦 Stored:", text)
+        }
+
+        // 2️⃣ Clear text field
+        TextField.text = ""
+
+        // 3️⃣ Move to next image
+        currentImageIndex += 1
+
+        // 4️⃣ Loop back if exceeded
+        if currentImageIndex > totalImages {
+            currentImageIndex = 1
+        }
+
+        // 5️⃣ Set image (WITH SPACE IN NAME)
+        let imageName = "Image \(currentImageIndex)"
+        SnellenImg.image = UIImage(named: imageName)
+
+        print("🖼️ Showing:", imageName)
+    }
+
     
     
 
