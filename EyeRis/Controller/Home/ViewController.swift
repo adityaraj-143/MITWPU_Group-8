@@ -65,7 +65,7 @@ extension ViewController: UICollectionViewDataSource {
 
             // First card → placeholder
             cell.onFirstCardTap = { [weak self] in
-                self?.navigate(to: "TestInstructions", with: "TestInstructionViewController")
+                self?.navigate(to: "exerciseList", with: "ExerciseListViewController")
             }
 
             // Second card → TestInstructions
@@ -88,6 +88,11 @@ extension ViewController: UICollectionViewDataSource {
             ) as! BlinkRateCollectionViewCell
             cell.blinkRateSliderView.value = 9
             cell.blinkRateSliderView.maxValue = 22
+            
+            cell.onTapNavigation = { [weak self] in
+                    self?.navigate(to: "BlinkRateHistory", with: "BlinkRateHistoryViewController")
+            }
+            
             return cell
 
         case 5:
@@ -105,7 +110,7 @@ extension ViewController: UICollectionViewDataSource {
             ) as! LastTestCollectionViewCell
 
             cell.onTapNavigation = { [weak self] in
-                self?.navigate(to: "TestResultFlow", with: "TestResultViewController")
+                self?.navigate(to: "TestHistory", with: "TestHistoryViewController")
             }
 
             return cell
