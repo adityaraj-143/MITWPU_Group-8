@@ -198,6 +198,7 @@ class Chart1ViewController: UIViewController {
         }
 
         print("🔄 Recognition restarted (mic still running)")
+        
     }
 
 
@@ -222,7 +223,7 @@ class Chart1ViewController: UIViewController {
         // 4️⃣ Loop back if exceeded
         if currentImageIndex > totalImages {
             currentImageIndex = 1
-            hardStopSpeech()
+            
         }
 
         // 5️⃣ Set image (WITH SPACE IN NAME)
