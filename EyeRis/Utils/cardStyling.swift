@@ -19,6 +19,12 @@ extension UIView {
         self.layer.shadowOffset = offset
         self.layer.masksToBounds = false
     }
+    
+    func makeRounded() {
+        self.layer.cornerRadius = self.frame.height / 2
+        self.layer.masksToBounds = true
+        self.clipsToBounds = true
+    }
 }
 
 extension UITableView{
