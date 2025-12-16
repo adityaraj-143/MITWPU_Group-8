@@ -95,8 +95,8 @@ class Chart1ViewController: UIViewController {
                     
                     print("🎙️ Final text:", spokenText)
                     self.TextField.text = spokenText
-                    if normalized == "NEXT"{
-                        self.next()
+                    if normalized.hasSuffix("NEXT") {
+                    self.next()
                         print("text detected")
                         
                         
