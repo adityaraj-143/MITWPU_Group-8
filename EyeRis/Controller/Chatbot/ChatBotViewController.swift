@@ -104,10 +104,15 @@ class ChatbotViewController: UIViewController, UITextFieldDelegate {
 }
     @IBAction func FAQTapped(_ sender: UIButton) {
         view.endEditing(true)
-
             isFAQSelection = true
-            TextField.backgroundColor = .systemYellow
-            TextField.text = sender.title(for: .normal)
+
+            guard let title = sender.currentTitle else {
+                print(" Button title is nil")
+                return
+            }
+
+            TextField.text = title
+            
         }
 
    
