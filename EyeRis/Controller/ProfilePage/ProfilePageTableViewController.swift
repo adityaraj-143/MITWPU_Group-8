@@ -42,7 +42,7 @@ class ProfilePageTableViewController: UITableViewController {
     }
 
     @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
-        dismiss(animated: tru)
+        dismiss(animated: true)
     }
     // MARK: - Initial UI State
     private func setupInitialFieldState() {
