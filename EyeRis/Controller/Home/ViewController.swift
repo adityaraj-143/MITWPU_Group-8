@@ -5,7 +5,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var CollectionView: UICollectionView!
     @IBOutlet weak var profileIconView: UIView!
 
-    let headerKind = "header-kind"
+    var lastAcuityTest = dummyAcuityResults
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +29,7 @@ class ViewController: UIViewController {
 
         CollectionView.register(
             UINib(nibName: "HeaderView", bundle: nil),
-            forSupplementaryViewOfKind: headerKind,
+            forSupplementaryViewOfKind: "header-kind",
             withReuseIdentifier: "header_cell"
         )
     }
