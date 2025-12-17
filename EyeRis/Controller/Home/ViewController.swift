@@ -33,6 +33,9 @@ class ViewController: UIViewController {
             withReuseIdentifier: "header_cell"
         )
     }
+    @IBAction func chatbotIconTapped(_ sender: Any) {
+        self.navigate(to: "ChatBot", with: "ChatbotViewController")
+    }
 }
 
 
