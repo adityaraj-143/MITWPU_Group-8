@@ -5,7 +5,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var CollectionView: UICollectionView!
     @IBOutlet weak var profileIconView: UIView!
 
-    let headerKind = "header-kind"
+    var lastAcuityTest = dummyAcuityResults
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +29,7 @@ class ViewController: UIViewController {
 
         CollectionView.register(
             UINib(nibName: "HeaderView", bundle: nil),
-            forSupplementaryViewOfKind: headerKind,
+            forSupplementaryViewOfKind: "header-kind",
             withReuseIdentifier: "header_cell"
         )
     }
@@ -65,17 +66,17 @@ extension ViewController: UICollectionViewDataSource {
 
             // First card → placeholder
             cell.onFirstCardTap = { [weak self] in
-                self?.goToPlaceholderPage()
+                self?.navigate(to: "exerciseList", with: "ExerciseListViewController")
             }
 
             // Second card → TestInstructions
             cell.onSecondCardTap = { [weak self] in
-                self?.goToTestInstructions()
+                self?.navigate(to: "TestInstructions", with: "TestInstructionViewController")
             }
 
             // Third card → TestInstructions
             cell.onThirdCardTap = { [weak self] in
-                self?.goToTestInstructions()
+                self?.navigate(to: "TestInstructions", with: "TestInstructionViewController")
             }
 
             return cell
@@ -88,10 +89,20 @@ extension ViewController: UICollectionViewDataSource {
             ) as! BlinkRateCollectionViewCell
             cell.blinkRateSliderView.value = 9
             cell.blinkRateSliderView.maxValue = 22
+            
+            cell.onTapNavigation = { [weak self] in
+                    self?.navigate(to: "BlinkRateHistory", with: "BlinkRateHistoryViewController")
+            }
+            
             return cell
 
         case 5:
-            return collectionView.dequeueReusableCell(withReuseIdentifier: "lastExercise_cell", for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "lastExercise_cell", for: indexPath) as! LastExerciseCollectionViewCell
+            
+            cell.onTapNavigation = { [weak self] in
+                self?.navigate(to: "ExerciseHistory", with: "ExerciseHistoryViewController")
+            }
+            return cell
 
         case 6:
             let cell = collectionView.dequeueReusableCell(
@@ -100,7 +111,7 @@ extension ViewController: UICollectionViewDataSource {
             ) as! LastTestCollectionViewCell
 
             cell.onTapNavigation = { [weak self] in
-                self?.goToTestResult()
+                self?.navigate(to: "TestHistory", with: "TestHistoryViewController")
             }
 
             return cell
