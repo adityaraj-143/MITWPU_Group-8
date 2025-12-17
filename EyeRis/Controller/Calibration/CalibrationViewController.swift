@@ -23,7 +23,6 @@ class CalibrationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Calibration"
         setupBorderView()
         setupARView()
         setupARKit()
@@ -66,6 +65,7 @@ class CalibrationViewController: UIViewController {
         cameraFeedBorderView.layer.borderWidth = 5
         cameraFeedBorderView.layer.borderColor = UIColor.systemRed.cgColor
         cameraFeedBorderView.clipsToBounds = true
+        
         cameraContainer.layer.cornerRadius = 17
         cameraFeedBorderView.clipsToBounds = true
     }

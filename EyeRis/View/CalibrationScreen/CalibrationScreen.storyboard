@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Calibration View Controller-->
+        <!--Calibration-->
         <scene sceneID="xeD-Ph-fzJ">
             <objects>
                 <viewController storyboardIdentifier="CalibrationViewController" id="rQT-bM-T5O" customClass="CalibrationViewController" customModule="EyeRis" sceneMemberID="viewController">
@@ -73,7 +73,7 @@
                             <constraint firstItem="pzJ-Ru-uLm" firstAttribute="top" secondItem="cDq-pm-Wfd" secondAttribute="bottom" constant="20" id="xlY-f9-VVn"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Jd9-ks-2bY"/>
+                    <navigationItem key="navigationItem" title="Calibration" id="Jd9-ks-2bY"/>
                     <connections>
                         <outlet property="cameraContainer" destination="cDq-EV-SLG" id="00Y-de-Bii"/>
                         <outlet property="cameraFeedBorderView" destination="svI-0L-a6C" id="lOv-Qe-UVx"/>
