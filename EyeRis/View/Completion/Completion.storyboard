@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Completion View Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController id="Y6W-OH-hqX" customClass="CompletionViewController" customModule="EyeRis" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test Completed Successfully!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j9H-oH-L9t">
+                                <rect key="frame" x="46.666666666666657" y="393" width="300" height="66"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="66" id="GHK-KV-6bV"/>
+                                    <constraint firstAttribute="width" constant="300" id="fMB-zb-LBj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lu0-f7-cPd">
+                                <rect key="frame" x="161.66666666666666" y="318" width="70" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="L8o-MQ-idK"/>
+                                    <constraint firstAttribute="width" constant="70" id="xTB-18-eYF"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" cornerStyle="capsule">
+                                    <imageReference key="image" image="checkmark" catalog="system" symbolScale="large"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="22" scale="large" weight="bold"/>
+                                </buttonConfiguration>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fSq-Kf-sig">
+                                <rect key="frame" x="55" y="674" width="110" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="110" id="8nI-5S-gyp"/>
+                                    <constraint firstAttribute="height" constant="45" id="if2-d8-KHc"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="Home"/>
+                                    </attributedString>
+                                </buttonConfiguration>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AZN-qz-mz6">
+                                <rect key="frame" x="223" y="674" width="115" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="115" id="f1p-Wh-hXy"/>
+                                    <constraint firstAttribute="height" constant="45" id="ktw-Na-FfA"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Results"/>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Lu0-f7-cPd" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="2xc-ca-J5T"/>
+                            <constraint firstItem="j9H-oH-L9t" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="4ee-Mn-SVk"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="AZN-qz-mz6" secondAttribute="bottom" constant="65" id="91n-jg-tR1"/>
+                            <constraint firstItem="j9H-oH-L9t" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="ZgM-aj-aBB"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="fSq-Kf-sig" secondAttribute="bottom" constant="65" id="hKa-p9-6kf"/>
+                            <constraint firstItem="j9H-oH-L9t" firstAttribute="top" secondItem="Lu0-f7-cPd" secondAttribute="bottom" constant="5" id="qqB-qy-24O"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="AZN-qz-mz6" secondAttribute="trailing" constant="55" id="sx8-Ad-mpl"/>
+                            <constraint firstItem="fSq-Kf-sig" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="55" id="tJQ-sF-tAH"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="138.1679389312977" y="130.98591549295776"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="checkmark" catalog="system" width="128" height="114"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
