@@ -31,7 +31,6 @@ class ViewController: UIViewController {
     // MARK: - Register Cells
     private func registerCells() {
         CollectionView.register(UINib(nibName: "GreetingCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "greet_cell")
-        CollectionView.register(UINib(nibName: "DailyTipCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "tip_cell")
         CollectionView.register(UINib(nibName: "TodayExerciseCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "todayExercise_cell")
         CollectionView.register(UINib(nibName: "PracTestCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "pracTest_cell")
         CollectionView.register(UINib(nibName: "BlinkRateCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "blinkRate_cell")
@@ -44,6 +43,7 @@ class ViewController: UIViewController {
             withReuseIdentifier: "header_cell"
         )
     }
+    
     @IBAction func chatbotIconTapped(_ sender: Any) {
         self.navigate(to: "ChatBot", with: "ChatbotViewController")
     }
@@ -54,7 +54,7 @@ class ViewController: UIViewController {
 // MARK: - DataSource
 extension ViewController: UICollectionViewDataSource {
 
-    func numberOfSections(in collectionView: UICollectionView) -> Int { 7 }
+    func numberOfSections(in collectionView: UICollectionView) -> Int { 6 }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int { 1 }
 
@@ -73,30 +73,36 @@ extension ViewController: UICollectionViewDataSource {
             return cell
 
         case 1:
-            return collectionView.dequeueReusableCell(withReuseIdentifier: "tip_cell", for: indexPath)
-            
-           
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "todayExercise_cell",
+                for: indexPath
+            ) as! TodayExerciseCollectionViewCell
+
+            let icons = [
+                UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
+                UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
+                UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
+                UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!
+            ]
+
+            cell.configureLabel(iconImages: icons)
+
+            return cell
 
         case 2:
-            return collectionView.dequeueReusableCell(withReuseIdentifier: "todayExercise_cell", for: indexPath)
-
-        case 3:
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "pracTest_cell",
                 for: indexPath
             ) as! PracTestCollectionViewCell
 
-            // First card → placeholder
             cell.onFirstCardTap = { [weak self] in
                 self?.navigate(to: "exerciseList", with: "ExerciseListViewController")
             }
 
-            // Second card → TestInstructions
             cell.onSecondCardTap = { [weak self] in
                 self?.navigate(to: "TestInstructions", with: "TestInstructionViewController", source: .acuityTest)
             }
 
-            // Third card → TestInstructions
             cell.onThirdCardTap = { [weak self] in
                 self?.navigate(to: "TestInstructions", with: "TestInstructionViewController", source: .blinkRateTest)
             }
@@ -104,7 +110,7 @@ extension ViewController: UICollectionViewDataSource {
             return cell
 
 
-        case 4:
+        case 3:
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "blinkRate_cell",
                 for: indexPath
@@ -124,7 +130,7 @@ extension ViewController: UICollectionViewDataSource {
 
             return cell
 
-        case 5:
+        case 4:
             let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: "lastExercise_cell",
                     for: indexPath
@@ -140,7 +146,8 @@ extension ViewController: UICollectionViewDataSource {
                 )
 
                 return cell
-        case 6:
+
+        case 5:
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "lastTest_cell",
                 for: indexPath
@@ -150,7 +157,12 @@ extension ViewController: UICollectionViewDataSource {
                 self?.navigate(to: "TestHistory", with: "TestHistoryViewController")
             }
             
-            cell.configure(nvaLE: lastNVA.leftEyeScore, nvaRE: lastNVA.rightEyeScore, dvaLE: lastDVA.leftEyeScore, dvaRE: lastDVA.rightEyeScore)
+            cell.configure(
+                nvaLE: lastNVA.leftEyeScore,
+                nvaRE: lastNVA.rightEyeScore,
+                dvaLE: lastDVA.leftEyeScore,
+                dvaRE: lastDVA.rightEyeScore
+            )
 
             return cell
 
@@ -170,11 +182,11 @@ extension ViewController: UICollectionViewDataSource {
             for: indexPath
         ) as! HeaderView
         
-        if indexPath.section == 2 {
+        if indexPath.section == 1 {
             header.configure(str: "Perform")
         }
         
-        if indexPath.section == 4 {
+        if indexPath.section == 3 {
             header.configure(str: "Summary")
         }
         

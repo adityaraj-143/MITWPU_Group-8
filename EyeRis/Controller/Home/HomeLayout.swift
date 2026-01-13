@@ -29,7 +29,7 @@ extension ViewController {
 
             switch sectionIndex {
 
-            case 0:
+            case 0: // Greeting
                 let item = NSCollectionLayoutItem(
                     layoutSize: .init(
                         widthDimension: .fractionalWidth(1),
@@ -47,31 +47,23 @@ extension ViewController {
                 section.contentInsets = .init(top: -30, leading: 30, bottom: 10, trailing: 30)
                 return section
                 
-            case 1: // Tip of the day
-                return Self.makeFullWidthSection(
-                    height: 84,
-                    top: 0,
-                    bottom: 5
-                )
-                
-            case 2: // Today's Exercise
+            case 1: // Today's Exercise
                 let section = Self.makeFullWidthSection(
-                    height: 71,
+                    height: 140,
                     top: 0,
                     bottom: 15
                 )
-                section.boundarySupplementaryItems = [headerItem]
+//                section.boundarySupplementaryItems = [headerItem]
                 return section
 
-            case 3: // PracTest
+            case 2: // PracTest
                 return Self.makeFullWidthSection(
                     height: 152,
                     top: 0,
                     bottom: 10
                 )
 
-                
-            case 4: // Blink Rate
+            case 3: // Blink Rate
                 let section = Self.makeFullWidthSection(
                     height: 165,
                     top: 0,
@@ -80,14 +72,14 @@ extension ViewController {
                 section.boundarySupplementaryItems = [headerItem]
                 return section
                 
-            case 5: // Last Exercise
+            case 4: // Last Exercise
                 return Self.makeFullWidthSection(
                     height: 165,
                     top: 0,
                     bottom: 15
                 )
                 
-            case 6: // Last Test
+            case 5: // Last Test
                 return Self.makeFullWidthSection(
                     height: 216,
                     top: 0,
@@ -100,13 +92,20 @@ extension ViewController {
         }
     }
 
-    static func makeFullWidthSection(height: CGFloat, top: CGFloat, bottom: CGFloat, width: CGFloat = 0) -> NSCollectionLayoutSection {
+    static func makeFullWidthSection(
+        height: CGFloat,
+        top: CGFloat,
+        bottom: CGFloat,
+        width: CGFloat = 0
+    ) -> NSCollectionLayoutSection {
+        
         let item = NSCollectionLayoutItem(
             layoutSize: .init(
                 widthDimension: .fractionalWidth(1),
                 heightDimension: .absolute(height)
             )
         )
+        
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: .init(
                 widthDimension: width == 0 ? .fractionalWidth(1) : .absolute(width),
@@ -114,6 +113,7 @@ extension ViewController {
             ),
             subitems: [item]
         )
+        
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = .init(top: top, leading: 20, bottom: bottom, trailing: 20)
         return section
