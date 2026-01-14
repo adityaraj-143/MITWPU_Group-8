@@ -17,7 +17,7 @@ let exercises: [(title: String,
     (
         "Figure 8",
         "Move eyes in a figure-eight motion",
-        "circle",
+        "Infinity",
         UIColor(hex: "E6F5EA"),
         UIColor(hex: "C7F3D9")
     ),
@@ -26,7 +26,7 @@ let exercises: [(title: String,
     (
         "Light Adaption",
         "Adapt eyes to different light levels",
-        "sun.max",
+        "Light_Adaption",
         UIColor(hex: "E7F0FF"),
         UIColor(hex: "CFE0FF")
     ),
@@ -35,7 +35,7 @@ let exercises: [(title: String,
     (
         "Guided Blinking",
         "Controlled blinking exercise",
-        "eye",
+        "Focus_Shifting",
         UIColor(hex: "FCEAF3"),
         UIColor(hex: "F7C7DF")
     ),
@@ -44,7 +44,7 @@ let exercises: [(title: String,
     (
         "Smooth Pursuit",
         "Follow moving objects smoothly",
-        "arrow.right",
+        "Smooth_Pursuit",
         UIColor(hex: "FFF5D6"),
         UIColor(hex: "FFE89A")
     ),
@@ -53,7 +53,7 @@ let exercises: [(title: String,
     (
         "Focus Shifting",
         "Shift focus between near and far objects",
-        "scope",
+        "Focus_Shifting",
         UIColor(hex: "FDE2E4"),
         UIColor(hex: "F8B9BE")
     ),
@@ -62,7 +62,7 @@ let exercises: [(title: String,
     (
         "Peripheral Focus",
         "Train peripheral vision awareness",
-        "viewfinder",
+        "Infinity",
         UIColor(hex: "FFE8D6"),
         UIColor(hex: "FFC49A")
     ),
@@ -71,14 +71,14 @@ let exercises: [(title: String,
     (
         "Eye Relaxation",
         "Reduce eye strain and tension",
-        "leaf",
+        "Smooth_Pursuit",
         UIColor(hex: "D9F0E3"),
         UIColor(hex: "B5EFD0")
     ),
 
     // Blue (alt shade)
     (
-        "Near–Far Focus",
+        "Light_Adaption",
         "Alternate focus between distances",
         "arrow.up.left.and.arrow.down.right",
         UIColor(hex: "DCE8FF"),
@@ -171,7 +171,7 @@ extension ExerciseListViewController: UICollectionViewDataSource {
         cell.configure(
             title: exercise.title,
             subtitle: exercise.subtitle,
-            icon: UIImage(systemName: exercise.icon) ?? UIImage(),
+            icon: UIImage(named: exercise.icon) ?? UIImage(),
             bgColor: exercise.bgColor,
             iconBG: exercise.iconBGColor
         )

@@ -49,4 +49,5 @@ final class ExerciseCell: UICollectionViewCell {
         durationLabel.text = duration
         iconImageView.image = UIImage(systemName: iconName)
     }
+    
 }
