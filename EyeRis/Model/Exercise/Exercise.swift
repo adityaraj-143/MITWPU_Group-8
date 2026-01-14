@@ -127,3 +127,14 @@ struct PerformedExerciseStatResponse {
         )
     }
 }
+
+// One Item of the today's exercise set
+struct TodaysExerciseItem {
+    let id: Int
+    let name: String
+    let icon: String
+    let instruction: String
+}
+
+
+
