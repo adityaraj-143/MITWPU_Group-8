@@ -5,7 +5,6 @@ class ExerciseList2ViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
 
     // MARK: - Temporary Dummy Data
-    // (We will replace this with a real model later)
     private let exercises = [
         (title: "Figure 8",
          subtitle: "Move eyes in a figure-eight motion",
@@ -45,10 +44,8 @@ class ExerciseList2ViewController: UIViewController {
 
         collectionView.delegate = self
         collectionView.dataSource = self
-        
 
-
-        // 🔥 IMPORTANT: Disable automatic sizing
+        // 🔥 IMPORTANT: Disable auto-sizing
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.estimatedItemSize = .zero
         }
@@ -75,7 +72,6 @@ extension ExerciseList2ViewController: UICollectionViewDataSource {
 
         let exercise = exercises[indexPath.item]
 
-        // ✅ Part 3: Bind data to cell
         cell.configure(
             title: exercise.title,
             subtitle: exercise.subtitle,
@@ -90,38 +86,46 @@ extension ExerciseList2ViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegateFlowLayout
 extension ExerciseList2ViewController: UICollectionViewDelegateFlowLayout {
 
+    // ONE spacing value used everywhere
+    private var spacing: CGFloat { 16 }
+
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        return UIEdgeInsets(
+            top: spacing,
+            left: spacing,
+            bottom: spacing,
+            right: spacing
+        )
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 12
+        return spacing
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 12
+        return spacing
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        let horizontalPadding: CGFloat = 16 * 2
-        let interItemSpacing: CGFloat = 12
+        let columns: CGFloat = 2
+
+        let totalHorizontalSpacing =
+            (columns + 1) * spacing   // left + middle + right
 
         let availableWidth =
-            collectionView.bounds.width
-            - horizontalPadding
-            - interItemSpacing
+            collectionView.bounds.width - totalHorizontalSpacing
 
-        let cellWidth = availableWidth / 2
+        let cellWidth = availableWidth / columns
 
-        return CGSize(width: cellWidth, height: 160)
+        return CGSize(width: cellWidth, height: 120)
     }
 }
