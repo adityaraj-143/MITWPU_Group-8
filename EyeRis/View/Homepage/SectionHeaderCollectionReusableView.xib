@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="U6b-Vx-4bR" customClass="SectionHeaderCollectionReusableView" customModule="EyeRis" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="354" height="30"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kcT-eQ-Heo">
+                    <rect key="frame" x="0.0" y="3" width="50" height="24"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1co-vf-4ry">
+                    <rect key="frame" x="281" y="-2.3333333333333339" width="73" height="34.666666666666664"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain">
+                        <imageReference key="image" image="chevron.right" catalog="system" symbolScale="small"/>
+                        <attributedString key="attributedTitle">
+                            <fragment content="See all ">
+                                <attributes>
+                                    <font key="NSFont" size="12" name="SFPro-Regular"/>
+                                    <font key="NSOriginalFont" size="12" name="Helvetica"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                        <attributedString key="attributedSubtitle"/>
+                        <color key="baseForegroundColor" systemColor="labelColor"/>
+                    </buttonConfiguration>
+                    <connections>
+                        <action selector="buttonToNavAction:" destination="U6b-Vx-4bR" eventType="touchUpInside" id="Rgl-us-kPC"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
+            <constraints>
+                <constraint firstItem="kcT-eQ-Heo" firstAttribute="centerY" secondItem="U6b-Vx-4bR" secondAttribute="centerY" id="Gpz-g3-JBq"/>
+                <constraint firstItem="kcT-eQ-Heo" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" id="bZf-g0-JPJ"/>
+                <constraint firstItem="VXr-Tz-HHm" firstAttribute="trailing" secondItem="1co-vf-4ry" secondAttribute="trailing" id="fnv-1o-JlY"/>
+                <constraint firstItem="1co-vf-4ry" firstAttribute="centerY" secondItem="U6b-Vx-4bR" secondAttribute="centerY" id="r7B-Sm-hJs"/>
+            </constraints>
+            <connections>
+                <outlet property="NavigateButton" destination="1co-vf-4ry" id="kCz-bW-Hld"/>
+                <outlet property="headerLabel" destination="kcT-eQ-Heo" id="Ttf-oM-jOi"/>
+            </connections>
+            <point key="canvasLocation" x="-267.17557251908397" y="153.52112676056339"/>
+        </collectionReusableView>
+    </objects>
+    <resources>
+        <image name="chevron.right" catalog="system" width="97" height="128"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
