@@ -8,17 +8,23 @@
 import UIKit
 
 class TodayExerciseCollectionViewCell: UICollectionViewCell {
-
-    @IBOutlet weak var playButtonOutlet: UIButton!
+    
+    
+    @IBOutlet weak var todaysExerciseLabel: UILabel!
+    @IBOutlet weak var instructionLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var todayExerciseLabel: UILabel!
     @IBOutlet weak var mainView: UIView!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
         mainView.applyCornerRadius()
     }
-
-    @IBAction func playButtonAction(_ sender: Any) {
+    
+    func configure(with item: TodaysExerciseItem) {
+        todaysExerciseLabel.text = "abc"
+        instructionLabel.text = "abc"
+        timeLabel.text = "1 min" // TEMP (can improve later)
+        // icon handled later
     }
 }
