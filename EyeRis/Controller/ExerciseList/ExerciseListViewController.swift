@@ -12,70 +12,58 @@ let exercises: [(title: String,
                  icon: String,
                  bgColor: UIColor,
                  iconBGColor: UIColor)] = [
-                    
-                    
 
     ("Figure 8",
      "Move eyes in a figure-eight motion",
      "Infinity",
-     UIColor(hex: "D1EDE0"),
-     UIColor(hex: "8FD9B6")),
-    
-    
+     UIColor(hex: "D3F2E8"),
+     UIColor(hex: "5BC8A8")),
 
     ("Light Adaption",
      "Adapt eyes to different light levels",
      "Light_Adaption",
-     UIColor(hex: "D6E4FF"),
-     UIColor(hex: "9DBAFF")),
-    
-    
+     UIColor(hex: "D9ECFF"),
+     UIColor(hex: "6FAEFF")),
 
     ("Guided Blinking",
      "Controlled blinking exercise",
      "Focus_Shifting",
-     UIColor(hex: "F7D9E8"),
-     UIColor(hex: "E89AC4")),
-    
-    
+     UIColor(hex: "E9E0F8"),
+     UIColor(hex: "A68BEB")),
 
     ("Smooth Pursuit",
      "Follow moving objects smoothly",
      "Smooth_Pursuit",
-     UIColor(hex: "FFE9B3"),
-     UIColor(hex: "FFD166")),
-    
-    
+     UIColor(hex: "FFECC2"),
+     UIColor(hex: "F5B942")),
 
     ("Focus Shifting",
      "Shift focus between near and far objects",
      "Focus_Shifting",
-     UIColor(hex: "F7C6CC"),
-     UIColor(hex: "F08A94")),
-    
-    
+     UIColor(hex: "F8D7DC"),
+     UIColor(hex: "E66A7A")),
 
     ("Peripheral Focus",
      "Train peripheral vision awareness",
      "Infinity",
-     UIColor(hex: "FFD6B3"),
-     UIColor(hex: "FF9F66")),
-    
-    
+     UIColor(hex: "FFE0CC"),
+     UIColor(hex: "FF9C66")),
 
-    ("Eye Relaxation",
-     "Reduce eye strain and tension",
-     "Smooth_Pursuit",
-     UIColor(hex: "C7E8D8"),
-     UIColor(hex: "7FD3AE")),
-    
-    
+    ("Saccade Training",
+     "Quick eye jumps between points",
+     "arrow.left.and.right",
+     UIColor(hex: "D4F1F4"),
+     UIColor(hex: "4DB6C6")),
 
-    ("Light Adaption",
-     "Alternate focus between distances",
-     "arrow.up.left.and.arrow.down.right",
-     UIColor(hex: "C9DBFF"),
-     UIColor(hex: "8FAEFF"))
+
+
+    ("Clock Rotation",
+     "Rotate gaze in clock directions",
+     "clock",
+     UIColor(hex: "E0E6FF"),
+     UIColor(hex: "6B7CFF")),
+
+
 ]
 
 
