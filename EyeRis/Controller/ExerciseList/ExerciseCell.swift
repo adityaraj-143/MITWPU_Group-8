@@ -30,24 +30,27 @@ final class ExerciseCell: UICollectionViewCell {
     
     override func awakeFromNib() {
             super.awakeFromNib()
-            
+        iconImageView.tintColor = .white
+
             // ✅ Call your existing helper here
             contentView.applyCornerRadius()
         }
 
 
     // MARK: - Configuration
-
     func configure(
         title: String,
         subtitle: String,
         duration: String,
-        iconName: String
+        icon: UIImage
     ) {
         titleLabel.text = title
         subtitleLabel.text = subtitle
         durationLabel.text = duration
-        iconImageView.image = UIImage(systemName: iconName)
+
+        iconImageView.image = icon.withRenderingMode(.alwaysTemplate)
     }
-    
+
+
+
 }
