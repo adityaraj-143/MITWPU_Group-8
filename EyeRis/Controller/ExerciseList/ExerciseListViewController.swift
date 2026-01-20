@@ -78,7 +78,7 @@ let exercises: [(title: String,
 
     // Blue (alt shade)
     (
-        "Light_Adaption",
+        "Light Adaption",
         "Alternate focus between distances",
         "arrow.up.left.and.arrow.down.right",
         UIColor(hex: "DCE8FF"),
@@ -168,16 +168,26 @@ extension ExerciseListViewController: UICollectionViewDataSource {
 
         let exercise = exercises[indexPath.item]
 
+        // 🔥 FIX: Try SF Symbol first, then asset
+        let iconImage =
+            UIImage(systemName: exercise.icon) ??
+            UIImage(named: exercise.icon) ??
+            UIImage()
+
+        // Debug safety (remove in Release)
+        assert(iconImage.size != .zero, "❌ Missing icon: \(exercise.icon)")
+
         cell.configure(
             title: exercise.title,
             subtitle: exercise.subtitle,
-            icon: UIImage(named: exercise.icon) ?? UIImage(),
+            icon: iconImage,
             bgColor: exercise.bgColor,
             iconBG: exercise.iconBGColor
         )
 
         return cell
     }
+
 }
 
 

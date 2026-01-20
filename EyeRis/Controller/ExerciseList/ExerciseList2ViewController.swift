@@ -72,12 +72,19 @@ extension ExerciseList2ViewController: UICollectionViewDataSource {
 
         let exercise = exercises[indexPath.item]
 
+        // Resolve icon here (SF Symbol OR Asset)
+        let iconImage =
+            UIImage(systemName: exercise.icon) ??
+            UIImage(named: exercise.icon) ??
+            UIImage()
+
         cell.configure(
             title: exercise.title,
             subtitle: exercise.subtitle,
             duration: exercise.duration,
-            iconName: exercise.icon
+            icon: iconImage
         )
+
 
         return cell
     }
