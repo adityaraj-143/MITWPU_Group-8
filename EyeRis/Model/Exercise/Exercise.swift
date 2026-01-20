@@ -134,6 +134,8 @@ struct TodaysExerciseItem {
     let name: String
     let icon: String
     let instruction: String
+    let duration: String = "1 min"
+    let isCompleted: Bool = true
 }
 
 
