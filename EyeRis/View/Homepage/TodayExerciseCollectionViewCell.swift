@@ -10,11 +10,9 @@ import UIKit
 class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDelegate {
 
 
+    @IBOutlet weak var mainLabel: UIButton!
     @IBOutlet weak var extraCountLabel: UILabel!
     @IBOutlet weak var IconsCollectionView: UICollectionView!
-    @IBOutlet weak var playButtonOutlet: UIButton!
-    @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var todayExerciseLabel: UILabel!
     @IBOutlet weak var mainView: UIView!
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -22,7 +20,7 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
         mainView.applyCornerRadius()
         IconsCollectionView.dataSource = self
         IconsCollectionView.delegate = self
-        
+                
         IconsCollectionView.register(
             UINib(nibName: "TodayExerciseIconCell", bundle: nil),
             forCellWithReuseIdentifier: "IconCell"
@@ -34,7 +32,7 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
             layout.minimumLineSpacing = 1
             layout.sectionInset = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 4)
         }
-
+        
         IconsCollectionView.clipsToBounds = true
         mainView.clipsToBounds = true
         contentView.clipsToBounds = true
@@ -59,7 +57,6 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
             right: 0
         )
     }
-
     
     func configureLabel(iconImages: [UIImage]) {
         self.icons = iconImages
@@ -75,7 +72,6 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
     }
     
     var icons: [UIImage] = []
-
 }
 
 extension TodayExerciseCollectionViewCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -105,4 +101,3 @@ extension TodayExerciseCollectionViewCell: UICollectionViewDataSource, UICollect
         return CGSize(width: 36, height: 36)
     }
 }
-
