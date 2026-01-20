@@ -12,79 +12,73 @@ let exercises: [(title: String,
                  icon: String,
                  bgColor: UIColor,
                  iconBGColor: UIColor)] = [
+                    
+                    
 
-    // Green
-    (
-        "Figure 8",
-        "Move eyes in a figure-eight motion",
-        "Infinity",
-        UIColor(hex: "E6F5EA"),
-        UIColor(hex: "C7F3D9")
-    ),
+    ("Figure 8",
+     "Move eyes in a figure-eight motion",
+     "Infinity",
+     UIColor(hex: "D1EDE0"),
+     UIColor(hex: "8FD9B6")),
+    
+    
 
-    // Blue
-    (
-        "Light Adaption",
-        "Adapt eyes to different light levels",
-        "Light_Adaption",
-        UIColor(hex: "E7F0FF"),
-        UIColor(hex: "CFE0FF")
-    ),
+    ("Light Adaption",
+     "Adapt eyes to different light levels",
+     "Light_Adaption",
+     UIColor(hex: "D6E4FF"),
+     UIColor(hex: "9DBAFF")),
+    
+    
 
-    // Pink
-    (
-        "Guided Blinking",
-        "Controlled blinking exercise",
-        "Focus_Shifting",
-        UIColor(hex: "FCEAF3"),
-        UIColor(hex: "F7C7DF")
-    ),
+    ("Guided Blinking",
+     "Controlled blinking exercise",
+     "Focus_Shifting",
+     UIColor(hex: "F7D9E8"),
+     UIColor(hex: "E89AC4")),
+    
+    
 
-    // Yellow
-    (
-        "Smooth Pursuit",
-        "Follow moving objects smoothly",
-        "Smooth_Pursuit",
-        UIColor(hex: "FFF5D6"),
-        UIColor(hex: "FFE89A")
-    ),
+    ("Smooth Pursuit",
+     "Follow moving objects smoothly",
+     "Smooth_Pursuit",
+     UIColor(hex: "FFE9B3"),
+     UIColor(hex: "FFD166")),
+    
+    
 
-    // Red (soft coral)
-    (
-        "Focus Shifting",
-        "Shift focus between near and far objects",
-        "Focus_Shifting",
-        UIColor(hex: "FDE2E4"),
-        UIColor(hex: "F8B9BE")
-    ),
+    ("Focus Shifting",
+     "Shift focus between near and far objects",
+     "Focus_Shifting",
+     UIColor(hex: "F7C6CC"),
+     UIColor(hex: "F08A94")),
+    
+    
 
-    // Orange
-    (
-        "Peripheral Focus",
-        "Train peripheral vision awareness",
-        "Infinity",
-        UIColor(hex: "FFE8D6"),
-        UIColor(hex: "FFC49A")
-    ),
+    ("Peripheral Focus",
+     "Train peripheral vision awareness",
+     "Infinity",
+     UIColor(hex: "FFD6B3"),
+     UIColor(hex: "FF9F66")),
+    
+    
 
-    // Green (alt shade)
-    (
-        "Eye Relaxation",
-        "Reduce eye strain and tension",
-        "Smooth_Pursuit",
-        UIColor(hex: "D9F0E3"),
-        UIColor(hex: "B5EFD0")
-    ),
+    ("Eye Relaxation",
+     "Reduce eye strain and tension",
+     "Smooth_Pursuit",
+     UIColor(hex: "C7E8D8"),
+     UIColor(hex: "7FD3AE")),
+    
+    
 
-    // Blue (alt shade)
-    (
-        "Light Adaption",
-        "Alternate focus between distances",
-        "arrow.up.left.and.arrow.down.right",
-        UIColor(hex: "DCE8FF"),
-        UIColor(hex: "BFD6FF")
-    )
+    ("Light Adaption",
+     "Alternate focus between distances",
+     "arrow.up.left.and.arrow.down.right",
+     UIColor(hex: "C9DBFF"),
+     UIColor(hex: "8FAEFF"))
 ]
+
+
 
 private func generateLayout() -> UICollectionViewLayout {
 
