@@ -27,7 +27,7 @@ let exercises: [(title: String,
 
     ("Guided Blinking",
      "Controlled blinking exercise",
-     "Focus_Shifting",
+     "Guided Blinking",
      UIColor(hex: "E9E0F8"),
      UIColor(hex: "A68BEB")),
 
@@ -45,13 +45,13 @@ let exercises: [(title: String,
 
     ("Peripheral Focus",
      "Train peripheral vision awareness",
-     "Infinity",
+     "Peripheral Focus",
      UIColor(hex: "FFE0CC"),
      UIColor(hex: "FF9C66")),
 
     ("Saccade Training",
      "Quick eye jumps between points",
-     "arrow.left.and.right",
+     "Saccadic Movement",
      UIColor(hex: "D4F1F4"),
      UIColor(hex: "4DB6C6")),
 
