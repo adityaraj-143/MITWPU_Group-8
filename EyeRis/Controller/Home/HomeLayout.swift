@@ -26,19 +26,6 @@ extension ViewController {
                     alignment: .top
                 )
             }()
-
-            let boldHeaderItem: NSCollectionLayoutBoundarySupplementaryItem = {
-                let size = NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(1),
-                    heightDimension: .absolute(50)
-                )
-                return NSCollectionLayoutBoundarySupplementaryItem(
-                    layoutSize: size,
-                    elementKind: "Bold-header-kind",
-                    alignment: .top
-                )
-            }()
-
             
             switch sectionIndex {
                 
@@ -70,7 +57,7 @@ extension ViewController {
                 )
                 section.boundarySupplementaryItems = [sectionHeaderItem]
                 return section
-
+                
             case 3: // Tests
                 let section = Self.makeTestsSection(
                     height: 95,
@@ -78,15 +65,15 @@ extension ViewController {
                 )
                 section.boundarySupplementaryItems = [sectionHeaderItem]
                 return section
-
+                
             case 4: // Blink Rate (example using bold header)
                 let section = Self.makeFullWidthSection(height: 165, top: 0, bottom: 15)
-                section.boundarySupplementaryItems = [boldHeaderItem]
+                section.boundarySupplementaryItems = [sectionHeaderItem]
                 return section
                 
             case 5: // Last Exercise
                 return Self.makeFullWidthSection(height: 165, top: 0, bottom: 15)
-
+                
             case 6: // Last Test
                 return Self.makeFullWidthSection(height: 216, top: 0, bottom: 40)
                 
@@ -128,14 +115,14 @@ extension ViewController {
         height: CGFloat,
         itemWidth: CGFloat
     ) -> NSCollectionLayoutSection {
-
+        
         let item = NSCollectionLayoutItem(
             layoutSize: .init(
                 widthDimension: .absolute(itemWidth),
                 heightDimension: .fractionalHeight(1)
             )
         )
-
+        
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: .init(
                 widthDimension: .absolute(itemWidth),
@@ -143,7 +130,7 @@ extension ViewController {
             ),
             subitems: [item]
         )
-
+        
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
         section.interGroupSpacing = 12
@@ -151,20 +138,20 @@ extension ViewController {
         section.contentInsetsReference = .layoutMargins
         return section
     }
-
-
+    
+    
     static func makeTestsSection(
         height: CGFloat,
         itemWidth: CGFloat
     ) -> NSCollectionLayoutSection {
-
+        
         let item = NSCollectionLayoutItem(
             layoutSize: .init(
                 widthDimension: .absolute(itemWidth),
                 heightDimension: .absolute(height)
             )
         )
-
+        
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: .init(
                 widthDimension: .fractionalWidth(1),
@@ -173,17 +160,16 @@ extension ViewController {
             repeatingSubitem: item,
             count: 2
         )
-
-        // THIS is the only difference
+        
         group.interItemSpacing = .flexible(0)
-
+        
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .none
         section.contentInsets = .init(top: 5, leading: 15, bottom: 10, trailing: 15)
         section.contentInsetsReference = .layoutMargins
-
+        
         return section
     }
-
+    
 }
 

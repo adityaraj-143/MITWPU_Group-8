@@ -1,33 +1,34 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet weak var CollectionView: UICollectionView!
     @IBOutlet weak var profileIconView: UIView!
     
-
+    
     var lastNVA: AcuityTestResult = AcuityTestResultResponse().getLastTestNVA()!
     
     var lastDVA: AcuityTestResult = AcuityTestResultResponse().getLastTestDVA()!
     
     var lastExercise: ExerciseSummary =
-        PerformedExerciseStatResponse().getLastExercise()
-
+    PerformedExerciseStatResponse().getLastExercise()
+    
     let blinkRateResponse = BlinkRateTestResultResponse()
     var todayBlinkResult: BlinkRateTestResult?
-
-
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         CollectionView.setCollectionViewLayout(generateLayout(), animated: false)
         CollectionView.dataSource = self
+        CollectionView.delegate = self
         
         todayBlinkResult = blinkRateResponse.todayResult()
-
+        
         registerCells()
     }
-
+    
     // MARK: - Register Cells
     private func registerCells() {
         CollectionView.register(UINib(nibName: "GreetingCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "greet_cell")
@@ -37,13 +38,6 @@ class ViewController: UIViewController {
         CollectionView.register(UINib(nibName: "BlinkRateCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "blinkRate_cell")
         CollectionView.register(UINib(nibName: "LastExerciseCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "lastExercise_cell")
         CollectionView.register(UINib(nibName: "LastTestCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "lastTest_cell")
-
-        CollectionView.register(
-            UINib(nibName: "HeaderView", bundle: nil),
-            forSupplementaryViewOfKind: "Bold-header-kind",
-            withReuseIdentifier: "bold_header_cell"
-        )
-        
         CollectionView.register(
             UINib(nibName: "SectionHeaderCollectionReusableView", bundle: nil),
             forSupplementaryViewOfKind: "header-kind",
@@ -56,11 +50,26 @@ class ViewController: UIViewController {
     }
 }
 
+extension ViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 3 {   // Tests section
+            if indexPath.item == 0 {
+                // Acuity Test
+                navigate(to: "TestInstructions", with: "TestInstructionViewController", source: .acuityTest)
+            } else if indexPath.item == 1 {
+                // Blink Rate
+                navigate(to: "TestInstructions", with: "TestInstructionViewController", source: .blinkRateTest)
+            }
+        }
+    }
+}
+
+
 // MARK: - DataSource
 extension ViewController: UICollectionViewDataSource {
-
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int { 7 }
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         switch section {
@@ -72,29 +81,29 @@ extension ViewController: UICollectionViewDataSource {
             return 1
         }
     }
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
+        
         switch indexPath.section {
-
+            
         case 0:
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "greet_cell",
                 for: indexPath
             ) as! GreetingCollectionViewCell
-
+            
             cell.onTapNavigation = { [weak self] in
                 self?.presentProfilePage()
             }
             return cell
-
+            
         case 1:
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "todayExercise_cell",
                 for: indexPath
             ) as! TodayExerciseCollectionViewCell
-
+            
             let icons = [
                 UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
                 UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
@@ -103,22 +112,22 @@ extension ViewController: UICollectionViewDataSource {
             ]
             cell.configureLabel(iconImages: icons)
             return cell
-
+            
         case 2: // Recommended Exercises (Horizontal)
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "exercises_cell",
                 for: indexPath
             ) as! RecommendedExercisesCollectionViewCell
             let data = recommendedExercises[indexPath.item]
-               cell.configure(
-                   title: data.title,
-                   subtitle: data.subtitle,
-                   icon: data.icon,
-                   bgColor: data.bgColor,
-                   iconBG: data.iconBG
-               )
+            cell.configure(
+                title: data.title,
+                subtitle: data.subtitle,
+                icon: data.icon,
+                bgColor: data.bgColor,
+                iconBG: data.iconBG
+            )
             return cell
-
+            
         case 3: // Tests (Horizontal)
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "tests_cell",
@@ -127,19 +136,19 @@ extension ViewController: UICollectionViewDataSource {
             
             let data = tests[indexPath.item]
             cell.configure(
-                   title: data.title,
-                   subtitle: data.subtitle,
-                   icon: data.iconName,
-                   iconBGColor: data.iconBGColor
-               )
+                title: data.title,
+                subtitle: data.subtitle,
+                icon: data.iconName,
+                iconBGColor: data.iconBGColor
+            )
             return cell
-
+            
         case 4: // Blink Rate
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "blinkRate_cell",
                 for: indexPath
             ) as! BlinkRateCollectionViewCell
-
+            
             if let result = todayBlinkResult {
                 cell.blinkRateSliderView.value = CGFloat(result.bpm)
                 cell.blinkRateSliderView.maxValue = 30
@@ -147,38 +156,38 @@ extension ViewController: UICollectionViewDataSource {
                 cell.blinkRateSliderView.value = 0
                 cell.blinkRateSliderView.maxValue = 30
             }
-
+            
             cell.onTapNavigation = { [weak self] in
                 self?.navigate(to: "BlinkRateHistory", with: "BlinkRateHistoryViewController")
             }
             return cell
-
+            
         case 5: // Last Exercise
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "lastExercise_cell",
                 for: indexPath
             ) as! LastExerciseCollectionViewCell
-
+            
             cell.onTapNavigation = { [weak self] in
                 self?.navigate(to: "ExerciseHistory", with: "ExerciseHistoryViewController")
             }
-
+            
             cell.configure(
                 acc: lastExercise.accuracy,
                 speed: lastExercise.speed
             )
             return cell
-
+            
         case 6: // Last Test
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "lastTest_cell",
                 for: indexPath
             ) as! LastTestCollectionViewCell
-
+            
             cell.onTapNavigation = { [weak self] in
                 self?.navigate(to: "TestHistory", with: "TestHistoryViewController")
             }
-
+            
             cell.configure(
                 nvaLE: lastNVA.leftEyeScore,
                 nvaRE: lastNVA.rightEyeScore,
@@ -186,59 +195,50 @@ extension ViewController: UICollectionViewDataSource {
                 dvaRE: lastDVA.rightEyeScore
             )
             return cell
-
+            
         default:
             fatalError("Unknown section")
         }
     }
-
-
     
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
-
-        if kind == "header-kind" {
-            let header = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: "section_header_cell",
-                for: indexPath
-            ) as! SectionHeaderCollectionReusableView
-
-            switch indexPath.section {
-            case 2:
-                // Recommended Exercises → show NavigateLabel
-                header.congfigure(
-                    headerText: "Exercises for ",
-                    hideNav: false
-                )
-
-            case 3:
-                // Tests → hide NavigateLabel
-                header.congfigure(
-                    headerText: "Tests",
-                    hideNav: true
-                )
-
-            default:
-                break
-            }
-
-            return header
-        }
-
-        // Bold header
-        let boldHeader = collectionView.dequeueReusableSupplementaryView(
-            ofKind: kind,
-            withReuseIdentifier: "bold_header_cell",
-            for: indexPath
-        ) as! HeaderView
         
-        boldHeader.configure(str: "Summary")
-
-        return boldHeader
+        let header = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: "section_header_cell",
+            for: indexPath
+        ) as! SectionHeaderCollectionReusableView
+        
+        switch indexPath.section {
+        case 2:
+            // Recommended Exercises → show NavigateLabel
+            header.congfigure(
+                headerText: "Exercises for you",
+                hideNav: false
+            )
+            
+        case 3:
+            // Tests → hide NavigateLabel
+            header.congfigure(
+                headerText: "Tests",
+                hideNav: true
+            )
+            
+        case 4:
+            header.congfigure(
+                headerText: "Summary",
+                hideNav: true
+            )
+            
+        default:
+            break
+        }
+        
+        return header
     }
-
-
+    
+    
 }
 

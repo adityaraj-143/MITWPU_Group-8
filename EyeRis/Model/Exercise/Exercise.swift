@@ -151,7 +151,7 @@ var recommendedExercises: [RecommendedExerciseMock] = [
     // Blue → E7F0FF, DCE8FF
     .init(
         title: "Blink Boost",
-        subtitle: "2 min",
+        subtitle: "204 people did this today",
         icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
         bgColor: UIColor(hex: "E7F0FF"),
         iconBG: .white
@@ -160,7 +160,7 @@ var recommendedExercises: [RecommendedExerciseMock] = [
     // Pink → FCEAF3, F8DDEB
     .init(
         title: "Focus Shift",
-        subtitle: "3 min",
+        subtitle: "20224 people did this today",
         icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
         bgColor: UIColor(hex: "FCEAF3"),
         iconBG: .white
@@ -169,7 +169,7 @@ var recommendedExercises: [RecommendedExerciseMock] = [
     // Green → E6F5EA, D9F0E3
     .init(
         title: "Near Vision",
-        subtitle: "1 min",
+        subtitle: "204 people did this today",
         icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
         bgColor: UIColor(hex: "E6F5EA"),
         iconBG: .white
@@ -178,7 +178,7 @@ var recommendedExercises: [RecommendedExerciseMock] = [
     // Yellow → FFF5D6, FFF0C2
     .init(
         title: "Eye Stretch",
-        subtitle: "4 min",
+        subtitle: "204 people did this today",
         icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
         bgColor: UIColor(hex: "FFF5D6"),
         iconBG: .white
@@ -187,7 +187,7 @@ var recommendedExercises: [RecommendedExerciseMock] = [
     // Orange → FFE8D6, FFDCC2
     .init(
         title: "Relax Mode",
-        subtitle: "2 min",
+        subtitle: "204 people did this today",
         icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
         bgColor: UIColor(hex: "FFE8D6"),
         iconBG: .white

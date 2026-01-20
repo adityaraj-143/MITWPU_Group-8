@@ -21,7 +21,7 @@ class TodayExerciseIconCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
         
-        mainView.clipsToBounds = true        // 🔥 important
+        mainView.clipsToBounds = true
         contentView.clipsToBounds = true
         mainView.layer.borderWidth = 2
         mainView.layer.borderColor = UIColor.lightGreen.cgColor
