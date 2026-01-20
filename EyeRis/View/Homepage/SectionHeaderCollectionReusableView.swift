@@ -31,8 +31,13 @@ class SectionHeaderCollectionReusableView: UICollectionReusableView {
         NavigateButton.setAttributedTitle(attributedTitle, for: .selected)
         NavigateButton.setAttributedTitle(attributedTitle, for: .disabled)
     }
-
-
+    
+    var onTapNavigation: (() -> Void)?
+    
+    @IBAction func buttonToNavAction(_ sender: Any) {
+        onTapNavigation?()
+    }
+    
     
     func congfigure(headerText: String, hideNav: Bool = false) {
         headerLabel.text = headerText
