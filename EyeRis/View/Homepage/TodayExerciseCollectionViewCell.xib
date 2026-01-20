@@ -20,30 +20,14 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PWL-eH-1m5">
                         <rect key="frame" x="0.0" y="0.0" width="354" height="140"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="fill" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TqQ-Yt-YYb">
-                                <rect key="frame" x="0.0" y="2" width="354" height="36.333333333333336"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain">
-                                    <imageReference key="image" image="chevron.right" catalog="system" symbolScale="small"/>
-                                    <attributedString key="attributedTitle">
-                                        <fragment content="Today's Exercise Set">
-                                            <attributes>
-                                                <font key="NSFont" size="17" name="SFPro-Semibold"/>
-                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                            </attributes>
-                                        </fragment>
-                                    </attributedString>
-                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Perform this set to relieve eye strain and improve focus power" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iS7-Ts-EE6">
-                                <rect key="frame" x="12" y="46.333333333333343" width="322" height="33.666666666666657"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Perform this set to relieve eye strain and improve focus power" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iS7-Ts-EE6">
+                                <rect key="frame" x="18" y="44.333333333333343" width="306" height="33.666666666666657"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="9ow-BE-OMb">
-                                <rect key="frame" x="12" y="92" width="110" height="40"/>
+                                <rect key="frame" x="18" y="90" width="104" height="40"/>
                                 <color key="backgroundColor" red="0.76470588235294112" green="0.96470588235294119" blue="0.75294117647058822" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="jq6-yV-B4Y"/>
@@ -56,27 +40,34 @@
                                 </collectionViewFlowLayout>
                             </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="faR-iF-OOh">
-                                <rect key="frame" x="125.99999999999999" y="105" width="14.333333333333329" height="14"/>
+                                <rect key="frame" x="125.99999999999999" y="103" width="14.333333333333329" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="fill" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TqQ-Yt-YYb">
+                                <rect key="frame" x="4" y="4" width="346" height="34.333333333333336"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Today's Exercise Set">
+                                    <imageReference key="image" image="chevron.right" catalog="system" symbolScale="small"/>
+                                    <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="17"/>
+                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.76470588235294112" green="0.96470588235294119" blue="0.75294117647058822" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="iS7-Ts-EE6" secondAttribute="trailing" constant="20" symbolic="YES" id="3Mo-fe-kdh"/>
-                            <constraint firstAttribute="trailing" secondItem="TqQ-Yt-YYb" secondAttribute="trailing" id="6el-y5-rhS"/>
+                            <constraint firstAttribute="trailing" secondItem="TqQ-Yt-YYb" secondAttribute="trailing" constant="4" id="4n6-BN-nju"/>
                             <constraint firstAttribute="trailing" secondItem="9ow-BE-OMb" secondAttribute="trailing" constant="232" id="9IK-gM-kkl"/>
-                            <constraint firstItem="TqQ-Yt-YYb" firstAttribute="leading" secondItem="PWL-eH-1m5" secondAttribute="leading" id="9s4-HG-W5g"/>
-                            <constraint firstItem="TqQ-Yt-YYb" firstAttribute="top" secondItem="PWL-eH-1m5" secondAttribute="top" constant="2" id="Ba4-vL-iUU"/>
+                            <constraint firstItem="TqQ-Yt-YYb" firstAttribute="top" secondItem="PWL-eH-1m5" secondAttribute="top" constant="4" id="Ba4-vL-iUU"/>
                             <constraint firstItem="9ow-BE-OMb" firstAttribute="top" secondItem="iS7-Ts-EE6" secondAttribute="bottom" constant="12" id="Esk-AT-oz6"/>
-                            <constraint firstAttribute="bottom" secondItem="iS7-Ts-EE6" secondAttribute="bottom" constant="60" id="GEQ-sM-LAI"/>
                             <constraint firstItem="faR-iF-OOh" firstAttribute="leading" secondItem="9ow-BE-OMb" secondAttribute="trailing" constant="4" id="RL7-m0-QMA"/>
-                            <constraint firstAttribute="bottom" secondItem="9ow-BE-OMb" secondAttribute="bottom" constant="8" id="bgV-ut-Aa1"/>
-                            <constraint firstItem="9ow-BE-OMb" firstAttribute="leading" secondItem="PWL-eH-1m5" secondAttribute="leading" constant="12" id="eDm-ae-5xJ"/>
-                            <constraint firstItem="iS7-Ts-EE6" firstAttribute="top" secondItem="TqQ-Yt-YYb" secondAttribute="bottom" constant="8" symbolic="YES" id="esg-HW-Fh1"/>
+                            <constraint firstAttribute="bottom" secondItem="9ow-BE-OMb" secondAttribute="bottom" constant="10" id="bgV-ut-Aa1"/>
+                            <constraint firstItem="9ow-BE-OMb" firstAttribute="leading" secondItem="PWL-eH-1m5" secondAttribute="leading" constant="18" id="eDm-ae-5xJ"/>
+                            <constraint firstItem="TqQ-Yt-YYb" firstAttribute="leading" secondItem="PWL-eH-1m5" secondAttribute="leading" constant="4" id="h4f-A9-qnE"/>
+                            <constraint firstAttribute="trailing" secondItem="iS7-Ts-EE6" secondAttribute="trailing" constant="30" id="pEi-4R-cLz"/>
                             <constraint firstAttribute="bottom" secondItem="faR-iF-OOh" secondAttribute="bottom" constant="21" id="rSg-ac-zYw"/>
-                            <constraint firstItem="iS7-Ts-EE6" firstAttribute="leading" secondItem="PWL-eH-1m5" secondAttribute="leading" constant="12" id="s10-T2-zgM"/>
+                            <constraint firstItem="iS7-Ts-EE6" firstAttribute="leading" secondItem="PWL-eH-1m5" secondAttribute="leading" constant="18" id="s10-T2-zgM"/>
                             <constraint firstItem="faR-iF-OOh" firstAttribute="top" secondItem="iS7-Ts-EE6" secondAttribute="bottom" constant="25" id="shk-Gr-Mhb"/>
                         </constraints>
                     </view>
@@ -93,6 +84,7 @@
             <connections>
                 <outlet property="IconsCollectionView" destination="9ow-BE-OMb" id="qNw-1i-UnG"/>
                 <outlet property="extraCountLabel" destination="faR-iF-OOh" id="PuZ-zb-E5O"/>
+                <outlet property="mainLabel" destination="TqQ-Yt-YYb" id="l1G-g2-Nnf"/>
                 <outlet property="mainView" destination="PWL-eH-1m5" id="JtV-Zt-EDf"/>
             </connections>
             <point key="canvasLocation" x="300.76335877862596" y="204.92957746478874"/>
