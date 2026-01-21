@@ -66,8 +66,10 @@ final class CompletionPageViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.40) {
             self.burstParticles()
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.30) {
             self.playSuccessSound()
+            self.playSuccessHaptic()
+
         }
 
         // Start pulse AFTER particles
@@ -220,6 +222,13 @@ final class CompletionPageViewController: UIViewController {
             print("Failed to play sound:", error)
         }
     }
+    
+    private func playSuccessHaptic() {
+        let generator = UINotificationFeedbackGenerator()
+        generator.prepare()
+        generator.notificationOccurred(.success)
+    }
+
 
 
 }
