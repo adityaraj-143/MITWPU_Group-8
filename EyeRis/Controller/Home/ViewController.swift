@@ -151,10 +151,10 @@ extension ViewController: UICollectionViewDataSource {
             
             if let result = todayBlinkResult {
                 cell.blinkRateSliderView.value = CGFloat(result.bpm)
-                cell.blinkRateSliderView.maxValue = 30
+                cell.blinkRateSliderView.maxValue = 22
             } else {
                 cell.blinkRateSliderView.value = 0
-                cell.blinkRateSliderView.maxValue = 30
+                cell.blinkRateSliderView.maxValue = 22
             }
             
             cell.onTapNavigation = { [weak self] in
@@ -219,6 +219,10 @@ extension ViewController: UICollectionViewDataSource {
                 hideNav: false
             )
             
+            header.onTapNavigation = { [weak self] in
+                self?.navigate(to: "ExerciseList", with: "ExerciseListViewController")
+            }
+            
         case 3:
             // Tests → hide NavigateLabel
             header.congfigure(
@@ -226,13 +230,19 @@ extension ViewController: UICollectionViewDataSource {
                 hideNav: true
             )
             
+            header.onTapNavigation = nil
+            
         case 4:
             header.congfigure(
                 headerText: "Summary",
                 hideNav: true
             )
+            header.onTapNavigation = nil
+            
             
         default:
+            header.onTapNavigation = nil
+            
             break
         }
         
