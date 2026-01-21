@@ -194,3 +194,15 @@ var tests: [TestMock] = [
     .init(title: "Acuity Test", subtitle: "Check sharpness", iconName: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40", iconBGColor: .systemPink),
     .init(title: "Blink Rate", subtitle: "Check blinking", iconName: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40", iconBGColor: .systemIndigo)
 ]
+// One Item of the today's exercise set
+struct TodaysExerciseItem {
+    let id: Int
+    let name: String
+    let icon: String
+    let instruction: String
+    let duration: String = "1 min"
+    let isCompleted: Bool = true
+}
+
+
+
