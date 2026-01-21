@@ -8,11 +8,15 @@
 import Speech
 import UIKit
 
-class AcuityTestViewController: UIViewController {
+class AcuityTestViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var RecordingStatus: UILabel!
     @IBOutlet weak var SnellenImg: UIImageView!
     @IBOutlet weak var TextField: UITextField!
+    
+    
+    
+    var silenceTimer: Timer?
 
     let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))
     var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
@@ -55,15 +59,34 @@ class AcuityTestViewController: UIViewController {
                 }
             }
         }
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+        
+        TextField.delegate = self
+
     }
 
-    // ✅ ONLY CHANGE: stop audio when leaving page
+    // ONLY CHANGE: stop audio when leaving page
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         stopListening()
     }
 
     func startListening() {
+        view.endEditing(true)
+
         recognitionTask?.cancel()
         recognitionTask = nil
 
@@ -88,6 +111,8 @@ class AcuityTestViewController: UIViewController {
 
         recognitionTask = speechRecognizer?.recognitionTask(with: recognitionRequest) { result, error in
             if let result = result {
+                self.resetSilenceTimer()
+                
                 let spokenText = result.bestTranscription.formattedString
                 let normalized = spokenText
                     .uppercased()
@@ -118,9 +143,11 @@ class AcuityTestViewController: UIViewController {
 
         audioEngine.prepare()
         try? audioEngine.start()
+        startSilenceTimer()
     }
 
     func stopListening() {
+        silenceTimer?.invalidate()
         audioEngine.stop()
         recognitionRequest?.endAudio()
         audioEngine.inputNode.removeTap(onBus: 0)
@@ -185,7 +212,6 @@ class AcuityTestViewController: UIViewController {
             }
         }
 
-        // ✅ ADD THIS LINE
         stopListening()
 
         recognitionTask?.cancel()
@@ -226,4 +252,59 @@ class AcuityTestViewController: UIViewController {
             startListening()
         }
     }
+    
+    func showSilencePopup() {
+        let alert = UIAlertController(
+            title: "Tip",
+            message: "Say out the letters loud followed by \"next\" once you are done",
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(UIAlertAction(title: "Got it", style: .default))
+        present(alert, animated: true)
+    }
+    
+    func startSilenceTimer() {
+        silenceTimer?.invalidate()
+        silenceTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false) { _ in
+            self.showSilencePopup()
+        }
+    }
+
+    func resetSilenceTimer() {
+        silenceTimer?.invalidate()
+        startSilenceTimer()
+    }
+    
+    // MARK: Keyboards handlers
+    @objc func keyboardWillShow(notification: Notification) {
+        guard let keyboardFrame =
+            notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+
+        let keyboardHeight = keyboardFrame.height
+
+        // Move view up only if textfield is hidden
+        if view.frame.origin.y == 0 {
+            view.frame.origin.y -= keyboardHeight / 2
+        }
+    }
+
+    @objc func keyboardWillHide(notification: Notification) {
+        if view.frame.origin.y != 0 {
+            view.frame.origin.y = 0
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        stopListening()
+    }
+    
+    
+
+
+
 }
