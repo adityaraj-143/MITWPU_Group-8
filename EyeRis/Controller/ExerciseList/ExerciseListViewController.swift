@@ -33,19 +33,19 @@ let exercises: [(title: String,
 
     ("Smooth Pursuit",
      "Follow moving objects smoothly",
-     "Smooth_Pursuit",
+     "Smooth_pursuit",
      UIColor(hex: "FFECC2"),
      UIColor(hex: "F5B942")),
 
     ("Focus Shifting",
      "Shift focus between near and far objects",
-     "Focus_Shifting",
+     "Focus_shifting",
      UIColor(hex: "F8D7DC"),
      UIColor(hex: "E66A7A")),
 
     ("Peripheral Focus",
      "Train peripheral vision awareness",
-     "Peripheral Focus",
+     "Peripheral focus",
      UIColor(hex: "FFE0CC"),
      UIColor(hex: "FF9C66")),
 
@@ -54,9 +54,7 @@ let exercises: [(title: String,
      "Saccadic Movement",
      UIColor(hex: "D4F1F4"),
      UIColor(hex: "4DB6C6")),
-
-
-
+    
     ("Clock Rotation",
      "Rotate gaze in clock directions",
      "clock",
