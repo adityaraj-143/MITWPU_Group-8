@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="RZV-cr-bZ8">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="RZV-cr-bZ8">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -268,21 +268,46 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="793"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="Wnp-0t-rU1">
-                                <rect key="frame" x="16" y="85.999999999999972" width="361" height="353.33333333333326"/>
-                            </datePicker>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="3C2-FS-ZNA">
+                                <rect key="frame" x="0.0" y="70" width="393" height="723"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="tVx-yv-abJ">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="oiZ-bz-7kO">
+                                        <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="n0X-Vf-EiB">
+                                            <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="w07-hw-mEV"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Wnp-0t-rU1" firstAttribute="leading" secondItem="wDz-mo-oU9" secondAttribute="leading" constant="16" id="FWk-3d-hwe"/>
-                            <constraint firstItem="Wnp-0t-rU1" firstAttribute="top" secondItem="w07-hw-mEV" secondAttribute="top" constant="16" id="dXc-VN-jV4"/>
-                            <constraint firstAttribute="trailing" secondItem="Wnp-0t-rU1" secondAttribute="trailing" constant="16" id="rGd-4e-0sy"/>
+                            <constraint firstItem="w07-hw-mEV" firstAttribute="bottom" secondItem="3C2-FS-ZNA" secondAttribute="bottom" id="LJD-Ag-z07"/>
+                            <constraint firstAttribute="trailing" secondItem="3C2-FS-ZNA" secondAttribute="trailing" id="ewW-kF-VBR"/>
+                            <constraint firstItem="3C2-FS-ZNA" firstAttribute="leading" secondItem="w07-hw-mEV" secondAttribute="leading" id="rxA-eR-QE8"/>
+                            <constraint firstItem="3C2-FS-ZNA" firstAttribute="top" secondItem="w07-hw-mEV" secondAttribute="top" id="toI-Wd-RCS"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Full Exercise History" id="T1z-pS-0l2">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Yuu-cF-Wze"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Yuu-cF-Wze">
+                            <connections>
+                                <action selector="clossButtonTapped:" destination="5Mk-y7-i0R" id="9gt-T7-XCs"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="collectionView" destination="3C2-FS-ZNA" id="RG7-ZW-saF"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hyf-TV-c1K" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
