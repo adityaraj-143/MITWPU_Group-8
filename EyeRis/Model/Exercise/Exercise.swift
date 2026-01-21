@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct Exercise{
     var id: Int
@@ -128,6 +129,76 @@ struct PerformedExerciseStatResponse {
     }
 }
 
+
+// MARK: - Mock Data
+
+struct RecommendedExerciseMock {
+    let title: String
+    let subtitle: String
+    let icon: UIImage
+    let bgColor: UIColor
+    let iconBG: UIColor
+}
+
+struct TestMock {
+    let title: String
+    let subtitle: String
+    let iconName: String
+    let iconBGColor: UIColor
+}
+
+var recommendedExercises: [RecommendedExerciseMock] = [
+    // Blue → E7F0FF, DCE8FF
+    .init(
+        title: "Blink Boost",
+        subtitle: "204 people did this today",
+        icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
+        bgColor: UIColor(hex: "E7F0FF"),
+        iconBG: .white
+    ),
+
+    // Pink → FCEAF3, F8DDEB
+    .init(
+        title: "Focus Shift",
+        subtitle: "20224 people did this today",
+        icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
+        bgColor: UIColor(hex: "FCEAF3"),
+        iconBG: .white
+    ),
+
+    // Green → E6F5EA, D9F0E3
+    .init(
+        title: "Near Vision",
+        subtitle: "204 people did this today",
+        icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
+        bgColor: UIColor(hex: "E6F5EA"),
+        iconBG: .white
+    ),
+
+    // Yellow → FFF5D6, FFF0C2
+    .init(
+        title: "Eye Stretch",
+        subtitle: "204 people did this today",
+        icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
+        bgColor: UIColor(hex: "FFF5D6"),
+        iconBG: .white
+    ),
+
+    // Orange → FFE8D6, FFDCC2
+    .init(
+        title: "Relax Mode",
+        subtitle: "204 people did this today",
+        icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
+        bgColor: UIColor(hex: "FFE8D6"),
+        iconBG: .white
+    )
+]
+
+
+var tests: [TestMock] = [
+    .init(title: "Acuity Test", subtitle: "Check sharpness", iconName: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40", iconBGColor: .systemPink),
+    .init(title: "Blink Rate", subtitle: "Check blinking", iconName: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40", iconBGColor: .systemIndigo)
+]
 // One Item of the today's exercise set
 struct TodaysExerciseItem {
     let id: Int
