@@ -371,4 +371,12 @@ class ExerciseFetcher {
             "duration": durationString
         ]
     }
+    
+    // Function to get exercises for the today's exercise set, LATER THIS WOULD BE REPLACED BY A PROPER RECOMMENDED AND CONDITION BASED SELECTION
+    static func getTodaysExercises() -> [Exercise] {
+        let all = ExerciseData.allExercises
+        let count = Int.random(in: 4...5)
+        return Array(all.shuffled().prefix(count))
+    }
+
 }
