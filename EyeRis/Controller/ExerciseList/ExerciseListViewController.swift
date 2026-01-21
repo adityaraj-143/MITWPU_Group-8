@@ -7,138 +7,211 @@
 
 import UIKit
 
+let exercises: [(title: String,
+                 subtitle: String,
+                 icon: String,
+                 bgColor: UIColor,
+                 iconBGColor: UIColor)] = [
+
+    ("Figure 8",
+     "Move eyes in a figure-eight motion",
+     "Infinity",
+     UIColor(hex: "D3F2E8"),
+     UIColor(hex: "5BC8A8")),
+
+    ("Light Adaption",
+     "Adapt eyes to different light levels",
+     "Light_Adaption",
+     UIColor(hex: "D9ECFF"),
+     UIColor(hex: "6FAEFF")),
+
+    ("Guided Blinking",
+     "Controlled blinking exercise",
+     "Guided Blinking",
+     UIColor(hex: "E9E0F8"),
+     UIColor(hex: "A68BEB")),
+
+    ("Smooth Pursuit",
+     "Follow moving objects smoothly",
+     "Smooth_Pursuit",
+     UIColor(hex: "FFECC2"),
+     UIColor(hex: "F5B942")),
+
+    ("Focus Shifting",
+     "Shift focus between near and far objects",
+     "Focus_Shifting",
+     UIColor(hex: "F8D7DC"),
+     UIColor(hex: "E66A7A")),
+
+    ("Peripheral Focus",
+     "Train peripheral vision awareness",
+     "Peripheral Focus",
+     UIColor(hex: "FFE0CC"),
+     UIColor(hex: "FF9C66")),
+
+    ("Saccade Training",
+     "Quick eye jumps between points",
+     "Saccadic Movement",
+     UIColor(hex: "D4F1F4"),
+     UIColor(hex: "4DB6C6")),
+
+
+
+    ("Clock Rotation",
+     "Rotate gaze in clock directions",
+     "clock",
+     UIColor(hex: "E0E6FF"),
+     UIColor(hex: "6B7CFF")),
+
+
+]
+
+
+
+private func generateLayout() -> UICollectionViewLayout {
+
+    let cardWidth: CGFloat = 164
+    let cardHeight: CGFloat = 120
+    let sideInset: CGFloat = 22
+    let rowSpacing: CGFloat = 18
+
+    // ITEM (fixed-size card)
+    let itemSize = NSCollectionLayoutSize(
+        widthDimension: .absolute(cardWidth),
+        heightDimension: .absolute(cardHeight)
+    )
+
+    let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+    // GROUP (full-width row)
+    let groupSize = NSCollectionLayoutSize(
+        widthDimension: .fractionalWidth(1.0),
+        heightDimension: .absolute(cardHeight)
+    )
+
+    let group = NSCollectionLayoutGroup.horizontal(
+        layoutSize: groupSize,
+        subitems: [item, item]
+    )
+
+    // 🔥 FLEXIBLE spacing between the two cards
+    group.interItemSpacing = .flexible(0)
+
+    // SECTION
+    let section = NSCollectionLayoutSection(group: group)
+
+    section.interGroupSpacing = rowSpacing
+
+    // Equal margins from both ends
+    section.contentInsets = NSDirectionalEdgeInsets(
+        top: rowSpacing,
+        leading: sideInset,
+        bottom: rowSpacing,
+        trailing: sideInset
+    )
+
+    return UICollectionViewCompositionalLayout(section: section)
+}
+
+
+
+
 class ExerciseListViewController: UIViewController {
     
-    private var currentUser: User?
-    private var recommendedExercises: [Exercise] = []
-    private var allExercises: [Exercise] = []
-
-    @IBOutlet weak var recommendedCardView: UIView!
-    @IBOutlet weak var recommendedTableView: UITableView!
-    @IBOutlet weak var allExercisesCardView: UIView!
-    @IBOutlet weak var allExercisesTableView: UITableView!
-
+    @IBOutlet weak var CollectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupCardViews()
-        setupTableViews()
-        loadData()
+        CollectionView.dataSource = self
+//           CollectionView.delegate = self
+        
+        CollectionView.register(UINib(nibName: "ExerciseListCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "exercise_cell")
+        
+        CollectionView.collectionViewLayout = generateLayout()
     }
     
-    // MARK: - Setup
-    private func setupCardViews() {
-        [recommendedCardView,allExercisesCardView].forEach {
-            $0?.applyCornerRadius()
-            $0?.applyShadow()
-        }
-    }
     
-    private func setupTableViews() {
-        recommendedTableView.delegate = self
-        recommendedTableView.dataSource = self
-        
-        allExercisesTableView.delegate = self
-        allExercisesTableView.dataSource = self
-        
-        [recommendedTableView,allExercisesTableView].forEach {
-            $0?.applyCornerRadiusToTable()
-        }
-        
-        // Register XIB for cell
-        let nib = UINib(nibName: "ExerciseTableViewCell", bundle: nil)
-        recommendedTableView.register(nib, forCellReuseIdentifier: "ExerciseTableViewCell")
-        allExercisesTableView.register(nib, forCellReuseIdentifier: "ExerciseTableViewCell")
-    }
-
-    private func loadData() {
-        //temporary user with some conditions for testing
-        currentUser = User(
-            firstName: "John",
-            lastName: "Doe",
-            gender: "Male",
-            dob: makeDate(year: 1995, month: 5, day: 15),
-            eyeHealthData: UserEyeHealthData(
-                condition: [.blurredVision, .eyeFatigue]
-            )
-        )
-        
-        guard let user = currentUser else { return }
-        
-        //fetch recommended & all exercises
-        recommendedExercises = ExerciseFetcher.getRecommendedExercises(for: user)
-        allExercises = ExerciseFetcher.getAllExercises()
-        
-        recommendedTableView.reloadData()
-        allExercisesTableView.reloadData()
-    }
 }
 
-// MARK: - Extensions
-extension ExerciseListViewController: UITableViewDataSource, UITableViewDelegate {
-    
-    // MARK: - DataSource Methods
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView == recommendedTableView {
-            return recommendedExercises.count
-        } else {
-            return allExercises.count
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ExerciseTableViewCell", for: indexPath) as! ExerciseTableViewCell
+extension ExerciseListViewController: UICollectionViewDataSource {
 
-        let exercise: Exercise
-        if tableView == recommendedTableView {
-            exercise = recommendedExercises[indexPath.row]
-        } else {
-            exercise = allExercises[indexPath.row]
-        }
-        
-        // Configure the cell with exercise data and play button handler
-        cell.configure(with: exercise) { [weak self] selectedExercise in
-            self?.playButtonTapped(for: selectedExercise)
-        }
-        
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+        return exercises.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: "exercise_cell",
+            for: indexPath
+        ) as! ExerciseListCollectionViewCell
+
+        let exercise = exercises[indexPath.item]
+
+        // 🔥 FIX: Try SF Symbol first, then asset
+        let iconImage =
+            UIImage(systemName: exercise.icon) ??
+            UIImage(named: exercise.icon) ??
+            UIImage()
+
+        // Debug safety (remove in Release)
+        assert(iconImage.size != .zero, "❌ Missing icon: \(exercise.icon)")
+
+        cell.configure(
+            title: exercise.title,
+            subtitle: exercise.subtitle,
+            icon: iconImage,
+            bgColor: exercise.bgColor,
+            iconBG: exercise.iconBGColor
+        )
+
         return cell
     }
-    
-    // MARK: Delegate Methods
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        let exercise: Exercise
-        if tableView == recommendedTableView {
-            exercise = recommendedExercises[indexPath.row]
-        } else {
-            exercise = allExercises[indexPath.row]
-        }
-        
-        showInstructionModal(for: exercise)
-    }
 
-    // MARK: Actions
-    private func playButtonTapped(for exercise: Exercise) {
-        
-        let storyboard = UIStoryboard(name: "CalibrationScreen", bundle: nil)
-        let calibrationVC = storyboard.instantiateViewController(withIdentifier: "CalibrationViewController") as! CalibrationViewController
-        calibrationVC.exercise = exercise
-        
-        navigationController?.pushViewController(calibrationVC, animated: true)
-    }
-
-    private func showInstructionModal(for exercise: Exercise) {
-
-        let storyboard = UIStoryboard(name: "exerciseList", bundle: nil)
-        let instructionVC = storyboard.instantiateViewController(withIdentifier: "InstructionViewController") as! InstructionViewController
-        instructionVC.exercise = exercise
-        
-        //to embed in navigtion controller
-        let navController = UINavigationController(rootViewController: instructionVC)
-        navController.modalPresentationStyle = .pageSheet
-        
-        present(navController, animated: true)
-    }
 }
+
+
+//extension ExerciseListViewController: UICollectionViewDelegateFlowLayout {
+//
+//    func collectionView(
+//        _ collectionView: UICollectionView,
+//        layout collectionViewLayout: UICollectionViewLayout,
+//        sizeForItemAt indexPath: IndexPath
+//    ) -> CGSize {
+//
+//        let padding: CGFloat = 16
+//        let spacing: CGFloat = 16
+//
+//        let totalHorizontalPadding = padding * 2 + spacing
+//        let width = (collectionView.bounds.width - totalHorizontalPadding) / 2
+//
+//        return CGSize(width: width, height: 140)
+//    }
+//
+//    func collectionView(
+//        _ collectionView: UICollectionView,
+//        layout collectionViewLayout: UICollectionViewLayout,
+//        insetForSectionAt section: Int
+//    ) -> UIEdgeInsets {
+//        UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+//    }
+//
+//    func collectionView(
+//        _ collectionView: UICollectionView,
+//        layout collectionViewLayout: UICollectionViewLayout,
+//        minimumInteritemSpacingForSectionAt section: Int
+//    ) -> CGFloat {
+//        16
+//    }
+//
+//    func collectionView(
+//        _ collectionView: UICollectionView,
+//        layout collectionViewLayout: UICollectionViewLayout,
+//        minimumLineSpacingForSectionAt section: Int
+//    ) -> CGFloat {
+//        16
+//    }
+//}
+//
