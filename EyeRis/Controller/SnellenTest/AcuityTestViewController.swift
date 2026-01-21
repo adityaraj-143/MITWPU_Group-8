@@ -4,50 +4,42 @@
 //
 //  Created by SDC-USER on 15/12/25.
 //
+
 import Speech
 import UIKit
 
 class AcuityTestViewController: UIViewController {
-    
-    
+
     @IBOutlet weak var RecordingStatus: UILabel!
     @IBOutlet weak var SnellenImg: UIImageView!
     @IBOutlet weak var TextField: UITextField!
-    
-    
+
     let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))
     var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     var recognitionTask: SFSpeechRecognitionTask?
-    
-    
+
     let audioEngine = AVAudioEngine()
     var Recording = false
-    
-    
- 
+
     var capturedTexts: [String] = []
     var currentSpeechBuffer = ""
 
     let totalImages = 7
-    var currentImageIndex = 0   // starts at Image 
-
+    var currentImageIndex = 0   // starts at Image
 
     override func viewDidLayoutSubviews() {
-         super.viewDidLayoutSubviews()
-         TextField.layer.cornerRadius = TextField.frame.height / 2
-         TextField.layer.masksToBounds = true
-     }
-    
+        super.viewDidLayoutSubviews()
+        TextField.layer.cornerRadius = TextField.frame.height / 2
+        TextField.layer.masksToBounds = true
+    }
+
     override func viewDidLoad() {
-        
-        
         SnellenImg.image = UIImage(named: "Image")
         super.viewDidLoad()
-        
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-            tapGesture.cancelsTouchesInView = false
-            view.addGestureRecognizer(tapGesture)
-        
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
 
         TextField.borderStyle = .none
         TextField.backgroundColor = .white
@@ -64,59 +56,54 @@ class AcuityTestViewController: UIViewController {
             }
         }
     }
+
+    // ✅ ONLY CHANGE: stop audio when leaving page
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        stopListening()
+    }
+
     func startListening() {
         recognitionTask?.cancel()
         recognitionTask = nil
-        
+
         Recording = true
-        
+
         DispatchQueue.main.async {
             self.RecordingStatus.text = "Recording Audio"
             self.RecordingStatus.textColor = .systemGreen
         }
-        
+
         print("recording started")
-        
+
         let audioSession = AVAudioSession.sharedInstance()
         try? audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
         try? audioSession.setActive(true, options: .notifyOthersOnDeactivation)
-        
+
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
         let inputNode = audioEngine.inputNode
-        
+
         guard let recognitionRequest = recognitionRequest else { return }
         recognitionRequest.shouldReportPartialResults = true
-        
+
         recognitionTask = speechRecognizer?.recognitionTask(with: recognitionRequest) { result, error in
             if let result = result {
                 let spokenText = result.bestTranscription.formattedString
                 let normalized = spokenText
                     .uppercased()
                     .trimmingCharacters(in: .whitespacesAndNewlines)
+
                 DispatchQueue.main.async {
-                    
                     print("🎙️ Final text:", spokenText)
                     self.currentSpeechBuffer = spokenText
                     self.TextField.text = spokenText
 
                     if normalized.hasSuffix("NEXT") {
-                    self.next()
+                        self.next()
                         print("text detected")
-                        
-                        
-//                        let sb = UIStoryboard(name: "Chart2", bundle: nil)
-//                        if let vc = sb.instantiateViewController(
-//                            withIdentifier: "Chart2ViewController"
-//                        ) as? Chart2ViewController {
-//
-//                            self.navigationController?.pushViewController(vc, animated: true)
-//                        }
-                        
-                        
                     }
                 }
             }
-        
 
             if error != nil || (result?.isFinal ?? false) {
                 self.stopListening()
@@ -132,6 +119,7 @@ class AcuityTestViewController: UIViewController {
         audioEngine.prepare()
         try? audioEngine.start()
     }
+
     func stopListening() {
         audioEngine.stop()
         recognitionRequest?.endAudio()
@@ -144,18 +132,14 @@ class AcuityTestViewController: UIViewController {
             self.RecordingStatus.textColor = .systemGray
         }
     }
-    
 
-    
     func restartRecognitionSession() {
-        // Stop only the recognition task (NOT the mic)
         recognitionTask?.cancel()
         recognitionTask = nil
 
         recognitionRequest?.endAudio()
         recognitionRequest = nil
 
-        // Create a fresh request
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
         recognitionRequest?.shouldReportPartialResults = true
 
@@ -181,19 +165,12 @@ class AcuityTestViewController: UIViewController {
         }
 
         print("🔄 Recognition restarted (mic still running)")
-        
     }
 
-
-    
-    
-    
     func next() {
         print("next is called")
 
-        // 📦 Save current speech chunk (WITHOUT "next")
         if !currentSpeechBuffer.isEmpty {
-
             let cleaned = currentSpeechBuffer
                 .replacingOccurrences(
                     of: "\\bnext\\b",
@@ -208,18 +185,16 @@ class AcuityTestViewController: UIViewController {
             }
         }
 
-        // 🛑 HARD RESET speech recognition
+        // ✅ ADD THIS LINE
+        stopListening()
+
         recognitionTask?.cancel()
         recognitionTask = nil
         recognitionRequest = nil
 
-        // 🔄 Reset local buffers
         currentSpeechBuffer = ""
-
-        // 🧹 Clear UI
         TextField.text = ""
 
-        // 🖼️ Move to next image
         currentImageIndex += 1
         if currentImageIndex > totalImages {
             currentImageIndex = 1
@@ -230,37 +205,25 @@ class AcuityTestViewController: UIViewController {
 
         print("🖼️ Showing:", imageName)
 
-        // 🎧 Restart listening fresh
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
             self.startListening()
         }
     }
 
-
     @objc func dismissKeyboard() {
-    view.endEditing(true)
-}
-    
-    
+        view.endEditing(true)
+    }
 
     @IBAction func NextBtn(_ sender: UIButton) {
-        
-        //i wanna store the text in the textfield somewhere and move to the nect screen
-//        let sb = UIStoryboard(name: "Chart2", bundle: nil)
-//        if let vc = sb.instantiateViewController(
-//            withIdentifier: "Chart2ViewController"
-//        ) as? Chart2ViewController {
-//
-//            self.navigationController?.pushViewController(vc, animated: true)
-//        }
+        // i wanna store the text in the textfield somewhere and move to the nect screen
     }
-    
+
     @IBAction func MicBtn(_ sender: UIButton) {
         print("button Pressed")
         if audioEngine.isRunning {
-                stopListening()
-            } else {
-                startListening()
-            }
+            stopListening()
+        } else {
+            startListening()
         }
     }
+}
