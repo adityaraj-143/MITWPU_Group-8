@@ -60,8 +60,6 @@ let exercises: [(title: String,
      "clock",
      UIColor(hex: "E0E6FF"),
      UIColor(hex: "6B7CFF")),
-
-
 ]
 
 
@@ -169,47 +167,3 @@ extension ExerciseListViewController: UICollectionViewDataSource {
     }
 
 }
-
-
-//extension ExerciseListViewController: UICollectionViewDelegateFlowLayout {
-//
-//    func collectionView(
-//        _ collectionView: UICollectionView,
-//        layout collectionViewLayout: UICollectionViewLayout,
-//        sizeForItemAt indexPath: IndexPath
-//    ) -> CGSize {
-//
-//        let padding: CGFloat = 16
-//        let spacing: CGFloat = 16
-//
-//        let totalHorizontalPadding = padding * 2 + spacing
-//        let width = (collectionView.bounds.width - totalHorizontalPadding) / 2
-//
-//        return CGSize(width: width, height: 140)
-//    }
-//
-//    func collectionView(
-//        _ collectionView: UICollectionView,
-//        layout collectionViewLayout: UICollectionViewLayout,
-//        insetForSectionAt section: Int
-//    ) -> UIEdgeInsets {
-//        UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
-//    }
-//
-//    func collectionView(
-//        _ collectionView: UICollectionView,
-//        layout collectionViewLayout: UICollectionViewLayout,
-//        minimumInteritemSpacingForSectionAt section: Int
-//    ) -> CGFloat {
-//        16
-//    }
-//
-//    func collectionView(
-//        _ collectionView: UICollectionView,
-//        layout collectionViewLayout: UICollectionViewLayout,
-//        minimumLineSpacingForSectionAt section: Int
-//    ) -> CGFloat {
-//        16
-//    }
-//}
-//
