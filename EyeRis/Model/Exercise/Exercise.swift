@@ -148,49 +148,44 @@ struct TestMock {
 }
 
 var recommendedExercises: [RecommendedExerciseMock] = [
-    // Blue → E7F0FF, DCE8FF
     .init(
         title: "Blink Boost",
         subtitle: "204 people did this today",
         icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
-        bgColor: UIColor(hex: "E7F0FF"),
-        iconBG: .white
+        bgColor: UIColor(hex: "D3F2E8"),          // from Figure 8
+        iconBG: UIColor(hex: "5BC8A8")
     ),
 
-    // Pink → FCEAF3, F8DDEB
     .init(
         title: "Focus Shift",
         subtitle: "20224 people did this today",
         icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
-        bgColor: UIColor(hex: "FCEAF3"),
-        iconBG: .white
+        bgColor: UIColor(hex: "D9ECFF"),          // from Light Adaption
+        iconBG: UIColor(hex: "6FAEFF")
     ),
 
-    // Green → E6F5EA, D9F0E3
     .init(
         title: "Near Vision",
         subtitle: "204 people did this today",
         icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
-        bgColor: UIColor(hex: "E6F5EA"),
-        iconBG: .white
+        bgColor: UIColor(hex: "E9E0F8"),          // from Guided Blinking
+        iconBG: UIColor(hex: "A68BEB")
     ),
 
-    // Yellow → FFF5D6, FFF0C2
     .init(
         title: "Eye Stretch",
         subtitle: "204 people did this today",
         icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
-        bgColor: UIColor(hex: "FFF5D6"),
-        iconBG: .white
+        bgColor: UIColor(hex: "FFECC2"),          // from Smooth Pursuit
+        iconBG: UIColor(hex: "F5B942")
     ),
 
-    // Orange → FFE8D6, FFDCC2
     .init(
         title: "Relax Mode",
         subtitle: "204 people did this today",
         icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
-        bgColor: UIColor(hex: "FFE8D6"),
-        iconBG: .white
+        bgColor: UIColor(hex: "F8D7DC"),          // from Focus Shifting
+        iconBG: UIColor(hex: "E66A7A")
     )
 ]
 

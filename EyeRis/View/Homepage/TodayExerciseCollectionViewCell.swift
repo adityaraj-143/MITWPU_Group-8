@@ -28,8 +28,8 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
         
         if let layout = IconsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = .horizontal
-            layout.minimumInteritemSpacing = 1
-            layout.minimumLineSpacing = 1
+            layout.minimumLineSpacing = -8  
+            layout.minimumInteritemSpacing = 0
             layout.sectionInset = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 4)
         }
         

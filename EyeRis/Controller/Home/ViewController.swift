@@ -52,7 +52,13 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == 3 {   // Tests section
+        
+        if indexPath.section == 1 {
+            navigate(to: "TodayExercises", with: "TodayExerciseViewController")
+            return
+        }
+        
+        if indexPath.section == 3 {
             if indexPath.item == 0 {
                 // Acuity Test
                 navigate(to: "TestInstructions", with: "TestInstructionViewController", source: .acuityTest)
@@ -105,6 +111,7 @@ extension ViewController: UICollectionViewDataSource {
             ) as! TodayExerciseCollectionViewCell
             
             let icons = [
+                UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
                 UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
                 UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
                 UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,

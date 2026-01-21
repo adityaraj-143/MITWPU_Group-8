@@ -25,7 +25,7 @@ class TestsCollectionViewCell: UICollectionViewCell {
         titleLabel.text = title
         iconImage.image = UIImage(named: icon)
         subtitleLabel.text = subtitle
-        iconBG.backgroundColor = iconBGColor
+//        iconBG.backgroundColor = iconBGColor
     }
 
 }

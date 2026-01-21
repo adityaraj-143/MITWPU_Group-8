@@ -14,7 +14,7 @@ class TodayExerciseIconCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        mainView.layer.cornerRadius = mainView.bounds.height / 2
+        mainView.makeRounded()
     }
     
     override func awakeFromNib() {
@@ -23,10 +23,12 @@ class TodayExerciseIconCell: UICollectionViewCell {
         
         mainView.clipsToBounds = true
         contentView.clipsToBounds = true
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
         mainView.layer.borderWidth = 2
         mainView.layer.borderColor = UIColor.lightGreen.cgColor
         iconImageView.contentMode = .scaleAspectFit
-
+        
     }
     
     func configure(image: UIImage) {
