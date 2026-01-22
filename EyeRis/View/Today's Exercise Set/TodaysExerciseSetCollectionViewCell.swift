@@ -19,6 +19,7 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var StyleContainerView: UIView!
     @IBOutlet weak var iconView: UIView!
     @IBOutlet weak var checkmark: UIImageView!
+    @IBOutlet weak var navigationButton: UIButton!
     
     
     override func awakeFromNib() {
@@ -32,6 +33,7 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
         cardView.backgroundColor = UIColor(white: 0.98, alpha: 1)
 
         StyleContainerView.applyShadow()
+        navigationButton.backgroundColor = .lightGreen
 
         iconView.makeRounded()
     }
@@ -46,6 +48,8 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
         exerciseDescription.text = item.instruction
         exerciseImage.image = UIImage(named: item.icon)
         durationLabel.text = item.duration
+        cardView.backgroundColor = .white
+        iconView.backgroundColor = .lightGreen
 
         if item.isCompleted {
             checkmark.image = UIImage(systemName: "checkmark.circle.fill")

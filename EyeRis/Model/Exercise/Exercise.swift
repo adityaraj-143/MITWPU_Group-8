@@ -8,119 +8,142 @@
 import Foundation
 import UIKit
 
-struct Exercise{
-    var id: Int
-    var name: String
-    var duration: Int
-    var instructions: ExerciseInstruction
-    var targetedConditions : [Conditions]
-    // to see if the exercise is recommended on the basis of userEyeConditions
-    func isRecommended(for user: User) -> Bool {
-        // Convert both arrays to Sets for fast intersection
-        let userConditions = Set(user.eyeHealthData.condition)
-        let exerciseConditions = Set(targetedConditions)
-        
-        // If intersection is not empty → recommended
-        return !userConditions.intersection(exerciseConditions).isEmpty
+// MARK: - Exercise
+
+struct Exercise {
+    let id: Int
+    let name: String
+    let duration: Int
+    let instructions: ExerciseInstruction
+    let targetedConditions: [Conditions]
+}
+
+extension Exercise {
+
+    func getIcon() -> String {
+        exerciseStyleMap[id]?.icon ?? "questionmark.circle"
+    }
+
+    func getBGColor() -> UIColor {
+        exerciseStyleMap[id]?.bgColor ?? UIColor.systemGray.withAlphaComponent(0.1)
+    }
+
+    func getIconBGColor() -> UIColor {
+        exerciseStyleMap[id]?.iconBGColor ?? .systemGray
     }
 }
 
-struct ExerciseInstruction{
-    var title: String
-    var description: [String]
-    var video: String
+// MARK: - Exercise List
+
+struct ExerciseList {
+    let exercises: [Exercise]
+    let recommended: [Exercise]
+    
+    init(user: User) {
+        self.exercises = allExercises
+        // Convert both arrays to Sets for fast intersection
+        let userConditions = Set(user.eyeHealthData.condition)
+        // Recommend exercises that target at least one of the user's conditions
+        recommended = exercises.filter { exercise in
+            !Set(exercise.targetedConditions).intersection(userConditions).isEmpty
+        }
+    }
+    func todaysSet(count: Int = 4) -> [Exercise] {
+        Array(recommended.shuffled().prefix(count))
+    }
 }
+
+// MARK: - Exercise Instruction
+
+struct ExerciseInstruction {
+    let title: String
+    let description: String
+    let video: String
+}
+
+// MARK: - Performed Exercise Stat
 
 struct PerformedExerciseStat {
-    var id: Int
-    var name: String
-    var performedOn: Date
-    var accuracy: Int
-    var speed: Int
+    let id: Int
+    let name: String
+    let performedOn: Date
+    let accuracy: Int
+    let speed: Int
 }
 
+// MARK: - Exercise Summary
 
 struct ExerciseSummary {
     let accuracy: Int
     let speed: Int
 }
 
-struct PerformedExerciseStatResponse {
+// MARK: - Exercise History / Stats Store
+
+struct ExerciseHistory {
     
-    private let stats: [PerformedExerciseStat]
+    private let performedExercises: [PerformedExerciseStat]
     private let calendar = Calendar.current
     
     // MARK: - Init
-    
     init(stats: [PerformedExerciseStat] = mockPerformedExerciseStats) {
-        self.stats = stats
+        self.performedExercises = stats
     }
     
-    // MARK: - Four Week Dates (28 days)
+    // MARK: - Date Ranges
     
-    func getFourWeekDateRange() -> [Date] {
-        guard let latestDate = stats.map({ $0.performedOn }).max() else {
+    /// Last 4 weeks (28 days) ending at the most recent performed exercise
+    func fourWeekDateRange() -> [Date] {
+        guard let latestDate = performedExercises.map(\.performedOn).max() else {
             return []
         }
         
-        var dates: [Date] = []
-        
-        for dayOffset in 0..<28 {
-            if let date = calendar.date(byAdding: .day, value: -dayOffset, to: latestDate) {
-                dates.append(calendar.startOfDay(for: date))
-            }
-        }
-        
-        return dates.reversed()
+        return (0..<28)
+            .compactMap { calendar.date(byAdding: .day, value: -$0, to: latestDate) }
+            .map { calendar.startOfDay(for: $0) }
+            .reversed()
     }
     
     // MARK: - Performed Dates
     
-    func getPerformedExerciseDates() -> Set<Date> {
-        let dates = stats.map {
+    func performedExerciseDates() -> Set<Date> {
+        Set(performedExercises.map {
+            calendar.startOfDay(for: $0.performedOn)
+        })
+    }
+    
+    // MARK: - Grouping
+    
+    func groupedByDate() -> [Date: [PerformedExerciseStat]] {
+        Dictionary(grouping: performedExercises) {
             calendar.startOfDay(for: $0.performedOn)
         }
-        return Set(dates)
     }
     
-    // MARK: - Grouped Exercises
+    // MARK: - Queries
     
-    func groupExercisesByDate() -> [Date: [PerformedExerciseStat]] {
-        Dictionary(grouping: stats) {
-            calendar.startOfDay(for: $0.performedOn)
-        }
+    func exercises(on date: Date) -> [PerformedExerciseStat] {
+        groupedByDate()[calendar.startOfDay(for: date)] ?? []
     }
     
-    // MARK: - Exercises for Day
-    
-    func exercises(for date: Date) -> [PerformedExerciseStat] {
-        let grouped = groupExercisesByDate()
-        return grouped[calendar.startOfDay(for: date)] ?? []
+    func lastExercise() -> PerformedExerciseStat? {
+        performedExercises.max { $0.performedOn < $1.performedOn }
     }
     
-    func getLastExercise() -> PerformedExerciseStat {
-        stats.max { $0.performedOn < $1.performedOn }!
-    }
-    
-    func getLastExercise() -> ExerciseSummary {
-        
-        let calendar = Calendar.current
-        
-        let grouped = Dictionary(grouping: stats) {
-            calendar.startOfDay(for: $0.performedOn)
-        }
+    func lastExerciseSummary() -> ExerciseSummary? {
+        let grouped = groupedByDate()
         
         guard let latestDate = grouped.keys.max(),
-              let dayExercises = grouped[latestDate]
-        else {
-            return ExerciseSummary(accuracy: 0, speed: 0)
+              let dayExercises = grouped[latestDate],
+              !dayExercises.isEmpty else {
+            return nil
         }
         
         let avgAccuracy =
-        dayExercises.map { $0.accuracy }.reduce(0, +) / dayExercises.count
+        dayExercises.map(\.accuracy).reduce(0, +) / dayExercises.count
         
         let avgSpeed =
-        dayExercises.map { $0.speed }.reduce(0, +) / dayExercises.count
+        dayExercises.map(\.speed).reduce(0, +) / dayExercises.count
         
         return ExerciseSummary(
             accuracy: avgAccuracy,
@@ -129,67 +152,12 @@ struct PerformedExerciseStatResponse {
     }
 }
 
-
-// MARK: - Mock Data
-
-struct RecommendedExerciseMock {
-    let title: String
-    let subtitle: String
-    let icon: UIImage
-    let bgColor: UIColor
-    let iconBG: UIColor
-}
-
 struct TestMock {
     let title: String
     let subtitle: String
     let iconName: String
     let iconBGColor: UIColor
 }
-
-var recommendedExercises: [RecommendedExerciseMock] = [
-    
-    
-    .init(
-        title: "Focus Shift",
-        subtitle: "20224 people did this today",
-        icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
-        bgColor: UIColor(hex: "D9ECFF"),          // from Light Adaption
-        iconBG: UIColor(hex: "6FAEFF")
-    ),
-    
-        .init(
-            title: "Near Vision",
-            subtitle: "204 people did this today",
-            icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
-            bgColor: UIColor(hex: "E9E0F8"),          // from Guided Blinking
-            iconBG: UIColor(hex: "A68BEB")
-        ),
-    
-        .init(
-            title: "Eye Stretch",
-            subtitle: "204 people did this today",
-            icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
-            bgColor: UIColor(hex: "FFECC2"),          // from Smooth Pursuit
-            iconBG: UIColor(hex: "F5B942")
-        ),
-    .init(
-        title: "Blink Boost",
-        subtitle: "204 people did this today",
-        icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
-        bgColor: UIColor(hex: "D3F2E8"),          // from Figure 8
-        iconBG: UIColor(hex: "5BC8A8")
-    ),
-    
-        .init(
-            title: "Relax Mode",
-            subtitle: "204 people did this today",
-            icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
-            bgColor: UIColor(hex: "F8D7DC"),          // from Focus Shifting
-            iconBG: UIColor(hex: "E66A7A")
-        )
-]
-
 
 var tests: [TestMock] = [
     .init(title: "Acuity Test", subtitle: "Check sharpness", iconName: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40", iconBGColor: .systemPink),
@@ -202,8 +170,7 @@ struct TodaysExerciseItem {
     let icon: String
     let instruction: String
     let duration: String = "1 min"
+    let bgColor: UIColor
+    let iconBGColor: UIColor
     let isCompleted: Bool = true
 }
-
-
-

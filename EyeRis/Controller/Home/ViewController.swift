@@ -10,12 +10,19 @@ class ViewController: UIViewController {
     
     var lastDVA: AcuityTestResult = AcuityTestResultResponse().getLastTestDVA()!
     
-    var lastExercise: ExerciseSummary =
-    PerformedExerciseStatResponse().getLastExercise()
+    let history = ExerciseHistory()
+
+    var lastExercise: ExerciseSummary {
+        history.lastExerciseSummary()
+        ?? ExerciseSummary(accuracy: 20, speed: 20)
+    }
     
     let blinkRateResponse = BlinkRateTestResultResponse()
     var todayBlinkResult: BlinkRateTestResult?
     
+    let recommendedExercises = ExerciseList(user: UserDataStore.shared.currentUser).recommended
+    
+    let todaysExercise = ExerciseList(user: UserDataStore.shared.currentUser).todaysSet()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +30,8 @@ class ViewController: UIViewController {
         CollectionView.setCollectionViewLayout(generateLayout(), animated: false)
         CollectionView.dataSource = self
         CollectionView.delegate = self
+        
+        print("HAALLOOO", recommendedExercises)
         
         todayBlinkResult = blinkRateResponse.todayResult()
         
@@ -110,13 +119,7 @@ extension ViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as! TodayExerciseCollectionViewCell
             
-            let icons = [
-                UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
-                UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
-                UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
-                UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
-                UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!
-            ]
+            let icons = todaysExercise.filter({$0.isDone}).map(\.icon)
             cell.configureLabel(iconImages: icons)
             return cell
             
@@ -125,13 +128,13 @@ extension ViewController: UICollectionViewDataSource {
                 withReuseIdentifier: "exercises_cell",
                 for: indexPath
             ) as! RecommendedExercisesCollectionViewCell
-            let data = recommendedExercises[indexPath.item]
+            let data = recommendedExercises[indexPath.row]
             cell.configure(
-                title: data.title,
-                subtitle: data.subtitle,
-                icon: data.icon,
-                bgColor: data.bgColor,
-                iconBG: data.iconBG
+                title: data.name,
+                subtitle: "204 people did this today",
+                icon: data.getIcon(),
+                bgColor: data.getBGColor(),
+                iconBG: data.getIconBGColor()
             )
             return cell
             
