@@ -71,8 +71,11 @@
                                                                 </view>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e7n-Ol-iSa">
                                                                     <rect key="frame" x="251" y="129" width="75" height="33"/>
+                                                                    <color key="tintColor" red="0.6588235294117647" green="0.93725490196078431" blue="0.6470588235294118" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <state key="normal" title="Button"/>
-                                                                    <buttonConfiguration key="configuration" style="filled" title="Button"/>
+                                                                    <buttonConfiguration key="configuration" style="filled" title="Button">
+                                                                        <color key="baseBackgroundColor" red="0.6588235294117647" green="0.93725490196078431" blue="0.6470588235294118" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                    </buttonConfiguration>
                                                                     <connections>
                                                                         <action selector="navigateButtonTapped:" destination="g8Z-7B-yvF" eventType="touchUpInside" id="1Lz-cd-RYp"/>
                                                                     </connections>
@@ -141,6 +144,7 @@
                                             <outlet property="exerciseImage" destination="lSs-AK-q8j" id="ojO-1Z-N9F"/>
                                             <outlet property="exerciseName" destination="Csm-Kk-1lT" id="4tW-Q8-xZy"/>
                                             <outlet property="iconView" destination="feQ-cV-BnA" id="vpQ-dt-44m"/>
+                                            <outlet property="navigationButton" destination="e7n-Ol-iSa" id="yZh-e8-tVq"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -150,8 +154,12 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q3A-Iv-i1w">
                                         <rect key="frame" x="115" y="18" width="163" height="32"/>
+                                        <color key="backgroundColor" red="0.6588235294" green="0.93725490199999995" blue="0.64705882349999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" red="0.45882352939999999" green="0.87058823529999996" blue="0.58109943679999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="Start As a Set"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Start As a Set">
+                                            <color key="baseBackgroundColor" systemColor="tintColor"/>
+                                        </buttonConfiguration>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -207,10 +215,13 @@
     <resources>
         <image name="checkmark.circle" catalog="system" width="128" height="123"/>
         <systemColor name="secondaryLabelColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="tintColor">
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

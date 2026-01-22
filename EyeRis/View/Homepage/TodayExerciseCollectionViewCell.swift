@@ -57,8 +57,8 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
         )
     }
     
-    func configureLabel(iconImages: [UIImage]) {
-        self.icons = iconImages
+    func configureLabel(iconImages: [String]) {
+        self.icons = iconImages.compactMap { UIImage(named: $0) }
         IconsCollectionView.reloadData()
 
         if iconImages.count > 3 {

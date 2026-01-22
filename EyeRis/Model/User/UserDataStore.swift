@@ -20,7 +20,7 @@ final class UserDataStore {
         gender: "Male",
         dob: Date(), // today by default
         eyeHealthData: UserEyeHealthData(
-            condition: [.dryEyes] // empty → "None"
+            condition: [.dryEyes, .digitalEyeStrain, .dryEyeSyndrome, .eyeMuscleTension, .convergenceInsufficiency] // empty → "None"
         )
     )
 
