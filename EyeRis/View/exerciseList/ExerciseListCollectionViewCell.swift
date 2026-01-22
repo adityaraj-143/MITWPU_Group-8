@@ -20,9 +20,6 @@ class ExerciseListCollectionViewCell: UICollectionViewCell {
 
         iconBG.layer.cornerRadius = iconBG.bounds.height / 2
         mainView.applyCornerRadius()
-
-        // 🔥 FIX
-        IconImage.tintColor = .white
     }
 
     func configure(
@@ -34,8 +31,7 @@ class ExerciseListCollectionViewCell: UICollectionViewCell {
     ) {
         titleLabel.text = title
         subtitleLabel.text = subtitle
-
-        // 🔥 FIX
+        
         IconImage.image = icon.withRenderingMode(.alwaysTemplate)
 
         mainView.backgroundColor = bgColor
