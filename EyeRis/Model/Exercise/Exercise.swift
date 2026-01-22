@@ -148,14 +148,8 @@ struct TestMock {
 }
 
 var recommendedExercises: [RecommendedExerciseMock] = [
-    .init(
-        title: "Blink Boost",
-        subtitle: "204 people did this today",
-        icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
-        bgColor: UIColor(hex: "D3F2E8"),          // from Figure 8
-        iconBG: UIColor(hex: "5BC8A8")
-    ),
-
+    
+    
     .init(
         title: "Focus Shift",
         subtitle: "20224 people did this today",
@@ -163,30 +157,37 @@ var recommendedExercises: [RecommendedExerciseMock] = [
         bgColor: UIColor(hex: "D9ECFF"),          // from Light Adaption
         iconBG: UIColor(hex: "6FAEFF")
     ),
-
+    
+        .init(
+            title: "Near Vision",
+            subtitle: "204 people did this today",
+            icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
+            bgColor: UIColor(hex: "E9E0F8"),          // from Guided Blinking
+            iconBG: UIColor(hex: "A68BEB")
+        ),
+    
+        .init(
+            title: "Eye Stretch",
+            subtitle: "204 people did this today",
+            icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
+            bgColor: UIColor(hex: "FFECC2"),          // from Smooth Pursuit
+            iconBG: UIColor(hex: "F5B942")
+        ),
     .init(
-        title: "Near Vision",
+        title: "Blink Boost",
         subtitle: "204 people did this today",
         icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
-        bgColor: UIColor(hex: "E9E0F8"),          // from Guided Blinking
-        iconBG: UIColor(hex: "A68BEB")
+        bgColor: UIColor(hex: "D3F2E8"),          // from Figure 8
+        iconBG: UIColor(hex: "5BC8A8")
     ),
-
-    .init(
-        title: "Eye Stretch",
-        subtitle: "204 people did this today",
-        icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
-        bgColor: UIColor(hex: "FFECC2"),          // from Smooth Pursuit
-        iconBG: UIColor(hex: "F5B942")
-    ),
-
-    .init(
-        title: "Relax Mode",
-        subtitle: "204 people did this today",
-        icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
-        bgColor: UIColor(hex: "F8D7DC"),          // from Focus Shifting
-        iconBG: UIColor(hex: "E66A7A")
-    )
+    
+        .init(
+            title: "Relax Mode",
+            subtitle: "204 people did this today",
+            icon: UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
+            bgColor: UIColor(hex: "F8D7DC"),          // from Focus Shifting
+            iconBG: UIColor(hex: "E66A7A")
+        )
 ]
 
 

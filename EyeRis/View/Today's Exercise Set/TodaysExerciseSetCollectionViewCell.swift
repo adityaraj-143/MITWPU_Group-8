@@ -24,26 +24,20 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        backgroundColor = .clear
-        contentView.backgroundColor = .clear
+        self.clipsToBounds = false
+        contentView.clipsToBounds = false
 
-        // Card styling
         cardView.layer.cornerRadius = 16
         cardView.clipsToBounds = true
-        
-        iconView.makeRounded()
+        cardView.backgroundColor = UIColor(white: 0.98, alpha: 1)
 
-
-        exerciseDescription.numberOfLines = 3
-        exerciseDescription.lineBreakMode = .byWordWrapping
-        
         StyleContainerView.applyShadow()
-        cardView.applyShadow()
+
+        iconView.makeRounded()
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        cardView.applyShadow()
         exerciseDescription.preferredMaxLayoutWidth = exerciseDescription.frame.width
     }
 
