@@ -9,6 +9,7 @@ import UIKit
 
 class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDelegate {
 
+    var opt1 = "C3EFC3"
 
     @IBOutlet weak var mainLabel: UIButton!
     @IBOutlet weak var extraCountLabel: UILabel!
@@ -28,7 +29,7 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
         
         if let layout = IconsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = .horizontal
-            layout.minimumLineSpacing = -8  
+            layout.minimumLineSpacing = -10
             layout.minimumInteritemSpacing = 0
             layout.sectionInset = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 4)
         }
@@ -39,8 +40,6 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
 
     }
 
-    @IBAction func playButtonAction(_ sender: Any) {
-    }
     
     override func layoutSubviews() {
         super.layoutSubviews()

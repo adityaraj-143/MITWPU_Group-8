@@ -23,7 +23,7 @@
                                 <rect key="frame" x="5" y="4" width="26" height="28"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.55294117647058827" green="0.94117647058823528" blue="0.53333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.45882352941176469" green="0.87058823529411766" blue="0.54808359773703996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="FVz-TE-4sD" firstAttribute="top" secondItem="Nbx-QB-Al3" secondAttribute="top" constant="4" id="qbX-14-iZR"/>
                             <constraint firstAttribute="bottom" secondItem="FVz-TE-4sD" secondAttribute="bottom" constant="4" id="r54-ke-6VT"/>

@@ -54,7 +54,7 @@ extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if indexPath.section == 1 {
-            navigate(to: "TodayExercises", with: "TodayExerciseViewController")
+            navigate(to: "TodaysExerciseSet", with: "TodaysExerciseSetViewController")
             return
         }
         
