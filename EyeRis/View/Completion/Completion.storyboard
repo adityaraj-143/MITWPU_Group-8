@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Completion View Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="CompletionPage" id="Y6W-OH-hqX" customClass="CompletionViewController" customModule="EyeRis" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Congratulations!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TRm-yH-V9a">
+                                <rect key="frame" x="107" y="168" width="179" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test Completed" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o3l-zG-kFK">
+                                <rect key="frame" x="86" y="414" width="221" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="scZ-FS-jSV">
+                                <rect key="frame" x="59" y="677" width="110" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="110" id="HQg-yO-pH0"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Home"/>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Oa-n8-Jct" userLabel="ContainerView">
+                                <rect key="frame" x="109" y="230" width="175" height="175"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark.seal" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="HDT-56-icK">
+                                        <rect key="frame" x="27.666666666666657" y="27.000000000000021" width="120" height="121.33333333333331"/>
+                                        <color key="tintColor" red="0.5426137110857534" green="0.8474422089041096" blue="0.48842526380000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="120" id="9Mh-cE-djI"/>
+                                            <constraint firstAttribute="height" constant="120" id="xW2-QX-rUz"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <viewLayoutGuide key="safeArea" id="KcE-MI-vOH"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="175" id="Irh-jQ-Ps0"/>
+                                    <constraint firstAttribute="height" constant="175" id="PlH-hb-byT"/>
+                                    <constraint firstItem="HDT-56-icK" firstAttribute="centerX" secondItem="2Oa-n8-Jct" secondAttribute="centerX" id="WZR-M3-bNP"/>
+                                    <constraint firstItem="HDT-56-icK" firstAttribute="centerY" secondItem="2Oa-n8-Jct" secondAttribute="centerY" id="vKF-Xs-htP"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NQq-8h-FV6">
+                                <rect key="frame" x="221" y="677" width="110" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="110" id="KEb-VO-9pq"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Results"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time Taken  •  2m 23s" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Biv-7a-ApG">
+                                <rect key="frame" x="116" y="472" width="161" height="20"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Biv-7a-ApG" firstAttribute="top" secondItem="o3l-zG-kFK" secondAttribute="bottom" constant="28" id="490-4j-pox"/>
+                            <constraint firstItem="o3l-zG-kFK" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="86" id="5EX-ia-fdQ"/>
+                            <constraint firstItem="Biv-7a-ApG" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="5Kl-gU-bh0"/>
+                            <constraint firstItem="2Oa-n8-Jct" firstAttribute="centerX" secondItem="vDu-zF-Fre" secondAttribute="centerX" id="Cdc-yG-bwI"/>
+                            <constraint firstItem="TRm-yH-V9a" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="107" id="DDJ-MF-MB5"/>
+                            <constraint firstItem="NQq-8h-FV6" firstAttribute="leading" secondItem="scZ-FS-jSV" secondAttribute="trailing" constant="52" id="Gkn-in-jUG"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="NQq-8h-FV6" secondAttribute="trailing" constant="62" id="HfO-bZ-Kvo"/>
+                            <constraint firstItem="o3l-zG-kFK" firstAttribute="top" secondItem="2Oa-n8-Jct" secondAttribute="bottom" constant="9" id="LT6-eg-jeO"/>
+                            <constraint firstItem="2Oa-n8-Jct" firstAttribute="top" secondItem="TRm-yH-V9a" secondAttribute="bottom" constant="32" id="LvI-wy-hWx"/>
+                            <constraint firstItem="scZ-FS-jSV" firstAttribute="top" secondItem="Biv-7a-ApG" secondAttribute="bottom" constant="185" id="N8M-cO-NiC"/>
+                            <constraint firstItem="NQq-8h-FV6" firstAttribute="top" secondItem="Biv-7a-ApG" secondAttribute="bottom" constant="185" id="ecc-na-5Cq"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="o3l-zG-kFK" secondAttribute="trailing" constant="86" id="tUD-ID-BSO"/>
+                            <constraint firstItem="TRm-yH-V9a" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="50" id="zT2-QE-QF6"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="hqw-QV-x3u"/>
+                    <connections>
+                        <outlet property="ActualTimeTaken" destination="Biv-7a-ApG" id="iPW-bq-9yL"/>
+                        <outlet property="TimeTakenLabel" destination="Biv-7a-ApG" id="LcV-mV-YrN"/>
+                        <outlet property="iconContainerView" destination="2Oa-n8-Jct" id="PMS-4F-QFy"/>
+                        <outlet property="successImageView" destination="HDT-56-icK" id="jfQ-Fc-sHi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1064.885496183206" y="10.563380281690142"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="checkmark.seal" catalog="system" width="128" height="124"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
