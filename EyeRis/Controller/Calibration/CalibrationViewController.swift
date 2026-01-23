@@ -28,12 +28,13 @@ class CalibrationViewController: UIViewController {
         setupARKit()
         
         switch source {
-        case .acuityTest:
-            print("Calibration for Acuity Test")
-
+        case .NVA:
+            print("Calibration for NVA Test")
+        case .DVA:
+            print("Calibration for DVA Test")
         case .blinkRateTest:
             print("Calibration for Blink Rate Test")
-
+            
         case .none:
             break
         }
@@ -48,7 +49,7 @@ class CalibrationViewController: UIViewController {
         config.isLightEstimationEnabled = false
         arSession?.run(config)
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         arSession?.pause()
@@ -93,10 +94,10 @@ class CalibrationViewController: UIViewController {
         arSession = ARSession()
         arSession?.delegate = self
         arView?.session = arSession!
-
+        
         let config = ARFaceTrackingConfiguration()
         config.isLightEstimationEnabled = false
-
+        
         if let session = arSession {
             session.run(config)
         }
@@ -168,17 +169,17 @@ class CalibrationViewController: UIViewController {
             message: "Start the test?",
             preferredStyle: .alert
         )
-
+        
         alert.addAction(UIAlertAction(title: "Start", style: .default) { [weak self] _ in
             print("CALLED")
             self?.navigateBasedOnSource()
         })
-
+        
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-
+        
         present(alert, animated: true)
     }
-
+    
     
     private func showARNotSupportedAlert() {
         let alert = UIAlertController(
@@ -213,20 +214,21 @@ extension CalibrationViewController: ARSessionDelegate {
 }
 
 extension CalibrationViewController {
-
+    
     func navigateBasedOnSource() {
         guard let source else { return }
-
+        
         switch source {
-        case .acuityTest:
-            navigate(to: "AcuityTest", with: "AcuityTestViewController")
-
+        case .NVA:
+            navigate(to: "AcuityTest", with: "AcuityTestViewController", source: source)
+        case .DVA:
+            navigate(to: "AcuityTest", with: "AcuityTestViewController", source: source)
         case .blinkRateTest:
-            navigate(to: "BlinkRateTest", with: "BlinkRateTestViewController")
+            navigate(to: "BlinkRateTest", with: "BlinkRateTestViewController", source: source)
         }
     }
-
-    private func navigate(to storyboardName: String, with identifier: String) {
+    
+    private func navigate(to storyboardName: String, with identifier: String, source: TestFlowSource) {
         let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
         navigationController?.pushViewController(vc, animated: true)
