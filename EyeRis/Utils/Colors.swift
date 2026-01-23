@@ -36,5 +36,5 @@ extension UIColor {
         alpha: 1
     )
     
-    static let lightGreen = UIColor(hex: "C3F6C0")
+    static let lightGreen = UIColor(hex: "A8EFA5")
 }

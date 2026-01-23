@@ -10,12 +10,19 @@ class ViewController: UIViewController {
     
     var lastDVA: AcuityTestResult = AcuityTestResultResponse().getLastTestDVA()!
     
-    var lastExercise: ExerciseSummary =
-    PerformedExerciseStatResponse().getLastExercise()
+    let history = ExerciseHistory()
+
+    var lastExercise: ExerciseSummary {
+        history.lastExerciseSummary()
+        ?? ExerciseSummary(accuracy: 20, speed: 20)
+    }
     
     let blinkRateResponse = BlinkRateTestResultResponse()
     var todayBlinkResult: BlinkRateTestResult?
     
+    let recommendedExercises = ExerciseList(user: UserDataStore.shared.currentUser).recommended
+    
+    let todaysExercise = ExerciseList.shared?.todaysSet
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +30,8 @@ class ViewController: UIViewController {
         CollectionView.setCollectionViewLayout(generateLayout(), animated: false)
         CollectionView.dataSource = self
         CollectionView.delegate = self
+        
+        print("HAALLOOO", recommendedExercises)
         
         todayBlinkResult = blinkRateResponse.todayResult()
         
@@ -52,10 +61,16 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == 3 {   // Tests section
+        
+        if indexPath.section == 1 {
+            navigate(to: "TodaysExerciseSet", with: "TodaysExerciseSetViewController")
+            return
+        }
+        
+        if indexPath.section == 3 {
             if indexPath.item == 0 {
                 // Acuity Test
-                navigate(to: "TestInstructions", with: "TestInstructionViewController", source: .acuityTest)
+                navigate(to: "TestInstructions", with: "TestInstructionViewController", source: .NVA)
             } else if indexPath.item == 1 {
                 // Blink Rate
                 navigate(to: "TestInstructions", with: "TestInstructionViewController", source: .blinkRateTest)
@@ -104,12 +119,7 @@ extension ViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as! TodayExerciseCollectionViewCell
             
-            let icons = [
-                UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
-                UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
-                UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!,
-                UIImage(named: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40")!
-            ]
+            let icons = todaysExercise?.map { $0.exercise.getIcon() } ?? []
             cell.configureLabel(iconImages: icons)
             return cell
             
@@ -118,13 +128,13 @@ extension ViewController: UICollectionViewDataSource {
                 withReuseIdentifier: "exercises_cell",
                 for: indexPath
             ) as! RecommendedExercisesCollectionViewCell
-            let data = recommendedExercises[indexPath.item]
+            let data = recommendedExercises[indexPath.row]
             cell.configure(
-                title: data.title,
-                subtitle: data.subtitle,
-                icon: data.icon,
-                bgColor: data.bgColor,
-                iconBG: data.iconBG
+                title: data.name,
+                subtitle: "204 people did this today",
+                icon: data.getIcon(),
+                bgColor: data.getBGColor(),
+                iconBG: data.getIconBGColor()
             )
             return cell
             
@@ -151,10 +161,10 @@ extension ViewController: UICollectionViewDataSource {
             
             if let result = todayBlinkResult {
                 cell.blinkRateSliderView.value = CGFloat(result.bpm)
-                cell.blinkRateSliderView.maxValue = 30
+                cell.blinkRateSliderView.maxValue = 22
             } else {
                 cell.blinkRateSliderView.value = 0
-                cell.blinkRateSliderView.maxValue = 30
+                cell.blinkRateSliderView.maxValue = 22
             }
             
             cell.onTapNavigation = { [weak self] in
@@ -219,6 +229,10 @@ extension ViewController: UICollectionViewDataSource {
                 hideNav: false
             )
             
+            header.onTapNavigation = { [weak self] in
+                self?.navigate(to: "ExerciseList", with: "ExerciseListViewController")
+            }
+            
         case 3:
             // Tests → hide NavigateLabel
             header.congfigure(
@@ -226,13 +240,19 @@ extension ViewController: UICollectionViewDataSource {
                 hideNav: true
             )
             
+            header.onTapNavigation = nil
+            
         case 4:
             header.congfigure(
                 headerText: "Summary",
                 hideNav: true
             )
+            header.onTapNavigation = nil
+            
             
         default:
+            header.onTapNavigation = nil
+            
             break
         }
         

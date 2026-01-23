@@ -91,7 +91,7 @@ class ProfilePageTableViewController: UITableViewController {
 
         let farSighted = UIAction(title: "Far-Sighted") { _ in
             self.eyeSightButton.setTitle("Far-Sighted", for: .normal)
-            self.userStore.updateEyeConditions([.blurredVision])
+            self.userStore.updateEyeConditions([.dryEyes])
             self.conditionsLabel.text = self.userStore.primaryEyeCondition
         }
 
