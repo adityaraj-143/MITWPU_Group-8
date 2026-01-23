@@ -44,17 +44,11 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
         18.0,  // 20/20
         13.0   // 20/15
     ]
-
-
-    
     var currentLevel = 0
 
     @IBOutlet weak var TextField: UITextField!
     @IBOutlet weak var micImage: UIImageView!
-    
     @IBOutlet weak var inputContainerView: UIView!
-    
-    
     @IBOutlet weak var snellenLabel: UILabel!
     
     func generateRandomLetters(count: Int) -> String {
@@ -72,7 +66,7 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
             weight: .bold
         )
         
-        print("🔤 Level:", currentLevel + 1,
+        print("Level:", currentLevel + 1,
               "Text:", text,
               "Font:", fontSizes[currentLevel])
     }
@@ -97,6 +91,12 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
         super.viewDidAppear(animated)
         showBubble()
         startListening()
+    }
+    
+    
+    @IBAction func backButtonTapped(_ sender: UIBarButtonItem) {
+        handleBack()
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -222,7 +222,7 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
                     .trimmingCharacters(in: .whitespacesAndNewlines)
                 
                 DispatchQueue.main.async {
-                    print("🎙️ Final text:", spokenText)
+                    print("Final text:", spokenText)
                     self.currentSpeechBuffer = spokenText
                     self.TextField.text = spokenText
                     
@@ -279,7 +279,7 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
             
             if !cleaned.isEmpty {
                 capturedTexts.append(cleaned)
-                print("📦 Stored chunk:", cleaned)
+                print("Stored chunk:", cleaned)
             }
         }
         
@@ -323,7 +323,7 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
         
         if !currentText.isEmpty {
             capturedTexts.append(currentText)
-            print("📦 Stored text:", currentText)
+            print("Stored text:", currentText)
         }
         TextField.text = ""
         currentSpeechBuffer = ""
@@ -334,7 +334,7 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
 
             currentLevel = 1
             
-            print("✅ All captured texts:", capturedTexts)
+            print("All captured texts:", capturedTexts)
             
             // You might want to show a completion alert or navigate to results
             showCompletionAlert()
@@ -361,37 +361,37 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
         let alert = UIAlertController(
             title: "Test Complete",
             message:
-                "You've completed the test. Captured \(capturedTexts.count) responses.",
+                "You've completed the test.",
             preferredStyle: .alert
         )
         
         alert.addAction(
-            UIAlertAction(title: "View Results", style: .default) { _ in
+            UIAlertAction(title: "Go to Homescreen", style: .default) { _ in
                 // Navigate to results page or show results
                 print("All results:", self.capturedTexts)
             }
         )
         
-        alert.addAction(
-            UIAlertAction(title: "Start Over", style: .default) { _ in
-                self.capturedTexts.removeAll()
-                self.currentLevel = 0
-                self.updateSnellenLabel()
-            }
-        )
+//        alert.addAction(
+//            UIAlertAction(title: "Start Over", style: .default) { _ in
+//                self.capturedTexts.removeAll()
+//                self.currentLevel = 0
+//                self.updateSnellenLabel()
+//            }
+//        )
         
         present(alert, animated: true)
     }
     
-    @IBAction func MicBtn(_ sender: UIButton) {
-        print("button Pressed")
-        if audioEngine.isRunning {
-            stopListening()
-        } else {
-            startListening()
-        }
-    }
-    
+//    @IBAction func MicBtn(_ sender: UIButton) {
+//        print("button Pressed")
+//        if audioEngine.isRunning {
+//            stopListening()
+//        } else {
+//            startListening()
+//        }
+//    }
+//    
     
     func resetSilenceTimer() {
         silenceTimer?.invalidate()
@@ -449,5 +449,44 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    func handleBack() {
+        if currentLevel >= fontSizes.count - 1 {
+            navigationController?.popViewController(animated: true)
+            return
+        }
+
+        let alert = UIAlertController(
+            title: "Quit Test?",
+            message: "Your test is not completed yet. Do you want to stop?",
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        alert.addAction(UIAlertAction(title: "Restart", style: .default) { _ in
+            self.restartTest()
+        })
+        
+        alert.addAction(UIAlertAction(title: "Stop", style: .destructive) { _ in
+            self.navigationController?.popToRootViewController(animated: true)
+        })
+        
+        present(alert, animated: true)
+    }
+    
+    func restartTest() {
+        stopListening()
+        
+        capturedTexts.removeAll()
+        currentSpeechBuffer = ""
+        currentLevel = 0
+        
+        updateSnellenLabel()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.startListening()
+        }
     }
 }
