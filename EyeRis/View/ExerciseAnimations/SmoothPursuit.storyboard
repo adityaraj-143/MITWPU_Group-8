@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Smooth Pursuit View Controller-->
+        <!--Smooth Pursuit-->
         <scene sceneID="onm-Iq-79o">
             <objects>
                 <viewController id="R9u-Og-L3W" customClass="smoothPursuitViewController" customModule="EyeRis" customModuleProvider="target" sceneMemberID="viewController">
@@ -34,16 +34,38 @@
                             <constraint firstItem="DA9-bB-sSU" firstAttribute="centerY" secondItem="mQZ-mf-1A8" secondAttribute="centerY" id="MzE-Hx-4jy"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Smooth Pursuit" id="lbv-bb-aen">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="pause" catalog="system" id="V9E-BM-8Wj"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="timer_label" destination="DA9-bB-sSU" id="CbT-VC-61O"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LLG-om-E5E" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139" y="131"/>
+            <point key="canvasLocation" x="1064.885496183206" y="130.98591549295776"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="15o-04-rAF">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="142-1J-aft" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="n28-NY-ZtM">
+                        <rect key="frame" x="0.0" y="118" width="393" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="R9u-Og-L3W" kind="relationship" relationship="rootViewController" id="TdQ-Kb-QGN"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lqK-SZ-dLI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="138.1679389312977" y="130.98591549295776"/>
         </scene>
     </scenes>
     <resources>
+        <image name="pause" catalog="system" width="88" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
