@@ -32,7 +32,7 @@ final class ExerciseCell: UICollectionViewCell {
             super.awakeFromNib()
         iconImageView.tintColor = .white
 
-            // ✅ Call your existing helper here
+            //  Call your existing helper here
             contentView.applyCornerRadius()
         }
 
