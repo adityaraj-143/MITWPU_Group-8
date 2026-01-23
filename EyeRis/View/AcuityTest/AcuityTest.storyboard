@@ -81,7 +81,13 @@
                             <constraint firstItem="qzV-Tb-StG" firstAttribute="top" secondItem="xNB-7F-iVy" secondAttribute="bottom" constant="164" id="sT4-rB-zBr"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="zWs-Vb-P9I"/>
+                    <navigationItem key="navigationItem" id="zWs-Vb-P9I">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="chevron.backward" catalog="system" id="spV-3B-bOu">
+                            <connections>
+                                <action selector="backButtonTapped:" destination="Y6W-OH-hqX" id="sXy-6G-YJO"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="TextField" destination="pDe-Wn-Cqi" id="5NM-0T-tSR"/>
                         <outlet property="inputContainerView" destination="CNq-Dx-Mad" id="SaX-JU-GhV"/>
@@ -113,6 +119,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="chevron.backward" catalog="system" width="97" height="128"/>
         <image name="chevron.right" catalog="system" width="97" height="128"/>
         <image name="microphone.fill" catalog="system" width="110" height="128"/>
         <systemColor name="systemBackgroundColor">
