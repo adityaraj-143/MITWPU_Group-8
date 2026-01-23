@@ -19,43 +19,41 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var StyleContainerView: UIView!
     @IBOutlet weak var iconView: UIView!
     @IBOutlet weak var checkmark: UIImageView!
+    @IBOutlet weak var navigationButton: UIButton!
     
     
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        backgroundColor = .clear
-        contentView.backgroundColor = .clear
+        self.clipsToBounds = false
+        contentView.clipsToBounds = false
 
-        // Card styling
         cardView.layer.cornerRadius = 16
         cardView.clipsToBounds = true
-        
-        iconView.makeRounded()
+        cardView.backgroundColor = UIColor(white: 0.98, alpha: 1)
 
-
-        exerciseDescription.numberOfLines = 3
-        exerciseDescription.lineBreakMode = .byWordWrapping
-        
         StyleContainerView.applyShadow()
-        cardView.applyShadow()
+        navigationButton.backgroundColor = .lightGreen
+
+        iconView.makeRounded()
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        cardView.applyShadow()
         exerciseDescription.preferredMaxLayoutWidth = exerciseDescription.frame.width
     }
 
-    func configure(with item: TodaysExerciseItem) {
-        exerciseName.text = item.name
-        exerciseDescription.text = item.instruction
-        exerciseImage.image = UIImage(named: item.icon)
-        durationLabel.text = item.duration
+    func configure(with item: TodaysExercise) {
+        exerciseName.text = item.exercise.name
+        exerciseDescription.text = item.exercise.instructions.description
+        exerciseImage.image = UIImage(named: item.exercise.getIcon())
+        durationLabel.text = "\(item.exercise.duration)"
+        cardView.backgroundColor = .white
+        iconView.backgroundColor = .lightGreen
 
         if item.isCompleted {
             checkmark.image = UIImage(systemName: "checkmark.circle.fill")
-            checkmark.tintColor = .systemGreen
+            checkmark.tintColor = .lightGreen
         } else {
             checkmark.image = UIImage(systemName: "checkmark.circle")
             checkmark.tintColor = .systemGray
