@@ -8,7 +8,8 @@
 import UIKit
 
 enum TestFlowSource {
-    case acuityTest
+    case NVA
+    case DVA
     case blinkRateTest
 }
 
@@ -29,11 +30,14 @@ class TestInstructionViewController: UIViewController, UICollectionViewDelegate 
         registerCell()
         
         switch source {
-        case .acuityTest:
-            print("Came from Second Card")
+        case .NVA:
+            print("NVA instructions")
+            
+        case .DVA:
+            print("DVA instructions")
 
         case .blinkRateTest:
-            print("Came from Third Card")
+            print("blink rate instructions")
             
         case .none:
             break
