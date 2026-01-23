@@ -1,5 +1,5 @@
 //
-//  TestInstructionViewController.swift
+//  TestInstructionsViewController.swift
 //  EyeRis
 //
 //  Created by SDC-USER on 11/12/25.
@@ -8,13 +8,14 @@
 import UIKit
 
 enum TestFlowSource {
-    case NVA
-    case DVA
+    case NVALeft
+    case NVARight
+    case DVALeft
+    case DVARight
     case blinkRateTest
 }
 
-
-class TestInstructionViewController: UIViewController, UICollectionViewDelegate {
+class TestInstructionsViewController: UIViewController, UICollectionViewDelegate {
     
     
     @IBOutlet weak var pageControlOutlet: UIPageControl!
@@ -28,20 +29,6 @@ class TestInstructionViewController: UIViewController, UICollectionViewDelegate 
         super.viewDidLoad()
         
         registerCell()
-        
-        switch source {
-        case .NVA:
-            print("NVA instructions")
-            
-        case .DVA:
-            print("DVA instructions")
-
-        case .blinkRateTest:
-            print("blink rate instructions")
-            
-        case .none:
-            break
-        }
         
         CollectionView.dataSource = self
         CollectionView.delegate = self
@@ -79,7 +66,7 @@ class TestInstructionViewController: UIViewController, UICollectionViewDelegate 
 }
 
 // MARK: - Collection View Layout
-extension TestInstructionViewController {
+extension TestInstructionsViewController {
     
     func generateLayout() -> UICollectionViewLayout {
         
@@ -139,7 +126,7 @@ extension TestInstructionViewController {
 }
 
 // MARK: - DataSource
-extension TestInstructionViewController: UICollectionViewDataSource {
+extension TestInstructionsViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return test.instruction.description.count
@@ -173,7 +160,7 @@ extension TestInstructionViewController: UICollectionViewDataSource {
     
 }
 
-extension TestInstructionViewController {
+extension TestInstructionsViewController {
     func navigate(
         to storyboardName: String,
         with identifier: String,
@@ -181,14 +168,32 @@ extension TestInstructionViewController {
     ) {
         let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
-
-        if let instructionVC = vc as? TestInstructionViewController {
-            instructionVC.source = source
-        }
-
+        
         if let calibrationVC = vc as? CalibrationViewController {
-            calibrationVC.source = source
-        }
+                   switch source {
+                   case .NVALeft:
+                       // NVA instructions → first calibration → NVA Left eye
+                       calibrationVC.source = .NVALeft
+
+                   case .NVARight:
+                       // After NVA Right instructions, we are moving to DVA
+                       calibrationVC.source = .DVALeft
+
+                   case .DVALeft:
+                       // DVA instructions → first calibration → DVA Left eye
+                       calibrationVC.source = .DVALeft
+
+                   case .DVARight:
+                       // Should never go back to instructions after this
+                       calibrationVC.source = .DVARight
+
+                   case .blinkRateTest:
+                       calibrationVC.source = .blinkRateTest
+
+                   case nil:
+                       break
+                   }
+               }
 
         navigationController?.pushViewController(vc, animated: true)
     }

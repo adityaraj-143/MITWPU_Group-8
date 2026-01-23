@@ -118,7 +118,7 @@ extension AcuityTestResultResponse {
 
 struct BlinkRateTest{
     var instructions: TestInstruction
-    var passages: [String]
+    var passages: String
     var duration: Int = 120
 }
 

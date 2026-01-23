@@ -28,7 +28,7 @@ final class CompletionViewController: UIViewController {
         case .acuityTest:
             completionLabel.text = "Acuity Test Completed!"
             resultNav = "TestHistory"
-            resultNavId = "BlinkRateHistoryViewController"
+            resultNavId = "TestHistoryViewController"
 
         case .blinkRateTest:
             completionLabel.text = "Blink Rate Test Completed!"
@@ -38,7 +38,7 @@ final class CompletionViewController: UIViewController {
         case .Exercise:
             completionLabel.text = "Exercise Completed!"
             resultNav = "ExerciseHistory"
-            resultNavId = "BlinkRateHistoryViewController"
+            resultNavId = "ExerciseHistoryViewController                                                ,.           "
 
         case .none:
             assertionFailure("CompletionViewController.source was not set")
