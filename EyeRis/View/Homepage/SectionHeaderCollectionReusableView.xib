@@ -22,7 +22,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1co-vf-4ry">
-                    <rect key="frame" x="281" y="-2.3333333333333339" width="73" height="34.666666666666664"/>
+                    <rect key="frame" x="303" y="5" width="49" height="20.333333333333332"/>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain">
                         <imageReference key="image" image="chevron.right" catalog="system" symbolScale="small"/>
@@ -35,6 +35,7 @@
                             </fragment>
                         </attributedString>
                         <attributedString key="attributedSubtitle"/>
+                        <directionalEdgeInsets key="contentInsets" top="0.0" leading="0.0" bottom="0.0" trailing="-1"/>
                         <color key="baseForegroundColor" systemColor="labelColor"/>
                     </buttonConfiguration>
                     <connections>
@@ -46,8 +47,8 @@
             <constraints>
                 <constraint firstItem="kcT-eQ-Heo" firstAttribute="centerY" secondItem="U6b-Vx-4bR" secondAttribute="centerY" id="Gpz-g3-JBq"/>
                 <constraint firstItem="kcT-eQ-Heo" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" id="bZf-g0-JPJ"/>
-                <constraint firstItem="VXr-Tz-HHm" firstAttribute="trailing" secondItem="1co-vf-4ry" secondAttribute="trailing" id="fnv-1o-JlY"/>
                 <constraint firstItem="1co-vf-4ry" firstAttribute="centerY" secondItem="U6b-Vx-4bR" secondAttribute="centerY" id="r7B-Sm-hJs"/>
+                <constraint firstItem="1co-vf-4ry" firstAttribute="trailing" secondItem="VXr-Tz-HHm" secondAttribute="trailing" constant="-2" id="zsL-cH-rQ1"/>
             </constraints>
             <connections>
                 <outlet property="NavigateButton" destination="1co-vf-4ry" id="kCz-bW-Hld"/>

@@ -8,21 +8,40 @@
 import Foundation
 
 enum Conditions {
-    case dryEyes
+    case digitalEyeStrain
+    case dryEyeSyndrome
     case eyeFatigue
-    case blurredVision
-    case wateryEyes
+    case eyeMuscleTension
+    case eyeStress
+    case lightSensitivity
+    case visualStress
+    case accommodativeDysfunction
+    case saccadicDysfunction
+    case convergenceInsufficiency
+    case smoothPursuitDysfunction
+    case generalEyeCoordination
+    case dryEyes
 
     /// Human-readable text for UI
     var displayText: String {
         switch self {
-        case .dryEyes: return "Dry Eyes"
+        case .digitalEyeStrain: return "Digital Eye Strain"
+        case .dryEyeSyndrome: return "Dry Eye Syndrome"
         case .eyeFatigue: return "Eye Fatigue"
-        case .blurredVision: return "Blurred Vision"
-        case .wateryEyes: return "Watery Eyes"
+        case .eyeMuscleTension: return "Eye Muscle Tension"
+        case .eyeStress: return "Eye Stress"
+        case .lightSensitivity: return "Light Sensitivity"
+        case .visualStress: return "Visual Stress / Contrast Sensitivity"
+        case .accommodativeDysfunction: return "Accommodative Dysfunction"
+        case .saccadicDysfunction: return "Saccadic Movement Dysfunction"
+        case .convergenceInsufficiency: return "Convergence Insufficiency"
+        case .smoothPursuitDysfunction: return "Smooth Pursuit Dysfunction"
+        case .generalEyeCoordination: return "General Eye Coordination"
+        case .dryEyes: return "Dry eyes"
         }
     }
 }
+
 
 
 //MARK: COMMENT & TIP

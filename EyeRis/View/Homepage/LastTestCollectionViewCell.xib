@@ -156,7 +156,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Last Acuity Test" titleAlignment="trailing">
                                     <imageReference key="image" image="chevron.right" catalog="system" symbolScale="small"/>
-                                    <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="15"/>
+                                    <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="13"/>
                                     <color key="baseForegroundColor" systemColor="labelColor"/>
                                 </buttonConfiguration>
                                 <connections>
