@@ -19,15 +19,15 @@ struct Exercise {
 }
 
 extension Exercise {
-
+    
     func getIcon() -> String {
         exerciseStyleMap[id]?.icon ?? "questionmark.circle"
     }
-
+    
     func getBGColor() -> UIColor {
         exerciseStyleMap[id]?.bgColor ?? UIColor.systemGray.withAlphaComponent(0.1)
     }
-
+    
     func getIconBGColor() -> UIColor {
         exerciseStyleMap[id]?.iconBGColor ?? .systemGray
     }
@@ -38,6 +38,20 @@ extension Exercise {
 struct ExerciseList {
     let exercises: [Exercise]
     let recommended: [Exercise]
+    let todaysSet: [TodaysExercise]
+    
+    static private(set) var shared: ExerciseList?
+    
+    static func makeOnce(user: User) {
+        // Only create once, so shuffle happens once
+        if shared == nil {
+            shared = ExerciseList(user: user)
+        }
+    }
+    
+    static func reset() {
+        shared = nil
+    }
     
     init(user: User) {
         self.exercises = allExercises
@@ -47,11 +61,12 @@ struct ExerciseList {
         recommended = exercises.filter { exercise in
             !Set(exercise.targetedConditions).intersection(userConditions).isEmpty
         }
-    }
-    func todaysSet(count: Int = 4) -> [Exercise] {
-        Array(recommended.shuffled().prefix(count))
+        todaysSet = Array(recommended.shuffled().prefix(4)).map {
+            TodaysExercise(exercise: $0, isCompleted: false)
+        }
     }
 }
+
 
 // MARK: - Exercise Instruction
 
@@ -164,13 +179,7 @@ var tests: [TestMock] = [
     .init(title: "Blink Rate", subtitle: "Check blinking", iconName: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40", iconBGColor: .systemIndigo)
 ]
 // One Item of the today's exercise set
-struct TodaysExerciseItem {
-    let id: Int
-    let name: String
-    let icon: String
-    let instruction: String
-    let duration: String = "1 min"
-    let bgColor: UIColor
-    let iconBGColor: UIColor
-    let isCompleted: Bool = true
+struct TodaysExercise {
+    let exercise: Exercise
+    var isCompleted: Bool
 }

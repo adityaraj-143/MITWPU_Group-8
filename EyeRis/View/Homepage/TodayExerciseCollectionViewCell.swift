@@ -36,7 +36,7 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
         
         IconsCollectionView.clipsToBounds = true
         mainView.clipsToBounds = true
-        contentView.clipsToBounds = true
+//        contentView.clipsToBounds = true
 
     }
 
@@ -44,7 +44,7 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let cellHeight: CGFloat = 36
+        let cellHeight: CGFloat = 40
         let collectionHeight = IconsCollectionView.bounds.height
         
         let verticalInset = max(0, (collectionHeight - cellHeight) / 2)
@@ -97,6 +97,6 @@ extension TodayExerciseCollectionViewCell: UICollectionViewDataSource, UICollect
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 36, height: 36)
+        return CGSize(width: 40, height: 40)
     }
 }

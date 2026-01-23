@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     
     let recommendedExercises = ExerciseList(user: UserDataStore.shared.currentUser).recommended
     
-    let todaysExercise = ExerciseList(user: UserDataStore.shared.currentUser).todaysSet()
+    let todaysExercise = ExerciseList.shared?.todaysSet
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +70,7 @@ extension ViewController: UICollectionViewDelegate {
         if indexPath.section == 3 {
             if indexPath.item == 0 {
                 // Acuity Test
-                navigate(to: "TestInstructions", with: "TestInstructionViewController", source: .acuityTest)
+                navigate(to: "TestInstructions", with: "TestInstructionViewController", source: .NVA)
             } else if indexPath.item == 1 {
                 // Blink Rate
                 navigate(to: "TestInstructions", with: "TestInstructionViewController", source: .blinkRateTest)
@@ -119,7 +119,7 @@ extension ViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as! TodayExerciseCollectionViewCell
             
-            let icons = todaysExercise.filter({$0.isDone}).map(\.icon)
+            let icons = todaysExercise?.map { $0.exercise.getIcon() } ?? []
             cell.configureLabel(iconImages: icons)
             return cell
             
