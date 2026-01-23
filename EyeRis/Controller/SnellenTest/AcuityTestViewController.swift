@@ -11,16 +11,75 @@ import UIKit
 class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptivePresentationControllerDelegate {
     var source: TestFlowSource?
     
-    //    @IBOutlet weak var RecordingStatus: UILabel!
-    @IBOutlet weak var SnellenImg: UIImageView!
+    let fontSizes: [CGFloat] = [
+        176.0, // 20/200
+        88.0,  // 20/100
+        70.0,  // 20/80
+        53.0,  // 20/60
+        35.0,  // 20/40
+        26.0,  // 20/30
+        22.0,  // 20/25
+        18.0,  // 20/20
+        13.0
+    ]
+    let NVAFontSizes: [CGFloat] = [
+        35.0,  // 20/200
+        18.0,  // 20/100
+        14.0,  // 20/80
+        11.0,  // 20/60
+        7.0,   // 20/40
+        5.3,   // 20/30
+        4.4,   // 20/25
+        3.5,   // 20/20
+        2.6    // 20/15
+    ]
+    let DVAFontSizes: [CGFloat] = [
+        176.0, // 20/200
+        88.0,  // 20/100
+        70.0,  // 20/80
+        53.0,  // 20/60
+        35.0,  // 20/40
+        26.0,  // 20/30
+        22.0,  // 20/25
+        18.0,  // 20/20
+        13.0   // 20/15
+    ]
+
+
+    
+    var currentLevel = 0
+
     @IBOutlet weak var TextField: UITextField!
     @IBOutlet weak var micImage: UIImageView!
     
     @IBOutlet weak var inputContainerView: UIView!
     
     
+    @IBOutlet weak var snellenLabel: UILabel!
+    
+    func generateRandomLetters(count: Int) -> String {
+        let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        return String((0..<count).map { _ in letters.randomElement()! })
+    }
+    
+    func updateSnellenLabel() {
+        let letterCount = currentLevel + 1
+        let text = generateRandomLetters(count: letterCount)
+        
+        snellenLabel.text = text
+        snellenLabel.font = UIFont.systemFont(
+            ofSize: fontSizes[currentLevel],
+            weight: .bold
+        )
+        
+        print("🔤 Level:", currentLevel + 1,
+              "Text:", text,
+              "Font:", fontSizes[currentLevel])
+    }
+
+
+    
     var silenceTimer: Timer?
-    var didShowSilencePopup = false
     
     let speechRecognizer = SFSpeechRecognizer(
         locale: Locale(identifier: "en-US")
@@ -33,13 +92,11 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
     
     var capturedTexts: [String] = []
     var currentSpeechBuffer = ""
-    
-    let totalImages = 7
-    var currentImageIndex = 0  // starts at Image
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         showBubble()
+        startListening()
     }
     
     override func viewDidLayoutSubviews() {
@@ -49,7 +106,6 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
     }
     
     override func viewDidLoad() {
-        SnellenImg.image = UIImage(named: "Image")
         super.viewDidLoad()
         
         registerForKeyboardNotifications()
@@ -79,6 +135,10 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
         }
         
         TextField.delegate = self
+        
+        currentLevel = 0
+        updateSnellenLabel()
+
     }
     
     
@@ -191,7 +251,7 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
         
         audioEngine.prepare()
         try? audioEngine.start()
-        startSilenceTimer()
+//        startSilenceTimer()
     }
     
     func stopListening() {
@@ -201,46 +261,8 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
         audioEngine.inputNode.removeTap(onBus: 0)
         
         Recording = false
-        
-        //        DispatchQueue.main.async {
-        //            self.RecordingStatus.text = "Not Recording"
-        //            self.RecordingStatus.textColor = .systemGray
-        //        }
+
     }
-    
-    //    func restartRecognitionSession() {
-    //        recognitionTask?.cancel()
-    //        recognitionTask = nil
-    //
-    //        recognitionRequest?.endAudio()
-    //        recognitionRequest = nil
-    //
-    //        recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
-    //        recognitionRequest?.shouldReportPartialResults = true
-    //
-    //        guard let recognitionRequest = recognitionRequest else { return }
-    //
-    //        recognitionTask = speechRecognizer?.recognitionTask(
-    //            with: recognitionRequest
-    //        ) { result, error in
-    //            if let result = result {
-    //                let spokenText = result.bestTranscription.formattedString
-    //                let normalized = spokenText
-    //                    .uppercased()
-    //                    .trimmingCharacters(in: .whitespacesAndNewlines)
-    //
-    //                DispatchQueue.main.async {
-    //                    self.TextField.text = spokenText
-    //
-    //                    if normalized.hasSuffix("NEXT") {
-    //                        self.next()
-    //                    }
-    //                }
-    //            }
-    //        }
-    //
-    //        print("🔄 Recognition restarted (mic still running)")
-    //    }
     
     func next() {
         print("next is called")
@@ -269,16 +291,14 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
         
         currentSpeechBuffer = ""
         TextField.text = ""
-        
-        currentImageIndex += 1
-        if currentImageIndex > totalImages {
-            currentImageIndex = 1
+        currentLevel += 1
+
+        if currentLevel >= fontSizes.count {
+            showCompletionAlert()
+            return
         }
-        
-        let imageName = "Image \(currentImageIndex)"
-        SnellenImg.image = UIImage(named: imageName)
-        
-        print("🖼️ Showing:", imageName)
+
+        updateSnellenLabel()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
             self.startListening()
@@ -288,12 +308,11 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
     @objc func dismissKeyboard() {
         view.endEditing(true)
         if audioEngine.isRunning {
-            startSilenceTimer()
+//            startSilenceTimer()
         }
     }
     
     @IBAction func NextBtn(_ sender: UIButton) {
-        
         // Dismiss keyboard if it's open
         view.endEditing(true)
         
@@ -306,30 +325,29 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
             capturedTexts.append(currentText)
             print("📦 Stored text:", currentText)
         }
-        
-        // Clear the text field
         TextField.text = ""
         currentSpeechBuffer = ""
-        
-        // Move to next image
-        currentImageIndex += 1
-        if currentImageIndex > totalImages {
+
+        currentLevel += 1
+        if currentLevel >= fontSizes.count {
             // All images completed - you can show results or reset
-            currentImageIndex = 1
+
+            currentLevel = 1
             
-            // Optional: Show all captured texts
             print("✅ All captured texts:", capturedTexts)
             
             // You might want to show a completion alert or navigate to results
             showCompletionAlert()
             return
         }
-        
+    
         // Update the image
-        let imageName = "Image \(currentImageIndex)"
-        SnellenImg.image = UIImage(named: imageName)
-        print("🖼️ Showing:", imageName)
+//        let imageName = "Image \(currentImageIndex)"
+//        SnellenImg.image = UIImage(named: imageName)
+//        print("🖼️ Showing:", imageName)
         
+        updateSnellenLabel()
+
         // Restart recording if it was active
         if Recording {
             stopListening()
@@ -343,7 +361,7 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
         let alert = UIAlertController(
             title: "Test Complete",
             message:
-                "You've completed all \(totalImages) images. Captured \(capturedTexts.count) responses.",
+                "You've completed the test. Captured \(capturedTexts.count) responses.",
             preferredStyle: .alert
         )
         
@@ -357,13 +375,14 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
         alert.addAction(
             UIAlertAction(title: "Start Over", style: .default) { _ in
                 self.capturedTexts.removeAll()
-                self.currentImageIndex = 0
-                self.SnellenImg.image = UIImage(named: "Image")
+                self.currentLevel = 0
+                self.updateSnellenLabel()
             }
         )
         
         present(alert, animated: true)
     }
+    
     @IBAction func MicBtn(_ sender: UIButton) {
         print("button Pressed")
         if audioEngine.isRunning {
@@ -373,34 +392,10 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
         }
     }
     
-    func showSilencePopup() {
-        if didShowSilencePopup { return }
-        didShowSilencePopup = true
-        
-        let alert = UIAlertController(
-            title: "Tip",
-            message:
-                "Say out the letters loud followed by \"next\" once you are done",
-            preferredStyle: .alert
-        )
-        
-        alert.addAction(UIAlertAction(title: "Got it", style: .default))
-        present(alert, animated: true)
-    }
-    
-    func startSilenceTimer() {
-        silenceTimer?.invalidate()
-        silenceTimer = Timer.scheduledTimer(
-            withTimeInterval: 2.0,
-            repeats: false
-        ) { _ in
-            self.showSilencePopup()
-        }
-    }
     
     func resetSilenceTimer() {
         silenceTimer?.invalidate()
-        startSilenceTimer()
+//        startSilenceTimer()
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
