@@ -1,24 +1,55 @@
 import UIKit
 import AVFoundation
 
+enum CompletionSource {
+    case acuityTest
+    case blinkRateTest
+    case Exercise
+}
+
 final class CompletionViewController: UIViewController {
     
     @IBOutlet weak var iconContainerView: UIView!
     @IBOutlet weak var successImageView: UIImageView!
     @IBOutlet weak var TimeTakenLabel: UILabel!
     @IBOutlet weak var ActualTimeTaken: UILabel!
+    @IBOutlet weak var completionLabel: UILabel!
     
     private var audioPlayer: AVAudioPlayer?
+    var source: CompletionSource?
+    
+    var resultNav = ""
+    var resultNavId = ""
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        switch source {
+        case .acuityTest:
+            completionLabel.text = "Acuity Test Completed!"
+            resultNav = "TestHistory"
+            resultNavId = "BlinkRateHistoryViewController"
+
+        case .blinkRateTest:
+            completionLabel.text = "Blink Rate Test Completed!"
+            resultNav = "BlinkRateHistory"
+            resultNavId = "BlinkRateHistoryViewController"
+
+        case .Exercise:
+            completionLabel.text = "Exercise Completed!"
+            resultNav = "ExerciseHistory"
+            resultNavId = "BlinkRateHistoryViewController"
+
+        case .none:
+            assertionFailure("CompletionViewController.source was not set")
+        }
         
         view.layoutIfNeeded()
         
         playSuccessSound()
         playSuccessHaptic()
         
-//        popAndPulse()
+        //        popAndPulse()
         startPulse()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.22) {
@@ -130,6 +161,9 @@ final class CompletionViewController: UIViewController {
         }
     }
     
+    @IBAction func homeButtonTapped(_ sender: Any) {
+        navigationController?.popToRootViewController(animated: true)
+    }
     
     private func animateBottomStats() {
         
@@ -174,22 +208,30 @@ final class CompletionViewController: UIViewController {
         generator.prepare()
         generator.notificationOccurred(.success)
     }
+    @IBAction func ResultsButtonTapped(_ sender: Any) {
+        print(resultNav, resultNavId)
+        navigate(
+                to: resultNav,
+                with: resultNavId,
+                resetStack: true
+            )
+    }
     
     private func popAndPulse() {
         iconContainerView.alpha = 1
         iconContainerView.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
-
+        
         UIView.animateKeyframes(
             withDuration: 0.55,
             delay: 0,
             options: [.calculationModeCubic, .allowUserInteraction],
             animations: {
-
+                
                 // Pop
                 UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.45) {
                     self.iconContainerView.transform = CGAffineTransform(scaleX: 1.18, y: 1.18)
                 }
-
+                
                 // Soft settle
                 UIView.addKeyframe(withRelativeStartTime: 0.50, relativeDuration: 0.25) {
                     self.iconContainerView.transform = CGAffineTransform(scaleX: 0.96, y: 0.96)
@@ -199,10 +241,26 @@ final class CompletionViewController: UIViewController {
                 self.startPulse()
             }
         )
-
+        
         // Particles hit at peak energy
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.22) {
             self.burstParticles()
+        }
+    }
+    
+    private func navigate(to: String, with: String, resetStack: Bool = false) {
+        guard !to.isEmpty, !with.isEmpty else { return }
+
+        let storyboard = UIStoryboard(name: to, bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: with)
+
+        guard let nav = navigationController else { return }
+
+        if resetStack {
+            // Home -> Results (Completion removed)
+            nav.setViewControllers([nav.viewControllers.first!, vc], animated: true)
+        } else {
+            nav.pushViewController(vc, animated: true)
         }
     }
 
