@@ -28,14 +28,19 @@ class CalibrationViewController: UIViewController {
         setupARKit()
         
         switch source {
-        case .NVA:
-            print("Calibration for NVA Test")
-        case .DVA:
-            print("Calibration for DVA Test")
+        case .NVALeft:
+            print("Calibration for NVA left eye Test")
+        case .NVARight:
+            print("Calibration for NVA right eye Test")
+        case .DVALeft:
+            print("Calibration for DVA left eye Test")
+        case .DVARight:
+            print("Calibration for DVA right eye Test")
         case .blinkRateTest:
             print("Calibration for Blink Rate Test")
             
         case .none:
+            print("nothing")
             break
         }
     }
@@ -219,9 +224,13 @@ extension CalibrationViewController {
         guard let source else { return }
         
         switch source {
-        case .NVA:
+        case .NVALeft:
             navigate(to: "AcuityTest", with: "AcuityTestViewController", source: source)
-        case .DVA:
+        case .NVARight:
+            navigate(to: "AcuityTest", with: "AcuityTestViewController", source: source)
+        case .DVALeft:
+            navigate(to: "AcuityTest", with: "AcuityTestViewController", source: source)
+        case .DVARight:
             navigate(to: "AcuityTest", with: "AcuityTestViewController", source: source)
         case .blinkRateTest:
             navigate(to: "BlinkRateTest", with: "BlinkRateTestViewController", source: source)
@@ -231,6 +240,28 @@ extension CalibrationViewController {
     private func navigate(to storyboardName: String, with identifier: String, source: TestFlowSource) {
         let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
+        
+        switch source {
+        case .NVALeft:
+            if let tempVC = vc as? AcuityTestViewController {
+                tempVC.source = source
+            }
+        case .NVARight:
+            if let tempVC = vc as? AcuityTestViewController {
+                tempVC.source = source
+            }
+        case .DVALeft:
+            if let tempVC = vc as? AcuityTestViewController {
+                tempVC.source = source
+            }
+        case .DVARight:
+            if let tempVC = vc as? AcuityTestViewController {
+                tempVC.source = source
+            }
+        default: break
+        }
+        
+        
         navigationController?.pushViewController(vc, animated: true)
     }
 }

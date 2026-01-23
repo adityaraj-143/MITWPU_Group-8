@@ -70,10 +70,10 @@ extension ViewController: UICollectionViewDelegate {
         if indexPath.section == 3 {
             if indexPath.item == 0 {
                 // Acuity Test
-                navigate(to: "TestInstructions", with: "TestInstructionViewController", source: .NVA)
+                navigate(to: "TestInstructions", with: "TestInstructionsViewController", source: .NVALeft)
             } else if indexPath.item == 1 {
                 // Blink Rate
-                navigate(to: "TestInstructions", with: "TestInstructionViewController", source: .blinkRateTest)
+                navigate(to: "TestInstructions", with: "TestInstructionsViewController", source: .blinkRateTest)
             }
         }
     }
