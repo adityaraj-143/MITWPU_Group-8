@@ -11,7 +11,7 @@
         <!--Figure-8-->
         <scene sceneID="ZbX-yI-OeY">
             <objects>
-                <viewController id="6c9-s7-6x8" customClass="Fig8ViewController" customModule="EyeRis" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Fig8ViewController" id="6c9-s7-6x8" customClass="Fig8ViewController" customModule="EyeRis" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1XP-2h-Dqi">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
