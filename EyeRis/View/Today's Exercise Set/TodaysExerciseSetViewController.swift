@@ -1,24 +1,19 @@
     import UIKit
 
-    class TodaysExerciseSetViewController: UIViewController {
+class TodaysExerciseSetViewController: UIViewController {
 
         @IBOutlet weak var collectionView: UICollectionView!
-        private var items: [TodaysExerciseItem] = []
+        private var exercises: [TodaysExercise] = []
 
         override func viewDidLoad() {
             super.viewDidLoad()
-            setupData()
+            exercises = ExerciseList.shared?.todaysSet ?? [];
             setupCollectionView()
         }
     }
 
     // MARK: - Setup
     extension TodaysExerciseSetViewController {
-
-        private func setupData() {
-            let dataStore = TodaysExerciseDataStore()
-            items = dataStore.todaysExerciseItems
-        }
 
         private func setupCollectionView() {
             collectionView.dataSource = self
@@ -38,7 +33,7 @@
 
         func collectionView(_ collectionView: UICollectionView,
                             numberOfItemsInSection section: Int) -> Int {
-            items.count
+            exercises.count
         }
 
         func collectionView(_ collectionView: UICollectionView,
@@ -49,7 +44,7 @@
                 for: indexPath
             ) as! TodaysExerciseSetCollectionViewCell
 
-            cell.configure(with: items[indexPath.item])
+            cell.configure(with: exercises[indexPath.item])
             return cell
         }
     }
