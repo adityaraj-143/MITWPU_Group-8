@@ -183,3 +183,32 @@ struct TodaysExercise {
     let exercise: Exercise
     var isCompleted: Bool
 }
+
+extension Exercise {
+
+    var storyboardName: String {
+        switch id {
+        case 8:
+            return "focusShifting"
+        case 3:
+            return "Figure8"
+        case 13:
+            return "SmoothPursuit"
+        default:
+            fatalError("No storyboard mapped for exercise id \(id)")
+        }
+    }
+
+    var viewControllerIdentifier: String {
+        switch id {
+        case 8:
+            return "FocusShiftingViewController"
+        case 3:
+            return "Fig8ViewController"
+        case 13:
+            return "smoothPursuitViewController"
+        default:
+            fatalError("No exercise screen mapped for exercise id \(id)")
+        }
+    }
+}
