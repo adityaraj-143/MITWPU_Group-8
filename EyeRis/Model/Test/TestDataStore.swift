@@ -209,3 +209,71 @@ let blinkRateMockData: [BlinkRateTestResult] = {
     
     return results
 }()
+
+
+final class BlinkRateDataStore {
+    static let shared = BlinkRateDataStore()
+
+    private init() {}
+
+    private(set) var results: [BlinkRateTestResult] = []
+
+    // Load once (from mock or disk)
+    func loadInitialData() {
+        if results.isEmpty {
+            results = blinkRateMockData   // your fixed dataset
+        }
+    }
+
+    // Add new result
+    func addResult(_ result: BlinkRateTestResult) {
+        results.append(result)
+    }
+
+    // Today
+    func todayResult() -> BlinkRateTestResult? {
+        results.first {
+            Calendar.current.isDateInToday($0.performedOn)
+        }
+    }
+
+    // Last 4 Weeks
+    func makeLast4Weeks() -> [BlinkWeek] {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+
+        let byDate = Dictionary(
+            uniqueKeysWithValues: results.map {
+                (calendar.startOfDay(for: $0.performedOn), $0)
+            }
+        )
+
+        var weeks: [BlinkWeek] = []
+
+        for offset in (0..<4).reversed() {
+            guard let weekStart = calendar.date(
+                byAdding: .weekOfYear,
+                value: -offset,
+                to: today
+            )?.startOfWeek else { continue }
+
+            let days = (0..<7).map { day -> BlinkRateTestResult? in
+                let date = calendar.date(byAdding: .day, value: day, to: weekStart)!
+                return byDate[date]
+            }
+
+            weeks.append(
+                BlinkWeek(startDate: weekStart, days: days)
+            )
+        }
+
+        return weeks
+    }
+}
+
+final class BlinkRateTestStore {
+    static let shared = BlinkRateTestStore()
+    private init() {}
+
+    var test: BlinkRateTest = mockTestBlink
+}

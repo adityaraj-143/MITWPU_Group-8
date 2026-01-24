@@ -23,31 +23,54 @@ class TestInstructionsViewController: UIViewController, UICollectionViewDelegate
     @IBOutlet weak var CollectionView: UICollectionView!
     var source: TestFlowSource?
 
-    let test = mockTest
+    var test: AcuityTest?
+    var blinkTest: BlinkRateTest?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        guard let source else {
+            fatalError("TestInstructionsViewController launched without source")
+        }
+
+        switch source {
+        case .NVALeft:
+            test = mockTestNVA
+
+        case .DVALeft, .NVARight, .DVARight:
+            test = mockTestDVA
+
+        case .blinkRateTest:
+            blinkTest = BlinkRateTestStore.shared.test
+
+        }
+
         registerCell()
-        
+
         CollectionView.dataSource = self
         CollectionView.delegate = self
         CollectionView.showsHorizontalScrollIndicator = false
         CollectionView.collectionViewLayout = generateLayout()
-        
-        instructionLabel.text = test.instruction.description.first
-        pageControlOutlet.numberOfPages = test.instruction.description.count
+
+        if let test = test {
+            instructionLabel.text = test.instruction.description.first
+            pageControlOutlet.numberOfPages = test.instruction.description.count
+        }
+
+        if let blinkTest = blinkTest {
+            instructionLabel.text = blinkTest.instructions.description.first
+            pageControlOutlet.numberOfPages = blinkTest.instructions.description.count
+        }
+
         pageControlOutlet.currentPage = 0
-        
+
         pageControlOutlet.addTarget(
             self,
             action: #selector(pageControlChanged(_:)),
             for: .valueChanged
         )
-        
-        
     }
-    
+
     @IBAction func navToCalibrate(_ sender: Any) {
         navigate(
             to: "CalibrationScreen",
@@ -105,7 +128,9 @@ extension TestInstructionsViewController {
                     let index = centeredItem.indexPath.item
                     
                     // Label update
-                    self.instructionLabel.text = self.test.instruction.description[index]
+                    self.instructionLabel.text =
+                        self.test?.instruction.description[index] ??
+                        self.blinkTest?.instructions.description[index]
                     
                     // PageControl update (animated)
                     if self.pageControlOutlet.currentPage != index {
@@ -129,28 +154,43 @@ extension TestInstructionsViewController {
 extension TestInstructionsViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return test.instruction.description.count
+        if let test {
+            return test.instruction.description.count
+        }
+        if let blinkTest {
+            return blinkTest.instructions.description.count
+        }
+        return 0
     }
+
+
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: "TestInstructionsCollectionViewCell",
             for: indexPath
         ) as! TestInstructionsCollectionViewCell
-        
-        let img = test.instruction.images[indexPath.item]
-        cell.configureCell(image: img)
-        
-        
+
+        if let test {
+            let img = test.instruction.images[indexPath.item]
+            cell.configureCell(image: img)
+        }
+
+        if let blinkTest {
+            let img = blinkTest.instructions.images[indexPath.item]
+            cell.configureCell(image: img)
+        }
+
         return cell
     }
+
     
     @objc private func pageControlChanged(_ sender: UIPageControl) {
         let index = sender.currentPage
         let indexPath = IndexPath(item: index, section: 0)
-        
+
         CollectionView.scrollToItem(
             at: indexPath,
             at: .centeredHorizontally,
