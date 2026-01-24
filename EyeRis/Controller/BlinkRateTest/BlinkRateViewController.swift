@@ -81,8 +81,10 @@ class BlinkRateViewController: UIViewController, ARSessionDelegate {
             let newResult = BlinkRateTestResult(
                 id: store.results.count + 1,
                 blinks: blinkCount,
+                duration: blinkTest.test.duration,
                 performedOn: Date()
             )
+
             
             store.addResult(newResult)
             // -----------------------

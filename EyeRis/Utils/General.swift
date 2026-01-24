@@ -16,4 +16,9 @@ extension Date {
             )
         )!
     }
+    
+    func startOfWeek(calendar: Calendar) -> Date {
+        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)
+        return calendar.date(from: components)!
+    }
 }

@@ -22,55 +22,55 @@ class TestInstructionsViewController: UIViewController, UICollectionViewDelegate
     @IBOutlet weak var instructionLabel: UILabel!
     @IBOutlet weak var CollectionView: UICollectionView!
     var source: TestFlowSource?
-
+    
     var test: AcuityTest?
     var blinkTest: BlinkRateTest?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         guard let source else {
             fatalError("TestInstructionsViewController launched without source")
         }
-
+        
         switch source {
         case .NVALeft:
             test = mockTestNVA
-
+            
         case .DVALeft, .NVARight, .DVARight:
             test = mockTestDVA
-
+            
         case .blinkRateTest:
             blinkTest = BlinkRateTestStore.shared.test
-
+            
         }
-
+        
         registerCell()
-
+        
         CollectionView.dataSource = self
         CollectionView.delegate = self
         CollectionView.showsHorizontalScrollIndicator = false
         CollectionView.collectionViewLayout = generateLayout()
-
+        
         if let test = test {
             instructionLabel.text = test.instruction.description.first
             pageControlOutlet.numberOfPages = test.instruction.description.count
         }
-
+        
         if let blinkTest = blinkTest {
             instructionLabel.text = blinkTest.instructions.description.first
             pageControlOutlet.numberOfPages = blinkTest.instructions.description.count
         }
-
+        
         pageControlOutlet.currentPage = 0
-
+        
         pageControlOutlet.addTarget(
             self,
             action: #selector(pageControlChanged(_:)),
             for: .valueChanged
         )
     }
-
+    
     @IBAction func navToCalibrate(_ sender: Any) {
         navigate(
             to: "CalibrationScreen",
@@ -78,7 +78,7 @@ class TestInstructionsViewController: UIViewController, UICollectionViewDelegate
             source: source
         )
     }
-
+    
     
     private func registerCell() {
         CollectionView.register(
@@ -129,8 +129,8 @@ extension TestInstructionsViewController {
                     
                     // Label update
                     self.instructionLabel.text =
-                        self.test?.instruction.description[index] ??
-                        self.blinkTest?.instructions.description[index]
+                    self.test?.instruction.description[index] ??
+                    self.blinkTest?.instructions.description[index]
                     
                     // PageControl update (animated)
                     if self.pageControlOutlet.currentPage != index {
@@ -140,8 +140,6 @@ extension TestInstructionsViewController {
                     }
                 }
             }
-            
-            
             
             return section
         }
@@ -162,35 +160,35 @@ extension TestInstructionsViewController: UICollectionViewDataSource {
         }
         return 0
     }
-
-
+    
+    
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
+        
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: "TestInstructionsCollectionViewCell",
             for: indexPath
         ) as! TestInstructionsCollectionViewCell
-
+        
         if let test {
             let img = test.instruction.images[indexPath.item]
             cell.configureCell(image: img)
         }
-
+        
         if let blinkTest {
             let img = blinkTest.instructions.images[indexPath.item]
             cell.configureCell(image: img)
         }
-
+        
         return cell
     }
-
+    
     
     @objc private func pageControlChanged(_ sender: UIPageControl) {
         let index = sender.currentPage
         let indexPath = IndexPath(item: index, section: 0)
-
+        
         CollectionView.scrollToItem(
             at: indexPath,
             at: .centeredHorizontally,
@@ -210,31 +208,31 @@ extension TestInstructionsViewController {
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
         
         if let calibrationVC = vc as? CalibrationViewController {
-                   switch source {
-                   case .NVALeft:
-                       // NVA instructions → first calibration → NVA Left eye
-                       calibrationVC.source = .NVALeft
-
-                   case .NVARight:
-                       // After NVA Right instructions, we are moving to DVA
-                       calibrationVC.source = .DVALeft
-
-                   case .DVALeft:
-                       // DVA instructions → first calibration → DVA Left eye
-                       calibrationVC.source = .DVALeft
-
-                   case .DVARight:
-                       // Should never go back to instructions after this
-                       calibrationVC.source = .DVARight
-
-                   case .blinkRateTest:
-                       calibrationVC.source = .blinkRateTest
-
-                   case nil:
-                       break
-                   }
-               }
-
+            switch source {
+            case .NVALeft:
+                // NVA instructions → first calibration → NVA Left eye
+                calibrationVC.source = .NVALeft
+                
+            case .NVARight:
+                // After NVA Right instructions, we are moving to DVA
+                calibrationVC.source = .DVALeft
+                
+            case .DVALeft:
+                // DVA instructions → first calibration → DVA Left eye
+                calibrationVC.source = .DVALeft
+                
+            case .DVARight:
+                // Should never go back to instructions after this
+                calibrationVC.source = .DVARight
+                
+            case .blinkRateTest:
+                calibrationVC.source = .blinkRateTest
+                
+            case nil:
+                break
+            }
+        }
+        
         navigationController?.pushViewController(vc, animated: true)
     }
 }
