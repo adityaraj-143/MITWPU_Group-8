@@ -47,9 +47,12 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
         exerciseName.text = item.exercise.name
         exerciseDescription.text = item.exercise.instructions.description
         exerciseImage.image = UIImage(named: item.exercise.getIcon())
-        durationLabel.text = "\(item.exercise.duration)"
+        durationLabel.text = "\(item.exercise.duration) min"
         cardView.backgroundColor = .white
-        iconView.backgroundColor = .lightGreen
+//        iconView.backgroundColor = .lightGreen
+        cardView.backgroundColor = .lightGreen
+        
+        
 
         if item.isCompleted {
             checkmark.image = UIImage(systemName: "checkmark.circle.fill")
