@@ -17,7 +17,7 @@ class ViewController: UIViewController {
         ?? ExerciseSummary(accuracy: 20, speed: 20)
     }
     
-    let blinkRateResponse = BlinkRateTestResultResponse()
+    let blinkRateStore = BlinkRateDataStore.shared
     var todayBlinkResult: BlinkRateTestResult?
     
     let recommendedExercises = ExerciseList(user: UserDataStore.shared.currentUser).recommended
@@ -33,8 +33,8 @@ class ViewController: UIViewController {
         
         print("HAALLOOO", recommendedExercises)
         
-        todayBlinkResult = blinkRateResponse.todayResult()
-        
+        todayBlinkResult = blinkRateStore.todayResult()
+
         registerCells()
     }
     
