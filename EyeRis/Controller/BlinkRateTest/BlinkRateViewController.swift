@@ -15,6 +15,7 @@ class BlinkRateViewController: UIViewController, ARSessionDelegate {
     // Invisible AR session
     let session = ARSession()
     var source: TestFlowSource?
+    let blinkTest = BlinkRateTestStore.shared
     
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var Passage: UILabel!
@@ -24,19 +25,18 @@ class BlinkRateViewController: UIViewController, ARSessionDelegate {
     var isBlinking = false
     var blinkCount = 0
     var timer: Timer?
-    var timeRemaining = 10 //duratio 2 mins
+    var timeRemaining: Int = 120
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let test = blinkTest.test
         
-        Passage.text = """
-        Arjun always took his eyesight for granted. He spent hours scrolling on his phone, studying on his laptop, and gaming late into the night. Slowly, his eyes began to ache, and everything started to look slightly hazy. He ignored it at first, brushing it off as simple tiredness. But one day, while driving, he realized he couldn’t clearly read a road sign until he was dangerously close. That moment scared him enough to finally visit an eye specialist.
-
-        The doctor explained that his vision had weakened and warned him about the long-term effects of screen strain. Determined to change, Arjun began following the 20-20-20 rule—every 20 minutes, he looked 20 feet away for 20 seconds. He reduced his screen brightness, took regular breaks, ate more greens, and even started wearing protective glasses. Within weeks, his eyes felt lighter and healthier. He learned an important lesson: caring for your eyes isn’t optional—it’s essential.
-        """
-
+        
+        Passage.text = test.passages
+        timeRemaining = test.duration
+        
         requestCameraPermission { granted in
             if granted {
                 self.startFaceTracking()
@@ -49,7 +49,9 @@ class BlinkRateViewController: UIViewController, ARSessionDelegate {
     
     
     func startTimer() {
-        timerLabel.text = "02:00"
+        let duration = blinkTest.test.duration
+        timeRemaining = duration
+        timerLabel.text = String(format: "%02d:%02d", duration / 60, duration % 60)
         
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
             self.updateTimer()
@@ -73,11 +75,23 @@ class BlinkRateViewController: UIViewController, ARSessionDelegate {
             
             timerLabel.text = "00:00"
             
+            // ---- ADD THIS PART ----
+            let store = BlinkRateDataStore.shared
+            
+            let newResult = BlinkRateTestResult(
+                id: store.results.count + 1,
+                blinks: blinkCount,
+                performedOn: Date()
+            )
+            
+            store.addResult(newResult)
+            // -----------------------
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.navigate(to: "Completion", with: "CompletionViewController", source: .blinkRateTest)
             }
-            
         }
+        
     }
     
     
@@ -197,24 +211,20 @@ class BlinkRateViewController: UIViewController, ARSessionDelegate {
         present(alert, animated: true)    }
     
     func resetTest() {
-        // Stop everything
         timer?.invalidate()
         timer = nil
         session.pause()
         
-        // Reset state
-        timeRemaining = 120
+        let duration = blinkTest.test.duration
+        timeRemaining = duration
         blinkCount = 0
         isBlinking = false
         
-        // Reset UI
-        timerLabel.text = "02:00"
+        timerLabel.text = String(format: "%02d:%02d", duration / 60, duration % 60)
         
-        // Restart systems
         startFaceTracking()
         startTimer()
     }
-    
     
     func navigate(
         to storyboardName: String,
@@ -226,11 +236,11 @@ class BlinkRateViewController: UIViewController, ARSessionDelegate {
         let vc = storyboard.instantiateViewController(
             withIdentifier: identifier
         )
-
+        
         if let completionVC = vc as? CompletionViewController {
             completionVC.source = source
         }
-
+        
         navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -17,7 +17,7 @@ class ViewController: UIViewController {
         ?? ExerciseSummary(accuracy: 20, speed: 20)
     }
     
-    let blinkRateResponse = BlinkRateTestResultResponse()
+    let blinkRateStore = BlinkRateDataStore.shared
     var todayBlinkResult: BlinkRateTestResult?
     
     let recommendedExercises = ExerciseList(user: UserDataStore.shared.currentUser).recommended
@@ -33,8 +33,8 @@ class ViewController: UIViewController {
         
         print("HAALLOOO", recommendedExercises)
         
-        todayBlinkResult = blinkRateResponse.todayResult()
-        
+        todayBlinkResult = blinkRateStore.todayResult()
+
         registerCells()
     }
     
@@ -70,10 +70,10 @@ extension ViewController: UICollectionViewDelegate {
         if indexPath.section == 3 {
             if indexPath.item == 0 {
                 // Acuity Test
-                navigate(to: "TestInstructions", with: "TestInstructionViewController", source: .NVA)
+                navigate(to: "TestInstructions", with: "TestInstructionsViewController", source: .NVALeft)
             } else if indexPath.item == 1 {
                 // Blink Rate
-                navigate(to: "TestInstructions", with: "TestInstructionViewController", source: .blinkRateTest)
+                navigate(to: "TestInstructions", with: "TestInstructionsViewController", source: .blinkRateTest)
             }
         }
     }
