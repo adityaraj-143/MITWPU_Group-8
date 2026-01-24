@@ -118,7 +118,7 @@ extension AcuityTestResultResponse {
 
 struct BlinkRateTest{
     var instructions: TestInstruction
-    var passages: [String]
+    var passages: String
     var duration: Int = 120
 }
 
@@ -138,49 +138,5 @@ struct BlinkWeek {
 
 struct BlinkRateTestResultResponse {
     private let results: [BlinkRateTestResult]
-
-    init(results: [BlinkRateTestResult] = blinkRateMockData) {
-        self.results = results
-    }
-
-    // Today
-    func todayResult() -> BlinkRateTestResult? {
-        results.first {
-            Calendar.current.isDateInToday($0.performedOn)
-        }
-    }
-
-    // Last 4 Weeks
-    func makeLast4Weeks() -> [BlinkWeek] {
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: Date())
-
-        let byDate = Dictionary(
-            uniqueKeysWithValues: results.map {
-                (calendar.startOfDay(for: $0.performedOn), $0)
-            }
-        )
-
-        var weeks: [BlinkWeek] = []
-
-        for offset in (0..<4).reversed() {
-            guard let weekStart = calendar.date(
-                byAdding: .weekOfYear,
-                value: -offset,
-                to: today
-            )?.startOfWeek else { continue }
-
-            let days = (0..<7).map { day -> BlinkRateTestResult? in
-                let date = calendar.date(byAdding: .day, value: day, to: weekStart)!
-                return byDate[date]
-            }
-
-            weeks.append(
-                BlinkWeek(startDate: weekStart, days: days)
-            )
-        }
-
-        return weeks
-    }
 }
 

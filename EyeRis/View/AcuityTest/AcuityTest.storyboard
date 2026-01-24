@@ -84,7 +84,7 @@
                     <navigationItem key="navigationItem" id="zWs-Vb-P9I">
                         <barButtonItem key="leftBarButtonItem" title="Item" image="chevron.backward" catalog="system" id="spV-3B-bOu">
                             <connections>
-                                <action selector="backButtonTapped:" destination="Y6W-OH-hqX" id="sXy-6G-YJO"/>
+                                <action selector="backButtonTapped:" destination="Y6W-OH-hqX" id="dPh-ce-KQF"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

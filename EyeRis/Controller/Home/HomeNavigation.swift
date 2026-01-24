@@ -21,7 +21,7 @@ extension ViewController {
             withIdentifier: identifier
         )
 
-        if let testVC = vc as? TestInstructionViewController {
+        if let testVC = vc as? TestInstructionsViewController {
             testVC.source = source
         }
 
