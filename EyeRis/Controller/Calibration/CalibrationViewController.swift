@@ -18,6 +18,7 @@ class CalibrationViewController: UIViewController {
     @IBOutlet weak var cameraFeedBorderView: UIView!
     @IBOutlet weak var proceedButton: UIButton!
     @IBOutlet weak var cameraContainer: UIView!
+    @IBOutlet weak var eyeInstruction: UILabel!
     
     private var currentDistance: Int = 0
     private var arSession: ARSession?
@@ -38,6 +39,9 @@ class CalibrationViewController: UIViewController {
         } else {
             setupARKit()
         }
+        
+        configureEyeInstruction()
+
         switch source {
         case .NVALeft:
             print("Calibration for NVA left eye Test")
@@ -55,6 +59,27 @@ class CalibrationViewController: UIViewController {
             break
         }
     }
+    
+    private func configureEyeInstruction() {
+        guard let source else {
+            eyeInstruction.isHidden = true
+            return
+        }
+        
+        switch source {
+        case .NVALeft, .DVALeft:
+            eyeInstruction.isHidden = false
+            eyeInstruction.text = "This is a test for your left eye.\nPlease close your right eye."
+            
+        case .NVARight, .DVARight:
+            eyeInstruction.isHidden = false
+            eyeInstruction.text = "This is a test for your right eye.\nPlease close your left eye."
+            
+        case .blinkRateTest:
+            eyeInstruction.isHidden = true
+        }
+    }
+
     
     private func simulateDistance() {
         currentDistance = 40   // perfect distance
