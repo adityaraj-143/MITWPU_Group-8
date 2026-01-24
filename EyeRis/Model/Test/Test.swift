@@ -119,16 +119,18 @@ extension AcuityTestResultResponse {
 struct BlinkRateTest{
     var instructions: TestInstruction
     var passages: String
-    var duration: Int = 120
+    var duration: Int = 30
 }
 
 struct BlinkRateTestResult {
     var id: Int
     var blinks: Int
-    var bpm: Int {
-        blinks/2
-    }
+    var duration: Int         
     var performedOn: Date
+
+    var bpm: Int {
+        Int(Double(blinks) * (60.0 / Double(duration)))
+    }
 }
 
 struct BlinkWeek {
