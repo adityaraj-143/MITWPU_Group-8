@@ -31,11 +31,14 @@ class ViewController: UIViewController {
         CollectionView.dataSource = self
         CollectionView.delegate = self
         
-        print("HAALLOOO", recommendedExercises)
-        
-        todayBlinkResult = blinkRateStore.todayResult()
-
         registerCells()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        todayBlinkResult = blinkRateStore.todayResult()
+        CollectionView.reloadData()
     }
     
     // MARK: - Register Cells
