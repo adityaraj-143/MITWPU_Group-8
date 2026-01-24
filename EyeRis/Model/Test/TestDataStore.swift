@@ -126,14 +126,14 @@ let mockTestNVA = AcuityTest(
         description: [
             "Hold your phone about 40 cm away from your eyes (roughly an arm’s length).",
             "Read the letters out loud, then say “Next” to move forward.",
-            "If your phone position changes, tap recalibrate to adjust.",
+            "If your phone position changes, then pause test and recalibrate to adjust.",
             "Make sure the screen is at eye level and well-lit for best accuracy."
         ],
         images: [
-            "testInstruction1",
-            "testInstruction2",
-            "testInstruction3",
-            "testInstruction3"
+            "NVATestInstruction1",
+            "NVATestInstruction2",
+            "NVATestInstruction3",
+            "NVATestInstruction4"
         ]
     ),
     snellenChart: SnellenChart(
@@ -154,10 +154,10 @@ let mockTestDVA = AcuityTest(
             "Make sure the screen is at eye level and well-lit for best accuracy."
         ],
         images: [
-            "testInstruction1",
-            "testInstruction2",
-            "testInstruction3",
-            "testInstruction3"
+            "NVATestInstruction1",
+            "NVATestInstruction2",
+            "NVATestInstruction3",
+            "NVATestInstruction3"
         ]
     ),
     snellenChart: SnellenChart(
@@ -174,10 +174,10 @@ let mockTestBlink = BlinkRateTest(
         "Blink naturally — don’t try to control or force your blinks.",
         "Keep your head steady with your face clearly visible to the camera.",
         "Relax and normally read the text displayed."
-    ], images: ["testInstruction1",
-                "testInstruction2",
-                "testInstruction3",
-                "testInstruction3"]),
+    ], images: ["NVATestInstruction1",
+                "NVATestInstruction2",
+                "NVATestInstruction3",
+                "NVATestInstruction4"]),
     passages: """
         Arjun always took his eyesight for granted. He spent hours scrolling on his phone, studying on his laptop, and gaming late into the night. Slowly, his eyes began to ache, and everything started to look slightly hazy. He ignored it at first, brushing it off as simple tiredness. But one day, while driving, he realized he couldn’t clearly read a road sign until he was dangerously close. That moment scared him enough to finally visit an eye specialist.
         
@@ -197,11 +197,12 @@ let blinkRateMockData: [BlinkRateTestResult] = {
             continue
         }
         
-        let blinks = Int.random(in: 28...50) // bpm ~ 14–25
+        let blinks = Int.random(in: 5...15)
         results.append(
             BlinkRateTestResult(
                 id: i,
                 blinks: blinks,
+                duration: 30,
                 performedOn: date
             )
         )
@@ -214,7 +215,7 @@ let blinkRateMockData: [BlinkRateTestResult] = {
 final class BlinkRateDataStore {
     static let shared = BlinkRateDataStore()
 
-    private init() {}
+    private init() {loadInitialData()}
 
     private(set) var results: [BlinkRateTestResult] = []
 
@@ -232,21 +233,24 @@ final class BlinkRateDataStore {
 
     // Today
     func todayResult() -> BlinkRateTestResult? {
-        results.first {
-            Calendar.current.isDateInToday($0.performedOn)
-        }
+        results
+            .filter { Calendar.current.isDateInToday($0.performedOn) }
+            .max { $0.performedOn < $1.performedOn }
     }
 
     // Last 4 Weeks
     func makeLast4Weeks() -> [BlinkWeek] {
-        let calendar = Calendar.current
+        var calendar = Calendar.current
+        calendar.firstWeekday = 2   // Monday
+
         let today = calendar.startOfDay(for: Date())
 
-        let byDate = Dictionary(
-            uniqueKeysWithValues: results.map {
-                (calendar.startOfDay(for: $0.performedOn), $0)
-            }
-        )
+        let byDate = Dictionary(grouping: results) {
+            calendar.startOfDay(for: $0.performedOn)
+        }.mapValues { dailyResults in
+            dailyResults.max { $0.performedOn < $1.performedOn }!
+        }
+
 
         var weeks: [BlinkWeek] = []
 
@@ -255,20 +259,19 @@ final class BlinkRateDataStore {
                 byAdding: .weekOfYear,
                 value: -offset,
                 to: today
-            )?.startOfWeek else { continue }
+            )?.startOfWeek(calendar: calendar) else { continue }
 
             let days = (0..<7).map { day -> BlinkRateTestResult? in
                 let date = calendar.date(byAdding: .day, value: day, to: weekStart)!
                 return byDate[date]
             }
 
-            weeks.append(
-                BlinkWeek(startDate: weekStart, days: days)
-            )
+            weeks.append(BlinkWeek(startDate: weekStart, days: days))
         }
 
         return weeks
     }
+
 }
 
 final class BlinkRateTestStore {
