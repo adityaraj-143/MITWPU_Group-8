@@ -21,6 +21,16 @@ final class CompletionViewController: UIViewController {
     var resultNav = ""
     var resultNavId = ""
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        print("ALL RESULTS:")
+        AcuityTestResultResponse.shared.results.forEach {
+            print($0)
+        }
+    }
+    
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         

@@ -51,13 +51,34 @@ struct AcuityTestResult{
     var comment: String = "Overall, your vision is fairly good, but a routine eye check-up or corrective lens may help improve clarity, especially for distance vision."
 }
 
+func calcAcuityScore(level: Int) -> String {
+    let snellenMap = [
+        "20/200",
+        "20/100",
+        "20/80",
+        "20/60",
+        "20/40",
+        "20/30",
+        "20/25",
+        "20/20",
+        "20/15"
+    ]
+    
+    guard level >= 0 && level < snellenMap.count else {
+        return "N/A"
+    }
+    
+    return snellenMap[level]
+}
+
 struct AcuityTestsForADate {
     let date: Date
     let distant: AcuityTestResult
     let near: AcuityTestResult
 }
 
-struct AcuityTestResultResponse {
+final class AcuityTestResultResponse {
+    static let shared = AcuityTestResultResponse()
     var results : [AcuityTestResult]
     
     init() {
@@ -91,10 +112,6 @@ struct AcuityTestResultResponse {
         }
         
         return dailyTests
-    }
-    
-    func getLastTestDVA() -> AcuityTestResult {
-        results.max { $0.testDate < $1.testDate }!
     }
 }
 
