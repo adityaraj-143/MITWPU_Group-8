@@ -121,11 +121,11 @@ class ExerciseCalibrationViewController: UIViewController {
         }
 
         let storyboard = UIStoryboard(
-            name: exercise.storyboardName,
+            name: exercise.getStoryboardName(),
             bundle: nil
         )
 
-        let identifier = exercise.viewControllerIdentifier
+        let identifier = exercise.getVCId()
 
         let vc = storyboard.instantiateViewController(
             withIdentifier: identifier
