@@ -21,11 +21,10 @@ class TestsCollectionViewCell: UICollectionViewCell {
         iconBG.layer.cornerRadius = iconBG.bounds.height/2
     }
     
-    func configure(title: String, subtitle: String, icon: String, iconBGColor: UIColor) {
+    func configure(title: String, subtitle: String, icon: String ) {
         titleLabel.text = title
         iconImage.image = UIImage(named: icon)
         subtitleLabel.text = subtitle
-//        iconBG.backgroundColor = iconBGColor
     }
 
 }

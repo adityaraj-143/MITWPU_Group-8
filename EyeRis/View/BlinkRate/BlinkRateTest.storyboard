@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3rw-Zh-n1z">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3rw-Zh-n1z">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -16,9 +16,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="100" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YZR-oK-crF">
-                                <rect key="frame" x="16" y="160" width="361" height="564"/>
-                                <string key="text">Arjun always took his eyesight for granted. He spent hours scrolling on his phone, studying on his laptop, and gaming late in the night. Slowly, his eyes began to ache, and everything looked slightly hazy. He ignored it at first, thinking it was just tiredness. But one day, while driving, he realized he couldn’t read a road sign clearly. That scared him enough to finally visit an eye specialist. The doctor told him his vision had weakened and warned him about screen strain. Arjun started following the 20-20-20 rule—every 20 minutes, look 20 feet away for 20 seconds. He reduced screen brightness, ate more greens, and even started wearing protective glasses. Within weeks, his eyes felt lighter and healthier. He learned that caring for your eyes isn’t optional—it’s essential.</string>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YZR-oK-crF">
+                                <rect key="frame" x="16" y="212" width="361" height="512"/>
+                                <string key="text">Arjun always took his eyesight for granted. He spent hours scrolling on his phone, studying on his laptop, and gaming late into the night. Slowly, his eyes began to ache, and everything started to look slightly hazy. He ignored it at first, brushing it off as simple tiredness. But one day, while driving, he realized he couldn’t clearly read a road sign until he was dangerously close. That moment scared him enough to finally visit an eye specialist.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -30,37 +30,37 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dc4-nU-LWw">
-                                <rect key="frame" x="0.0" y="194" width="393" height="590"/>
-                                <viewLayoutGuide key="contentLayoutGuide" id="IjG-3i-e3b"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="N36-V1-R5o"/>
-                            </scrollView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Teb-NP-f7s">
-                                <rect key="frame" x="185" y="165.66666666666666" width="42" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="hourglass" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="qZN-Ri-Ugm">
+                                <rect key="frame" x="171" y="173.66666666666666" width="14" height="17.333333333333343"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Teb-NP-f7s">
+                                <rect key="frame" x="185" y="173" width="42" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="hourglass" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="qZN-Ri-Ugm">
-                                <rect key="frame" x="165" y="161.66666666666666" width="20" height="25"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="3Jz-9x-HN1"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="3Jz-9x-HN1" firstAttribute="bottom" secondItem="dc4-nU-LWw" secondAttribute="bottom" id="9Fl-Dp-f7z"/>
-                            <constraint firstItem="YZR-oK-crF" firstAttribute="top" secondItem="Lng-dh-dSh" secondAttribute="top" constant="160" id="Em3-FI-vCe"/>
-                            <constraint firstItem="3Jz-9x-HN1" firstAttribute="trailing" secondItem="dc4-nU-LWw" secondAttribute="trailing" id="I2W-YR-zcN"/>
+                            <constraint firstItem="3Jz-9x-HN1" firstAttribute="trailing" secondItem="Teb-NP-f7s" secondAttribute="trailing" constant="166" id="0cZ-ju-wGH"/>
+                            <constraint firstItem="Teb-NP-f7s" firstAttribute="top" secondItem="3Jz-9x-HN1" secondAttribute="top" constant="1" id="EGt-jh-0Lk"/>
+                            <constraint firstItem="Teb-NP-f7s" firstAttribute="leading" secondItem="qZN-Ri-Ugm" secondAttribute="trailing" id="GIX-sF-xqu"/>
                             <constraint firstItem="3Jz-9x-HN1" firstAttribute="bottom" secondItem="YZR-oK-crF" secondAttribute="bottom" constant="60" id="JYY-fk-zlx"/>
+                            <constraint firstItem="qZN-Ri-Ugm" firstAttribute="top" secondItem="Lng-dh-dSh" secondAttribute="topMargin" id="Ohi-Zb-H3J"/>
+                            <constraint firstItem="qZN-Ri-Ugm" firstAttribute="leading" secondItem="3Jz-9x-HN1" secondAttribute="leading" constant="171" id="PfY-ka-yhB"/>
+                            <constraint firstItem="YZR-oK-crF" firstAttribute="top" secondItem="3Jz-9x-HN1" secondAttribute="top" constant="40" id="T9n-O9-g4M"/>
                             <constraint firstItem="YZR-oK-crF" firstAttribute="leading" secondItem="3Jz-9x-HN1" secondAttribute="leading" constant="16" id="WZG-LZ-VBe"/>
                             <constraint firstItem="3Jz-9x-HN1" firstAttribute="trailing" secondItem="YZR-oK-crF" secondAttribute="trailing" constant="16" id="qUs-yH-b11"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Blink Rate Test" id="zk8-1X-Gfn">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="pause" catalog="system" id="AYQ-iG-NO0"/>
+                        <barButtonItem key="leftBarButtonItem" title="\" image="chevron.left" catalog="system" id="7nm-na-lAk">
+                            <connections>
+                                <action selector="backButtonAction:" destination="BBO-6O-vdk" id="eFY-bK-fTX"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="Passage" destination="YZR-oK-crF" id="BkT-VQ-Tx1"/>
@@ -69,7 +69,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ddR-aR-3j0" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2066" y="131"/>
+            <point key="canvasLocation" x="2064.8854961832062" y="130.98591549295776"/>
         </scene>
         <!--Home-->
         <scene sceneID="8yK-lc-GaB">
@@ -92,8 +92,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="chevron.left" catalog="system" width="97" height="128"/>
         <image name="hourglass" catalog="system" width="103" height="128"/>
-        <image name="pause" catalog="system" width="88" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

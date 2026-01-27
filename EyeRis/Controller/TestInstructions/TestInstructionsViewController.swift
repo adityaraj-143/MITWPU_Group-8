@@ -1,5 +1,5 @@
 //
-//  TestInstructionViewController.swift
+//  TestInstructionsViewController.swift
 //  EyeRis
 //
 //  Created by SDC-USER on 11/12/25.
@@ -8,48 +8,60 @@
 import UIKit
 
 enum TestFlowSource {
-    case NVA
-    case DVA
+    case NVALeft
+    case NVARight
+    case DVALeft
+    case DVARight
     case blinkRateTest
 }
 
-
-class TestInstructionViewController: UIViewController, UICollectionViewDelegate {
+class TestInstructionsViewController: UIViewController, UICollectionViewDelegate {
     
     
     @IBOutlet weak var pageControlOutlet: UIPageControl!
     @IBOutlet weak var instructionLabel: UILabel!
     @IBOutlet weak var CollectionView: UICollectionView!
     var source: TestFlowSource?
-
-    let test = mockTest
+    
+    var test: AcuityTest?
+    var blinkTest: BlinkRateTest?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        registerCell()
+        guard let source else {
+            fatalError("TestInstructionsViewController launched without source")
+        }
         
         switch source {
-        case .NVA:
-            print("NVA instructions")
+        case .NVALeft:
+            test = mockTestNVA
             
-        case .DVA:
-            print("DVA instructions")
-
+        case .DVALeft, .NVARight, .DVARight:
+            test = mockTestDVA
+            
         case .blinkRateTest:
-            print("blink rate instructions")
+            blinkTest = BlinkRateTestStore.shared.test
             
-        case .none:
-            break
         }
+        
+        registerCell()
         
         CollectionView.dataSource = self
         CollectionView.delegate = self
         CollectionView.showsHorizontalScrollIndicator = false
         CollectionView.collectionViewLayout = generateLayout()
         
-        instructionLabel.text = test.instruction.description.first
-        pageControlOutlet.numberOfPages = test.instruction.description.count
+        if let test = test {
+            instructionLabel.text = test.instruction.description.first
+            pageControlOutlet.numberOfPages = test.instruction.description.count
+        }
+        
+        if let blinkTest = blinkTest {
+            instructionLabel.text = blinkTest.instructions.description.first
+            pageControlOutlet.numberOfPages = blinkTest.instructions.description.count
+        }
+        
         pageControlOutlet.currentPage = 0
         
         pageControlOutlet.addTarget(
@@ -57,8 +69,6 @@ class TestInstructionViewController: UIViewController, UICollectionViewDelegate 
             action: #selector(pageControlChanged(_:)),
             for: .valueChanged
         )
-        
-        
     }
     
     @IBAction func navToCalibrate(_ sender: Any) {
@@ -68,7 +78,7 @@ class TestInstructionViewController: UIViewController, UICollectionViewDelegate 
             source: source
         )
     }
-
+    
     
     private func registerCell() {
         CollectionView.register(
@@ -79,7 +89,7 @@ class TestInstructionViewController: UIViewController, UICollectionViewDelegate 
 }
 
 // MARK: - Collection View Layout
-extension TestInstructionViewController {
+extension TestInstructionsViewController {
     
     func generateLayout() -> UICollectionViewLayout {
         
@@ -118,7 +128,9 @@ extension TestInstructionViewController {
                     let index = centeredItem.indexPath.item
                     
                     // Label update
-                    self.instructionLabel.text = self.test.instruction.description[index]
+                    self.instructionLabel.text =
+                    self.test?.instruction.description[index] ??
+                    self.blinkTest?.instructions.description[index]
                     
                     // PageControl update (animated)
                     if self.pageControlOutlet.currentPage != index {
@@ -129,8 +141,6 @@ extension TestInstructionViewController {
                 }
             }
             
-            
-            
             return section
         }
         
@@ -139,11 +149,19 @@ extension TestInstructionViewController {
 }
 
 // MARK: - DataSource
-extension TestInstructionViewController: UICollectionViewDataSource {
+extension TestInstructionsViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return test.instruction.description.count
+        if let test {
+            return test.instruction.description.count
+        }
+        if let blinkTest {
+            return blinkTest.instructions.description.count
+        }
+        return 0
     }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -153,12 +171,19 @@ extension TestInstructionViewController: UICollectionViewDataSource {
             for: indexPath
         ) as! TestInstructionsCollectionViewCell
         
-        let img = test.instruction.images[indexPath.item]
-        cell.configureCell(image: img)
+        if let test {
+            let img = test.instruction.images[indexPath.item]
+            cell.configureCell(image: img)
+        }
         
+        if let blinkTest {
+            let img = blinkTest.instructions.images[indexPath.item]
+            cell.configureCell(image: img)
+        }
         
         return cell
     }
+    
     
     @objc private func pageControlChanged(_ sender: UIPageControl) {
         let index = sender.currentPage
@@ -173,7 +198,7 @@ extension TestInstructionViewController: UICollectionViewDataSource {
     
 }
 
-extension TestInstructionViewController {
+extension TestInstructionsViewController {
     func navigate(
         to storyboardName: String,
         with identifier: String,
@@ -181,15 +206,33 @@ extension TestInstructionViewController {
     ) {
         let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
-
-        if let instructionVC = vc as? TestInstructionViewController {
-            instructionVC.source = source
-        }
-
+        
         if let calibrationVC = vc as? CalibrationViewController {
-            calibrationVC.source = source
+            switch source {
+            case .NVALeft:
+                // NVA instructions → first calibration → NVA Left eye
+                calibrationVC.source = .NVALeft
+                
+            case .NVARight:
+                // After NVA Right instructions, we are moving to DVA
+                calibrationVC.source = .DVALeft
+                
+            case .DVALeft:
+                // DVA instructions → first calibration → DVA Left eye
+                calibrationVC.source = .DVALeft
+                
+            case .DVARight:
+                // Should never go back to instructions after this
+                calibrationVC.source = .DVARight
+                
+            case .blinkRateTest:
+                calibrationVC.source = .blinkRateTest
+                
+            case nil:
+                break
+            }
         }
-
+        
         navigationController?.pushViewController(vc, animated: true)
     }
 }
