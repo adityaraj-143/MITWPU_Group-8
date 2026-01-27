@@ -34,26 +34,29 @@ extension Exercise {
     
     func getStoryboardName () -> String {
         exerciseStyleMap[id]?.storyboardName ?? "ExerciseList"
-
+        
     }
     
-    func getVCId () -> String {
+    func getStoryboardID () -> String {
         exerciseStyleMap[id]?.storyboardID ?? "ExerciseListViewController"
+    }
+    
+    func getVC() -> UIViewController.Type {
+        exerciseStyleMap[id]?.vcType ?? defaultVCType
     }
     
 }
 
 // MARK: - Exercise List
 
-struct ExerciseList {
+final class ExerciseList {
     let exercises: [Exercise]
     let recommended: [Exercise]
-    let todaysSet: [TodaysExercise]
+    private(set) var todaysSet: [TodaysExercise]
     
     static private(set) var shared: ExerciseList?
     
     static func makeOnce(user: User) {
-        // Only create once, so shuffle happens once
         if shared == nil {
             shared = ExerciseList(user: user)
         }
@@ -65,18 +68,39 @@ struct ExerciseList {
     
     init(user: User) {
         self.exercises = allExercises
-        // Convert both arrays to Sets for fast intersection
+        
         let userConditions = Set(user.eyeHealthData.condition)
-        // Recommend exercises that target at least one of the user's conditions
+        
         recommended = exercises.filter { exercise in
             !Set(exercise.targetedConditions).intersection(userConditions).isEmpty
         }
+        
         todaysSet = Array(recommended.shuffled().prefix(4)).map {
             TodaysExercise(exercise: $0, isCompleted: false)
         }
     }
+    
+    // MARK: - Mutating logic lives here
+    
+    func markCompleted(exercise: Exercise) {
+        guard let index = todaysSet.firstIndex(where: {
+            $0.exercise.id == exercise.id
+        }) else { return }
+        
+        todaysSet[index].isCompleted = true
+    }
+    
+    func nextExercise(after exercise: Exercise) -> Exercise? {
+        guard let index = todaysSet.firstIndex(where: {
+            $0.exercise.id == exercise.id
+        }) else { return nil }
+        
+        let nextIndex = index + 1
+        guard nextIndex < todaysSet.count else { return nil }
+        
+        return todaysSet[nextIndex].exercise
+    }
 }
-
 
 // MARK: - Exercise Instruction
 

@@ -7,9 +7,13 @@
 
 import UIKit
 
-class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring {
+class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring, ExerciseFlowHandling {
 
     @IBOutlet weak var timer_label: UILabel!
+    var exercise: Exercise?
+    var inTodaySet: Int? = 0
+    
+    private let exerciseDuration = 20
 
     private let exerciseContainer: UIView = {
         let view = UIView()
@@ -39,8 +43,21 @@ class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring
 
         startCountdownThenExercise {
             self.startFocusExercise()
+
+            // Plug into session system
+            ExerciseSessionManager.shared.onSessionCompleted = { [weak self] in
+                self?.handleExerciseCompletion()
+            }
+
+            // Start timed session
+            ExerciseSessionManager.shared.start(
+                exercise: self.exercise!,
+                referenceDistance: ExerciseSessionManager.shared.referenceDistance,
+                time: self.exerciseDuration
+            )
         }
     }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         startAlignmentMonitoring(timer: &monitorTimer)
@@ -48,8 +65,14 @@ class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+
         stopAlignmentMonitoring(timer: &monitorTimer)
+
+        if isMovingFromParent {
+            ExerciseSessionManager.shared.endSession()
+        }
     }
+
     
     func showPause(reason: CameraAlignmentState) {
         // next step
@@ -165,6 +188,29 @@ class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring
         let dy = p1.y - p2.y
         return sqrt(dx * dx + dy * dy)
     }
+    
+    func navigate(to storyboard: String,
+                  id identifier: String,
+                  nextExercise: Exercise?) {
+
+        let storyboard = UIStoryboard(name: storyboard, bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: identifier)
+
+        // If we are navigating to another exercise
+        if let nextExercise,
+           let exerciseVC = vc as? ExerciseFlowHandling {
+            exerciseVC.exercise = nextExercise
+            exerciseVC.inTodaySet = 1
+        }
+
+        // If we are navigating to completion
+        if let completionVC = vc as? CompletionViewController {
+            completionVC.source = .Exercise
+        }
+
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
 }
 
 // MARK: Dot Model
