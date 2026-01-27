@@ -232,67 +232,124 @@ let allExercises: [Exercise] = [
 ]
 
 
-struct ExerciseStyle {
+struct ExerciseCardInfo {
     let icon: String
     let bgColor: UIColor
     let iconBGColor: UIColor
+    let storyboardName: String
+    let storyboardID: String
 }
 
-let exerciseStyleMap: [Int: ExerciseStyle] = [
-    1: ExerciseStyle(icon: "Infinity",
-                     bgColor: UIColor(hex: "D3F2E8"),
-                     iconBGColor: UIColor(hex: "5BC8A8")),
+let exerciseStyleMap: [Int: ExerciseCardInfo] = [
+    1: ExerciseCardInfo(
+        icon: "Infinity",
+        bgColor: UIColor(hex: "D3F2E8"),
+        iconBGColor: UIColor(hex: "5BC8A8"),
+        storyboardName: "Figure8",
+        storyboardID: "Fig8ViewController"
+    ),
     
-    2: ExerciseStyle(icon: "Light_Adaption",
-                     bgColor: UIColor(hex: "D9ECFF"),
-                     iconBGColor: UIColor(hex: "6FAEFF")),
+    2: ExerciseCardInfo(
+        icon: "Light_Adaption",
+        bgColor: UIColor(hex: "D9ECFF"),
+        iconBGColor: UIColor(hex: "6FAEFF"),
+        storyboardName: "Figure8",
+        storyboardID: "Fig8ViewController"
+    ),
     
-    3: ExerciseStyle(icon: "Guided Blinking",
-                     bgColor: UIColor(hex: "E9E0F8"),
-                     iconBGColor: UIColor(hex: "A68BEB")),
+    3: ExerciseCardInfo(   // already correct
+        icon: "Infinity",
+        bgColor: UIColor(hex: "E9E0F8"),
+        iconBGColor: UIColor(hex: "A68BEB"),
+        storyboardName: "Figure8",
+        storyboardID: "Fig8ViewController"
+    ),
     
-    4: ExerciseStyle(icon: "Smooth_pursuit",
-                     bgColor: UIColor(hex: "FFECC2"),
-                     iconBGColor: UIColor(hex: "F5B942")),
+    4: ExerciseCardInfo(
+        icon: "Smooth_pursuit",
+        bgColor: UIColor(hex: "FFECC2"),
+        iconBGColor: UIColor(hex: "F5B942"),
+        storyboardName: "Figure8",
+        storyboardID: "Fig8ViewController"
+    ),
     
-    5: ExerciseStyle(icon: "Focus_shifting",
-                     bgColor: UIColor(hex: "F8D7DC"),
-                     iconBGColor: UIColor(hex: "E66A7A")),
+    5: ExerciseCardInfo(
+        icon: "Focus_shifting",
+        bgColor: UIColor(hex: "F8D7DC"),
+        iconBGColor: UIColor(hex: "E66A7A"),
+        storyboardName: "Figure8",
+        storyboardID: "Fig8ViewController"
+    ),
     
-    6: ExerciseStyle(icon: "Peripheral focus",
-                     bgColor: UIColor(hex: "FFE0CC"),
-                     iconBGColor: UIColor(hex: "FF9C66")),
+    6: ExerciseCardInfo(
+        icon: "Peripheral focus",
+        bgColor: UIColor(hex: "FFE0CC"),
+        iconBGColor: UIColor(hex: "FF9C66"),
+        storyboardName: "Figure8",
+        storyboardID: "Fig8ViewController"
+    ),
     
-    7: ExerciseStyle(icon: "Saccadic Movement",
-                     bgColor: UIColor(hex: "D4F1F4"),
-                     iconBGColor: UIColor(hex: "4DB6C6")),
+    7: ExerciseCardInfo(
+        icon: "Saccadic Movement",
+        bgColor: UIColor(hex: "D4F1F4"),
+        iconBGColor: UIColor(hex: "4DB6C6"),
+        storyboardName: "Figure8",
+        storyboardID: "Fig8ViewController"
+    ),
     
-    8: ExerciseStyle(icon: "clock",
-                     bgColor: UIColor(hex: "E0E6FF"),
-                     iconBGColor: UIColor(hex: "6B7CFF")),
+    8: ExerciseCardInfo(   // already correct
+        icon: "Focus_shifting",
+        bgColor: UIColor(hex: "E0E6FF"),
+        iconBGColor: UIColor(hex: "6B7CFF"),
+        storyboardName: "focusShifting",
+        storyboardID: "FocusShiftingViewController"
+    ),
 
-    9: ExerciseStyle(icon: "Infinity",
-                     bgColor: UIColor(hex: "D3F2E8"),
-                     iconBGColor: UIColor(hex: "5BC8A8")),
+    9: ExerciseCardInfo(
+        icon: "Infinity",
+        bgColor: UIColor(hex: "D3F2E8"),
+        iconBGColor: UIColor(hex: "5BC8A8"),
+        storyboardName: "Figure8",
+        storyboardID: "Fig8ViewController"
+    ),
 
-    10: ExerciseStyle(icon: "Light_Adaption",
-                      bgColor: UIColor(hex: "D9ECFF"),
-                      iconBGColor: UIColor(hex: "6FAEFF")),
+    10: ExerciseCardInfo(
+        icon: "Light_Adaption",
+        bgColor: UIColor(hex: "D9ECFF"),
+        iconBGColor: UIColor(hex: "6FAEFF"),
+        storyboardName: "Figure8",
+        storyboardID: "Fig8ViewController"
+    ),
 
-    11: ExerciseStyle(icon: "Guided Blinking",
-                      bgColor: UIColor(hex: "E9E0F8"),
-                      iconBGColor: UIColor(hex: "A68BEB")),
+    11: ExerciseCardInfo(
+        icon: "Guided Blinking",
+        bgColor: UIColor(hex: "E9E0F8"),
+        iconBGColor: UIColor(hex: "A68BEB"),
+        storyboardName: "Figure8",
+        storyboardID: "Fig8ViewController"
+    ),
 
-    12: ExerciseStyle(icon: "Smooth_pursuit",
-                      bgColor: UIColor(hex: "FFECC2"),
-                      iconBGColor: UIColor(hex: "F5B942")),
+    12: ExerciseCardInfo(
+        icon: "Smooth_pursuit",
+        bgColor: UIColor(hex: "FFECC2"),
+        iconBGColor: UIColor(hex: "F5B942"),
+        storyboardName: "Figure8",
+        storyboardID: "Fig8ViewController"
+    ),
 
-    13: ExerciseStyle(icon: "Focus_shifting",
-                      bgColor: UIColor(hex: "F8D7DC"),
-                      iconBGColor: UIColor(hex: "E66A7A")),
+    13: ExerciseCardInfo(  // already correct
+        icon: "Smooth_pursuit",
+        bgColor: UIColor(hex: "F8D7DC"),
+        iconBGColor: UIColor(hex: "E66A7A"),
+        storyboardName: "SmoothPursuit",
+        storyboardID: "smoothPursuitViewController"
+    ),
 
-    14: ExerciseStyle(icon: "Peripheral focus",
-                      bgColor: UIColor(hex: "FFE0CC"),
-                      iconBGColor: UIColor(hex: "FF9C66"))
+    14: ExerciseCardInfo(
+        icon: "Peripheral focus",
+        bgColor: UIColor(hex: "FFE0CC"),
+        iconBGColor: UIColor(hex: "FF9C66"),
+        storyboardName: "Figure8",
+        storyboardID: "Fig8ViewController"
+    )
 ]
-
