@@ -7,10 +7,12 @@
 
 import UIKit
 
-class smoothPursuitViewController: UIViewController {
+class smoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring {
 
     @IBOutlet weak var timer_label: UILabel!
     
+    private var monitorTimer: Timer?
+
     // MARK: UI Elements
     let exerciseContainer: UIView = {
         let view = UIView()
@@ -38,10 +40,23 @@ class smoothPursuitViewController: UIViewController {
             self.startSmoothPursuit()
         }
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        startAlignmentMonitoring(timer: &monitorTimer)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        stopAlignmentMonitoring(timer: &monitorTimer)
+    }
+    
+    func showPause(reason: CameraAlignmentState) {
+        // next step
+    }
 
     // MARK: Setup
     func setupExerciseContainer() {
-        let containerHeight: CGFloat = 750
+        let containerHeight: CGFloat = 550
 
         exerciseContainer.frame = CGRect(
             x: 0,

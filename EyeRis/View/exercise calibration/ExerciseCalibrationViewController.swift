@@ -33,13 +33,23 @@ class ExerciseCalibrationViewController: UIViewController {
         }
         
         cameraFeedBorderView.layer.cornerRadius = 17
-        cameraFeedBorderView.layer.borderWidth = 5
+        cameraFeedBorderView.layer.borderWidth = 2
         cameraFeedBorderView.layer.borderColor = UIColor.systemRed.cgColor
+        cameraFeedBorderView.clipsToBounds = true
+        
+        cameraContainer.layer.cornerRadius = 17
         cameraFeedBorderView.clipsToBounds = true
         
         CameraManager.shared.configure()
         CameraManager.shared.attachPreview(to: cameraContainer)
         CameraManager.shared.start()
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if isMovingFromParent {
+            CameraManager.shared.stop()
+        }
     }
     
     @IBAction func proceedButtonTapped(_ sender: UIButton) {

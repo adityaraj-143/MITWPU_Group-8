@@ -195,7 +195,7 @@ extension Exercise {
         case 13:
             return "SmoothPursuit"
         default:
-            fatalError("No storyboard mapped for exercise id \(id)")
+            return "Figure8"
         }
     }
 
@@ -208,7 +208,7 @@ extension Exercise {
         case 13:
             return "smoothPursuitViewController"
         default:
-            fatalError("No exercise screen mapped for exercise id \(id)")
+            return "Fig8ViewController"
         }
     }
 }
