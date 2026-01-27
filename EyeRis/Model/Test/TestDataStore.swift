@@ -75,7 +75,7 @@ let mockTestNVA = AcuityTest(
     testType: .NearVision,
     instruction: TestInstruction(
         description: [
-            "Hold your phone about 40 cm away from your eyes (roughly an arm’s length).",
+            "This is a Distant Vision Test — place your phone about 2 metres away from you.",
             "Read the letters out loud, then say “Next” to move forward.",
             "If your phone position changes, then pause test and recalibrate to adjust.",
             "Make sure the screen is at eye level and well-lit for best accuracy."
@@ -96,10 +96,10 @@ let mockTestNVA = AcuityTest(
 )
 
 let mockTestDVA = AcuityTest(
-    testType: .NearVision,
+    testType: .DistantVision,
     instruction: TestInstruction(
         description: [
-            "Place your phone about 2 metres away from you.",
+            "This is a Near Vision Test — hold your phone about 40 cm away from your eyes.",
             "Read the letters out loud, then say “Next” to continue.",
             "If your position changes, recalibrate before proceeding.",
             "Make sure the screen is at eye level and well-lit for best accuracy."
@@ -165,69 +165,69 @@ let blinkRateMockData: [BlinkRateTestResult] = {
 
 final class BlinkRateDataStore {
     static let shared = BlinkRateDataStore()
-
+    
     private init() {loadInitialData()}
-
+    
     private(set) var results: [BlinkRateTestResult] = []
-
+    
     // Load once (from mock or disk)
     func loadInitialData() {
         if results.isEmpty {
             results = blinkRateMockData   // your fixed dataset
         }
     }
-
+    
     // Add new result
     func addResult(_ result: BlinkRateTestResult) {
         results.append(result)
     }
-
+    
     // Today
     func todayResult() -> BlinkRateTestResult? {
         results
             .filter { Calendar.current.isDateInToday($0.performedOn) }
             .max { $0.performedOn < $1.performedOn }
     }
-
+    
     // Last 4 Weeks
     func makeLast4Weeks() -> [BlinkWeek] {
         var calendar = Calendar.current
         calendar.firstWeekday = 2   // Monday
-
+        
         let today = calendar.startOfDay(for: Date())
-
+        
         let byDate = Dictionary(grouping: results) {
             calendar.startOfDay(for: $0.performedOn)
         }.mapValues { dailyResults in
             dailyResults.max { $0.performedOn < $1.performedOn }!
         }
-
-
+        
+        
         var weeks: [BlinkWeek] = []
-
+        
         for offset in (0..<4).reversed() {
             guard let weekStart = calendar.date(
                 byAdding: .weekOfYear,
                 value: -offset,
                 to: today
             )?.startOfWeek(calendar: calendar) else { continue }
-
+            
             let days = (0..<7).map { day -> BlinkRateTestResult? in
                 let date = calendar.date(byAdding: .day, value: day, to: weekStart)!
                 return byDate[date]
             }
-
+            
             weeks.append(BlinkWeek(startDate: weekStart, days: days))
         }
-
+        
         return weeks
     }
-
+    
 }
 
 final class BlinkRateTestStore {
     static let shared = BlinkRateTestStore()
     private init() {}
-
+    
     var test: BlinkRateTest = mockTestBlink
 }
