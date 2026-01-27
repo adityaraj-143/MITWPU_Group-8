@@ -50,17 +50,12 @@ class TestHistoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
-        
-        var response = AcuityTestResultResponse()
-        groupedResultsByDate = response.groupTestsByDate()
-        
-        // 2. Start from the most recent date (last in the sorted array)
+        groupedResultsByDate = AcuityTestResultResponse.shared.groupTestsByDate()
+
         if !groupedResultsByDate.isEmpty {
             currentIndex = groupedResultsByDate.count - 1
         }
-        
-        // 3. Update the labels and buttons for this starting date
+
         updateUIForCurrentDate()
         
         [NVAView, DVAView, mainView, commentView].forEach {
