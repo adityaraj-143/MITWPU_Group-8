@@ -31,6 +31,16 @@ extension Exercise {
     func getIconBGColor() -> UIColor {
         exerciseStyleMap[id]?.iconBGColor ?? .systemGray
     }
+    
+    func getStoryboardName () -> String {
+        exerciseStyleMap[id]?.storyboardName ?? "ExerciseList"
+
+    }
+    
+    func getVCId () -> String {
+        exerciseStyleMap[id]?.storyboardID ?? "ExerciseListViewController"
+    }
+    
 }
 
 // MARK: - Exercise List
@@ -173,31 +183,4 @@ struct ExerciseHistory {
     }
 }
 
-extension Exercise {
 
-    var storyboardName: String {
-        switch id {
-        case 8:
-            return "focusShifting"
-        case 3:
-            return "Figure8"
-        case 13:
-            return "SmoothPursuit"
-        default:
-            return "Figure8"
-        }
-    }
-
-    var viewControllerIdentifier: String {
-        switch id {
-        case 8:
-            return "FocusShiftingViewController"
-        case 3:
-            return "Fig8ViewController"
-        case 13:
-            return "smoothPursuitViewController"
-        default:
-            return "Fig8ViewController"
-        }
-    }
-}
