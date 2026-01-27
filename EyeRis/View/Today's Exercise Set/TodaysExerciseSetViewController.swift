@@ -2,15 +2,21 @@
 
 class TodaysExerciseSetViewController: UIViewController {
 
-        @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var bottomView: UIView!
+    @IBOutlet weak var collectionView: UICollectionView!
         private var exercises: [TodaysExercise] = []
 
         override func viewDidLoad() {
             super.viewDidLoad()
             exercises = ExerciseList.shared?.todaysSet ?? [];
             setupCollectionView()
+            bottomView.applyShadow()
         }
+    
+    @IBAction func startSetButton(_ sender: Any) {
+            
     }
+}
 
     // MARK: - Setup
     extension TodaysExerciseSetViewController {
