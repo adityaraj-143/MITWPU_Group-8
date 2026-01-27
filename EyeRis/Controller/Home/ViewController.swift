@@ -11,7 +11,7 @@ class ViewController: UIViewController {
     var lastDVA: AcuityTestResult = AcuityTestResultResponse().getLastTestDVA()!
     
     let history = ExerciseHistory()
-
+    
     var lastExercise: ExerciseSummary {
         history.lastExerciseSummary()
         ?? ExerciseSummary(accuracy: 20, speed: 20)
@@ -36,7 +36,7 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         todayBlinkResult = blinkRateStore.todayResult()
         CollectionView.reloadData()
     }
@@ -94,7 +94,7 @@ extension ViewController: UICollectionViewDataSource {
         case 2: // Recommended Exercises
             return recommendedExercises.count      // 5 cells
         case 3: // Tests
-            return tests.count                      // Always 2 cells
+            return 2                      // Always 2 cells
         default:
             return 1
         }
@@ -146,14 +146,21 @@ extension ViewController: UICollectionViewDataSource {
                 withReuseIdentifier: "tests_cell",
                 for: indexPath
             ) as! TestsCollectionViewCell
+                         
+            if(indexPath.item == 0) {
+                cell.configure(
+                    title: "Acuity Test",
+                    subtitle: "",
+                    icon: "acuityTestLogo",
+                )
+            } else {
+                cell.configure(
+                    title: "Blink Rate ",
+                    subtitle: "Check Blinking Rate",
+                    icon: "blinkRateTestLogo",
+                )
+            }
             
-            let data = tests[indexPath.item]
-            cell.configure(
-                title: data.title,
-                subtitle: data.subtitle,
-                icon: data.iconName,
-                iconBGColor: data.iconBGColor
-            )
             return cell
             
         case 4: // Blink Rate
