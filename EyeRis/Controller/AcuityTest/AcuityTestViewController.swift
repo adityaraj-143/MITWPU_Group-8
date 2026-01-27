@@ -13,7 +13,8 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
     var nextNav = ""
     var nextNavId = ""
     
-    
+    var expectedTexts: [String] = []
+
     var silenceTimer: Timer?
     
     let speechRecognizer = SFSpeechRecognizer(
@@ -107,6 +108,9 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
             weight: .bold
         )
         
+        expectedTexts.append(text)
+
+        
         print("Level:", currentLevel + 1,
               "Text:", text,
               "Font:", fontSizes[currentLevel])
@@ -142,6 +146,7 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
         stopListening()
         
         capturedTexts.removeAll()
+        expectedTexts.removeAll()
         currentSpeechBuffer = ""
         currentLevel = 0
         
@@ -313,6 +318,7 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
         currentLevel += 1
         
         if currentLevel >= fontSizes.count {
+            finishTestAndStoreResult()
             navigate()
             return
         }
@@ -354,8 +360,7 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
             currentLevel = 1
             
             print("All captured texts:", capturedTexts)
-            
-            // You might want to show a completion alert or navigate to results
+            finishTestAndStoreResult()
             navigate()
             return
         }
@@ -474,4 +479,30 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
 
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func finishTestAndStoreResult() {
+        let bestLevel = getBestCorrectLevel(
+            expectedTexts: expectedTexts,
+            spokenTexts: capturedTexts
+        ) ?? 0
+
+        let score = calcAcuityScore(level: bestLevel)
+
+        let result = AcuityTestResult(
+            id: Int.random(in: 1000...9999),
+            testType: (source == .NVALeft || source == .NVARight) ? .NearVision : .DistantVision,
+            testDate: Date(),
+            heathyScore: "20/20",
+            leftEyeScore: (source == .NVALeft || source == .DVALeft) ? score : "",
+            rightEyeScore: (source == .NVARight || source == .DVARight) ? score : "",
+            comment: "Auto generated"
+        )
+        print("acuity page result: ", result)
+
+        AcuityTestResultResponse.shared.results.append(result)
+
+        print("Stored result:", result)
+    }
+
+
 }
