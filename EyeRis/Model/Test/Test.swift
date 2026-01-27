@@ -51,13 +51,34 @@ struct AcuityTestResult{
     var comment: String = "Overall, your vision is fairly good, but a routine eye check-up or corrective lens may help improve clarity, especially for distance vision."
 }
 
+func calcAcuityScore(level: Int) -> String {
+    let snellenMap = [
+        "20/200",
+        "20/100",
+        "20/80",
+        "20/60",
+        "20/40",
+        "20/30",
+        "20/25",
+        "20/20",
+        "20/15"
+    ]
+    
+    guard level >= 0 && level < snellenMap.count else {
+        return "N/A"
+    }
+    
+    return snellenMap[level]
+}
+
 struct AcuityTestsForADate {
     let date: Date
     let distant: AcuityTestResult
     let near: AcuityTestResult
 }
 
-struct AcuityTestResultResponse {
+final class AcuityTestResultResponse {
+    static let shared = AcuityTestResultResponse()
     var results : [AcuityTestResult]
     
     init() {
@@ -92,10 +113,6 @@ struct AcuityTestResultResponse {
         
         return dailyTests
     }
-    
-    func getLastTestDVA() -> AcuityTestResult {
-        results.max { $0.testDate < $1.testDate }!
-    }
 }
 
 extension AcuityTestResultResponse {
@@ -118,17 +135,19 @@ extension AcuityTestResultResponse {
 
 struct BlinkRateTest{
     var instructions: TestInstruction
-    var passages: [String]
-    var duration: Int = 120
+    var passages: String
+    var duration: Int = 30
 }
 
 struct BlinkRateTestResult {
     var id: Int
     var blinks: Int
-    var bpm: Int {
-        blinks/2
-    }
+    var duration: Int         
     var performedOn: Date
+
+    var bpm: Int {
+        Int(Double(blinks) * (60.0 / Double(duration)))
+    }
 }
 
 struct BlinkWeek {
@@ -138,49 +157,5 @@ struct BlinkWeek {
 
 struct BlinkRateTestResultResponse {
     private let results: [BlinkRateTestResult]
-
-    init(results: [BlinkRateTestResult] = blinkRateMockData) {
-        self.results = results
-    }
-
-    // Today
-    func todayResult() -> BlinkRateTestResult? {
-        results.first {
-            Calendar.current.isDateInToday($0.performedOn)
-        }
-    }
-
-    // Last 4 Weeks
-    func makeLast4Weeks() -> [BlinkWeek] {
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: Date())
-
-        let byDate = Dictionary(
-            uniqueKeysWithValues: results.map {
-                (calendar.startOfDay(for: $0.performedOn), $0)
-            }
-        )
-
-        var weeks: [BlinkWeek] = []
-
-        for offset in (0..<4).reversed() {
-            guard let weekStart = calendar.date(
-                byAdding: .weekOfYear,
-                value: -offset,
-                to: today
-            )?.startOfWeek else { continue }
-
-            let days = (0..<7).map { day -> BlinkRateTestResult? in
-                let date = calendar.date(byAdding: .day, value: day, to: weekStart)!
-                return byDate[date]
-            }
-
-            weeks.append(
-                BlinkWeek(startDate: weekStart, days: days)
-            )
-        }
-
-        return weeks
-    }
 }
 

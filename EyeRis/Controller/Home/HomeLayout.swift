@@ -53,7 +53,8 @@ extension ViewController {
             case 2: // Recommended
                 let section = Self.makeHorizontalSection(
                     height: 100,
-                    itemWidth: 156
+                    itemWidth: 156,
+                    bottom: 15
                 )
                 section.boundarySupplementaryItems = [sectionHeaderItem]
                 return section
@@ -67,7 +68,7 @@ extension ViewController {
                 return section
                 
             case 4: // Blink Rate (example using bold header)
-                let section = Self.makeFullWidthSection(height: 165, top: 0, bottom: 15)
+                let section = Self.makeFullWidthSection(height: 165, top: 5, bottom: 15)
                 section.boundarySupplementaryItems = [sectionHeaderItem]
                 return section
                 
@@ -113,7 +114,8 @@ extension ViewController {
     
     static func makeHorizontalSection(
         height: CGFloat,
-        itemWidth: CGFloat
+        itemWidth: CGFloat,
+        bottom: CGFloat
     ) -> NSCollectionLayoutSection {
         
         let item = NSCollectionLayoutItem(
@@ -134,7 +136,7 @@ extension ViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
         section.interGroupSpacing = 12
-        section.contentInsets = .init(top: 5, leading: 15, bottom: 10, trailing: 15)
+        section.contentInsets = .init(top: 5, leading: 15, bottom: bottom, trailing: 15)
         section.contentInsetsReference = .layoutMargins
         return section
     }
@@ -165,7 +167,7 @@ extension ViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .none
-        section.contentInsets = .init(top: 5, leading: 15, bottom: 10, trailing: 15)
+        section.contentInsets = .init(top: 5, leading: 15, bottom: 15, trailing: 15)
         section.contentInsetsReference = .layoutMargins
         
         return section

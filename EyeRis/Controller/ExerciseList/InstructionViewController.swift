@@ -53,21 +53,21 @@ class InstructionViewController: UIViewController {
         guard let exercise = exercise else { return }
         
         //setting main instruction
-        mainInstructionLabel.text = exercise.instructions.description.first ?? "No instructions available"
+        mainInstructionLabel.text = exercise.instructions.description ?? "No instructions available"
         
         //setting subinstructions
         let subInstructions = Array(exercise.instructions.description.dropFirst())
 
         if subInstructions.count > 0 {
-            subInstruction1Label.text = "•" + subInstructions[0]
+            subInstruction1Label.text = "•" + subInstructions
         }
         
         if subInstructions.count > 1 {
-            subInstruction2Label.text = "•" + subInstructions[1]
+            subInstruction2Label.text = "•" + subInstructions
         }
         
         if subInstructions.count > 2 {
-            subInstruction3Label.text = "•" + subInstructions[2]
+            subInstruction3Label.text = "•" + subInstructions
         }
         
         //setting image

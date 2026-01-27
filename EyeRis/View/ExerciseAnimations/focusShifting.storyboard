@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="H4x-3h-bdV">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Focus Shifting-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="FocusShiftingViewController" id="Y6W-OH-hqX" customClass="FocusShiftingViewController" customModule="EyeRis" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tFl-pW-Z0D">
+                                <rect key="frame" x="0.0" y="206" width="393" height="440"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1JW-86-opZ">
+                                        <rect key="frame" x="0.0" y="160" width="393" height="120"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="100"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="440" id="0PZ-qz-pGL"/>
+                                    <constraint firstItem="1JW-86-opZ" firstAttribute="leading" secondItem="tFl-pW-Z0D" secondAttribute="leading" id="82N-98-AYT"/>
+                                    <constraint firstItem="1JW-86-opZ" firstAttribute="centerY" secondItem="tFl-pW-Z0D" secondAttribute="centerY" id="AxJ-yQ-8QX"/>
+                                    <constraint firstItem="1JW-86-opZ" firstAttribute="centerX" secondItem="tFl-pW-Z0D" secondAttribute="centerX" id="uKX-9F-e8c"/>
+                                    <constraint firstAttribute="trailing" secondItem="1JW-86-opZ" secondAttribute="trailing" id="uwA-Nc-QfF"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="tFl-pW-Z0D" secondAttribute="trailing" id="cxB-d6-tzU"/>
+                            <constraint firstItem="tFl-pW-Z0D" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="hbx-Rk-eb5"/>
+                            <constraint firstItem="tFl-pW-Z0D" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="mcW-zz-txr"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Focus Shifting" id="gKG-j9-HUC">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="pause" catalog="system" id="pTe-Zz-GJi"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="timer_label" destination="1JW-86-opZ" id="tck-Pt-V8d"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1063.3587786259541" y="103.52112676056339"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="gY2-0L-bdL">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="H4x-3h-bdV" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="W4i-zI-PWB">
+                        <rect key="frame" x="0.0" y="118" width="393" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="Kpm-SZ-2dI"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4Se-ay-2hb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="136.64122137404578" y="103.52112676056339"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="pause" catalog="system" width="88" height="128"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

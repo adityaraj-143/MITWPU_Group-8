@@ -9,6 +9,7 @@ import UIKit
 
 class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDelegate {
 
+    var opt1 = "C3EFC3"
 
     @IBOutlet weak var mainLabel: UIButton!
     @IBOutlet weak var extraCountLabel: UILabel!
@@ -28,24 +29,22 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
         
         if let layout = IconsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = .horizontal
-            layout.minimumInteritemSpacing = 1
-            layout.minimumLineSpacing = 1
+            layout.minimumLineSpacing = -10
+            layout.minimumInteritemSpacing = 0
             layout.sectionInset = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 4)
         }
         
         IconsCollectionView.clipsToBounds = true
         mainView.clipsToBounds = true
-        contentView.clipsToBounds = true
+//        contentView.clipsToBounds = true
 
     }
 
-    @IBAction func playButtonAction(_ sender: Any) {
-    }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let cellHeight: CGFloat = 36
+        let cellHeight: CGFloat = 40
         let collectionHeight = IconsCollectionView.bounds.height
         
         let verticalInset = max(0, (collectionHeight - cellHeight) / 2)
@@ -58,8 +57,8 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
         )
     }
     
-    func configureLabel(iconImages: [UIImage]) {
-        self.icons = iconImages
+    func configureLabel(iconImages: [String]) {
+        self.icons = iconImages.compactMap { UIImage(named: $0) }
         IconsCollectionView.reloadData()
 
         if iconImages.count > 3 {
@@ -98,6 +97,6 @@ extension TodayExerciseCollectionViewCell: UICollectionViewDataSource, UICollect
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 36, height: 36)
+        return CGSize(width: 40, height: 40)
     }
 }

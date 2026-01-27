@@ -23,7 +23,7 @@ class ExerciseHistoryViewController: UIViewController {
     private let weekDays = ["M", "T", "W", "T", "F", "S", "S"]
     private let totalItems = 28
     
-    private let response = PerformedExerciseStatResponse()
+    private let response = ExerciseHistory()
 
     private var fourWeekDates: [Date] = []
     private var performedDates: Set<Date> = []
@@ -45,8 +45,8 @@ class ExerciseHistoryViewController: UIViewController {
             forCellWithReuseIdentifier: "dayCell"
         )
         
-        fourWeekDates = response.getFourWeekDateRange()
-        performedDates = response.getPerformedExerciseDates()
+        fourWeekDates = response.fourWeekDateRange()
+        performedDates = response.performedExerciseDates()
 
         
         weekCollectionView.dataSource = self
@@ -125,7 +125,7 @@ class ExerciseHistoryViewController: UIViewController {
         selectedDate = date
         // Update title
         navigationItem.title = dateFormatter.string(from: date)
-        selectedDayExercises = response.exercises(for: date)
+        selectedDayExercises = response.exercises(on: date)
         updateSummary(for: selectedDayExercises)
         exerciseTableView.reloadData()
     }
