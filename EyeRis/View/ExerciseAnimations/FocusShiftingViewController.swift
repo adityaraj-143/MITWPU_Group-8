@@ -13,7 +13,9 @@ class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring
     var exercise: Exercise?
     var inTodaySet: Int? = 0
     
-    private let exerciseDuration = 20
+    var referenceDistance: Int = 40   // default fallback
+    
+    private let exerciseDuration = 5
 
     private let exerciseContainer: UIView = {
         let view = UIView()
@@ -50,11 +52,17 @@ class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring
             }
 
             // Start timed session
+            guard let exercise = self.exercise else {
+                assertionFailure("Exercise not set in FocusShiftingViewController")
+                return
+            }
+
             ExerciseSessionManager.shared.start(
-                exercise: self.exercise!,
+                exercise: exercise,
                 referenceDistance: ExerciseSessionManager.shared.referenceDistance,
                 time: self.exerciseDuration
             )
+
         }
     }
 
@@ -66,12 +74,19 @@ class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        stopAlignmentMonitoring(timer: &monitorTimer)
+        // If pause modal is being shown, only stop monitoring
+        if navigationController?.topViewController is PauseModalViewController {
+            stopAlignmentMonitoring(timer: &monitorTimer)
+            return
+        }
 
+        // If user presses BACK → exit whole exercise flow
         if isMovingFromParent {
-            ExerciseSessionManager.shared.endSession()
+            stopAlignmentMonitoring(timer: &monitorTimer)
+            ExerciseSessionManager.shared.endSession(resetCamera: true)
         }
     }
+
 
     
     func showPause(reason: CameraAlignmentState) {

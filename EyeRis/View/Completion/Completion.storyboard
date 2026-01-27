@@ -96,7 +96,13 @@
                             <constraint firstItem="TRm-yH-V9a" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="50" id="zT2-QE-QF6"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="hqw-QV-x3u"/>
+                    <navigationItem key="navigationItem" id="hqw-QV-x3u">
+                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="SwO-wS-6DV">
+                            <connections>
+                                <action selector="backButtonTapped:" destination="Y6W-OH-hqX" id="MfR-5f-Y8d"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="ActualTimeTaken" destination="Biv-7a-ApG" id="iPW-bq-9yL"/>
                         <outlet property="TimeTakenLabel" destination="Biv-7a-ApG" id="LcV-mV-YrN"/>
@@ -130,6 +136,7 @@
     </scenes>
     <resources>
         <image name="checkmark.seal" catalog="system" width="128" height="124"/>
+        <image name="chevron.left" catalog="system" width="97" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

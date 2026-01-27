@@ -22,43 +22,50 @@ final class ExerciseSessionManager {
     private(set) var referenceDistance: Int = 0
     private(set) var exercise: Exercise?
 
+    // Session timing
     private var sessionTimer: Timer?
+    private(set) var duration: Int = 0      // total exercise duration in seconds
     private var elapsedTime: Int = 0
 
-    // Callback that VC sets
     var onSessionCompleted: (() -> Void)?
 
-    func start(exercise: Exercise, referenceDistance: Int, time: Int) {
+    func start(exercise: Exercise,
+               referenceDistance: Int,
+               time duration: Int) {
+
         self.exercise = exercise
         self.referenceDistance = referenceDistance
+        self.duration = duration
         self.elapsedTime = 0
 
-        startSessionTimer(duration: time)
+        startSessionTimer()
     }
 
-    func endSession() {
+    func endSession(resetCamera: Bool = true) {
         stopSessionTimer()
         exercise = nil
         referenceDistance = 0
+        duration = 0
         elapsedTime = 0
 
-        CameraManager.shared.reset()
+        if resetCamera {
+            CameraManager.shared.reset()
+        }
 
-        // Notify VC
         onSessionCompleted?()
     }
 
-    private func startSessionTimer(duration: Int) {
+    private func startSessionTimer() {
         stopSessionTimer()
 
         sessionTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
-            guard let self = self else { return }
+            guard let self else { return }
 
             self.elapsedTime += 1
 
-            if self.elapsedTime >= duration {
+            if self.elapsedTime >= self.duration {
                 timer.invalidate()
-                self.endSession()
+                self.endSession(resetCamera: false) // chaining exercises keeps camera alive
             }
         }
     }

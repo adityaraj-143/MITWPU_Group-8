@@ -14,29 +14,31 @@ class TodaysExerciseSetViewController: UIViewController {
     }
     
     @IBAction func startSetButton(_ sender: Any) {
+       
         guard let list = ExerciseList.shared,
-              let firstTodayExercise = list.todaysSet.first?.exercise else {
-            assertionFailure("Today's set is empty or not initialized")
-            return
-        }
-        
-        let storyboard = UIStoryboard(name: "ExerciseCalibration", bundle: nil)
-        let vc = storyboard.instantiateViewController(
-            withIdentifier: "ExerciseCalibrationViewController"
-        )
-        
-        guard let calibrationVC = vc as? ExerciseCalibrationViewController else {
-            assertionFailure("Wrong VC type for ExerciseCalibrationViewController")
-            return
-        }
-        
-        // Pass the first exercise of today’s set
-        calibrationVC.exercise = firstTodayExercise
-        
-        // Mark that this flow started from Today's Set
-        calibrationVC.inTodaySet = 1
-        
-        navigationController?.pushViewController(calibrationVC, animated: true)
+                 let firstTodayExercise = list.todaysSet.first?.exercise else {
+               assertionFailure("Today's set is empty or not initialized")
+               return
+           }
+
+           let storyboard = UIStoryboard(
+               name: "exerciseInstruction",
+               bundle: nil
+           )
+
+           let identifier = "ExerciseInstructionViewController"
+           let vc = storyboard.instantiateViewController(withIdentifier: identifier)
+
+           guard let instructionVC = vc as? (UIViewController & ExerciseFlowHandling) else {
+               assertionFailure("Instruction VC does not conform to ExerciseFlowHandling")
+               return
+           }
+
+           instructionVC.exercise = firstTodayExercise
+           instructionVC.inTodaySet = 1   // Started as Today’s Set
+           // referenceDistance stays 40 unless calibration changes it
+
+           navigationController?.pushViewController(vc, animated: true)
     }
 }
 

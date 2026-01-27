@@ -75,10 +75,26 @@ final class ExerciseList {
             !Set(exercise.targetedConditions).intersection(userConditions).isEmpty
         }
         
-        todaysSet = Array(recommended.shuffled().prefix(4)).map {
+        // IDs that must always be present
+        let mandatoryIDs: Set<Int> = [3, 8, 13]
+        
+        // Get mandatory exercises
+        let mandatoryExercises = exercises.filter { mandatoryIDs.contains($0.id) }
+        
+        // Get remaining recommended exercises excluding mandatory ones
+        let remaining = recommended.filter { !mandatoryIDs.contains($0.id) }
+        
+        // Fill the rest of the set (total = 4)
+        let neededCount = max(0, 4 - mandatoryExercises.count)
+        let randomExtras = Array(remaining.shuffled().prefix(neededCount))
+        
+        let finalSet = mandatoryExercises + randomExtras
+        
+        todaysSet = finalSet.map {
             TodaysExercise(exercise: $0, isCompleted: false)
         }
     }
+
     
     // MARK: - Mutating logic lives here
     

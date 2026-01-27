@@ -10,7 +10,8 @@ import UIKit
 protocol ExerciseFlowHandling: AnyObject {
     var exercise: Exercise? { get set }
     var inTodaySet: Int? { get set }
-    
+    var referenceDistance: Int { get set }
+
     func navigate(to storyboard: String,
                   id identifier: String,
                   nextExercise: Exercise?)
@@ -23,7 +24,7 @@ extension ExerciseFlowHandling where Self: UIViewController {
 
         guard let currentExercise = exercise else { return }
 
-        // Case 1: Came individually → go directly to completion
+        // Individual exercise → direct completion
         if inTodaySet == 0 {
             navigate(
                 to: "Completion",
@@ -33,22 +34,19 @@ extension ExerciseFlowHandling where Self: UIViewController {
             return
         }
 
-        // Case 2: Came from Today's Set → follow sequence
+        // Set flow
         guard let list = ExerciseList.shared else { return }
-
         list.markCompleted(exercise: currentExercise)
 
         if let next = list.nextExercise(after: currentExercise) {
-            print("Next exercise:", next)
-
+            // Instead of jumping to exercise → jump to instructions
             navigate(
-                to: next.getStoryboardName(),
-                id: next.getStoryboardID(),
+                to: "exerciseInstruction",
+                id: "ExerciseInstructionViewController",
                 nextExercise: next
             )
         } else {
-            print("Today's set finished → completion")
-
+            // Set finished
             navigate(
                 to: "Completion",
                 id: "CompletionViewController",

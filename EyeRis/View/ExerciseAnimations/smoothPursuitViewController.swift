@@ -13,7 +13,8 @@ class smoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
     
     var exercise: Exercise?
     var inTodaySet: Int? = 0
-    private let exerciseDuration = 20
+    private let exerciseDuration = 5
+    var referenceDistance: Int = 40   // default fallback
     
     private var monitorTimer: Timer?
     
@@ -49,11 +50,17 @@ class smoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
             }
             
             // Start timed session
+            guard let exercise = self.exercise else {
+                assertionFailure("Exercise not set in SmoothPursuitViewController")
+                return
+            }
+            
             ExerciseSessionManager.shared.start(
-                exercise: self.exercise!,
+                exercise: exercise,
                 referenceDistance: ExerciseSessionManager.shared.referenceDistance,
                 time: self.exerciseDuration
             )
+            
         }
     }
     
@@ -65,10 +72,16 @@ class smoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        stopAlignmentMonitoring(timer: &monitorTimer)
+        // If pause modal is being shown, just stop monitoring
+        if navigationController?.topViewController is PauseModalViewController {
+            stopAlignmentMonitoring(timer: &monitorTimer)
+            return
+        }
         
+        // If user presses BACK → exit whole exercise flow
         if isMovingFromParent {
-            ExerciseSessionManager.shared.endSession()
+            stopAlignmentMonitoring(timer: &monitorTimer)
+            ExerciseSessionManager.shared.endSession(resetCamera: true)
         }
     }
     
