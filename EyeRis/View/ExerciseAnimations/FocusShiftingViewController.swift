@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FocusShiftingViewController: UIViewController {
+class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring {
 
     @IBOutlet weak var timer_label: UILabel!
 
@@ -29,7 +29,8 @@ class FocusShiftingViewController: UIViewController {
     private let minimumFocusDistance: CGFloat = 120
     private let maxSelectionAttempts = 20
 
-
+    private var monitorTimer: Timer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -39,6 +40,19 @@ class FocusShiftingViewController: UIViewController {
         startCountdownThenExercise {
             self.startFocusExercise()
         }
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        startAlignmentMonitoring(timer: &monitorTimer)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        stopAlignmentMonitoring(timer: &monitorTimer)
+    }
+    
+    func showPause(reason: CameraAlignmentState) {
+        // next step
     }
 
     // MARK: Setup

@@ -24,4 +24,11 @@ final class ExerciseSessionManager {
         exercise = nil
         referenceDistance = 0
     }
+    
+    func endSession() {
+        exercise = nil
+        referenceDistance = 0
+        CameraManager.shared.reset()
+    }
+
 }

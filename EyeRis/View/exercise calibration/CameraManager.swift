@@ -11,7 +11,7 @@ import RealityKit
 import UIKit
 
 enum CameraAlignmentState {
-    case valid
+    case manual
     case tooClose
     case tooFar
     case noFace
@@ -31,6 +31,7 @@ class CameraManager: NSObject {
     private(set) var isRunning = false
     private(set) var currentDistance: Int = 0
     private(set) var isFaceDetected = false
+    private(set) var alignmentState: CameraAlignmentState = .noFace
     private let minDistance = 37
     private let maxDistance = 45
     
@@ -55,6 +56,13 @@ class CameraManager: NSObject {
         guard isRunning else { return }
         session.pause()
         isRunning = false
+    }
+    
+    func reset() {
+        stop()
+        isFaceDetected = false
+        currentDistance = 0
+        alignmentState = .noFace
     }
 
     func attachPreview(to containerView: UIView) {
@@ -101,7 +109,7 @@ extension CameraManager: ARSessionDelegate {
         } else if currentDistance > maxDistance {
             alignmentState = .tooFar
         } else {
-            alignmentState = .valid
+            alignmentState = .manual
         }
     }
 }

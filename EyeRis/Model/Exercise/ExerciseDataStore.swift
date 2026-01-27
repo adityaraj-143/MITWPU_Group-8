@@ -93,7 +93,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Figure 8",
             description: "Track a moving dot following a figure-8 pattern on screen.",
-            video: "figure8.mp4"
+            video: "fig8.mp4"
         ),
         targetedConditions: [.eyeFatigue]
     ),

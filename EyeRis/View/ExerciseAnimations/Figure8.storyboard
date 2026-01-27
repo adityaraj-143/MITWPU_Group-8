@@ -33,7 +33,16 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Figure-8" id="zqW-yR-6lq">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="pause" catalog="system" id="UaV-Zh-Vja"/>
+                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="mOf-i7-MB5">
+                            <connections>
+                                <action selector="backTapped:" destination="6c9-s7-6x8" id="CKj-WN-eHZ"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="pause" catalog="system" id="UaV-Zh-Vja">
+                            <connections>
+                                <action selector="pauseTapped:" destination="6c9-s7-6x8" id="Fc1-X3-a5f"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="timer_label" destination="wrL-oY-ZIQ" id="eVb-HA-iWf"/>
@@ -63,6 +72,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="chevron.left" catalog="system" width="97" height="128"/>
         <image name="pause" catalog="system" width="88" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

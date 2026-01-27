@@ -7,7 +7,7 @@
 
 import UIKit
 
-class Fig8ViewController: UIViewController {
+class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring {
 
     @IBOutlet weak var timer_label: UILabel!
 
@@ -20,6 +20,7 @@ class Fig8ViewController: UIViewController {
     private let animationDuration: CGFloat = 8.5
     private let keyframeSteps = 300
 
+    private var monitorTimer: Timer?
 
     private let dotView: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
@@ -30,13 +31,38 @@ class Fig8ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationItem.hidesBackButton = true
+        
         setupDot()
         generateKeyframes()
 
         startCountdownThenExercise {
             self.startDotAnimation()
         }
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        startAlignmentMonitoring(timer: &monitorTimer)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        // Stop alignment monitoring ONLY if going to pause screen
+        if navigationController?.topViewController is PauseModalViewController {
+            monitorTimer?.invalidate()
+            monitorTimer = nil
+        }
+
+        // If user presses BACK → end session
+        if isMovingFromParent {
+            ExerciseSessionManager.shared.endSession()
+        }
+    }
+    
+
+    @IBAction func pauseTapped(_ sender: UIBarButtonItem) {
+        showPause(reason: .manual)
     }
 
     // MARK: Setup
@@ -143,6 +169,65 @@ class Fig8ViewController: UIViewController {
         let y = centerY + figureSize * sin(t)
 
         return CGPoint(x: x, y: y)
+    }
+    
+    func showPause(reason: CameraAlignmentState) {
+
+        // Prevent multiple pushes
+        guard navigationController?.topViewController === self else { return }
+
+        guard let exercise = ExerciseSessionManager.shared.exercise else { return }
+
+        let storyboard = UIStoryboard(name: "ExercisePauseScreen", bundle: nil)
+
+        guard let vc = storyboard.instantiateViewController(
+            withIdentifier: "PauseModalViewController"
+        ) as? PauseModalViewController else {
+            return
+        }
+
+        vc.pauseReason = mapReason(reason)
+        vc.exercise = exercise
+
+        vc.onResume = { [weak self] in
+            self?.startAlignmentMonitoring(timer: &self!.monitorTimer)
+        }
+
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    private func mapReason(_ state: CameraAlignmentState) -> PauseReason {
+        switch state {
+        case .tooClose: return .tooClose
+        case .tooFar: return .tooFar
+        case .noFace: return .noFace
+        case .manual: return .manual // fallback
+        }
+    }
+    
+    private func popToExerciseList() {
+        guard let navController = navigationController else { return }
+
+        for vc in navController.viewControllers {
+            if vc is ExerciseListViewController {
+                navController.popToViewController(vc, animated: true)
+                return
+            }
+        }
+
+        // fallback (should not happen)
+        navController.popToRootViewController(animated: true)
+    }
+
+    @IBAction func backTapped(_ sender: UIBarButtonItem) {
+        monitorTimer?.invalidate()
+        monitorTimer = nil
+
+        // End exercise session (stops camera + resets state)
+        ExerciseSessionManager.shared.endSession()
+
+        // Pop directly to ExerciseList
+        popToExerciseList()
     }
 }
 
