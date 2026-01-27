@@ -32,8 +32,8 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
         cardView.clipsToBounds = true
         cardView.backgroundColor = UIColor(white: 0.98, alpha: 1)
 
-        StyleContainerView.applyShadow()
-        navigationButton.backgroundColor = .lightGreen
+//        StyleContainerView.applyShadow()
+//        navigationButton.backgroundColor = .lightGreen
 
         iconView.makeRounded()
     }
@@ -47,9 +47,9 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
         exerciseName.text = item.exercise.name
         exerciseDescription.text = item.exercise.instructions.description
         exerciseImage.image = UIImage(named: item.exercise.getIcon())
-        durationLabel.text = "\(item.exercise.duration)"
+        durationLabel.text = "\(item.exercise.duration) sec"
         cardView.backgroundColor = .white
-        iconView.backgroundColor = .lightGreen
+        iconView.backgroundColor = item.exercise.getIconBGColor()
 
         if item.isCompleted {
             checkmark.image = UIImage(systemName: "checkmark.circle.fill")

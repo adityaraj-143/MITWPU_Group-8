@@ -9,24 +9,24 @@ import UIKit
 
 
 class BlinkRateHistoryViewController: UIViewController, UICollectionViewDelegate {
-
+    
     @IBOutlet weak var CollectionView: UICollectionView!
     @IBOutlet weak var todayDataComment: UILabel!
     @IBOutlet weak var todayDataBPM: UILabel!
     @IBOutlet weak var todayDataView: UIView!
     
     private var weeks: [BlinkWeek] = []
-    private let response = BlinkRateTestResultResponse()
+    private let blinkStore = BlinkRateDataStore.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         todayDataView.applyCornerRadius()
-
+        
         prepareTodayData()
         prepareWeeklyData()
-
-
+        
+        
         // Do any additional setup after loading the view.
         CollectionView.register(UINib(nibName: "BlinkRateGraphCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "graph_cell")
         
@@ -34,13 +34,13 @@ class BlinkRateHistoryViewController: UIViewController, UICollectionViewDelegate
         CollectionView.delegate = self
         CollectionView.showsHorizontalScrollIndicator = false
         CollectionView.decelerationRate = .fast
-
+        
         CollectionView.collectionViewLayout = makeWeekLayout()
     }
     
-
+    
     private func prepareTodayData() {
-        let todayResult = response.todayResult()
+        let todayResult = blinkStore.todayResult()
         
         let value = todayResult?.bpm ?? 0
         if value <= 10 {
@@ -55,41 +55,41 @@ class BlinkRateHistoryViewController: UIViewController, UICollectionViewDelegate
             todayDataComment.text = "Excellent! Anything above 20 is healthy"
             todayDataBPM.textColor = .green
         }
-    
-
+        
         let attributed = NSMutableAttributedString(
             string: "\(value)",
             attributes: [
                 .font: todayDataBPM.font as Any
             ]
         )
-
+        
         let bpmText = NSAttributedString(
             string: " bpm",
             attributes: [
                 .font: UIFont.systemFont(ofSize: 12)
             ]
         )
-
+        
         attributed.append(bpmText)
         todayDataBPM.attributedText = attributed
-
     }
-
+    
+    
     
     private func prepareWeeklyData() {
-        weeks = response.makeLast4Weeks()
+        weeks = blinkStore.makeLast4Weeks()
     }
-
+    
+    
     
     private func makeWeekLayout() -> UICollectionViewLayout {
-
+        
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalHeight(1.0)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
+        
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(0.9),
             heightDimension: .absolute(248)
@@ -98,25 +98,25 @@ class BlinkRateHistoryViewController: UIViewController, UICollectionViewDelegate
             layoutSize: groupSize,
             subitems: [item]
         )
-
+        
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPagingCentered
         section.interGroupSpacing = 12
         section.contentInsets = .zero
-
+        
         return UICollectionViewCompositionalLayout(section: section)
     }
-
-
+    
+    
 }
 
 extension BlinkRateHistoryViewController: UICollectionViewDataSource {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
+        
         guard !weeks.isEmpty else { return }
-
+        
         let indexPath = IndexPath(item: weeks.count - 1, section: 0)
         CollectionView.scrollToItem(
             at: indexPath,
@@ -124,20 +124,20 @@ extension BlinkRateHistoryViewController: UICollectionViewDataSource {
             animated: false
         )
     }
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         weeks.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
+        
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: "graph_cell",
             for: indexPath
         ) as! BlinkRateGraphCollectionViewCell
-
+        
         cell.configure(with: weeks[indexPath.item])
         return cell
     }
