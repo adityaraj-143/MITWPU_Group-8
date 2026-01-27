@@ -16,14 +16,30 @@ class ExerciseListViewController: UIViewController {
         super.viewDidLoad()
         
         CollectionView.dataSource = self
-
+        CollectionView.delegate = self
         
         CollectionView.register(UINib(nibName: "ExerciseListCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "exercise_cell")
         
         CollectionView.collectionViewLayout = generateLayout()
     }
     
-    
+    private func navigateToInstruction(exercise: Exercise) {
+        
+        let storyboard = UIStoryboard(
+            name: "exerciseInstruction",
+            bundle: nil
+        )
+        
+        guard let vc = storyboard.instantiateViewController(
+            withIdentifier: "ExerciseInstructionViewController"
+        ) as? exerciseInstructionViewController else {
+            assertionFailure("ExerciseInstructionViewController not found")
+            return
+        }
+        
+        vc.exercise = exercise
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 private func generateLayout() -> UICollectionViewLayout {
@@ -78,7 +94,6 @@ extension ExerciseListViewController: UICollectionViewDataSource {
                         numberOfItemsInSection section: Int) -> Int {
         return exercises.count
     }
-    
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
@@ -89,7 +104,6 @@ extension ExerciseListViewController: UICollectionViewDataSource {
         
         let exercise = exercises[indexPath.item]
         
-        
         cell.configure(
             title: exercise.name,
             subtitle: exercise.instructions.description,
@@ -97,8 +111,16 @@ extension ExerciseListViewController: UICollectionViewDataSource {
             bgColor: exercise.getBGColor(),
             iconBG: exercise.getIconBGColor()
         )
-        
         return cell
     }
-    
 }
+extension ExerciseListViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
+        
+        let selectedExercise = exercises[indexPath.item]
+        navigateToInstruction(exercise: selectedExercise)
+    }
+}
+
