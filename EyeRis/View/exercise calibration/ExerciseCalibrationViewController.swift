@@ -66,12 +66,7 @@ class ExerciseCalibrationViewController: UIViewController {
             return
         }
 
-        // Start the session
-        ExerciseSessionManager.shared.start(
-            exercise: exercise,
-            referenceDistance: referenceDistance,
-            time: 20       // or pass real duration if you have it
-        )
+
 
         navigateToExercise()
     }
@@ -123,8 +118,8 @@ class ExerciseCalibrationViewController: UIViewController {
 
     private func navigateToExercise() {
 
-        guard let exercise = ExerciseSessionManager.shared.exercise else {
-            assertionFailure("Exercise missing in session manager")
+        guard let exercise else {
+            assertionFailure("Exercise missing")
             return
         }
 
@@ -134,19 +129,17 @@ class ExerciseCalibrationViewController: UIViewController {
         )
 
         let identifier = exercise.getStoryboardID()
+        let vc = storyboard.instantiateViewController(withIdentifier: identifier)
 
-        let vc = storyboard.instantiateViewController(
-            withIdentifier: identifier
-        )
-
-        // Universal downcast through protocol
         if let exerciseVC = vc as? ExerciseFlowHandling {
             exerciseVC.exercise = exercise
             exerciseVC.inTodaySet = inTodaySet
+            exerciseVC.referenceDistance = CameraManager.shared.currentDistance
         } else {
             assertionFailure("ViewController does not conform to ExerciseFlowHandling")
         }
 
         navigationController?.pushViewController(vc, animated: true)
     }
+
 }

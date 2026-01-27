@@ -14,6 +14,9 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
     var exercise: Exercise?
     var inTodaySet: Int? = 0
     
+    var referenceDistance: Int = 40   // default fallback
+
+    
     // MARK: Properties
     private var keyframes: [DotKeyframe] = []
     private var startTime: CFTimeInterval = 0
@@ -25,7 +28,7 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
     
     private var monitorTimer: Timer?
     
-    var exerciseDuration = 20
+    var exerciseDuration = 5
     
     private let dotView: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
@@ -50,11 +53,17 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
                 self?.handleExerciseCompletion()
             }
             
+            guard let exercise = self.exercise else {
+                assertionFailure("Exercise not set in Fig8ViewController")
+                return
+            }
+
             ExerciseSessionManager.shared.start(
-                exercise: self.exercise!,
+                exercise: exercise,
                 referenceDistance: 40,
                 time: self.exerciseDuration
             )
+
         }
         
     }
@@ -66,18 +75,21 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        // Stop alignment monitoring ONLY if going to pause screen
+        // If pause modal is being shown, just stop monitoring
         if navigationController?.topViewController is PauseModalViewController {
             monitorTimer?.invalidate()
             monitorTimer = nil
+            return
         }
-        
-        // If user presses BACK → end session
+
+        // If user presses BACK → exit exercise flow completely
         if isMovingFromParent {
-            ExerciseSessionManager.shared.endSession()
+            monitorTimer?.invalidate()
+            monitorTimer = nil
+            ExerciseSessionManager.shared.endSession(resetCamera: true)
         }
     }
-    
+
     
     @IBAction func pauseTapped(_ sender: UIBarButtonItem) {
         showPause(reason: .manual)
@@ -242,7 +254,7 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
         monitorTimer = nil
         
         // End exercise session (stops camera + resets state)
-        ExerciseSessionManager.shared.endSession()
+        ExerciseSessionManager.shared.endSession(resetCamera: true)
         
         // Pop directly to ExerciseList
         popToExerciseList()
@@ -257,7 +269,7 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
 
         // If this is another exercise screen
         if let nextExercise,
-           let exerciseVC = vc as? Fig8ViewController {
+           let exerciseVC = vc as? ExerciseFlowHandling {
             exerciseVC.exercise = nextExercise
             exerciseVC.inTodaySet = 1
         }
@@ -269,7 +281,6 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
 
         navigationController?.pushViewController(vc, animated: true)
     }
-
     
 }
 
