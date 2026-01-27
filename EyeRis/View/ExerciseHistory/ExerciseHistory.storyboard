@@ -242,6 +242,7 @@
                     <navigationItem key="navigationItem" title="Date" id="xSG-0W-epd">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="calendar" catalog="system" id="gVK-34-jQi">
                             <connections>
+                                <action selector="openCalendarTapped:" destination="d1L-Cb-moc" id="z7M-56-T4g"/>
                                 <segue destination="J95-Z1-RDL" kind="presentation" id="uC2-GO-GY1"/>
                             </connections>
                         </barButtonItem>
@@ -268,34 +269,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="793"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="3C2-FS-ZNA">
-                                <rect key="frame" x="0.0" y="70" width="393" height="723"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="tVx-yv-abJ">
-                                    <size key="itemSize" width="128" height="128"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="oiZ-bz-7kO">
-                                        <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="n0X-Vf-EiB">
-                                            <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </collectionViewCellContentView>
-                                    </collectionViewCell>
-                                </cells>
-                            </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Xy-Nl-6Jv">
+                                <rect key="frame" x="8" y="113" width="377" height="600"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="600" id="qzI-Tu-NuD"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="w07-hw-mEV"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="w07-hw-mEV" firstAttribute="bottom" secondItem="3C2-FS-ZNA" secondAttribute="bottom" id="LJD-Ag-z07"/>
-                            <constraint firstAttribute="trailing" secondItem="3C2-FS-ZNA" secondAttribute="trailing" id="ewW-kF-VBR"/>
-                            <constraint firstItem="3C2-FS-ZNA" firstAttribute="leading" secondItem="w07-hw-mEV" secondAttribute="leading" id="rxA-eR-QE8"/>
-                            <constraint firstItem="3C2-FS-ZNA" firstAttribute="top" secondItem="w07-hw-mEV" secondAttribute="top" id="toI-Wd-RCS"/>
+                            <constraint firstItem="w07-hw-mEV" firstAttribute="bottom" secondItem="4Xy-Nl-6Jv" secondAttribute="bottom" constant="80" id="DXC-44-fqp"/>
+                            <constraint firstItem="4Xy-Nl-6Jv" firstAttribute="leading" secondItem="w07-hw-mEV" secondAttribute="leading" constant="8" id="eJk-yl-D5b"/>
+                            <constraint firstItem="w07-hw-mEV" firstAttribute="trailing" secondItem="4Xy-Nl-6Jv" secondAttribute="trailing" constant="8" id="nzl-As-WvT"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Full Exercise History" id="T1z-pS-0l2">
@@ -306,7 +292,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="collectionView" destination="3C2-FS-ZNA" id="RG7-ZW-saF"/>
+                        <outlet property="calendarView" destination="4Xy-Nl-6Jv" id="Tou-dE-Udj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hyf-TV-c1K" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

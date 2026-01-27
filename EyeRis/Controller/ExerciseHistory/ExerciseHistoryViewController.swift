@@ -89,6 +89,39 @@ class ExerciseHistoryViewController: UIViewController {
             self.weekCollectionView.reloadItems(at: [indexPath])
         }
     }
+    @IBAction func openCalendarTapped(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        guard let vc = storyboard.instantiateViewController(
+            withIdentifier: "ExerciseHistoryCalendarViewController"
+        ) as? ExerciseHistoryCalendarViewController else { return }
+
+        vc.onDateSelected = { [weak self] date in
+            self?.jumpToDate(date)
+        }
+
+        present(vc, animated: true)
+    }
+    
+    private func jumpToDate(_ date: Date) {
+        guard let index = fourWeekDates.firstIndex(where: {
+            Calendar.current.isDate($0, inSameDayAs: date)
+        }) else { return }
+
+        let indexPath = IndexPath(item: index, section: 0)
+        
+        selectedIndexPath = indexPath
+        handleDateSelection(date)
+
+        weekCollectionView.scrollToItem(
+            at: indexPath,
+            at: .centeredHorizontally,
+            animated: true
+        )
+
+        weekCollectionView.reloadData()
+    }
+
     
     // MARK: - Layout
     private func makeWeekLayout() -> UICollectionViewLayout {
