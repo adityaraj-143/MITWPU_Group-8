@@ -93,6 +93,12 @@ struct ExerciseSummary {
     let speed: Int
 }
 
+// One Item of the today's exercise set
+struct TodaysExercise {
+    let exercise: Exercise
+    var isCompleted: Bool
+}
+
 // MARK: - Exercise History / Stats Store
 
 struct ExerciseHistory {
@@ -167,19 +173,3 @@ struct ExerciseHistory {
     }
 }
 
-struct TestMock {
-    let title: String
-    let subtitle: String
-    let iconName: String
-    let iconBGColor: UIColor
-}
-
-var tests: [TestMock] = [
-    .init(title: "Acuity Test", subtitle: "Check sharpness", iconName: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40", iconBGColor: .systemPink),
-    .init(title: "Blink Rate", subtitle: "Check blinking", iconName: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40", iconBGColor: .systemIndigo)
-]
-// One Item of the today's exercise set
-struct TodaysExercise {
-    let exercise: Exercise
-    var isCompleted: Bool
-}

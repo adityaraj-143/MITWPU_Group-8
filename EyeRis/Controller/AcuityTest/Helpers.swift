@@ -46,3 +46,42 @@ func generateRandomLetters(count: Int) -> String {
     let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     return String((0..<count).map { _ in letters.randomElement()! })
 }
+
+func matchPercentage(expected: String, spoken: String) -> Double {
+    let e = Array(expected.uppercased())
+    let s = Array(spoken.uppercased())
+    
+    guard !e.isEmpty else { return 0 }
+    
+    let minCount = min(e.count, s.count)
+    var correct = 0
+    
+    for i in 0..<minCount {
+        if e[i] == s[i] {
+            correct += 1
+        }
+    }
+    
+    return Double(correct) / Double(e.count)
+}
+
+func getBestCorrectLevel(expectedTexts: [String],
+                         spokenTexts: [String]) -> Int? {
+    
+    var bestLevel: Int? = nil
+    
+    for i in 0..<min(expectedTexts.count, spokenTexts.count) {
+        let percent = matchPercentage(
+            expected: expectedTexts[i],
+            spoken: spokenTexts[i]
+        )
+        
+        if percent >= 0.6 {
+            bestLevel = i
+        }
+    }
+    
+    return bestLevel   // index (0-based)
+}
+
+
