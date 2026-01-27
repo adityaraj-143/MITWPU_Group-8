@@ -17,7 +17,7 @@ class SectionHeaderCollectionReusableView: UICollectionReusableView {
         let font = UIFont.systemFont(ofSize: 14)
         let color = UIColor.black
 
-        let currentTitle = NavigateButton.attributedTitle(for: .normal)?.string ?? "See all"
+        let currentTitle = NavigateButton.attributedTitle(for: .normal)?.string ?? "See all "
 
         let attrs: [NSAttributedString.Key: Any] = [
             .font: font,
@@ -37,7 +37,6 @@ class SectionHeaderCollectionReusableView: UICollectionReusableView {
     @IBAction func buttonToNavAction(_ sender: Any) {
         onTapNavigation?()
     }
-    
     
     func congfigure(headerText: String, hideNav: Bool = false) {
         headerLabel.text = headerText
