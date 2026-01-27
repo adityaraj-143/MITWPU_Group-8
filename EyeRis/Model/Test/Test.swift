@@ -159,3 +159,9 @@ struct BlinkRateTestResultResponse {
     private let results: [BlinkRateTestResult]
 }
 
+extension Date {
+    func stripped() -> Date {
+        Calendar.current.startOfDay(for: self)
+    }
+}
+
