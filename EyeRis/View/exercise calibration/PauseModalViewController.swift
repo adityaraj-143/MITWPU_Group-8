@@ -33,11 +33,8 @@ class PauseModalViewController: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
-        // Resuming exercise
-        if isMovingFromParent {
-            onResume?()
-        }
+        monitorTimer?.invalidate()
+        monitorTimer = nil
     }
     
     private func updateUI(){
@@ -111,5 +108,4 @@ class PauseModalViewController: UIViewController {
         navigationController?.popViewController(animated: true)
         onResume?()
     }
-
 }
