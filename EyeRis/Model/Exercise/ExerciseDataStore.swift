@@ -81,7 +81,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Blinking Exercise",
             description: "Follow visual or audio cues to perform complete blinks at set intervals.",
-            video: "focusShifting"
+            video: "FocusShifting"
         ),
         targetedConditions: [.dryEyeSyndrome]
     ),
@@ -105,7 +105,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Eye Rolling",
             description: "Rotate eyes slowly in clockwise and counterclockwise circles.",
-            video: "eyeroll"
+            video: "FocusShifting"
         ),
         targetedConditions: [.eyeMuscleTension]
     ),
@@ -117,7 +117,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Palming",
             description: "Cover closed eyes with palms and follow guided breathing.",
-            video: "palming"
+            video: "FocusShifting"
         ),
         targetedConditions: [.eyeStress, .eyeFatigue]
     ),
@@ -129,7 +129,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Light Adaptation",
             description: "Gradually adjust screen brightness to train light tolerance.",
-            video: "lightadapt"
+            video: "figure8"
         ),
         targetedConditions: [.lightSensitivity]
     ),
@@ -141,7 +141,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Color Contrast",
             description: "View varying color and contrast combinations.",
-            video: "contrast"
+            video: "figure8"
         ),
         targetedConditions: [.visualStress]
     ),
@@ -165,7 +165,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Zooming",
             description: "Follow objects that expand and contract in size.",
-            video: "zoom"
+            video: "figure8"
         ),
         targetedConditions: [.accommodativeDysfunction]
     ),
@@ -177,7 +177,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Saccadic Movements",
             description: "Shift gaze rapidly between targets on screen.",
-            video: "saccadic"
+            video: "smoothPursuit"
         ),
         targetedConditions: [.saccadicDysfunction]
     ),
@@ -189,7 +189,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Convergence",
             description: "Follow a virtual object moving toward and away.",
-            video: "convergence"
+            video: "smoothPursuit"
         ),
         targetedConditions: [.convergenceInsufficiency]
     ),
@@ -201,7 +201,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Brock String",
             description: "Focus sequentially on virtual beads at varying depths.",
-            video: "brock"
+            video: "smoothPursuit"
         ),
         targetedConditions: [.convergenceInsufficiency]
     ),
@@ -225,7 +225,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Eye Games",
             description: "Play gamified tasks requiring specific eye movements.",
-            video: "eyegame"
+            video: "smoothPursuit"
         ),
         targetedConditions: [.generalEyeCoordination, .eyeFatigue]
     )
