@@ -10,6 +10,7 @@ import UIKit
 class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
     
     static let reuseID = " exercise__set_cell"
+    var exercise: Exercise?
     
     @IBOutlet weak var exerciseName: UILabel!
     @IBOutlet weak var durationLabel: UILabel!
@@ -42,8 +43,15 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         exerciseDescription.preferredMaxLayoutWidth = exerciseDescription.frame.width
     }
+    
+    var onTapNavigation: (() -> Void)?
 
+    @IBAction func startButton(_ sender: Any) {
+        onTapNavigation?()
+    }
+    
     func configure(with item: TodaysExercise) {
+        exercise = item.exercise
         exerciseName.text = item.exercise.name
         exerciseDescription.text = item.exercise.instructions.description
         exerciseImage.image = UIImage(named: item.exercise.getIcon())

@@ -24,21 +24,26 @@ class ExerciseListViewController: UIViewController {
     }
     
     private func navigateToInstruction(exercise: Exercise) {
-        
+                
         let storyboard = UIStoryboard(
             name: "exerciseInstruction",
             bundle: nil
         )
         
-        guard let vc = storyboard.instantiateViewController(
-            withIdentifier: "ExerciseInstructionViewController"
-        ) as? exerciseInstructionViewController else {
-            assertionFailure("ExerciseInstructionViewController not found")
+        let identifier = "ExerciseInstructionViewController"
+        let vc = storyboard.instantiateViewController(withIdentifier: identifier)
+        
+        guard let instructionVC = vc as? (ExerciseInstructionViewController & ExerciseFlowHandling) else {
+            assertionFailure("Instruction VC does not conform to ExerciseFlowHandling")
             return
         }
         
-        vc.exercise = exercise
+        instructionVC.exercise = exercise
+        instructionVC.inTodaySet = 0
+        instructionVC.source = .list
+        
         navigationController?.pushViewController(vc, animated: true)
+        return
     }
 }
 
@@ -69,7 +74,6 @@ private func generateLayout() -> UICollectionViewLayout {
         subitems: [item, item]
     )
     
-    // 🔥 FLEXIBLE spacing between the two cards
     group.interItemSpacing = .flexible(0)
     
     // SECTION
