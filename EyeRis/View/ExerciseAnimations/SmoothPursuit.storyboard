@@ -35,6 +35,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Smooth Pursuit" id="lbv-bb-aen">
+                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="v4n-hL-VdY">
+                            <connections>
+                                <action selector="backTapped:" destination="R9u-Og-L3W" id="NE4-nc-C88"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Item" image="pause" catalog="system" id="V9E-BM-8Wj"/>
                     </navigationItem>
                     <connections>
@@ -65,6 +70,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="chevron.left" catalog="system" width="97" height="128"/>
         <image name="pause" catalog="system" width="88" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

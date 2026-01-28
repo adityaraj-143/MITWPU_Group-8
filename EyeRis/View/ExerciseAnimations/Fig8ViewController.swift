@@ -41,8 +41,6 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
         
-        //        exerciseDuration = exercise.duration
-        
         setupDot()
         generateKeyframes()
         
@@ -63,13 +61,9 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
                 referenceDistance: 40,
                 time: self.exerciseDuration
             )
-
+            self.startAlignmentMonitoring(timer: &self.monitorTimer)
         }
         
-    }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        startAlignmentMonitoring(timer: &monitorTimer)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -117,6 +111,7 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
                 self.timer_label.text = "\(count)"
             }
         }
+        
     }
     
     // MARK: Keyframe Generation

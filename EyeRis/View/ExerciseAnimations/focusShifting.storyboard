@@ -45,6 +45,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Focus Shifting" id="gKG-j9-HUC">
+                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="4aR-TK-Dfw">
+                            <connections>
+                                <action selector="backTapped:" destination="Y6W-OH-hqX" id="Wod-8a-5hv"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Item" image="pause" catalog="system" id="pTe-Zz-GJi"/>
                     </navigationItem>
                     <connections>
@@ -75,6 +80,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="chevron.left" catalog="system" width="97" height="128"/>
         <image name="pause" catalog="system" width="88" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

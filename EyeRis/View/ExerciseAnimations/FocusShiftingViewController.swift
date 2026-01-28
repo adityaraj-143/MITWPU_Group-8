@@ -22,6 +22,8 @@ class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring
         view.backgroundColor = .clear
         return view
     }()
+    private var displayLink: CADisplayLink?
+    private var coordinateTimer: Timer?
     
     // MARK: Properties
     private var focusDots: [FocusDot] = []
@@ -39,7 +41,8 @@ class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationItem.hidesBackButton = true
+        
         setupExerciseContainer()
         setupFocusDots()
 
@@ -62,35 +65,98 @@ class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring
                 referenceDistance: ExerciseSessionManager.shared.referenceDistance,
                 time: self.exerciseDuration
             )
-
+            self.startAlignmentMonitoring(timer: &self.monitorTimer)
         }
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        startAlignmentMonitoring(timer: &monitorTimer)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
-        // If pause modal is being shown, only stop monitoring
+        
+        // If pause modal is being shown, just stop monitoring
         if navigationController?.topViewController is PauseModalViewController {
-            stopAlignmentMonitoring(timer: &monitorTimer)
+            monitorTimer?.invalidate()
+            monitorTimer = nil
             return
         }
 
-        // If user presses BACK → exit whole exercise flow
+        // If user presses BACK → exit exercise flow completely
         if isMovingFromParent {
-            stopAlignmentMonitoring(timer: &monitorTimer)
+            monitorTimer?.invalidate()
+            monitorTimer = nil
             ExerciseSessionManager.shared.endSession(resetCamera: true)
         }
     }
-
-
     
+    @IBAction func backTapped(_ sender: UIBarButtonItem) {
+        stopAllTimers()
+        
+        monitorTimer?.invalidate()
+        monitorTimer = nil
+        
+        // End exercise session (stops camera + resets state)
+        ExerciseSessionManager.shared.endSession(resetCamera: true)
+        
+        // Pop directly to ExerciseList
+        popToExerciseList()
+    }
+    
+    private func stopAllTimers() {
+        displayLink?.invalidate()
+        displayLink = nil
+
+        coordinateTimer?.invalidate()
+        coordinateTimer = nil
+
+        monitorTimer?.invalidate()
+        monitorTimer = nil
+    }
+    
+    private func popToExerciseList() {
+        guard let navController = navigationController else { return }
+        
+        for vc in navController.viewControllers {
+            if vc is ExerciseListViewController {
+                navController.popToViewController(vc, animated: true)
+                return
+            }
+        }
+        
+        // fallback (should not happen)
+        navController.popToRootViewController(animated: true)
+    }
+
     func showPause(reason: CameraAlignmentState) {
-        // next step
+        
+        // Prevent multiple pushes
+        guard navigationController?.topViewController === self else { return }
+        
+        guard let exercise = ExerciseSessionManager.shared.exercise else { return }
+        
+        let storyboard = UIStoryboard(name: "ExercisePauseScreen", bundle: nil)
+        
+        guard let vc = storyboard.instantiateViewController(
+            withIdentifier: "PauseModalViewController"
+        ) as? PauseModalViewController else {
+            return
+        }
+        
+        vc.pauseReason = mapReason(reason)
+        vc.exercise = exercise
+        
+        vc.onResume = { [weak self] in
+            self?.startAlignmentMonitoring(timer: &self!.monitorTimer)
+        }
+        
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func mapReason(_ state: CameraAlignmentState) -> PauseReason {
+        switch state {
+        case .tooClose: return .tooClose
+        case .tooFar: return .tooFar
+        case .noFace: return .noFace
+        case .manual: return .manual // fallback
+        }
     }
 
     // MARK: Setup
