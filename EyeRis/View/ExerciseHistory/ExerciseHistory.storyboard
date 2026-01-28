@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="RZV-cr-bZ8">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="RZV-cr-bZ8">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -242,6 +242,7 @@
                     <navigationItem key="navigationItem" title="Date" id="xSG-0W-epd">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="calendar" catalog="system" id="gVK-34-jQi">
                             <connections>
+                                <action selector="openCalendarTapped:" destination="d1L-Cb-moc" id="z7M-56-T4g"/>
                                 <segue destination="J95-Z1-RDL" kind="presentation" id="uC2-GO-GY1"/>
                             </connections>
                         </barButtonItem>
@@ -268,25 +269,35 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="793"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="Wnp-0t-rU1">
-                                <rect key="frame" x="16" y="85.999999999999972" width="361" height="353.33333333333326"/>
-                            </datePicker>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Xy-Nl-6Jv">
+                                <rect key="frame" x="8" y="113" width="377" height="600"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="600" id="qzI-Tu-NuD"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="w07-hw-mEV"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Wnp-0t-rU1" firstAttribute="leading" secondItem="wDz-mo-oU9" secondAttribute="leading" constant="16" id="FWk-3d-hwe"/>
-                            <constraint firstItem="Wnp-0t-rU1" firstAttribute="top" secondItem="w07-hw-mEV" secondAttribute="top" constant="16" id="dXc-VN-jV4"/>
-                            <constraint firstAttribute="trailing" secondItem="Wnp-0t-rU1" secondAttribute="trailing" constant="16" id="rGd-4e-0sy"/>
+                            <constraint firstItem="w07-hw-mEV" firstAttribute="bottom" secondItem="4Xy-Nl-6Jv" secondAttribute="bottom" constant="80" id="DXC-44-fqp"/>
+                            <constraint firstItem="4Xy-Nl-6Jv" firstAttribute="leading" secondItem="w07-hw-mEV" secondAttribute="leading" constant="8" id="eJk-yl-D5b"/>
+                            <constraint firstItem="w07-hw-mEV" firstAttribute="trailing" secondItem="4Xy-Nl-6Jv" secondAttribute="trailing" constant="8" id="nzl-As-WvT"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Full Exercise History" id="T1z-pS-0l2">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Yuu-cF-Wze"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Yuu-cF-Wze">
+                            <connections>
+                                <action selector="clossButtonTapped:" destination="5Mk-y7-i0R" id="9gt-T7-XCs"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="calendarView" destination="4Xy-Nl-6Jv" id="Tou-dE-Udj"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hyf-TV-c1K" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2310.6870229007632" y="-518.30985915492965"/>
+            <point key="canvasLocation" x="2311" y="-518"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="nem-mg-6DD">
