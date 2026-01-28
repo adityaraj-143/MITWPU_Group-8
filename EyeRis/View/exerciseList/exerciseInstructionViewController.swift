@@ -17,7 +17,7 @@ class exerciseInstructionViewController: UIViewController, ExerciseFlowHandling 
     var exercise: Exercise?
     var inTodaySet: Int? = 0
     var referenceDistance: Int = 40   // default
-
+    
     private var player: AVPlayer?
     private var playerLayer: AVPlayerLayer?
     
@@ -27,6 +27,11 @@ class exerciseInstructionViewController: UIViewController, ExerciseFlowHandling 
         setupUI()
         setupVideo()
     }
+    
+    @IBAction func backButtonTapped(_ sender: Any) {
+        gotoTodaysSet()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         playerLayer?.frame = videoContainerView.bounds
@@ -81,22 +86,41 @@ class exerciseInstructionViewController: UIViewController, ExerciseFlowHandling 
     func navigate(to storyboard: String,
                   id identifier: String,
                   nextExercise: Exercise?) {
-
+        
         let storyboard = UIStoryboard(name: storyboard, bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
-
+        
         if let nextExercise,
            let exerciseVC = vc as? ExerciseFlowHandling {
             exerciseVC.exercise = nextExercise
             exerciseVC.inTodaySet = inTodaySet
             exerciseVC.referenceDistance = referenceDistance
         }
-
+        
         if let completionVC = vc as? CompletionViewController {
             completionVC.source = .Exercise
         }
-
+        
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    private func gotoTodaysSet() {
+        guard let nav = navigationController else { return }
 
+        for vc in nav.viewControllers {
+            if vc is TodaysExerciseSetViewController {
+                nav.popToViewController(vc, animated: true)
+                return
+            }
+        }
+
+        // Fallback if for some reason it’s not in stack
+        let storyboard = UIStoryboard(name: "TodaysExerciseSet", bundle: nil) // use your real storyboard name
+        let vc = storyboard.instantiateViewController(
+            withIdentifier: "TodaysExerciseSetViewController"
+        )
+        nav.setViewControllers([nav.viewControllers.first!, vc], animated: true)
+    }
+
+    
 }

@@ -55,7 +55,13 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="VrB-9v-v4O" secondAttribute="trailing" constant="20" id="sIm-xQ-9zi"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Figure 8" id="3Bi-J5-61G"/>
+                    <navigationItem key="navigationItem" title="Figure 8" id="3Bi-J5-61G">
+                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="BHT-6V-jhe">
+                            <connections>
+                                <action selector="backButtonTapped:" destination="Y6W-OH-hqX" id="7Yv-a1-36v"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="calibrateButton" destination="ZwD-LP-6S8" id="EBr-lR-MgS"/>
                         <outlet property="descriptionLabel" destination="d3E-kr-aMd" id="iXL-85-Tyh"/>
@@ -86,6 +92,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="chevron.left" catalog="system" width="97" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
