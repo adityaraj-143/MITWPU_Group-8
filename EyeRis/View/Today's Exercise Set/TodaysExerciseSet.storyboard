@@ -79,7 +79,7 @@
                                                                         <color key="baseBackgroundColor" red="0.38431372549999998" green="0.74509803919999995" blue="0.31764705879999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     </buttonConfiguration>
                                                                     <connections>
-                                                                        <action selector="navigateButtonTapped:" destination="g8Z-7B-yvF" eventType="touchUpInside" id="1Lz-cd-RYp"/>
+                                                                        <action selector="startButton:" destination="g8Z-7B-yvF" eventType="touchUpInside" id="o15-TL-PTE"/>
                                                                     </connections>
                                                                 </button>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="izd-1a-k9b">
