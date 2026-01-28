@@ -28,7 +28,7 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
     
     private var monitorTimer: Timer?
     
-    var exerciseDuration = 5
+    var exerciseDuration = 10
     
     private let dotView: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 24, height: 24))

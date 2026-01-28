@@ -13,7 +13,7 @@ class smoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
     
     var exercise: Exercise?
     var inTodaySet: Int? = 0
-    private let exerciseDuration = 5
+    private let exerciseDuration = 10
     var referenceDistance: Int = 40   // default fallback
     
     private var monitorTimer: Timer?
