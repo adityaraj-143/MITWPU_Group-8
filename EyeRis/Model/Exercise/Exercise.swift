@@ -10,12 +10,16 @@ import UIKit
 
 // MARK: - Exercise
 
-struct Exercise {
+struct Exercise: Equatable {
     let id: Int
     let name: String
     let duration: Int
     let instructions: ExerciseInstruction
     let targetedConditions: [Conditions]
+    
+    static func == (lhs: Exercise, rhs: Exercise) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 extension Exercise {
@@ -94,7 +98,7 @@ final class ExerciseList {
             TodaysExercise(exercise: $0, isCompleted: false)
         }
     }
-
+    
     
     // MARK: - Mutating logic lives here
     

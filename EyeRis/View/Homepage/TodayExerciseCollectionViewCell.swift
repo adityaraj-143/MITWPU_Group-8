@@ -11,7 +11,6 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
 
     var opt1 = "C3EFC3"
 
-    @IBOutlet weak var mainLabel: UIButton!
     @IBOutlet weak var extraCountLabel: UILabel!
     @IBOutlet weak var IconsCollectionView: UICollectionView!
     @IBOutlet weak var mainView: UIView!
@@ -39,7 +38,13 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
 //        contentView.clipsToBounds = true
 
     }
+    
+    var onTapNavigation: (() -> Void)?
 
+    @IBAction func navigationButtonTapped(_ sender: Any) {
+        onTapNavigation?()
+    }
+    
     
     override func layoutSubviews() {
         super.layoutSubviews()

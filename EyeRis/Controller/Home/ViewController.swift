@@ -70,6 +70,30 @@ extension ViewController: UICollectionViewDelegate {
             return
         }
         
+        if indexPath.section == 2 {
+            let exercise = recommendedExercises[indexPath.row]
+            
+            let storyboard = UIStoryboard(
+                name: "exerciseInstruction",
+                bundle: nil
+            )
+            
+            let identifier = "ExerciseInstructionViewController"
+            let vc = storyboard.instantiateViewController(withIdentifier: identifier)
+            
+            guard let instructionVC = vc as? (ExerciseInstructionViewController & ExerciseFlowHandling) else {
+                assertionFailure("Instruction VC does not conform to ExerciseFlowHandling")
+                return
+            }
+            
+            instructionVC.exercise = exercise
+            instructionVC.inTodaySet = 0
+            instructionVC.source = .home
+            
+            navigationController?.pushViewController(vc, animated: true)
+            return
+        }
+        
         if indexPath.section == 3 {
             if indexPath.item == 0 {
                 // Acuity Test
@@ -124,6 +148,9 @@ extension ViewController: UICollectionViewDataSource {
             
             let icons = todaysExercise?.map { $0.exercise.getIcon() } ?? []
             cell.configureLabel(iconImages: icons)
+            cell.onTapNavigation = { [weak self] in
+                self?.navigate(to: "TodaysExerciseSet", with: "TodaysExerciseSetViewController")
+            }
             return cell
             
         case 2: // Recommended Exercises (Horizontal)
@@ -146,7 +173,7 @@ extension ViewController: UICollectionViewDataSource {
                 withReuseIdentifier: "tests_cell",
                 for: indexPath
             ) as! TestsCollectionViewCell
-                         
+            
             let dueOn = AcuityTestResultResponse.shared.getDueDate()
             
             if(indexPath.item == 0) {

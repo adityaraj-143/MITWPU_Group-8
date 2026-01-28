@@ -8,7 +8,13 @@
 import UIKit
 import AVKit
 
-class exerciseInstructionViewController: UIViewController, ExerciseFlowHandling {
+enum ExerciseEntrySource {
+    case todaySet
+    case home
+    case list
+}
+
+class ExerciseInstructionViewController: UIViewController, ExerciseFlowHandling {
     
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var videoContainerView: UIView!
@@ -16,7 +22,8 @@ class exerciseInstructionViewController: UIViewController, ExerciseFlowHandling 
     
     var exercise: Exercise?
     var inTodaySet: Int? = 0
-    var referenceDistance: Int = 40   // default
+    var referenceDistance: Int = 40
+    var source: ExerciseEntrySource?
     
     private var player: AVPlayer?
     private var playerLayer: AVPlayerLayer?
@@ -29,7 +36,19 @@ class exerciseInstructionViewController: UIViewController, ExerciseFlowHandling 
     }
     
     @IBAction func backButtonTapped(_ sender: Any) {
-        gotoTodaysSet()
+        switch source {
+            
+        case .todaySet:
+            gotoTodaysSet()
+            
+        case .home:
+            navigationController?.popViewController(animated: true)
+            
+        case .list:
+            goToList()
+        case .none:
+            break
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -106,14 +125,14 @@ class exerciseInstructionViewController: UIViewController, ExerciseFlowHandling 
     
     private func gotoTodaysSet() {
         guard let nav = navigationController else { return }
-
+        
         for vc in nav.viewControllers {
             if vc is TodaysExerciseSetViewController {
                 nav.popToViewController(vc, animated: true)
                 return
             }
         }
-
+        
         // Fallback if for some reason it’s not in stack
         let storyboard = UIStoryboard(name: "TodaysExerciseSet", bundle: nil) // use your real storyboard name
         let vc = storyboard.instantiateViewController(
@@ -121,6 +140,37 @@ class exerciseInstructionViewController: UIViewController, ExerciseFlowHandling 
         )
         nav.setViewControllers([nav.viewControllers.first!, vc], animated: true)
     }
-
     
+    private func goToHome() {
+        guard let nav = navigationController else { return }
+        
+        // Find your home screen in stack
+        for vc in nav.viewControllers {
+            if vc is ViewController {   // change to your real home VC class
+                nav.popToViewController(vc, animated: true)
+                return
+            }
+        }
+        
+        // Fallback
+        nav.popToRootViewController(animated: true)
+    }
+    
+    private func goToList () {
+        guard let nav = navigationController else { return }
+        
+        for vc in nav.viewControllers {
+            if vc is ExerciseListViewController {
+                nav.popToViewController(vc, animated: true)
+                return
+            }
+        }
+        
+        // Fallback if for some reason it’s not in stack
+        let storyboard = UIStoryboard(name: "ExerciseList", bundle: nil) // use your real storyboard name
+        let vc = storyboard.instantiateViewController(
+            withIdentifier: "ExerciseListViewController"
+        )
+        nav.setViewControllers([nav.viewControllers.first!, vc], animated: true)
+    }
 }

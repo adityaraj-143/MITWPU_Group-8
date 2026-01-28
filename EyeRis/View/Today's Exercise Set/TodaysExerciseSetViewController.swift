@@ -29,14 +29,14 @@ class TodaysExerciseSetViewController: UIViewController {
         let identifier = "ExerciseInstructionViewController"
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
         
-        guard let instructionVC = vc as? (UIViewController & ExerciseFlowHandling) else {
+        guard let instructionVC = vc as? (ExerciseInstructionViewController & ExerciseFlowHandling) else {
             assertionFailure("Instruction VC does not conform to ExerciseFlowHandling")
             return
         }
         
         instructionVC.exercise = firstTodayExercise
         instructionVC.inTodaySet = 1   // Started as Today’s Set
-        // referenceDistance stays 40 unless calibration changes it
+        instructionVC.source = .todaySet
         
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -51,13 +51,14 @@ class TodaysExerciseSetViewController: UIViewController {
         let identifier = "ExerciseInstructionViewController"
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
 
-        guard let instructionVC = vc as? ExerciseFlowHandling else {
+        guard let instructionVC = vc as? (ExerciseInstructionViewController & ExerciseFlowHandling) else {
             assertionFailure("Instruction VC does not conform to ExerciseFlowHandling")
             return
         }
 
         instructionVC.exercise = exercise
         instructionVC.inTodaySet = 0
+        instructionVC.source = .todaySet
 
         navigationController?.pushViewController(vc, animated: true)
     }
