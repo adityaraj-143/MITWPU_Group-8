@@ -30,32 +30,33 @@ final class CompletionViewController: UIViewController {
         }
     }
     
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         switch source {
         case .acuityTest:
             completionLabel.text = "Acuity Test Completed!"
             resultNav = "TestHistory"
             resultNavId = "TestHistoryViewController"
-
+            
         case .blinkRateTest:
             completionLabel.text = "Blink Rate Test Completed!"
             resultNav = "BlinkRateHistory"
             resultNavId = "BlinkRateHistoryViewController"
-
+            
         case .Exercise:
             completionLabel.text = "Exercise Completed!"
             resultNav = "ExerciseHistory"
-            resultNavId = "ExerciseHistoryViewController                                                ,.           "
-
+            resultNavId = "ExerciseHistoryViewController"
+            
         case .none:
             assertionFailure("CompletionViewController.source was not set")
         }
-        
-        view.layoutIfNeeded()
-        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+                
         playSuccessSound()
         playSuccessHaptic()
         
@@ -221,10 +222,10 @@ final class CompletionViewController: UIViewController {
     @IBAction func ResultsButtonTapped(_ sender: Any) {
         print(resultNav, resultNavId)
         navigate(
-                to: resultNav,
-                with: resultNavId,
-                resetStack: true
-            )
+            to: resultNav,
+            with: resultNavId,
+            resetStack: true
+        )
     }
     
     private func popAndPulse() {
@@ -258,14 +259,18 @@ final class CompletionViewController: UIViewController {
         }
     }
     
+    @IBAction func backButtonTapped(_ sender: Any) {
+        goToHome()
+    }
+    
     private func navigate(to: String, with: String, resetStack: Bool = false) {
         guard !to.isEmpty, !with.isEmpty else { return }
-
+        
         let storyboard = UIStoryboard(name: to, bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: with)
-
+        
         guard let nav = navigationController else { return }
-
+        
         if resetStack {
             // Home -> Results (Completion removed)
             nav.setViewControllers([nav.viewControllers.first!, vc], animated: true)
@@ -273,5 +278,21 @@ final class CompletionViewController: UIViewController {
             nav.pushViewController(vc, animated: true)
         }
     }
-
+    
+    private func goToHome() {
+        guard let nav = navigationController else { return }
+        
+        // Find your home screen in stack
+        for vc in nav.viewControllers {
+            if vc is ViewController {   // change to your real home VC class
+                nav.popToViewController(vc, animated: true)
+                return
+            }
+        }
+        
+        // Fallback
+        nav.popToRootViewController(animated: true)
+    }
+    
+    
 }

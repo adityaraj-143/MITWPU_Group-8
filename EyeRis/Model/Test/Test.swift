@@ -110,7 +110,6 @@ final class AcuityTestResultResponse {
                 AcuityTestsForADate(date: date, distant: distant, near: near)
             )
         }
-        
         return dailyTests
     }
 }
@@ -122,6 +121,33 @@ extension AcuityTestResultResponse {
             .filter { $0.testType == type }
             .max { $0.testDate < $1.testDate }
     }
+    
+    func getDueDate() -> String {
+        let groupedResults = groupTestsByDate()
+        
+        guard let lastDate = groupedResults.last?.date else {
+            return "Due: Today"
+        }
+        
+        let calendar = Calendar.current
+        
+        // Add 20 days to the last test date
+        guard let dueDate = calendar.date(byAdding: .day, value: 20, to: lastDate) else {
+            return "Due: Today"
+        }
+        
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        
+        // If due date is today or past, show "Due: Today"
+        if calendar.isDateInToday(dueDate) || dueDate < Date() {
+            return "Due: Today"
+        }
+        
+        return "Due: \(formatter.string(from: dueDate))"
+    }
+
 
     func getLastTestDVA() -> AcuityTestResult? {
         latestTest(of: .DistantVision)

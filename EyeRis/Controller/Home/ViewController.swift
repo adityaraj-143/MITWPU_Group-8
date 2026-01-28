@@ -147,17 +147,19 @@ extension ViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as! TestsCollectionViewCell
                          
+            let dueOn = AcuityTestResultResponse.shared.getDueDate()
+            
             if(indexPath.item == 0) {
                 cell.configure(
                     title: "Acuity Test",
-                    subtitle: "",
-                    icon: "acuityTestLogo",
+                    subtitle: dueOn,
+                    icon: "eyeTest",
                 )
             } else {
                 cell.configure(
                     title: "Blink Rate ",
                     subtitle: "Check Blinking Rate",
-                    icon: "blinkRateTestLogo",
+                    icon: "blinkingEye",
                 )
             }
             
