@@ -140,6 +140,8 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
     }
     // MARK: Logic
     private func startDotAnimation() {
+        stopAllTimers()
+        
         startTime = CACurrentMediaTime()
         
         displayLink = CADisplayLink(target: self, selector: #selector(updateDotPosition))
@@ -250,6 +252,8 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
     }
     
     @IBAction func backTapped(_ sender: UIBarButtonItem) {
+        stopAllTimers()
+        
         monitorTimer?.invalidate()
         monitorTimer = nil
         
@@ -260,10 +264,22 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
         popToExerciseList()
     }
 
+    private func stopAllTimers() {
+        displayLink?.invalidate()
+        displayLink = nil
+
+        coordinateTimer?.invalidate()
+        coordinateTimer = nil
+
+        monitorTimer?.invalidate()
+        monitorTimer = nil
+    }
+
     func navigate(to storyboardName: String,
                   id identifier: String,
                   nextExercise: Exercise?) {
 
+        stopAllTimers()
         let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
 
