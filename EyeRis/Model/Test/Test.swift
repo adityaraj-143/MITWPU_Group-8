@@ -185,3 +185,5 @@ struct BlinkRateTestResultResponse {
     private let results: [BlinkRateTestResult]
 }
 
+
+
