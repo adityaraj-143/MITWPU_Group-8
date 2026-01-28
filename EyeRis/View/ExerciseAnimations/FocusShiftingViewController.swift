@@ -15,7 +15,7 @@ class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring
     
     var referenceDistance: Int = 40   // default fallback
     
-    private let exerciseDuration = 5
+    private let exerciseDuration = 10
 
     private let exerciseContainer: UIView = {
         let view = UIView()
