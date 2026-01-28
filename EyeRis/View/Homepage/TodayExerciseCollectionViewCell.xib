@@ -54,6 +54,9 @@
                                     <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="16"/>
                                     <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="navigationButtonTapped:" destination="gTV-IL-0wX" eventType="touchUpInside" id="HCi-aw-zaf"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.6588235294117647" green="0.93725490196078431" blue="0.6470588235294118" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -85,7 +88,6 @@
             <connections>
                 <outlet property="IconsCollectionView" destination="9ow-BE-OMb" id="qNw-1i-UnG"/>
                 <outlet property="extraCountLabel" destination="faR-iF-OOh" id="PuZ-zb-E5O"/>
-                <outlet property="mainLabel" destination="TqQ-Yt-YYb" id="l1G-g2-Nnf"/>
                 <outlet property="mainView" destination="PWL-eH-1m5" id="JtV-Zt-EDf"/>
             </connections>
             <point key="canvasLocation" x="300.76335877862596" y="204.92957746478874"/>
