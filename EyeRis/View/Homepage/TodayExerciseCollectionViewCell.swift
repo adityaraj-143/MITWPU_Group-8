@@ -66,7 +66,7 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
         self.icons = iconImages.compactMap { UIImage(named: $0) }
         IconsCollectionView.reloadData()
 
-        if iconImages.count > 3 {
+        if iconImages.count > 4 {
             extraCountLabel.text = "+\(iconImages.count - 3)"
             extraCountLabel.isHidden = false
         } else {
@@ -81,7 +81,7 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
 extension TodayExerciseCollectionViewCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return min(icons.count, 3)
+        return icons.count
     }
 
     func collectionView(_ collectionView: UICollectionView,
