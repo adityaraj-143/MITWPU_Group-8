@@ -69,25 +69,27 @@ class ExerciseInstructionViewController: UIViewController, ExerciseFlowHandling 
     }
     
     private func setupVideo() {
-        let fileName = exercise?.instructions.video.replacingOccurrences(of: ".mp4", with: "")
-        
-        guard let path = Bundle.main.path(forResource: fileName, ofType: "mp4") else {
-            print("Video not found")
+        guard player == nil else { return }
+        guard
+            let videoName = exercise?.instructions.video,
+            let url = Bundle.main.url(
+                forResource: videoName,
+                withExtension: "mp4"
+            )
+        else {
+            assertionFailure("Missing video for exercise \(exercise?.name ?? "unknown")")
             return
         }
-        
-        let url = URL(fileURLWithPath: path)
-        player = AVPlayer(url: url)
-        
-        playerLayer = AVPlayerLayer(player: player)
-        playerLayer?.frame = videoContainerView.bounds
-        playerLayer?.videoGravity = .resizeAspect
-        
-        if let playerLayer = playerLayer {
-            videoContainerView.layer.addSublayer(playerLayer)
-        }
-        
-        player?.play()
+
+        let player = AVPlayer(url: url)
+        self.player = player
+
+        let layer = AVPlayerLayer(player: player)
+        layer.videoGravity = .resizeAspect
+        videoContainerView.layer.addSublayer(layer)
+        self.playerLayer = layer
+
+        player.play()
     }
     
     @IBAction func calibrateTapped(_ sender: UIButton) {
