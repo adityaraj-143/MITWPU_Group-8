@@ -184,7 +184,7 @@ let allExercises: [Exercise] = [
     
     Exercise(
         id: 11,
-        name: "Convergence Training",
+        name: "Convergence Drill",
         duration: 60,
         instructions: ExerciseInstruction(
             title: "Convergence",
