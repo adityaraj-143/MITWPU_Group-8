@@ -75,16 +75,16 @@ let mockTestNVA = AcuityTest(
     testType: .NearVision,
     instruction: TestInstruction(
         description: [
-            "This is a Distant Vision Test — place your phone about 2 metres away from you.",
+            "This is a Near Vision Test — place your phone about 40 cm away from you.",
             "Read the letters out loud, then say “Next” to move forward.",
-            "If your phone position changes, then pause test and recalibrate to adjust.",
+            "If your phone position changes, then pause the test and recalibrate to adjust.",
             "Make sure the screen is at eye level and well-lit for best accuracy."
         ],
         images: [
-            "NVATestInstruction1",
-            "NVATestInstruction2",
-            "NVATestInstruction3",
-            "NVATestInstruction4"
+            "NVAtestInstruction1",
+            "NVAtestInstruction2",
+            "NVAtestInstruction3",
+            "NVAtestInstruction4"
         ]
     ),
     snellenChart: SnellenChart(
@@ -99,16 +99,16 @@ let mockTestDVA = AcuityTest(
     testType: .DistantVision,
     instruction: TestInstruction(
         description: [
-            "This is a Near Vision Test — hold your phone about 40 cm away from your eyes.",
+            "This is a Distant Vision Test — keep your phone about 2 metres away from your eyes.",
             "Read the letters out loud, then say “Next” to continue.",
-            "If your position changes, recalibrate before proceeding.",
+            "If your position changes, then pause the test and recalibrate before proceeding.",
             "Make sure the screen is at eye level and well-lit for best accuracy."
         ],
         images: [
-            "NVATestInstruction1",
-            "NVATestInstruction2",
-            "NVATestInstruction3",
-            "NVATestInstruction3"
+            "DVAtestInstruction1",
+            "NVAtestInstruction2",
+            "NVAtestInstruction3",
+            "NVAtestInstruction4"
         ]
     ),
     snellenChart: SnellenChart(
@@ -125,10 +125,10 @@ let mockTestBlink = BlinkRateTest(
         "Blink naturally — don’t try to control or force your blinks.",
         "Keep your head steady with your face clearly visible to the camera.",
         "Relax and normally read the text displayed."
-    ], images: ["NVATestInstruction1",
-                "NVATestInstruction2",
-                "NVATestInstruction3",
-                "NVATestInstruction4"]),
+    ], images: ["NVAtestInstruction1",
+                "BlinkTestInstruction2",
+                "BlinkTestInstruction3",
+                "NVAtestInstruction4"]),
     passages: """
         Arjun always took his eyesight for granted. He spent hours scrolling on his phone, studying on his laptop, and gaming late into the night. Slowly, his eyes began to ache, and everything started to look slightly hazy. He ignored it at first, brushing it off as simple tiredness. But one day, while driving, he realized he couldn’t clearly read a road sign until he was dangerously close. That moment scared him enough to finally visit an eye specialist.
         
