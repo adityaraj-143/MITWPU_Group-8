@@ -17,6 +17,7 @@ class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring
     
     private let exerciseDuration = 10
     private var hasNavigatedToCompletion = false
+    private var didExitManually = false
 
     private let exerciseContainer: UIView = {
         let view = UIView()
@@ -53,13 +54,11 @@ class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring
             ExerciseSessionManager.shared.onSessionCompleted = { [weak self] in
                 guard let self = self else { return }
                 guard !self.hasNavigatedToCompletion else { return }
+                guard !self.didExitManually else { return }   // ⭐️ THE FIX
 
                 self.hasNavigatedToCompletion = true
 
-                // 🔥 Stop everything BEFORE navigation
                 self.stopAllTimers()
-                self.focusTimer?.invalidate()
-                self.focusTimer = nil
                 ExerciseSessionManager.shared.endSession(resetCamera: true)
 
                 self.handleExerciseCompletion()
@@ -88,6 +87,7 @@ class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring
     }
     
     @IBAction func backTapped(_ sender: UIBarButtonItem) {
+        didExitManually = true
         stopAllTimers()
            focusTimer?.invalidate()
            focusTimer = nil

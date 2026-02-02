@@ -7,7 +7,8 @@
 
 import UIKit
 
-class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, ExerciseFlowHandling {
+class
+ler: UIViewController, ExerciseAlignmentMonitoring, ExerciseFlowHandling {
     
     @IBOutlet weak var timer_label: UILabel!
     
@@ -16,7 +17,7 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
     
     var referenceDistance: Int = 40   // default fallback
     private var hasNavigatedToCompletion = false
-
+    private var didExitManually = false
     
     // MARK: Properties
     private var keyframes: [DotKeyframe] = []
@@ -51,6 +52,7 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
             ExerciseSessionManager.shared.onSessionCompleted = { [weak self] in
                 guard let self = self else { return }
                 guard !self.hasNavigatedToCompletion else { return }
+                guard !self.didExitManually else { return }   // ⭐️ THE FIX
 
                 self.hasNavigatedToCompletion = true
 
@@ -244,6 +246,7 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
     }
     
     @IBAction func backTapped(_ sender: UIBarButtonItem) {
+        didExitManually = true
         stopAllTimers()
         
         monitorTimer?.invalidate()

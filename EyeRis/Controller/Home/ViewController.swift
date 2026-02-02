@@ -6,9 +6,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var profileIconView: UIView!
     
     
-    var lastNVA: AcuityTestResult = AcuityTestResultResponse().getLastTestNVA()!
+    var lastNVA: AcuityTestResult = AcuityTestResultResponse.shared.getLastTestNVA()!
     
-    var lastDVA: AcuityTestResult = AcuityTestResultResponse().getLastTestDVA()!
+    var lastDVA: AcuityTestResult = AcuityTestResultResponse.shared.getLastTestDVA()!
     
     let history = ExerciseHistory()
     

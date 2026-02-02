@@ -243,7 +243,7 @@ struct ExerciseCardInfo {
 
 let defaultStoryboardName = "Figure8"
 let defaultStoryboardID = "Fig8ViewController"
-let defaultVCType = Fig8ViewController.self
+let defaultVCType = Figure8ViewController.self
 
 
 let ExerciseInfo: [Int: ExerciseCardInfo] = [
