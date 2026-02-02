@@ -51,13 +51,34 @@ struct AcuityTestResult{
     var comment: String = "Overall, your vision is fairly good, but a routine eye check-up or corrective lens may help improve clarity, especially for distance vision."
 }
 
+func calcAcuityScore(level: Int) -> String {
+    let snellenMap = [
+        "20/200",
+        "20/100",
+        "20/80",
+        "20/60",
+        "20/40",
+        "20/30",
+        "20/25",
+        "20/20",
+        "20/15"
+    ]
+    
+    guard level >= 0 && level < snellenMap.count else {
+        return "N/A"
+    }
+    
+    return snellenMap[level]
+}
+
 struct AcuityTestsForADate {
     let date: Date
     let distant: AcuityTestResult
     let near: AcuityTestResult
 }
 
-struct AcuityTestResultResponse {
+final class AcuityTestResultResponse {
+    static let shared = AcuityTestResultResponse()
     var results : [AcuityTestResult]
     
     init() {
@@ -66,8 +87,10 @@ struct AcuityTestResultResponse {
     
     func groupTestsByDate() -> [AcuityTestsForADate] {
         // 1. Group every test result by its testDate
-        let grouped = Dictionary(grouping: results, by: { $0.testDate })
-        
+        let grouped = Dictionary(grouping: results) {
+            Calendar.current.startOfDay(for: $0.testDate)
+        }
+
         // 2. Sort dates in ascending order
         let sortedDates = grouped.keys.sorted()
         
@@ -89,12 +112,7 @@ struct AcuityTestResultResponse {
                 AcuityTestsForADate(date: date, distant: distant, near: near)
             )
         }
-        
         return dailyTests
-    }
-    
-    func getLastTestDVA() -> AcuityTestResult {
-        results.max { $0.testDate < $1.testDate }!
     }
 }
 
@@ -105,6 +123,33 @@ extension AcuityTestResultResponse {
             .filter { $0.testType == type }
             .max { $0.testDate < $1.testDate }
     }
+    
+    func getDueDate() -> String {
+        let groupedResults = groupTestsByDate()
+        
+        guard let lastDate = groupedResults.last?.date else {
+            return "Due: Today"
+        }
+        
+        let calendar = Calendar.current
+        
+        // Add 20 days to the last test date
+        guard let dueDate = calendar.date(byAdding: .day, value: 20, to: lastDate) else {
+            return "Due: Today"
+        }
+        
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        
+        // If due date is today or past, show "Due: Today"
+        if calendar.isDateInToday(dueDate) || dueDate < Date() {
+            return "Due: Today"
+        }
+        
+        return "Due: \(formatter.string(from: dueDate))"
+    }
+
 
     func getLastTestDVA() -> AcuityTestResult? {
         latestTest(of: .DistantVision)
@@ -119,16 +164,18 @@ extension AcuityTestResultResponse {
 struct BlinkRateTest{
     var instructions: TestInstruction
     var passages: String
-    var duration: Int = 120
+    var duration: Int = 30
 }
 
 struct BlinkRateTestResult {
     var id: Int
     var blinks: Int
-    var bpm: Int {
-        blinks/2
-    }
+    var duration: Int         
     var performedOn: Date
+
+    var bpm: Int {
+        Int(Double(blinks) * (60.0 / Double(duration)))
+    }
 }
 
 struct BlinkWeek {
@@ -139,4 +186,6 @@ struct BlinkWeek {
 struct BlinkRateTestResultResponse {
     private let results: [BlinkRateTestResult]
 }
+
+
 

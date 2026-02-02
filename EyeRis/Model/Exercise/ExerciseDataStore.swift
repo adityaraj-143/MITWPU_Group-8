@@ -69,7 +69,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "20-20-20 Rule",
             description: "Every 20 minutes, look at a point 20 feet away for 20 seconds.",
-            video: "202020.mp4"
+            video: "figure8"
         ),
         targetedConditions: [.digitalEyeStrain]
     ),
@@ -81,7 +81,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Blinking Exercise",
             description: "Follow visual or audio cues to perform complete blinks at set intervals.",
-            video: "blinking.mp4"
+            video: "FocusShifting"
         ),
         targetedConditions: [.dryEyeSyndrome]
     ),
@@ -93,7 +93,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Figure 8",
             description: "Track a moving dot following a figure-8 pattern on screen.",
-            video: "figure8.mp4"
+            video: "figure8"
         ),
         targetedConditions: [.eyeFatigue]
     ),
@@ -105,7 +105,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Eye Rolling",
             description: "Rotate eyes slowly in clockwise and counterclockwise circles.",
-            video: "eyeroll.mp4"
+            video: "FocusShifting"
         ),
         targetedConditions: [.eyeMuscleTension]
     ),
@@ -117,7 +117,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Palming",
             description: "Cover closed eyes with palms and follow guided breathing.",
-            video: "palming.mp4"
+            video: "FocusShifting"
         ),
         targetedConditions: [.eyeStress, .eyeFatigue]
     ),
@@ -129,7 +129,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Light Adaptation",
             description: "Gradually adjust screen brightness to train light tolerance.",
-            video: "lightadapt.mp4"
+            video: "figure8"
         ),
         targetedConditions: [.lightSensitivity]
     ),
@@ -141,7 +141,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Color Contrast",
             description: "View varying color and contrast combinations.",
-            video: "contrast.mp4"
+            video: "figure8"
         ),
         targetedConditions: [.visualStress]
     ),
@@ -153,7 +153,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Near Far Focus",
             description: "Alternate focus between near and far targets.",
-            video: "nearfocus.mp4"
+            video: "FocusShifting"
         ),
         targetedConditions: [.accommodativeDysfunction]
     ),
@@ -165,7 +165,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Zooming",
             description: "Follow objects that expand and contract in size.",
-            video: "zoom.mp4"
+            video: "figure8"
         ),
         targetedConditions: [.accommodativeDysfunction]
     ),
@@ -177,19 +177,19 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Saccadic Movements",
             description: "Shift gaze rapidly between targets on screen.",
-            video: "saccadic.mp4"
+            video: "smoothPursuit"
         ),
         targetedConditions: [.saccadicDysfunction]
     ),
     
     Exercise(
         id: 11,
-        name: "Convergence Training",
+        name: "Convergence Drill",
         duration: 60,
         instructions: ExerciseInstruction(
             title: "Convergence",
             description: "Follow a virtual object moving toward and away.",
-            video: "convergence.mp4"
+            video: "smoothPursuit"
         ),
         targetedConditions: [.convergenceInsufficiency]
     ),
@@ -201,7 +201,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Brock String",
             description: "Focus sequentially on virtual beads at varying depths.",
-            video: "brock.mp4"
+            video: "smoothPursuit"
         ),
         targetedConditions: [.convergenceInsufficiency]
     ),
@@ -213,7 +213,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Smooth Pursuit",
             description: "Follow slowly moving objects across the screen.",
-            video: "smoothpursuit.mp4"
+            video: "smoothPursuit"
         ),
         targetedConditions: [.smoothPursuitDysfunction]
     ),
@@ -225,74 +225,154 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Eye Games",
             description: "Play gamified tasks requiring specific eye movements.",
-            video: "eyegame.mp4"
+            video: "smoothPursuit"
         ),
         targetedConditions: [.generalEyeCoordination, .eyeFatigue]
     )
 ]
 
 
-struct ExerciseStyle {
+struct ExerciseCardInfo {
     let icon: String
     let bgColor: UIColor
     let iconBGColor: UIColor
+    let storyboardName: String
+    let storyboardID: String
+    let vcType: UIViewController.Type
 }
 
-let exerciseStyleMap: [Int: ExerciseStyle] = [
-    1: ExerciseStyle(icon: "Infinity",
-                     bgColor: UIColor(hex: "D3F2E8"),
-                     iconBGColor: UIColor(hex: "5BC8A8")),
-    
-    2: ExerciseStyle(icon: "Light_Adaption",
-                     bgColor: UIColor(hex: "D9ECFF"),
-                     iconBGColor: UIColor(hex: "6FAEFF")),
-    
-    3: ExerciseStyle(icon: "Guided Blinking",
-                     bgColor: UIColor(hex: "E9E0F8"),
-                     iconBGColor: UIColor(hex: "A68BEB")),
-    
-    4: ExerciseStyle(icon: "Smooth_pursuit",
-                     bgColor: UIColor(hex: "FFECC2"),
-                     iconBGColor: UIColor(hex: "F5B942")),
-    
-    5: ExerciseStyle(icon: "Focus_shifting",
-                     bgColor: UIColor(hex: "F8D7DC"),
-                     iconBGColor: UIColor(hex: "E66A7A")),
-    
-    6: ExerciseStyle(icon: "Peripheral focus",
-                     bgColor: UIColor(hex: "FFE0CC"),
-                     iconBGColor: UIColor(hex: "FF9C66")),
-    
-    7: ExerciseStyle(icon: "Saccadic Movement",
-                     bgColor: UIColor(hex: "D4F1F4"),
-                     iconBGColor: UIColor(hex: "4DB6C6")),
-    
-    8: ExerciseStyle(icon: "clock",
-                     bgColor: UIColor(hex: "E0E6FF"),
-                     iconBGColor: UIColor(hex: "6B7CFF")),
+let defaultStoryboardName = "Figure8"
+let defaultStoryboardID = "Fig8ViewController"
+let defaultVCType = Fig8ViewController.self
 
-    9: ExerciseStyle(icon: "Infinity",
-                     bgColor: UIColor(hex: "D3F2E8"),
-                     iconBGColor: UIColor(hex: "5BC8A8")),
 
-    10: ExerciseStyle(icon: "Light_Adaption",
-                      bgColor: UIColor(hex: "D9ECFF"),
-                      iconBGColor: UIColor(hex: "6FAEFF")),
-
-    11: ExerciseStyle(icon: "Guided Blinking",
-                      bgColor: UIColor(hex: "E9E0F8"),
-                      iconBGColor: UIColor(hex: "A68BEB")),
-
-    12: ExerciseStyle(icon: "Smooth_pursuit",
-                      bgColor: UIColor(hex: "FFECC2"),
-                      iconBGColor: UIColor(hex: "F5B942")),
-
-    13: ExerciseStyle(icon: "Focus_shifting",
-                      bgColor: UIColor(hex: "F8D7DC"),
-                      iconBGColor: UIColor(hex: "E66A7A")),
-
-    14: ExerciseStyle(icon: "Peripheral focus",
-                      bgColor: UIColor(hex: "FFE0CC"),
-                      iconBGColor: UIColor(hex: "FF9C66"))
+let exerciseStyleMap: [Int: ExerciseCardInfo] = [
+    
+    1: ExerciseCardInfo(
+        icon: "Infinity",
+        bgColor: UIColor(hex: "D3F2E8"),
+        iconBGColor: UIColor(hex: "5BC8A8"),
+        storyboardName: defaultStoryboardName,
+        storyboardID: defaultStoryboardID,
+        vcType: defaultVCType
+    ),
+    
+    2: ExerciseCardInfo(
+        icon: "Light_Adaption",
+        bgColor: UIColor(hex: "D9ECFF"),
+        iconBGColor: UIColor(hex: "6FAEFF"),
+        storyboardName: defaultStoryboardName,
+        storyboardID: defaultStoryboardID,
+        vcType: defaultVCType
+    ),
+    
+    3: ExerciseCardInfo(
+        icon: "Infinity",
+        bgColor: UIColor(hex: "E9E0F8"),
+        iconBGColor: UIColor(hex: "A68BEB"),
+        storyboardName: defaultStoryboardName,
+        storyboardID: defaultStoryboardID,
+        vcType: defaultVCType
+    ),
+    
+    4: ExerciseCardInfo(
+        icon: "Smooth_pursuit",
+        bgColor: UIColor(hex: "FFECC2"),
+        iconBGColor: UIColor(hex: "F5B942"),
+        storyboardName: defaultStoryboardName,
+        storyboardID: defaultStoryboardID,
+        vcType: defaultVCType
+    ),
+    
+    5: ExerciseCardInfo(
+        icon: "Focus_shifting",
+        bgColor: UIColor(hex: "F8D7DC"),
+        iconBGColor: UIColor(hex: "E66A7A"),
+        storyboardName: defaultStoryboardName,
+        storyboardID: defaultStoryboardID,
+        vcType: defaultVCType
+    ),
+    
+    6: ExerciseCardInfo(
+        icon: "Peripheral focus",
+        bgColor: UIColor(hex: "FFE0CC"),
+        iconBGColor: UIColor(hex: "FF9C66"),
+        storyboardName: defaultStoryboardName,
+        storyboardID: defaultStoryboardID,
+        vcType: defaultVCType
+    ),
+    
+    7: ExerciseCardInfo(
+        icon: "Saccadic Movement",
+        bgColor: UIColor(hex: "D4F1F4"),
+        iconBGColor: UIColor(hex: "4DB6C6"),
+        storyboardName: defaultStoryboardName,
+        storyboardID: defaultStoryboardID,
+        vcType: defaultVCType
+    ),
+    
+    // Unique
+    8: ExerciseCardInfo(
+        icon: "Focus_shifting",
+        bgColor: UIColor(hex: "E0E6FF"),
+        iconBGColor: UIColor(hex: "6B7CFF"),
+        storyboardName: "focusShifting",
+        storyboardID: "FocusShiftingViewController",
+        vcType: FocusShiftingViewController.self
+    ),
+    
+    9: ExerciseCardInfo(
+        icon: "Infinity",
+        bgColor: UIColor(hex: "D3F2E8"),
+        iconBGColor: UIColor(hex: "5BC8A8"),
+        storyboardName: defaultStoryboardName,
+        storyboardID: defaultStoryboardID,
+        vcType: defaultVCType
+    ),
+    
+    10: ExerciseCardInfo(
+        icon: "Light_Adaption",
+        bgColor: UIColor(hex: "D9ECFF"),
+        iconBGColor: UIColor(hex: "6FAEFF"),
+        storyboardName: defaultStoryboardName,
+        storyboardID: defaultStoryboardID,
+        vcType: defaultVCType
+    ),
+    
+    11: ExerciseCardInfo(
+        icon: "Guided Blinking",
+        bgColor: UIColor(hex: "E9E0F8"),
+        iconBGColor: UIColor(hex: "A68BEB"),
+        storyboardName: defaultStoryboardName,
+        storyboardID: defaultStoryboardID,
+        vcType: defaultVCType
+    ),
+    
+    12: ExerciseCardInfo(
+        icon: "Smooth_pursuit",
+        bgColor: UIColor(hex: "FFECC2"),
+        iconBGColor: UIColor(hex: "F5B942"),
+        storyboardName: defaultStoryboardName,
+        storyboardID: defaultStoryboardID,
+        vcType: defaultVCType
+    ),
+    
+    // Unique
+    13: ExerciseCardInfo(
+        icon: "Smooth_pursuit",
+        bgColor: UIColor(hex: "F8D7DC"),
+        iconBGColor: UIColor(hex: "E66A7A"),
+        storyboardName: "SmoothPursuit",
+        storyboardID: "smoothPursuitViewController",
+        vcType: SmoothPursuitViewController.self
+    ),
+    
+    14: ExerciseCardInfo(
+        icon: "Peripheral focus",
+        bgColor: UIColor(hex: "FFE0CC"),
+        iconBGColor: UIColor(hex: "FF9C66"),
+        storyboardName: defaultStoryboardName,
+        storyboardID: defaultStoryboardID,
+        vcType: defaultVCType
+    )
 ]
-

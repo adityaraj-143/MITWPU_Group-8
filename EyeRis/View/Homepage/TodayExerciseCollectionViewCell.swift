@@ -11,7 +11,6 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
 
     var opt1 = "C3EFC3"
 
-    @IBOutlet weak var mainLabel: UIButton!
     @IBOutlet weak var extraCountLabel: UILabel!
     @IBOutlet weak var IconsCollectionView: UICollectionView!
     @IBOutlet weak var mainView: UIView!
@@ -39,7 +38,13 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
 //        contentView.clipsToBounds = true
 
     }
+    
+    var onTapNavigation: (() -> Void)?
 
+    @IBAction func navigationButtonTapped(_ sender: Any) {
+        onTapNavigation?()
+    }
+    
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -61,7 +66,7 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
         self.icons = iconImages.compactMap { UIImage(named: $0) }
         IconsCollectionView.reloadData()
 
-        if iconImages.count > 3 {
+        if iconImages.count > 4 {
             extraCountLabel.text = "+\(iconImages.count - 3)"
             extraCountLabel.isHidden = false
         } else {
@@ -76,7 +81,7 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
 extension TodayExerciseCollectionViewCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return min(icons.count, 3)
+        return icons.count
     }
 
     func collectionView(_ collectionView: UICollectionView,

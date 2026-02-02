@@ -10,12 +10,16 @@ import UIKit
 
 // MARK: - Exercise
 
-struct Exercise {
+struct Exercise: Equatable {
     let id: Int
     let name: String
     let duration: Int
     let instructions: ExerciseInstruction
     let targetedConditions: [Conditions]
+    
+    static func == (lhs: Exercise, rhs: Exercise) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 extension Exercise {
@@ -31,19 +35,32 @@ extension Exercise {
     func getIconBGColor() -> UIColor {
         exerciseStyleMap[id]?.iconBGColor ?? .systemGray
     }
+    
+    func getStoryboardName () -> String {
+        exerciseStyleMap[id]?.storyboardName ?? "ExerciseList"
+        
+    }
+    
+    func getStoryboardID () -> String {
+        exerciseStyleMap[id]?.storyboardID ?? "ExerciseListViewController"
+    }
+    
+    func getVC() -> UIViewController.Type {
+        exerciseStyleMap[id]?.vcType ?? defaultVCType
+    }
+    
 }
 
 // MARK: - Exercise List
 
-struct ExerciseList {
+final class ExerciseList {
     let exercises: [Exercise]
     let recommended: [Exercise]
-    let todaysSet: [TodaysExercise]
+    private(set) var todaysSet: [TodaysExercise]
     
     static private(set) var shared: ExerciseList?
     
     static func makeOnce(user: User) {
-        // Only create once, so shuffle happens once
         if shared == nil {
             shared = ExerciseList(user: user)
         }
@@ -55,18 +72,55 @@ struct ExerciseList {
     
     init(user: User) {
         self.exercises = allExercises
-        // Convert both arrays to Sets for fast intersection
+        
         let userConditions = Set(user.eyeHealthData.condition)
-        // Recommend exercises that target at least one of the user's conditions
+        
         recommended = exercises.filter { exercise in
             !Set(exercise.targetedConditions).intersection(userConditions).isEmpty
         }
-        todaysSet = Array(recommended.shuffled().prefix(4)).map {
+        
+        // IDs that must always be present
+        let mandatoryIDs: Set<Int> = [3, 8, 13]
+        
+        // Get mandatory exercises
+        let mandatoryExercises = exercises.filter { mandatoryIDs.contains($0.id) }
+        
+        // Get remaining recommended exercises excluding mandatory ones
+        let remaining = recommended.filter { !mandatoryIDs.contains($0.id) }
+        
+        // Fill the rest of the set (total = 4)
+        let neededCount = max(0, 4 - mandatoryExercises.count)
+        let randomExtras = Array(remaining.shuffled().prefix(neededCount))
+        
+        let finalSet = mandatoryExercises + randomExtras
+        
+        todaysSet = finalSet.map {
             TodaysExercise(exercise: $0, isCompleted: false)
         }
     }
+    
+    
+    // MARK: - Mutating logic lives here
+    
+    func markCompleted(exercise: Exercise) {
+        guard let index = todaysSet.firstIndex(where: {
+            $0.exercise.id == exercise.id
+        }) else { return }
+        
+        todaysSet[index].isCompleted = true
+    }
+    
+    func nextExercise(after exercise: Exercise) -> Exercise? {
+        guard let index = todaysSet.firstIndex(where: {
+            $0.exercise.id == exercise.id
+        }) else { return nil }
+        
+        let nextIndex = index + 1
+        guard nextIndex < todaysSet.count else { return nil }
+        
+        return todaysSet[nextIndex].exercise
+    }
 }
-
 
 // MARK: - Exercise Instruction
 
@@ -91,6 +145,12 @@ struct PerformedExerciseStat {
 struct ExerciseSummary {
     let accuracy: Int
     let speed: Int
+}
+
+// One Item of the today's exercise set
+struct TodaysExercise {
+    let exercise: Exercise
+    var isCompleted: Bool
 }
 
 // MARK: - Exercise History / Stats Store
@@ -167,19 +227,4 @@ struct ExerciseHistory {
     }
 }
 
-struct TestMock {
-    let title: String
-    let subtitle: String
-    let iconName: String
-    let iconBGColor: UIColor
-}
 
-var tests: [TestMock] = [
-    .init(title: "Acuity Test", subtitle: "Check sharpness", iconName: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40", iconBGColor: .systemPink),
-    .init(title: "Blink Rate", subtitle: "Check blinking", iconName: "all_inclusive_32dp_E3E3E3_FILL0_wght400_GRAD0_opsz40", iconBGColor: .systemIndigo)
-]
-// One Item of the today's exercise set
-struct TodaysExercise {
-    let exercise: Exercise
-    var isCompleted: Bool
-}

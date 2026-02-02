@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="i4B-7d-f89">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Figure 8-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="ExerciseInstructionViewController" id="Y6W-OH-hqX" customClass="ExerciseInstructionViewController" customModule="EyeRis" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d3E-kr-aMd">
+                                <rect key="frame" x="20" y="192" width="353" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZwD-LP-6S8">
+                                <rect key="frame" x="69" y="729" width="255" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="255" id="mkL-Wt-I6G"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Calibrate">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="18"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="calibrateTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="UTU-c2-h2D"/>
+                                </connections>
+                            </button>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VrB-9v-v4O">
+                                <rect key="frame" x="70" y="246" width="253" height="450"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                        <constraints>
+                            <constraint firstItem="VrB-9v-v4O" firstAttribute="top" secondItem="d3E-kr-aMd" secondAttribute="bottom" constant="30" id="8ag-Nl-Y1D"/>
+                            <constraint firstItem="d3E-kr-aMd" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="20" id="Aff-2b-i6m"/>
+                            <constraint firstItem="ZwD-LP-6S8" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="PPP-a4-C6D"/>
+                            <constraint firstItem="d3E-kr-aMd" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="Spl-sa-uNU"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="d3E-kr-aMd" secondAttribute="trailing" constant="20" id="UrH-33-aBc"/>
+                            <constraint firstItem="ZwD-LP-6S8" firstAttribute="top" secondItem="VrB-9v-v4O" secondAttribute="bottom" constant="33" id="cbQ-zE-Epu"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="ZwD-LP-6S8" secondAttribute="bottom" constant="20" id="f3c-06-2Gr"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="VrB-9v-v4O" secondAttribute="trailing" constant="70" id="ria-f2-ZdS"/>
+                            <constraint firstItem="VrB-9v-v4O" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="70" id="xGQ-dB-8yc"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Figure 8" id="3Bi-J5-61G">
+                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="BHT-6V-jhe">
+                            <connections>
+                                <action selector="backButtonTapped:" destination="Y6W-OH-hqX" id="7Yv-a1-36v"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="calibrateButton" destination="ZwD-LP-6S8" id="EBr-lR-MgS"/>
+                        <outlet property="descriptionLabel" destination="d3E-kr-aMd" id="iXL-85-Tyh"/>
+                        <outlet property="videoContainerView" destination="VrB-9v-v4O" id="Xxg-0c-fLa"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1204" y="131"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Ykh-7T-BYL">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="i4B-7d-f89" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="eq9-17-4Oq">
+                        <rect key="frame" x="0.0" y="118" width="393" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="95y-jQ-ciF"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DH7-8q-Spy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="138.1679389312977" y="130.98591549295776"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="chevron.left" catalog="system" width="97" height="128"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

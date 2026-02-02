@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Calibration-->
+        <scene sceneID="xeD-Ph-fzJ">
+            <objects>
+                <viewController storyboardIdentifier="CalibrationViewController" id="rQT-bM-T5O" customClass="CalibrationViewController" customModule="EyeRis" sceneMemberID="viewController">
+                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="IkB-Dr-ECt">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23 cm" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zjs-vn-ubC">
+                                <rect key="frame" x="170.33333333333334" y="182" width="52.333333333333343" height="21.666666666666657"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView autoresizesSubviews="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="svI-0L-a6C">
+                                <rect key="frame" x="15.666666666666657" y="233.66666666666663" width="362" height="402"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="402" id="XKB-MP-GZt"/>
+                                    <constraint firstAttribute="width" constant="362" id="iLt-QG-Aoe"/>
+                                </constraints>
+                            </imageView>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cDq-EV-SLG">
+                                <rect key="frame" x="16.666666666666657" y="233.66666666666663" width="360" height="400"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="400" id="5l6-tL-9nm"/>
+                                    <constraint firstAttribute="width" constant="360" id="Und-KD-reC"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Keep the phone 40 cm away from your face" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cDq-pm-Wfd">
+                                <rect key="frame" x="56.333333333333343" y="207.66666666666666" width="280.33333333333326" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a test for your left eye please close your right eye" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NGF-5n-P9Z">
+                                <rect key="frame" x="16.666666666666657" y="645.66666666666663" width="360" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="360" id="Iu9-5Z-GqM"/>
+                                    <constraint firstAttribute="height" constant="60" id="s6O-74-1h6"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pzJ-Ru-uLm">
+                                <rect key="frame" x="151.66666666666666" y="715.66666666666663" width="90" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="7ET-zT-x6i"/>
+                                    <constraint firstAttribute="width" constant="90" id="Gnw-x9-qNI"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Proceed"/>
+                                <connections>
+                                    <action selector="proceedButtonTapped:" destination="rQT-bM-T5O" eventType="touchUpInside" id="Yw8-nu-RXu"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="upu-yh-IKk"/>
+                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                        <constraints>
+                            <constraint firstItem="cDq-EV-SLG" firstAttribute="centerX" secondItem="IkB-Dr-ECt" secondAttribute="centerX" id="4z8-eM-9qD"/>
+                            <constraint firstItem="cDq-EV-SLG" firstAttribute="top" secondItem="Zjs-vn-ubC" secondAttribute="bottom" constant="30" id="BeX-hG-P3a"/>
+                            <constraint firstItem="NGF-5n-P9Z" firstAttribute="top" secondItem="svI-0L-a6C" secondAttribute="bottom" constant="10" id="M8V-SA-y8l"/>
+                            <constraint firstItem="svI-0L-a6C" firstAttribute="top" secondItem="Zjs-vn-ubC" secondAttribute="bottom" constant="30" id="U7j-bt-n7x"/>
+                            <constraint firstItem="NGF-5n-P9Z" firstAttribute="centerX" secondItem="IkB-Dr-ECt" secondAttribute="centerX" id="WsH-X4-jzA"/>
+                            <constraint firstItem="cDq-pm-Wfd" firstAttribute="centerX" secondItem="IkB-Dr-ECt" secondAttribute="centerX" id="Yke-9N-Qip"/>
+                            <constraint firstItem="Zjs-vn-ubC" firstAttribute="top" secondItem="upu-yh-IKk" secondAttribute="top" constant="10" id="hHp-Xr-eDd"/>
+                            <constraint firstItem="Zjs-vn-ubC" firstAttribute="centerX" secondItem="IkB-Dr-ECt" secondAttribute="centerX" id="lp5-G3-LLE"/>
+                            <constraint firstItem="pzJ-Ru-uLm" firstAttribute="centerX" secondItem="IkB-Dr-ECt" secondAttribute="centerX" id="twq-AM-Jst"/>
+                            <constraint firstItem="cDq-pm-Wfd" firstAttribute="top" secondItem="Zjs-vn-ubC" secondAttribute="bottom" constant="4" id="xmI-jr-wmK"/>
+                            <constraint firstItem="pzJ-Ru-uLm" firstAttribute="top" secondItem="NGF-5n-P9Z" secondAttribute="bottom" constant="10" id="yWL-qw-ihH"/>
+                            <constraint firstItem="svI-0L-a6C" firstAttribute="centerX" secondItem="IkB-Dr-ECt" secondAttribute="centerX" id="z3h-eT-fAS"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Calibration" id="Jd9-ks-2bY"/>
+                    <connections>
+                        <outlet property="cameraContainer" destination="cDq-EV-SLG" id="00Y-de-Bii"/>
+                        <outlet property="cameraFeedBorderView" destination="svI-0L-a6C" id="lOv-Qe-UVx"/>
+                        <outlet property="distanceLabel" destination="Zjs-vn-ubC" id="iyB-av-CEk"/>
+                        <outlet property="eyeInstruction" destination="NGF-5n-P9Z" id="Uir-j7-HXW"/>
+                        <outlet property="proceedButton" destination="pzJ-Ru-uLm" id="2Ol-DP-cBH"/>
+                        <outlet property="statusLabel" destination="cDq-pm-Wfd" id="sZc-xI-QS7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Odj-XF-YUb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1985.4961832061067" y="493.66197183098592"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="by3-Pe-oMG">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3oz-jb-Zgu" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="t0A-Tu-Hqe">
+                        <rect key="frame" x="0.0" y="118" width="393" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="rQT-bM-T5O" kind="relationship" relationship="rootViewController" id="91c-Mw-FXz"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YqQ-0V-7on" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1058.7786259541983" y="493.66197183098592"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

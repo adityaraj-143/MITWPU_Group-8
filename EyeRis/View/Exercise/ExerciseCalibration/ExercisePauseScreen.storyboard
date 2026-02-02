@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Pause Menu-->
+        <scene sceneID="dab-n7-syk">
+            <objects>
+                <viewController storyboardIdentifier="PauseModalViewController" modalPresentationStyle="overFullScreen" id="OPr-oR-wws" customClass="PauseModalViewController" customModule="EyeRis" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="tGv-2o-uGm">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23 cm" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="elE-QR-5P6">
+                                <rect key="frame" x="16" y="182" width="361" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="XuO-Na-qxH"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView autoresizesSubviews="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ATp-Zd-hrn">
+                                <rect key="frame" x="19" y="241" width="355" height="401"/>
+                            </imageView>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="prD-Ae-rws">
+                                <rect key="frame" x="20" y="242" width="353" height="399"/>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Keep the phone 40 cm away from your face" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uGy-Wx-sK1">
+                                <rect key="frame" x="16" y="657" width="361" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jdf-3c-bWZ">
+                                <rect key="frame" x="146.66666666666666" y="694" width="100" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="2te-p7-gxO"/>
+                                    <constraint firstAttribute="height" constant="40" id="OIU-ta-hjY"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Resume"/>
+                                <connections>
+                                    <action selector="resumeTapped:" destination="OPr-oR-wws" eventType="touchUpInside" id="HMf-MD-QN0"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="MYy-T4-5kg"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="prD-Ae-rws" firstAttribute="top" secondItem="elE-QR-5P6" secondAttribute="bottom" constant="20" id="3RA-ME-gwC"/>
+                            <constraint firstItem="elE-QR-5P6" firstAttribute="top" secondItem="MYy-T4-5kg" secondAttribute="top" constant="10" id="6Mr-vN-tcy"/>
+                            <constraint firstItem="elE-QR-5P6" firstAttribute="centerX" secondItem="tGv-2o-uGm" secondAttribute="centerX" id="6PD-BY-VVo"/>
+                            <constraint firstItem="elE-QR-5P6" firstAttribute="leading" secondItem="MYy-T4-5kg" secondAttribute="leading" constant="16" id="P9I-I6-UkR"/>
+                            <constraint firstItem="MYy-T4-5kg" firstAttribute="trailing" secondItem="ATp-Zd-hrn" secondAttribute="trailing" constant="19" id="Qg4-s3-7h7"/>
+                            <constraint firstItem="ATp-Zd-hrn" firstAttribute="top" secondItem="elE-QR-5P6" secondAttribute="bottom" constant="19" id="SW2-qo-Qde"/>
+                            <constraint firstAttribute="trailing" secondItem="uGy-Wx-sK1" secondAttribute="trailing" constant="16" id="TWg-hB-etq"/>
+                            <constraint firstItem="MYy-T4-5kg" firstAttribute="trailing" secondItem="prD-Ae-rws" secondAttribute="trailing" constant="20" id="VDT-oA-h81"/>
+                            <constraint firstItem="prD-Ae-rws" firstAttribute="leading" secondItem="MYy-T4-5kg" secondAttribute="leading" constant="20" id="cbC-56-DGB"/>
+                            <constraint firstItem="ATp-Zd-hrn" firstAttribute="leading" secondItem="MYy-T4-5kg" secondAttribute="leading" constant="19" id="oJy-MN-pkg"/>
+                            <constraint firstItem="jdf-3c-bWZ" firstAttribute="centerX" secondItem="tGv-2o-uGm" secondAttribute="centerX" id="rVk-hi-D5v"/>
+                            <constraint firstItem="MYy-T4-5kg" firstAttribute="bottom" secondItem="jdf-3c-bWZ" secondAttribute="bottom" constant="50" id="sKZ-Sc-8xx"/>
+                            <constraint firstItem="uGy-Wx-sK1" firstAttribute="leading" secondItem="MYy-T4-5kg" secondAttribute="leading" constant="16" id="tQb-Hd-2gx"/>
+                            <constraint firstItem="MYy-T4-5kg" firstAttribute="trailing" secondItem="elE-QR-5P6" secondAttribute="trailing" constant="16" id="u9e-DK-AV5"/>
+                            <constraint firstItem="jdf-3c-bWZ" firstAttribute="top" secondItem="uGy-Wx-sK1" secondAttribute="bottom" constant="20" id="udu-8T-rM9"/>
+                            <constraint firstItem="uGy-Wx-sK1" firstAttribute="top" secondItem="prD-Ae-rws" secondAttribute="bottom" constant="16" id="xLa-ee-JTu"/>
+                            <constraint firstItem="uGy-Wx-sK1" firstAttribute="top" secondItem="ATp-Zd-hrn" secondAttribute="bottom" constant="15" id="zaR-N6-Fom"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Pause Menu" id="Dr7-6t-Ong">
+                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="hq9-Q5-bk8"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="cameraContainer" destination="prD-Ae-rws" id="koR-1C-DVW"/>
+                        <outlet property="cameraFeedBorderView" destination="prD-Ae-rws" id="jIX-dB-CVQ"/>
+                        <outlet property="distanceLabel" destination="elE-QR-5P6" id="yc4-eS-wHN"/>
+                        <outlet property="resumeButton" destination="jdf-3c-bWZ" id="HaC-Z6-F21"/>
+                        <outlet property="warningLabel" destination="uGy-Wx-sK1" id="GPr-qJ-0hs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8oY-uH-LkC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1991.6030534351144" y="130.98591549295776"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="zdS-U1-Rwx">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="qe5-AW-nKK" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="lVU-nq-XJi">
+                        <rect key="frame" x="0.0" y="118" width="393" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="OPr-oR-wws" kind="relationship" relationship="rootViewController" id="l7r-HM-LeJ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="V2i-Wk-gzg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1064.885496183206" y="130.98591549295776"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="chevron.left" catalog="system" width="97" height="128"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

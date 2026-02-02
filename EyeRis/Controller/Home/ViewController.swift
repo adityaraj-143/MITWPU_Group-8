@@ -11,7 +11,7 @@ class ViewController: UIViewController {
     var lastDVA: AcuityTestResult = AcuityTestResultResponse().getLastTestDVA()!
     
     let history = ExerciseHistory()
-
+    
     var lastExercise: ExerciseSummary {
         history.lastExerciseSummary()
         ?? ExerciseSummary(accuracy: 20, speed: 20)
@@ -31,11 +31,14 @@ class ViewController: UIViewController {
         CollectionView.dataSource = self
         CollectionView.delegate = self
         
-        print("HAALLOOO", recommendedExercises)
+        registerCells()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         todayBlinkResult = blinkRateStore.todayResult()
-
-        registerCells()
+        CollectionView.reloadData()
     }
     
     // MARK: - Register Cells
@@ -67,6 +70,30 @@ extension ViewController: UICollectionViewDelegate {
             return
         }
         
+        if indexPath.section == 2 {
+            let exercise = recommendedExercises[indexPath.row]
+            
+            let storyboard = UIStoryboard(
+                name: "ExerciseInstruction",
+                bundle: nil
+            )
+            
+            let identifier = "ExerciseInstructionViewController"
+            let vc = storyboard.instantiateViewController(withIdentifier: identifier)
+            
+            guard let instructionVC = vc as? (ExerciseInstructionViewController & ExerciseFlowHandling) else {
+                assertionFailure("Instruction VC does not conform to ExerciseFlowHandling")
+                return
+            }
+            
+            instructionVC.exercise = exercise
+            instructionVC.inTodaySet = 0
+            instructionVC.source = .home
+            
+            navigationController?.pushViewController(vc, animated: true)
+            return
+        }
+        
         if indexPath.section == 3 {
             if indexPath.item == 0 {
                 // Acuity Test
@@ -91,7 +118,7 @@ extension ViewController: UICollectionViewDataSource {
         case 2: // Recommended Exercises
             return recommendedExercises.count      // 5 cells
         case 3: // Tests
-            return tests.count                      // Always 2 cells
+            return 2                      // Always 2 cells
         default:
             return 1
         }
@@ -121,6 +148,9 @@ extension ViewController: UICollectionViewDataSource {
             
             let icons = todaysExercise?.map { $0.exercise.getIcon() } ?? []
             cell.configureLabel(iconImages: icons)
+            cell.onTapNavigation = { [weak self] in
+                self?.navigate(to: "TodaysExerciseSet", with: "TodaysExerciseSetViewController")
+            }
             return cell
             
         case 2: // Recommended Exercises (Horizontal)
@@ -144,13 +174,22 @@ extension ViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as! TestsCollectionViewCell
             
-            let data = tests[indexPath.item]
-            cell.configure(
-                title: data.title,
-                subtitle: data.subtitle,
-                icon: data.iconName,
-                iconBGColor: data.iconBGColor
-            )
+            let dueOn = AcuityTestResultResponse.shared.getDueDate()
+            
+            if(indexPath.item == 0) {
+                cell.configure(
+                    title: "Acuity Test",
+                    subtitle: dueOn,
+                    icon: "eyeTest",
+                )
+            } else {
+                cell.configure(
+                    title: "Blink Rate ",
+                    subtitle: "Check Blinking Rate",
+                    icon: "blinkingEye",
+                )
+            }
+            
             return cell
             
         case 4: // Blink Rate

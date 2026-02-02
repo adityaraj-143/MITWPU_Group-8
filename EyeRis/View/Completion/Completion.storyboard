@@ -52,7 +52,7 @@
                                     </imageView>
                                 </subviews>
                                 <viewLayoutGuide key="safeArea" id="KcE-MI-vOH"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="175" id="Irh-jQ-Ps0"/>
                                     <constraint firstAttribute="height" constant="175" id="PlH-hb-byT"/>
@@ -79,7 +79,7 @@
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
                             <constraint firstItem="Biv-7a-ApG" firstAttribute="top" secondItem="o3l-zG-kFK" secondAttribute="bottom" constant="28" id="490-4j-pox"/>
                             <constraint firstItem="o3l-zG-kFK" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="86" id="5EX-ia-fdQ"/>
@@ -96,7 +96,13 @@
                             <constraint firstItem="TRm-yH-V9a" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="50" id="zT2-QE-QF6"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="hqw-QV-x3u"/>
+                    <navigationItem key="navigationItem" id="hqw-QV-x3u">
+                        <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="SwO-wS-6DV">
+                            <connections>
+                                <action selector="backButtonTapped:" destination="Y6W-OH-hqX" id="MfR-5f-Y8d"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="ActualTimeTaken" destination="Biv-7a-ApG" id="iPW-bq-9yL"/>
                         <outlet property="TimeTakenLabel" destination="Biv-7a-ApG" id="LcV-mV-YrN"/>
@@ -130,8 +136,9 @@
     </scenes>
     <resources>
         <image name="checkmark.seal" catalog="system" width="128" height="124"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        <image name="chevron.left" catalog="system" width="97" height="128"/>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
