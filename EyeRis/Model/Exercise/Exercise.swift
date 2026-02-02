@@ -25,28 +25,28 @@ struct Exercise: Equatable {
 extension Exercise {
     
     func getIcon() -> String {
-        exerciseStyleMap[id]?.icon ?? "questionmark.circle"
+        ExerciseInfo[id]?.icon ?? "questionmark.circle"
     }
     
     func getBGColor() -> UIColor {
-        exerciseStyleMap[id]?.bgColor ?? UIColor.systemGray.withAlphaComponent(0.1)
+        ExerciseInfo[id]?.bgColor ?? UIColor.systemGray.withAlphaComponent(0.1)
     }
     
     func getIconBGColor() -> UIColor {
-        exerciseStyleMap[id]?.iconBGColor ?? .systemGray
+        ExerciseInfo[id]?.iconBGColor ?? .systemGray
     }
     
     func getStoryboardName () -> String {
-        exerciseStyleMap[id]?.storyboardName ?? "ExerciseList"
+        ExerciseInfo[id]?.storyboardName ?? "ExerciseList"
         
     }
     
     func getStoryboardID () -> String {
-        exerciseStyleMap[id]?.storyboardID ?? "ExerciseListViewController"
+        ExerciseInfo[id]?.storyboardID ?? "ExerciseListViewController"
     }
     
     func getVC() -> UIViewController.Type {
-        exerciseStyleMap[id]?.vcType ?? defaultVCType
+        ExerciseInfo[id]?.vcType ?? defaultVCType
     }
     
 }

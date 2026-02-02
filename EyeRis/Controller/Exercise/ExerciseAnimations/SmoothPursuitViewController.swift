@@ -18,6 +18,7 @@ class SmoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
     private var coordinateTimer: Timer?
     
     private var monitorTimer: Timer?
+    private var hasNavigatedToCompletion = false
     
     // MARK: UI Elements
     let exerciseContainer: UIView = {
@@ -45,10 +46,18 @@ class SmoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
             self.setupExerciseContainer()
             self.startSmoothPursuit()
             
-            // Plug into session system
             ExerciseSessionManager.shared.onSessionCompleted = { [weak self] in
-                self?.handleExerciseCompletion()
+                guard let self = self else { return }
+                guard !self.hasNavigatedToCompletion else { return }
+                
+                self.hasNavigatedToCompletion = true
+                
+                self.stopAllTimers()
+                ExerciseSessionManager.shared.endSession(resetCamera: true)
+                
+                self.handleExerciseCompletion()
             }
+            
             
             // Start timed session
             guard let exercise = self.exercise else {
@@ -67,39 +76,23 @@ class SmoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        // If pause modal is being shown, just stop monitoring
-        if navigationController?.topViewController is PauseModalViewController {
-            monitorTimer?.invalidate()
-            monitorTimer = nil
-            return
-        }else {
-            monitorTimer?.invalidate()
-            monitorTimer = nil
-            ExerciseSessionManager.shared.endSession(resetCamera: true)
-        }
+        monitorTimer?.invalidate()
+        monitorTimer = nil
     }
     
     @IBAction func backTapped(_ sender: UIBarButtonItem) {
         stopAllTimers()
-        
-        monitorTimer?.invalidate()
-        monitorTimer = nil
-        
-        // End exercise session (stops camera + resets state)
         ExerciseSessionManager.shared.endSession(resetCamera: true)
-        
-        // Pop directly to ExerciseList
         popToExerciseList()
     }
     
     private func stopAllTimers() {
         displayLink?.invalidate()
         displayLink = nil
-
+        
         coordinateTimer?.invalidate()
         coordinateTimer = nil
-
+        
         monitorTimer?.invalidate()
         monitorTimer = nil
     }
@@ -258,17 +251,17 @@ class SmoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
                   id identifier: String,
                   nextExercise: Exercise?) {
         
+        stopAllTimers()
+        
         let storyboard = UIStoryboard(name: storyboard, bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
         
-        // If navigating to another exercise
         if let nextExercise,
            let exerciseVC = vc as? ExerciseFlowHandling {
             exerciseVC.exercise = nextExercise
             exerciseVC.inTodaySet = 1
         }
         
-        // If navigating to completion
         if let completionVC = vc as? CompletionViewController {
             if (inTodaySet == 0) {
                 completionVC.source = .Recommended
@@ -277,4 +270,5 @@ class SmoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
         
         navigationController?.pushViewController(vc, animated: true)
     }
+    
 }

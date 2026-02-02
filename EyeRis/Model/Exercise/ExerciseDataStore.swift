@@ -246,7 +246,7 @@ let defaultStoryboardID = "Fig8ViewController"
 let defaultVCType = Fig8ViewController.self
 
 
-let exerciseStyleMap: [Int: ExerciseCardInfo] = [
+let ExerciseInfo: [Int: ExerciseCardInfo] = [
     
     1: ExerciseCardInfo(
         icon: "Infinity",
@@ -316,7 +316,7 @@ let exerciseStyleMap: [Int: ExerciseCardInfo] = [
         icon: "Focus_shifting",
         bgColor: UIColor(hex: "E0E6FF"),
         iconBGColor: UIColor(hex: "6B7CFF"),
-        storyboardName: "focusShifting",
+        storyboardName: "FocusShifting",
         storyboardID: "FocusShiftingViewController",
         vcType: FocusShiftingViewController.self
     ),

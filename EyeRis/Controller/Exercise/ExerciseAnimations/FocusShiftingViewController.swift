@@ -16,6 +16,7 @@ class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring
     var referenceDistance: Int = 40   // default fallback
     
     private let exerciseDuration = 10
+    private var hasNavigatedToCompletion = false
 
     private let exerciseContainer: UIView = {
         let view = UIView()
@@ -49,10 +50,21 @@ class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring
         startCountdownThenExercise {
             self.startFocusExercise()
 
-            // Plug into session system
             ExerciseSessionManager.shared.onSessionCompleted = { [weak self] in
-                self?.handleExerciseCompletion()
+                guard let self = self else { return }
+                guard !self.hasNavigatedToCompletion else { return }
+
+                self.hasNavigatedToCompletion = true
+
+                // 🔥 Stop everything BEFORE navigation
+                self.stopAllTimers()
+                self.focusTimer?.invalidate()
+                self.focusTimer = nil
+                ExerciseSessionManager.shared.endSession(resetCamera: true)
+
+                self.handleExerciseCompletion()
             }
+
 
             // Start timed session
             guard let exercise = self.exercise else {
@@ -71,30 +83,17 @@ class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        // If pause modal is being shown, just stop monitoring
-        if navigationController?.topViewController is PauseModalViewController {
-            monitorTimer?.invalidate()
-            monitorTimer = nil
-            return
-        }else {
-            monitorTimer?.invalidate()
-            monitorTimer = nil
-            ExerciseSessionManager.shared.endSession(resetCamera: true)
-        }
+           monitorTimer?.invalidate()
+           monitorTimer = nil
     }
     
     @IBAction func backTapped(_ sender: UIBarButtonItem) {
         stopAllTimers()
-        
-        monitorTimer?.invalidate()
-        monitorTimer = nil
-        
-        // End exercise session (stops camera + resets state)
-        ExerciseSessionManager.shared.endSession(resetCamera: true)
-        
-        // Pop directly to ExerciseList
-        popToExerciseList()
+           focusTimer?.invalidate()
+           focusTimer = nil
+
+           ExerciseSessionManager.shared.endSession(resetCamera: true)
+           popToExerciseList()
     }
     
     private func stopAllTimers() {
@@ -271,17 +270,19 @@ class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring
                   id identifier: String,
                   nextExercise: Exercise?) {
 
+        stopAllTimers()
+        focusTimer?.invalidate()
+        focusTimer = nil
+
         let storyboard = UIStoryboard(name: storyboard, bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
 
-        // If we are navigating to another exercise
         if let nextExercise,
            let exerciseVC = vc as? ExerciseFlowHandling {
             exerciseVC.exercise = nextExercise
             exerciseVC.inTodaySet = 1
         }
 
-        // If we are navigating to completion
         if let completionVC = vc as? CompletionViewController {
             if (inTodaySet == 0) {
                 completionVC.source = .Recommended
@@ -290,6 +291,7 @@ class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring
 
         navigationController?.pushViewController(vc, animated: true)
     }
+
 
 }
 
