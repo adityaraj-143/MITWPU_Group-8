@@ -87,8 +87,10 @@ final class AcuityTestResultResponse {
     
     func groupTestsByDate() -> [AcuityTestsForADate] {
         // 1. Group every test result by its testDate
-        let grouped = Dictionary(grouping: results, by: { $0.testDate })
-        
+        let grouped = Dictionary(grouping: results) {
+            Calendar.current.startOfDay(for: $0.testDate)
+        }
+
         // 2. Sort dates in ascending order
         let sortedDates = grouped.keys.sorted()
         

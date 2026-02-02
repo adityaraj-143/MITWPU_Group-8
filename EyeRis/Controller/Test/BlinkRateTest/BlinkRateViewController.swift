@@ -90,7 +90,7 @@ class BlinkRateViewController: UIViewController, ARSessionDelegate {
             // -----------------------
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                self.navigate(to: "Completion", with: "CompletionViewController", source: .blinkRateTest)
+                self.navigate(to: "Completion", with: "CompletionViewController", source: .BlinkRateTest)
             }
         }
         

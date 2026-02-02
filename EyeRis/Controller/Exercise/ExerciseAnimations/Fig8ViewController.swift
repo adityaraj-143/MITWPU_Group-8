@@ -15,6 +15,7 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
     var inTodaySet: Int? = 0
     
     var referenceDistance: Int = 40   // default fallback
+    private var hasNavigatedToCompletion = false
 
     
     // MARK: Properties
@@ -48,8 +49,13 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
             self.startDotAnimation()
             
             ExerciseSessionManager.shared.onSessionCompleted = { [weak self] in
-                self?.handleExerciseCompletion()
+                guard let self = self else { return }
+                guard !self.hasNavigatedToCompletion else { return }
+
+                self.hasNavigatedToCompletion = true
+                self.handleExerciseCompletion()
             }
+
             
             guard let exercise = self.exercise else {
                 assertionFailure("Exercise not set in Fig8ViewController")
@@ -74,13 +80,12 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
             monitorTimer?.invalidate()
             monitorTimer = nil
             return
-        }
-
-        // If user presses BACK → exit exercise flow completely
-        if isMovingFromParent {
+        } else {
             monitorTimer?.invalidate()
             monitorTimer = nil
-            ExerciseSessionManager.shared.endSession(resetCamera: true)
+            if !hasNavigatedToCompletion {
+                ExerciseSessionManager.shared.endSession(resetCamera: true)
+            }
         }
     }
 
@@ -287,7 +292,9 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
 
         // If this is the completion screen
         if let completionVC = vc as? CompletionViewController {
-            completionVC.source = .Exercise
+            if (inTodaySet == 0) {
+                completionVC.source = .Recommended
+            }
         }
 
         navigationController?.pushViewController(vc, animated: true)

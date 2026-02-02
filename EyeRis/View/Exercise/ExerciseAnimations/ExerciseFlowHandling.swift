@@ -24,7 +24,8 @@ extension ExerciseFlowHandling where Self: UIViewController {
 
         guard let currentExercise = exercise else { return }
 
-        // Individual exercise → direct completion
+        ExerciseList.shared?.markCompleted(exercise: currentExercise)
+
         if inTodaySet == 0 {
             navigate(
                 to: "Completion",
@@ -34,19 +35,15 @@ extension ExerciseFlowHandling where Self: UIViewController {
             return
         }
 
-        // Set flow
         guard let list = ExerciseList.shared else { return }
-        list.markCompleted(exercise: currentExercise)
 
         if let next = list.nextExercise(after: currentExercise) {
-            // Instead of jumping to exercise → jump to instructions
             navigate(
-                to: "exerciseInstruction",
+                to: "ExerciseInstruction",
                 id: "ExerciseInstructionViewController",
                 nextExercise: next
             )
         } else {
-            // Set finished
             navigate(
                 to: "Completion",
                 id: "CompletionViewController",
@@ -54,4 +51,5 @@ extension ExerciseFlowHandling where Self: UIViewController {
             )
         }
     }
+
 }

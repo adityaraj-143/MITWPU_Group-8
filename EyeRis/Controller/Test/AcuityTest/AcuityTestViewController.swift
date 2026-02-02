@@ -44,13 +44,13 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
         
         switch source {
         case .NVALeft:
-            nextNav = "CalibrationScreen"
+            nextNav = "TestCalibration"
             nextNavId = "CalibrationViewController"
         case .NVARight:
             nextNav = "TestInstructions"
             nextNavId = "TestInstructionsViewController"
         case .DVALeft:
-            nextNav = "CalibrationScreen"
+            nextNav = "TestCalibration"
             nextNavId = "CalibrationViewController"
         case .DVARight:
             nextNav = "Completion"
@@ -466,7 +466,7 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
             }
         case .DVARight:
             if let tempVC = vc as? CompletionViewController {
-                tempVC.source = .acuityTest
+                tempVC.source = .AcuityTest
             }
         default:
             break
@@ -487,11 +487,12 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
         ) ?? 0
 
         let score = calcAcuityScore(level: bestLevel)
+        let today = Calendar.current.startOfDay(for: Date())
 
         let result = AcuityTestResult(
             id: Int.random(in: 1000...9999),
             testType: (source == .NVALeft || source == .NVARight) ? .NearVision : .DistantVision,
-            testDate: Date(),
+            testDate: today,
             heathyScore: "20/20",
             leftEyeScore: (source == .NVALeft || source == .DVALeft) ? score : "",
             rightEyeScore: (source == .NVARight || source == .DVARight) ? score : "",

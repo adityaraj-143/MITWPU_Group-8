@@ -1,61 +1,65 @@
 //
-//  SmoothPursuitViewController.swift
+//  FocusShiftingViewController.swift
 //  figure8_pattern
 //
-//  Created by SDC-USER on 21/01/26.
+//  Created by SDC-USER on 14/01/26.
 //
 
 import UIKit
 
-class smoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring, ExerciseFlowHandling {
-    
+class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring, ExerciseFlowHandling {
+
     @IBOutlet weak var timer_label: UILabel!
-    
     var exercise: Exercise?
     var inTodaySet: Int? = 0
-    private let exerciseDuration = 10
+    
     var referenceDistance: Int = 40   // default fallback
-    private var coordinateTimer: Timer?
     
-    private var monitorTimer: Timer?
-    
-    // MARK: UI Elements
-    let exerciseContainer: UIView = {
+    private let exerciseDuration = 10
+
+    private let exerciseContainer: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         return view
     }()
+    private var displayLink: CADisplayLink?
+    private var coordinateTimer: Timer?
     
-    let dotView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
-        view.backgroundColor = .red
-        view.layer.cornerRadius = 12.5
-        return view
-    }()
-    
-    var displayLink: CADisplayLink?
-    var velocity = CGVector(dx: 0, dy: 0)
-    var speed: CGFloat = 120
-    var lastTimestamp: CFTimeInterval = 0
+    // MARK: Properties
+    private var focusDots: [FocusDot] = []
+    private var currentRedIndex: Int?
+    private var focusTimer: Timer?
+    private let rows = 5
+    private let columns = 5
+    private let dotSize: CGFloat = 25
+    private let containerHeight: CGFloat = 750
+    private let focusInterval: TimeInterval = 1.5
+    private let minimumFocusDistance: CGFloat = 120
+    private let maxSelectionAttempts = 20
+
+    private var monitorTimer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.hidesBackButton = true
         
+        setupExerciseContainer()
+        setupFocusDots()
+
         startCountdownThenExercise {
-            self.setupExerciseContainer()
-            self.startSmoothPursuit()
-            
+            self.startFocusExercise()
+
             // Plug into session system
             ExerciseSessionManager.shared.onSessionCompleted = { [weak self] in
                 self?.handleExerciseCompletion()
             }
-            
+
             // Start timed session
             guard let exercise = self.exercise else {
-                assertionFailure("Exercise not set in SmoothPursuitViewController")
+                assertionFailure("Exercise not set in FocusShiftingViewController")
                 return
             }
-            
+
             ExerciseSessionManager.shared.start(
                 exercise: exercise,
                 referenceDistance: ExerciseSessionManager.shared.referenceDistance,
@@ -64,7 +68,7 @@ class smoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
             self.startAlignmentMonitoring(timer: &self.monitorTimer)
         }
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -73,10 +77,7 @@ class smoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
             monitorTimer?.invalidate()
             monitorTimer = nil
             return
-        }
-
-        // If user presses BACK → exit exercise flow completely
-        if isMovingFromParent {
+        }else {
             monitorTimer?.invalidate()
             monitorTimer = nil
             ExerciseSessionManager.shared.endSession(resetCamera: true)
@@ -120,7 +121,7 @@ class smoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
         // fallback (should not happen)
         navController.popToRootViewController(animated: true)
     }
-    
+
     func showPause(reason: CameraAlignmentState) {
         
         // Prevent multiple pushes
@@ -154,99 +155,55 @@ class smoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
         case .manual: return .manual // fallback
         }
     }
-    
+
     // MARK: Setup
-    func setupExerciseContainer() {
-        let containerHeight: CGFloat = 550
-        
+    private func setupExerciseContainer() {
         exerciseContainer.frame = CGRect(
             x: 0,
             y: (view.bounds.height - containerHeight) / 2,
             width: view.bounds.width,
             height: containerHeight
         )
-        
+
         view.addSubview(exerciseContainer)
-        
-        dotView.center = CGPoint(
-            x: exerciseContainer.bounds.midX,
-            y: exerciseContainer.bounds.midY
-        )
-        
-        exerciseContainer.addSubview(dotView)
     }
-    
-    // MARK: Logic
-    func startSmoothPursuit() {
-        setRandomDirectionAndSpeed()
-        
-        lastTimestamp = CACurrentMediaTime()
-        displayLink = CADisplayLink(target: self, selector: #selector(updateMotion))
-        displayLink?.add(to: .main, forMode: .default)
-    }
-    
-    @objc func updateMotion(link: CADisplayLink) {
-        let deltaTime = link.timestamp - lastTimestamp
-        lastTimestamp = link.timestamp
-        
-        var newX = dotView.center.x + velocity.dx * CGFloat(deltaTime)
-        var newY = dotView.center.y + velocity.dy * CGFloat(deltaTime)
-        
-        let radius: CGFloat = 12.5
-        let minX = radius
-        let maxX = exerciseContainer.bounds.width - radius
-        let minY = radius
-        let maxY = exerciseContainer.bounds.height - radius
-        
-        if newX <= minX || newX >= maxX {
-            velocity.dx *= -1
-            setRandomSpeed()
-            newX = max(minX, min(newX, maxX))
-        }
-        
-        if newY <= minY || newY >= maxY {
-            velocity.dy *= -1
-            setRandomSpeed()
-            newY = max(minY, min(newY, maxY))
-        }
-        
-        dotView.center = CGPoint(x: newX, y: newY)
-    }
-    
-    func setRandomDirectionAndSpeed() {
-        let angle = CGFloat.random(in: 0...(2 * .pi))
-        setRandomSpeed()
-        
-        velocity = CGVector(
-            dx: cos(angle) * speed,
-            dy: sin(angle) * speed
-        )
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + Double.random(in: 2.0...4.0)) {
-            self.setRandomDirectionAndSpeed()
+
+    private func setupFocusDots() {
+        focusDots.removeAll()
+
+        let spacingX = exerciseContainer.bounds.width / CGFloat(columns + 1)
+        let spacingY = exerciseContainer.bounds.height / CGFloat(rows + 1)
+
+        for row in 1...rows {
+            for column in 1...columns {
+                let position = CGPoint(
+                    x: spacingX * CGFloat(column),
+                    y: spacingY * CGFloat(row)
+                )
+
+                let dotView = UIView(
+                    frame: CGRect(x: 0, y: 0, width: dotSize, height: dotSize)
+                )
+
+                dotView.center = position
+                dotView.backgroundColor = .white
+                dotView.layer.cornerRadius = dotSize / 2
+
+                exerciseContainer.addSubview(dotView)
+                focusDots.append(FocusDot(position: position, view: dotView))
+            }
         }
     }
-    
-    func setRandomSpeed() {
-        speed = CGFloat.random(in: 80...200)
-        
-        let angle = atan2(velocity.dy, velocity.dx)
-        velocity = CGVector(
-            dx: cos(angle) * speed,
-            dy: sin(angle) * speed
-        )
-    }
-    
+
     // MARK: Countdown
-    func startCountdownThenExercise(startExercise: @escaping () -> Void) {
+    private func startCountdownThenExercise(startExercise: @escaping () -> Void) {
         var count = 3
         timer_label.isHidden = false
         timer_label.text = "\(count)"
-        
-        
+
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             count -= 1
-            
+
             if count == 0 {
                 timer.invalidate()
                 self.timer_label.isHidden = true
@@ -256,26 +213,88 @@ class smoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
             }
         }
     }
+
+    // MARK: Logic
+    private func startFocusExercise() {
+        focusTimer = Timer.scheduledTimer(
+            withTimeInterval: focusInterval,
+            repeats: true
+        ) { [weak self] _ in
+            self?.switchRedDot()
+        }
+    }
+
+    private func switchRedDot() {
+        resetPreviousRedDot()
+
+        guard !focusDots.isEmpty else { return }
+
+        let previousPosition = currentRedIndex != nil
+            ? focusDots[currentRedIndex!].position
+            : nil
+
+        var newIndex: Int
+        var attempts = 0
+
+        repeat {
+            newIndex = Int.random(in: 0..<focusDots.count)
+            attempts += 1
+
+            if let prevPos = previousPosition {
+                let newPos = focusDots[newIndex].position
+                if distance(between: prevPos, and: newPos) >= minimumFocusDistance {
+                    break
+                }
+            } else {
+                break
+            }
+
+        } while attempts < maxSelectionAttempts
+
+        focusDots[newIndex].view.backgroundColor = .red
+        currentRedIndex = newIndex
+    }
+
+    private func resetPreviousRedDot() {
+        if let index = currentRedIndex {
+            focusDots[index].view.backgroundColor = .white
+        }
+    }
+
+    private func distance(between p1: CGPoint, and p2: CGPoint) -> CGFloat {
+        let dx = p1.x - p2.x
+        let dy = p1.y - p2.y
+        return sqrt(dx * dx + dy * dy)
+    }
     
     func navigate(to storyboard: String,
                   id identifier: String,
                   nextExercise: Exercise?) {
-        
+
         let storyboard = UIStoryboard(name: storyboard, bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
-        
-        // If navigating to another exercise
+
+        // If we are navigating to another exercise
         if let nextExercise,
            let exerciseVC = vc as? ExerciseFlowHandling {
             exerciseVC.exercise = nextExercise
             exerciseVC.inTodaySet = 1
         }
-        
-        // If navigating to completion
+
+        // If we are navigating to completion
         if let completionVC = vc as? CompletionViewController {
-            completionVC.source = .Exercise
+            if (inTodaySet == 0) {
+                completionVC.source = .Recommended
+            }
         }
-        
+
         navigationController?.pushViewController(vc, animated: true)
     }
+
+}
+
+// MARK: Dot Model
+struct FocusDot {
+    let position: CGPoint
+    let view: UIView
 }

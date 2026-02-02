@@ -31,6 +31,9 @@ class ExerciseInstructionViewController: UIViewController, ExerciseFlowHandling 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        videoContainerView.applyCornerRadius()
+        videoContainerView.applyShadow()
+        
         setupUI()
         setupVideo()
     }
@@ -116,10 +119,6 @@ class ExerciseInstructionViewController: UIViewController, ExerciseFlowHandling 
             exerciseVC.exercise = nextExercise
             exerciseVC.inTodaySet = inTodaySet
             exerciseVC.referenceDistance = referenceDistance
-        }
-        
-        if let completionVC = vc as? CompletionViewController {
-            completionVC.source = .Exercise
         }
         
         navigationController?.pushViewController(vc, animated: true)

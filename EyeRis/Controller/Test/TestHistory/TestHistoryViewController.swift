@@ -46,17 +46,20 @@ class TestHistoryViewController: UIViewController {
         return df
     }()
     
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         groupedResultsByDate = AcuityTestResultResponse.shared.groupTestsByDate()
-
+        
         if !groupedResultsByDate.isEmpty {
             currentIndex = groupedResultsByDate.count - 1
         }
-
+        
         updateUIForCurrentDate()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
         [NVAView, DVAView, mainView, commentView].forEach {
             $0?.applyCornerRadius()
