@@ -466,7 +466,7 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
             }
         case .DVARight:
             if let tempVC = vc as? CompletionViewController {
-                tempVC.source = .acuityTest
+                tempVC.source = .AcuityTest
             }
         default:
             break

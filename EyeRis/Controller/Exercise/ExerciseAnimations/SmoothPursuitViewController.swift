@@ -270,7 +270,9 @@ class SmoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
         
         // If navigating to completion
         if let completionVC = vc as? CompletionViewController {
-            completionVC.source = .Exercise
+            if (inTodaySet == 0) {
+                completionVC.source = .Recommended
+            }
         }
         
         navigationController?.pushViewController(vc, animated: true)

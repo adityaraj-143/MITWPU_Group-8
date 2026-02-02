@@ -118,10 +118,6 @@ class ExerciseInstructionViewController: UIViewController, ExerciseFlowHandling 
             exerciseVC.referenceDistance = referenceDistance
         }
         
-        if let completionVC = vc as? CompletionViewController {
-            completionVC.source = .Exercise
-        }
-        
         navigationController?.pushViewController(vc, animated: true)
     }
     

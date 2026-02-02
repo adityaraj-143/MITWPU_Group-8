@@ -2,9 +2,11 @@ import UIKit
 import AVFoundation
 
 enum CompletionSource {
-    case acuityTest
-    case blinkRateTest
-    case Exercise
+    case AcuityTest
+    case BlinkRateTest
+    case TodaysSet
+    case ExerciseList
+    case Recommended
 }
 
 final class CompletionViewController: UIViewController {
@@ -34,17 +36,17 @@ final class CompletionViewController: UIViewController {
         super.viewWillAppear(animated)
         
         switch source {
-        case .acuityTest:
+        case .AcuityTest:
             completionLabel.text = "Acuity Test Completed!"
             resultNav = "TestHistory"
             resultNavId = "TestHistoryViewController"
             
-        case .blinkRateTest:
+        case .BlinkRateTest:
             completionLabel.text = "Blink Rate Test Completed!"
             resultNav = "BlinkRateHistory"
             resultNavId = "BlinkRateHistoryViewController"
             
-        case .Exercise:
+        case .TodaysSet, .ExerciseList, .Recommended:
             completionLabel.text = "Exercise Completed!"
             resultNav = "ExerciseHistory"
             resultNavId = "ExerciseHistoryViewController"
@@ -260,7 +262,16 @@ final class CompletionViewController: UIViewController {
     }
     
     @IBAction func backButtonTapped(_ sender: Any) {
-        goToHome()
+        switch source {
+        case .Recommended, .AcuityTest, .BlinkRateTest:
+            goToHome()
+        case .ExerciseList:
+            goToList()
+        case .TodaysSet:
+            gotoTodaysSet()
+        case .none:
+            assertionFailure("Source not defined in completion page")
+        }
     }
     
     private func navigate(to: String, with: String, resetStack: Bool = false) {
@@ -294,5 +305,40 @@ final class CompletionViewController: UIViewController {
         nav.popToRootViewController(animated: true)
     }
     
+    private func gotoTodaysSet() {
+        guard let nav = navigationController else { return }
+        
+        for vc in nav.viewControllers {
+            if vc is TodaysExerciseSetViewController {
+                nav.popToViewController(vc, animated: true)
+                return
+            }
+        }
+        
+        // Fallback if for some reason it’s not in stack
+        let storyboard = UIStoryboard(name: "TodaysExerciseSet", bundle: nil) // use your real storyboard name
+        let vc = storyboard.instantiateViewController(
+            withIdentifier: "TodaysExerciseSetViewController"
+        )
+        nav.setViewControllers([nav.viewControllers.first!, vc], animated: true)
+    }
+    
+    private func goToList () {
+        guard let nav = navigationController else { return }
+        
+        for vc in nav.viewControllers {
+            if vc is ExerciseListViewController {
+                nav.popToViewController(vc, animated: true)
+                return
+            }
+        }
+        
+        // Fallback if for some reason it’s not in stack
+        let storyboard = UIStoryboard(name: "ExerciseList", bundle: nil) // use your real storyboard name
+        let vc = storyboard.instantiateViewController(
+            withIdentifier: "ExerciseListViewController"
+        )
+        nav.setViewControllers([nav.viewControllers.first!, vc], animated: true)
+    }
     
 }
