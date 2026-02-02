@@ -53,10 +53,13 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
                 guard !self.hasNavigatedToCompletion else { return }
 
                 self.hasNavigatedToCompletion = true
+
+                self.stopAllTimers()
+                ExerciseSessionManager.shared.endSession(resetCamera: true)
+
                 self.handleExerciseCompletion()
             }
 
-            
             guard let exercise = self.exercise else {
                 assertionFailure("Exercise not set in Fig8ViewController")
                 return
@@ -72,21 +75,10 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
         
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {        
         super.viewWillDisappear(animated)
-        
-        // If pause modal is being shown, just stop monitoring
-        if navigationController?.topViewController is PauseModalViewController {
             monitorTimer?.invalidate()
             monitorTimer = nil
-            return
-        } else {
-            monitorTimer?.invalidate()
-            monitorTimer = nil
-            if !hasNavigatedToCompletion {
-                ExerciseSessionManager.shared.endSession(resetCamera: true)
-            }
-        }
     }
 
     
