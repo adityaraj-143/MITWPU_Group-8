@@ -45,9 +45,9 @@ extension Exercise {
         ExerciseInfo[id]?.storyboardID ?? "ExerciseListViewController"
     }
     
-    func getVC() -> UIViewController.Type {
-        ExerciseInfo[id]?.vcType ?? defaultVCType
-    }
+//    func getVC() -> UIViewController.Type {
+//        ExerciseInfo[id]?.vcType ?? defaultVCType
+//    }
     
 }
 

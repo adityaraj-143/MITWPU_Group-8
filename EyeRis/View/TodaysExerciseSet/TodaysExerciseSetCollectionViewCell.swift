@@ -15,7 +15,9 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var exerciseName: UILabel!
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var exerciseImage: UIImageView!
-    @IBOutlet weak var exerciseDescription: UILabel!
+    
+//    @IBOutlet weak var exerciseDescription: UILabel!
+    
     @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var StyleContainerView: UIView!
     @IBOutlet weak var iconView: UIView!
@@ -41,7 +43,9 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        exerciseDescription.preferredMaxLayoutWidth = exerciseDescription.frame.width
+        
+//        exerciseDescription.preferredMaxLayoutWidth = exerciseDescription.frame.width
+        
     }
     
     var onTapNavigation: (() -> Void)?
@@ -53,7 +57,9 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
     func configure(with item: TodaysExercise) {
         exercise = item.exercise
         exerciseName.text = item.exercise.name
-        exerciseDescription.text = item.exercise.instructions.description
+        
+//        exerciseDescription.text = item.exercise.instructions.description
+        
         exerciseImage.image = UIImage(named: item.exercise.getIcon())
         durationLabel.text = "\(item.exercise.duration) sec"
         cardView.backgroundColor = .white
