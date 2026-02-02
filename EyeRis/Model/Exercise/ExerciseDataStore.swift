@@ -364,7 +364,7 @@ let exerciseStyleMap: [Int: ExerciseCardInfo] = [
         iconBGColor: UIColor(hex: "E66A7A"),
         storyboardName: "SmoothPursuit",
         storyboardID: "smoothPursuitViewController",
-        vcType: smoothPursuitViewController.self
+        vcType: SmoothPursuitViewController.self
     ),
     
     14: ExerciseCardInfo(
