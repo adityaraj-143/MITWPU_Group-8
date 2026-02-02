@@ -41,7 +41,7 @@ extension ExerciseFlowHandling where Self: UIViewController {
         if let next = list.nextExercise(after: currentExercise) {
             // Instead of jumping to exercise → jump to instructions
             navigate(
-                to: "exerciseInstruction",
+                to: "ExerciseInstruction",
                 id: "ExerciseInstructionViewController",
                 nextExercise: next
             )
