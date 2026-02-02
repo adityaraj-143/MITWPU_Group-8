@@ -15,6 +15,7 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
     var inTodaySet: Int? = 0
     
     var referenceDistance: Int = 40   // default fallback
+    private var hasNavigatedToCompletion = false
 
     
     // MARK: Properties
@@ -48,8 +49,13 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
             self.startDotAnimation()
             
             ExerciseSessionManager.shared.onSessionCompleted = { [weak self] in
-                self?.handleExerciseCompletion()
+                guard let self = self else { return }
+                guard !self.hasNavigatedToCompletion else { return }
+
+                self.hasNavigatedToCompletion = true
+                self.handleExerciseCompletion()
             }
+
             
             guard let exercise = self.exercise else {
                 assertionFailure("Exercise not set in Fig8ViewController")
@@ -77,7 +83,9 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
         } else {
             monitorTimer?.invalidate()
             monitorTimer = nil
-            ExerciseSessionManager.shared.endSession(resetCamera: true)
+            if !hasNavigatedToCompletion {
+                ExerciseSessionManager.shared.endSession(resetCamera: true)
+            }
         }
     }
 
