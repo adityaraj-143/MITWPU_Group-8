@@ -44,13 +44,13 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
         
         switch source {
         case .NVALeft:
-            nextNav = "CalibrationScreen"
+            nextNav = "TestCalibration"
             nextNavId = "CalibrationViewController"
         case .NVARight:
             nextNav = "TestInstructions"
             nextNavId = "TestInstructionsViewController"
         case .DVALeft:
-            nextNav = "CalibrationScreen"
+            nextNav = "TestCalibration"
             nextNavId = "CalibrationViewController"
         case .DVARight:
             nextNav = "Completion"

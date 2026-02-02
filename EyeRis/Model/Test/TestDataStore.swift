@@ -128,7 +128,7 @@ let mockTestBlink = BlinkRateTest(
     ], images: ["NVATestInstruction1",
                 "BlinkTestInstruction2",
                 "BlinkTestInstruction3",
-                "NVAtesTInstruction4"]),
+                "NVATestInstruction4"]),
     passages: """
         Arjun always took his eyesight for granted. He spent hours scrolling on his phone, studying on his laptop, and gaming late into the night. Slowly, his eyes began to ache, and everything started to look slightly hazy. He ignored it at first, brushing it off as simple tiredness. But one day, while driving, he realized he couldn’t clearly read a road sign until he was dangerously close. That moment scared him enough to finally visit an eye specialist.
         

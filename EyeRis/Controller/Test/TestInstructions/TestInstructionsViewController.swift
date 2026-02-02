@@ -73,7 +73,7 @@ class TestInstructionsViewController: UIViewController, UICollectionViewDelegate
     
     @IBAction func navToCalibrate(_ sender: Any) {
         navigate(
-            to: "CalibrationScreen",
+            to: "TestCalibration",
             with: "CalibrationViewController",
             source: source
         )

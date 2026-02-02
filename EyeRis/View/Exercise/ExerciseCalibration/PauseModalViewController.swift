@@ -7,6 +7,13 @@
 
 import UIKit
 
+enum PauseReason {
+    case manual
+    case tooClose
+    case tooFar
+    case noFace
+}
+
 class PauseModalViewController: UIViewController {
 
     @IBOutlet weak var distanceLabel: UILabel!
