@@ -7,7 +7,7 @@
 
 import UIKit
 
-class smoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring, ExerciseFlowHandling {
+class SmoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring, ExerciseFlowHandling {
     
     @IBOutlet weak var timer_label: UILabel!
     
@@ -73,10 +73,7 @@ class smoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
             monitorTimer?.invalidate()
             monitorTimer = nil
             return
-        }
-
-        // If user presses BACK → exit exercise flow completely
-        if isMovingFromParent {
+        }else {
             monitorTimer?.invalidate()
             monitorTimer = nil
             ExerciseSessionManager.shared.endSession(resetCamera: true)

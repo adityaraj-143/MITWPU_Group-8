@@ -81,10 +81,10 @@ let mockTestNVA = AcuityTest(
             "Make sure the screen is at eye level and well-lit for best accuracy."
         ],
         images: [
-            "NVAtestInstruction1",
-            "NVAtestInstruction2",
-            "NVAtestInstruction3",
-            "NVAtestInstruction4"
+            "NVATestInstruction1",
+            "NVATestInstruction2",
+            "NVATestInstruction3",
+            "NVATestInstruction4"
         ]
     ),
     snellenChart: SnellenChart(
@@ -105,10 +105,10 @@ let mockTestDVA = AcuityTest(
             "Make sure the screen is at eye level and well-lit for best accuracy."
         ],
         images: [
-            "DVAtestInstruction1",
-            "NVAtestInstruction2",
-            "NVAtestInstruction3",
-            "NVAtestInstruction4"
+            "DVATestInstruction1",
+            "NVATestInstruction2",
+            "NVATestInstruction3",
+            "NVATestInstruction4"
         ]
     ),
     snellenChart: SnellenChart(
@@ -125,10 +125,10 @@ let mockTestBlink = BlinkRateTest(
         "Blink naturally — don’t try to control or force your blinks.",
         "Keep your head steady with your face clearly visible to the camera.",
         "Relax and normally read the text displayed."
-    ], images: ["NVAtestInstruction1",
+    ], images: ["NVATestInstruction1",
                 "BlinkTestInstruction2",
                 "BlinkTestInstruction3",
-                "NVAtestInstruction4"]),
+                "NVATestInstruction4"]),
     passages: """
         Arjun always took his eyesight for granted. He spent hours scrolling on his phone, studying on his laptop, and gaming late into the night. Slowly, his eyes began to ache, and everything started to look slightly hazy. He ignored it at first, brushing it off as simple tiredness. But one day, while driving, he realized he couldn’t clearly read a road sign until he was dangerously close. That moment scared him enough to finally visit an eye specialist.
         
