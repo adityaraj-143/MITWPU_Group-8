@@ -74,7 +74,7 @@ extension ViewController: UICollectionViewDelegate {
             let exercise = recommendedExercises[indexPath.row]
             
             let storyboard = UIStoryboard(
-                name: "exerciseInstruction",
+                name: "ExerciseInstruction",
                 bundle: nil
             )
             

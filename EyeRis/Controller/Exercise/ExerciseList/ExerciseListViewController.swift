@@ -26,7 +26,7 @@ class ExerciseListViewController: UIViewController {
     private func navigateToInstruction(exercise: Exercise) {
                 
         let storyboard = UIStoryboard(
-            name: "exerciseInstruction",
+            name: "ExerciseInstruction",
             bundle: nil
         )
         

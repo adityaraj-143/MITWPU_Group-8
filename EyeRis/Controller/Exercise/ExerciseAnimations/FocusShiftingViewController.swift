@@ -77,10 +77,7 @@ class FocusShiftingViewController: UIViewController, ExerciseAlignmentMonitoring
             monitorTimer?.invalidate()
             monitorTimer = nil
             return
-        }
-
-        // If user presses BACK → exit exercise flow completely
-        if isMovingFromParent {
+        }else {
             monitorTimer?.invalidate()
             monitorTimer = nil
             ExerciseSessionManager.shared.endSession(resetCamera: true)
