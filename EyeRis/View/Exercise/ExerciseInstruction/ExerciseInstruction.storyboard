@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d3E-kr-aMd">
-                                <rect key="frame" x="20" y="192" width="353" height="24"/>
+                                <rect key="frame" x="20" y="202" width="353" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -36,7 +36,7 @@
                                 </connections>
                             </button>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VrB-9v-v4O">
-                                <rect key="frame" x="70" y="246" width="253" height="450"/>
+                                <rect key="frame" x="65" y="256" width="263" height="440"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                         </subviews>
@@ -44,14 +44,14 @@
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
                             <constraint firstItem="VrB-9v-v4O" firstAttribute="top" secondItem="d3E-kr-aMd" secondAttribute="bottom" constant="30" id="8ag-Nl-Y1D"/>
-                            <constraint firstItem="d3E-kr-aMd" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="20" id="Aff-2b-i6m"/>
+                            <constraint firstItem="d3E-kr-aMd" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="30" id="Aff-2b-i6m"/>
                             <constraint firstItem="ZwD-LP-6S8" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="PPP-a4-C6D"/>
                             <constraint firstItem="d3E-kr-aMd" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="Spl-sa-uNU"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="d3E-kr-aMd" secondAttribute="trailing" constant="20" id="UrH-33-aBc"/>
                             <constraint firstItem="ZwD-LP-6S8" firstAttribute="top" secondItem="VrB-9v-v4O" secondAttribute="bottom" constant="33" id="cbQ-zE-Epu"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="ZwD-LP-6S8" secondAttribute="bottom" constant="20" id="f3c-06-2Gr"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="VrB-9v-v4O" secondAttribute="trailing" constant="70" id="ria-f2-ZdS"/>
-                            <constraint firstItem="VrB-9v-v4O" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="70" id="xGQ-dB-8yc"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="VrB-9v-v4O" secondAttribute="trailing" constant="65" id="ria-f2-ZdS"/>
+                            <constraint firstItem="VrB-9v-v4O" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="65" id="xGQ-dB-8yc"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Figure 8" id="3Bi-J5-61G">
@@ -96,7 +96,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray6Color">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

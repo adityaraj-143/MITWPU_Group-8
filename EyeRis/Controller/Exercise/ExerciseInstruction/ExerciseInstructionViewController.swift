@@ -31,6 +31,9 @@ class ExerciseInstructionViewController: UIViewController, ExerciseFlowHandling 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        videoContainerView.applyCornerRadius()
+        videoContainerView.applyShadow()
+        
         setupUI()
         setupVideo()
     }
