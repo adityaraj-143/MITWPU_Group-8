@@ -74,10 +74,7 @@ class Fig8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exercis
             monitorTimer?.invalidate()
             monitorTimer = nil
             return
-        }
-
-        // If user presses BACK → exit exercise flow completely
-        if isMovingFromParent {
+        } else {
             monitorTimer?.invalidate()
             monitorTimer = nil
             ExerciseSessionManager.shared.endSession(resetCamera: true)

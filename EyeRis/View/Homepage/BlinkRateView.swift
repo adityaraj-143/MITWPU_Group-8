@@ -171,6 +171,16 @@ class BlinkRateView: UIView {
             return .red
         }
         
+        // If before first stop → return first color
+        if position <= locations.first! {
+            return UIColor(cgColor: colors.first!)
+        }
+        
+        // If after last stop → return last color
+        if position >= locations.last! {
+            return UIColor(cgColor: colors.last!)
+        }
+        
         for i in 0..<(locations.count - 1) {
             let start = locations[i]
             let end = locations[i + 1]
@@ -185,6 +195,7 @@ class BlinkRateView: UIView {
         
         return UIColor(cgColor: colors.last!)
     }
+    
 }
 
 // MARK: - UIColor Helpers

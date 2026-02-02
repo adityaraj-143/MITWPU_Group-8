@@ -22,7 +22,7 @@ class TodaysExerciseSetViewController: UIViewController {
         }
         
         let storyboard = UIStoryboard(
-            name: "exerciseInstruction",
+            name: "ExerciseInstruction",
             bundle: nil
         )
         
@@ -44,7 +44,7 @@ class TodaysExerciseSetViewController: UIViewController {
     private func navigateToInstructionForSingleExercise(_ exercise: Exercise) {
         
         let storyboard = UIStoryboard(
-            name: "exerciseInstruction",
+            name: "ExerciseInstruction",
             bundle: nil
         )
 
