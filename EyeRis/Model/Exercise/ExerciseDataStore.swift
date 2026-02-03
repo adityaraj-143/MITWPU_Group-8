@@ -247,7 +247,9 @@ let defaultVCType = Figure8ViewController.self
 
 
 let ExerciseInfo: [Int: ExerciseCardInfo] = [
-    
+
+    // ---------- ORIGINAL 7 (UNCHANGED) ----------
+
     1: ExerciseCardInfo(
         icon: "Infinity",
         bgColor: UIColor(hex: "D3F2E8"),
@@ -256,16 +258,16 @@ let ExerciseInfo: [Int: ExerciseCardInfo] = [
         storyboardID: defaultStoryboardID,
         vcType: defaultVCType
     ),
-    
+
     2: ExerciseCardInfo(
-        icon: "Light_Adaption",
+        icon: "Guided Blinking",
         bgColor: UIColor(hex: "D9ECFF"),
         iconBGColor: UIColor(hex: "6FAEFF"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
         vcType: defaultVCType
     ),
-    
+
     3: ExerciseCardInfo(
         icon: "Infinity",
         bgColor: UIColor(hex: "E9E0F8"),
@@ -274,103 +276,103 @@ let ExerciseInfo: [Int: ExerciseCardInfo] = [
         storyboardID: defaultStoryboardID,
         vcType: defaultVCType
     ),
-    
+
     4: ExerciseCardInfo(
-        icon: "Smooth_pursuit",
+        icon: "Roll",
         bgColor: UIColor(hex: "FFECC2"),
         iconBGColor: UIColor(hex: "F5B942"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
         vcType: defaultVCType
     ),
-    
+
     5: ExerciseCardInfo(
-        icon: "Focus_shifting",
+        icon: "Peripheral Focus",
         bgColor: UIColor(hex: "F8D7DC"),
         iconBGColor: UIColor(hex: "E66A7A"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
         vcType: defaultVCType
     ),
-    
+
     6: ExerciseCardInfo(
-        icon: "Peripheral focus",
+        icon: "Light Adaption",
         bgColor: UIColor(hex: "FFE0CC"),
         iconBGColor: UIColor(hex: "FF9C66"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
         vcType: defaultVCType
     ),
-    
+
     7: ExerciseCardInfo(
-        icon: "Saccadic Movement",
+        icon: "Color Contrast",
         bgColor: UIColor(hex: "D4F1F4"),
         iconBGColor: UIColor(hex: "4DB6C6"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
         vcType: defaultVCType
     ),
-    
-    // Unique
+
+    // ---------- DISTINCT SET (8–14) ----------
+
     8: ExerciseCardInfo(
-        icon: "Focus_shifting",
-        bgColor: UIColor(hex: "E0E6FF"),
+        icon: "Focus Shifting",
+        bgColor: UIColor(hex: "E1E4FF"),   // ⬇️ slightly darker
         iconBGColor: UIColor(hex: "6B7CFF"),
         storyboardName: "FocusShifting",
         storyboardID: "FocusShiftingViewController",
         vcType: FocusShiftingViewController.self
     ),
-    
+
     9: ExerciseCardInfo(
-        icon: "Infinity",
-        bgColor: UIColor(hex: "D3F2E8"),
-        iconBGColor: UIColor(hex: "5BC8A8"),
+        icon: "Zoom",
+        bgColor: UIColor(hex: "DDE8D9"),   // ⬇️ slightly darker
+        iconBGColor: UIColor(hex: "7FD16A"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
         vcType: defaultVCType
     ),
-    
+
     10: ExerciseCardInfo(
-        icon: "Light_Adaption",
-        bgColor: UIColor(hex: "D9ECFF"),
-        iconBGColor: UIColor(hex: "6FAEFF"),
+        icon: "Saccadic Movement",
+        bgColor: UIColor(hex: "F6DDE9"),   // ⬇️ slightly darker
+        iconBGColor: UIColor(hex: "FF7DB0"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
         vcType: defaultVCType
     ),
-    
+
     11: ExerciseCardInfo(
-        icon: "Guided Blinking",
-        bgColor: UIColor(hex: "E9E0F8"),
-        iconBGColor: UIColor(hex: "A68BEB"),
+        icon: "Convergence",
+        bgColor: UIColor(hex: "F1F3D4"),   // chartreuse-tinted paper
+        iconBGColor: UIColor(hex: "9BC53D"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
         vcType: defaultVCType
     ),
-    
+
     12: ExerciseCardInfo(
-        icon: "Smooth_pursuit",
-        bgColor: UIColor(hex: "FFECC2"),
-        iconBGColor: UIColor(hex: "F5B942"),
+        icon: "Brock",
+        bgColor: UIColor(hex: "F0D6DA"),   // ⬆️ slightly lighter
+        iconBGColor: UIColor(hex: "D1495B"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
         vcType: defaultVCType
     ),
-    
-    // Unique
+
     13: ExerciseCardInfo(
-        icon: "Smooth_pursuit",
-        bgColor: UIColor(hex: "F8D7DC"),
-        iconBGColor: UIColor(hex: "E66A7A"),
+        icon: "Smooth Pursuit",
+        bgColor: UIColor(hex: "D5DAE0"),   // cool stone / slate
+        iconBGColor: UIColor(hex: "2E4057"),
         storyboardName: "SmoothPursuit",
         storyboardID: "smoothPursuitViewController",
         vcType: SmoothPursuitViewController.self
     ),
-    
+
     14: ExerciseCardInfo(
-        icon: "Peripheral focus",
-        bgColor: UIColor(hex: "FFE0CC"),
-        iconBGColor: UIColor(hex: "FF9C66"),
+        icon: "Eye Movement",
+        bgColor: UIColor(hex: "FFE29A"),   // deeper gold wash (not pastel)
+        iconBGColor: UIColor(hex: "F4D35E"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
         vcType: defaultVCType
