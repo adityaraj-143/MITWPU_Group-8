@@ -251,7 +251,7 @@ let ExerciseInfo: [Int: ExerciseCardInfo] = [
     // ---------- ORIGINAL 7 (UNCHANGED) ----------
 
     1: ExerciseCardInfo(
-        icon: "Infinity",
+        icon: "20",
         bgColor: UIColor(hex: "D3F2E8"),
         iconBGColor: UIColor(hex: "5BC8A8"),
         storyboardName: defaultStoryboardName,
