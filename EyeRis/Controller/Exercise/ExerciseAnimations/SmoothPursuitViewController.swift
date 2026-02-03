@@ -19,6 +19,7 @@ class SmoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
     
     private var monitorTimer: Timer?
     private var hasNavigatedToCompletion = false
+    private var didExitManually = false
     
     // MARK: UI Elements
     let exerciseContainer: UIView = {
@@ -49,12 +50,13 @@ class SmoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
             ExerciseSessionManager.shared.onSessionCompleted = { [weak self] in
                 guard let self = self else { return }
                 guard !self.hasNavigatedToCompletion else { return }
-                
+                guard !self.didExitManually else { return }   // ⭐️ THE FIX
+
                 self.hasNavigatedToCompletion = true
-                
+
                 self.stopAllTimers()
                 ExerciseSessionManager.shared.endSession(resetCamera: true)
-                
+
                 self.handleExerciseCompletion()
             }
             
@@ -81,6 +83,7 @@ class SmoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
     }
     
     @IBAction func backTapped(_ sender: UIBarButtonItem) {
+        didExitManually = true
         stopAllTimers()
         ExerciseSessionManager.shared.endSession(resetCamera: true)
         popToExerciseList()
