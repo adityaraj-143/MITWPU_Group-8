@@ -41,7 +41,6 @@ struct AcuityTest {
 }
 
 struct AcuityTestResult{
-//  put the details for the snellen chart, and respective score details in the score struct
     var id: Int
     var testType: AcuityTestType
     var testDate: Date
