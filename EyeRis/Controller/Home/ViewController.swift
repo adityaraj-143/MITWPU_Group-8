@@ -5,10 +5,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var CollectionView: UICollectionView!
     @IBOutlet weak var profileIconView: UIView!
     
+    var lastNVA: AcuityTestResult? {
+        AcuityTestResultResponse.shared.getLastTestNVA()
+    }
     
-    var lastNVA: AcuityTestResult = AcuityTestResultResponse.shared.getLastTestNVA()!
-    
-    var lastDVA: AcuityTestResult = AcuityTestResultResponse.shared.getLastTestDVA()!
+    var lastDVA: AcuityTestResult? {
+        AcuityTestResultResponse.shared.getLastTestDVA()
+    }
     
     let history = ExerciseHistory()
     
@@ -237,12 +240,14 @@ extension ViewController: UICollectionViewDataSource {
                 self?.navigate(to: "TestHistory", with: "TestHistoryViewController")
             }
             
-            cell.configure(
-                nvaLE: lastNVA.leftEyeScore,
-                nvaRE: lastNVA.rightEyeScore,
-                dvaLE: lastDVA.leftEyeScore,
-                dvaRE: lastDVA.rightEyeScore
-            )
+            if let nva = lastNVA, let dva = lastDVA {
+                cell.configure(
+                    nvaLE: nva.leftEyeScore,
+                    nvaRE: nva.rightEyeScore,
+                    dvaLE: dva.leftEyeScore,
+                    dvaRE: dva.rightEyeScore
+                )
+            }
             return cell
             
         default:

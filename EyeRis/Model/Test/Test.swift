@@ -158,13 +158,7 @@ extension AcuityTestResultResponse {
     func getLastTestNVA() -> AcuityTestResult? {
         latestTest(of: .NearVision)
     }
-    
-    func getLastTestComment() -> String? {
-        let nva = getLastTestNVA()
-        let dva = getLastTestDVA()
-        
-        return ""
-    }
+
 }
 
 
