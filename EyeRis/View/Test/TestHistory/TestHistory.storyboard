@@ -295,31 +295,43 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Distant Vision Acuity Test" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mce-r0-pi8">
-                                <rect key="frame" x="20" y="303.66666666666669" width="254" height="27"/>
+                                <rect key="frame" x="20" y="344" width="353" height="27"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shows how well each eye can see things far away; each eye gets its own score (like 20/25 or 24/25)." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cW2-lp-omw">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The score is shown in 20/x format, where 20 is the standard testing distance and x represents vision clarity." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cW2-lp-omw">
                                 <rect key="frame" x="20" y="143" width="353" height="57.333333333333343"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A lower bottom number means better vision; it’s normal for the scores to be a little different between eyes." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N1e-h0-MG2">
-                                <rect key="frame" x="20" y="210.33333333333334" width="353" height="57.333333333333343"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20/20 indicates normal near vision, while 20/15 means sharper-than-normal vision." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N1e-h0-MG2">
+                                <rect key="frame" x="20" y="210.33333333333334" width="353" height="38.333333333333343"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shows how well each eye can see things far away; each eye gets its own score (like 20/25 or 24/25)." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wpk-by-aVj">
-                                <rect key="frame" x="20" y="340.66666666666669" width="353" height="57.333333333333314"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The score uses the same 20/x format to measure how clearly you see far-away objects." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wpk-by-aVj">
+                                <rect key="frame" x="20" y="381" width="353" height="38.333333333333314"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A lower bottom number means better vision; it’s normal for the scores to be a little different between eyes." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nvh-Jf-ZIj">
-                                <rect key="frame" x="20" y="408" width="353" height="57.333333333333314"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scores such as 20/40 or higher indicate reduced clarity when viewing distant objects." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eS5-oU-Rpx">
+                                <rect key="frame" x="20" y="477.66666666666669" width="353" height="38.333333333333314"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Higher values like 20/40, 20/80, or 20/200 indicate increasing difficulty seeing close objects clearly." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ru8-bY-Usz">
+                                <rect key="frame" x="20" y="258.66666666666669" width="353" height="57.333333333333314"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20/20 is normal distance vision, and 20/15 is better than average." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nvh-Jf-ZIj">
+                                <rect key="frame" x="20" y="429.33333333333331" width="353" height="38.333333333333314"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -329,21 +341,28 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="p27-hZ-crM" firstAttribute="trailing" secondItem="cW2-lp-omw" secondAttribute="trailing" constant="20" id="0QA-Ds-EIb"/>
+                            <constraint firstItem="p27-hZ-crM" firstAttribute="trailing" secondItem="ru8-bY-Usz" secondAttribute="trailing" constant="20" id="1UB-qk-hUf"/>
                             <constraint firstItem="cW2-lp-omw" firstAttribute="leading" secondItem="p27-hZ-crM" secondAttribute="leading" constant="20" id="79d-W8-AZq"/>
                             <constraint firstItem="TVH-91-41S" firstAttribute="leading" secondItem="p27-hZ-crM" secondAttribute="leading" constant="20" id="8fc-NY-iYl"/>
+                            <constraint firstItem="p27-hZ-crM" firstAttribute="trailing" secondItem="Wpk-by-aVj" secondAttribute="trailing" constant="20" id="BVA-IN-j0h"/>
                             <constraint firstItem="p27-hZ-crM" firstAttribute="trailing" secondItem="N1e-h0-MG2" secondAttribute="trailing" constant="20" id="EEm-4V-bgc"/>
                             <constraint firstItem="TVH-91-41S" firstAttribute="top" secondItem="p27-hZ-crM" secondAttribute="top" constant="36" id="Eid-zH-PfV"/>
                             <constraint firstItem="N1e-h0-MG2" firstAttribute="top" secondItem="cW2-lp-omw" secondAttribute="bottom" constant="10" id="Ekz-xf-3uw"/>
-                            <constraint firstItem="p27-hZ-crM" firstAttribute="trailing" secondItem="Wpk-by-aVj" secondAttribute="trailing" constant="20" id="Hv9-tX-8sa"/>
-                            <constraint firstItem="nvh-Jf-ZIj" firstAttribute="top" secondItem="Wpk-by-aVj" secondAttribute="bottom" constant="10" id="IjQ-sV-20h"/>
-                            <constraint firstItem="nvh-Jf-ZIj" firstAttribute="leading" secondItem="p27-hZ-crM" secondAttribute="leading" constant="20" id="JU2-hi-MuT"/>
-                            <constraint firstItem="Mce-r0-pi8" firstAttribute="leading" secondItem="p27-hZ-crM" secondAttribute="leading" constant="20" id="Laq-Zs-bJH"/>
-                            <constraint firstItem="Mce-r0-pi8" firstAttribute="top" secondItem="N1e-h0-MG2" secondAttribute="bottom" constant="36" id="Rmg-8I-ZT8"/>
+                            <constraint firstItem="p27-hZ-crM" firstAttribute="trailing" secondItem="nvh-Jf-ZIj" secondAttribute="trailing" constant="20" id="Hfm-gp-PVN"/>
+                            <constraint firstItem="Mce-r0-pi8" firstAttribute="leading" secondItem="p27-hZ-crM" secondAttribute="leading" constant="20" id="QEb-pl-Q3H"/>
+                            <constraint firstItem="nvh-Jf-ZIj" firstAttribute="top" secondItem="Wpk-by-aVj" secondAttribute="bottom" constant="10" id="QrF-F2-KWW"/>
+                            <constraint firstItem="Wpk-by-aVj" firstAttribute="leading" secondItem="p27-hZ-crM" secondAttribute="leading" constant="20" id="Ryp-uV-qCd"/>
+                            <constraint firstItem="Wpk-by-aVj" firstAttribute="top" secondItem="Mce-r0-pi8" secondAttribute="bottom" constant="10" id="Xrc-rn-JvN"/>
+                            <constraint firstItem="p27-hZ-crM" firstAttribute="trailing" secondItem="Mce-r0-pi8" secondAttribute="trailing" constant="20" id="ZyC-H2-dmo"/>
+                            <constraint firstItem="nvh-Jf-ZIj" firstAttribute="leading" secondItem="p27-hZ-crM" secondAttribute="leading" constant="20" id="a4M-QQ-vYI"/>
+                            <constraint firstItem="Mce-r0-pi8" firstAttribute="top" secondItem="ru8-bY-Usz" secondAttribute="bottom" constant="28" id="bak-XG-f2l"/>
                             <constraint firstItem="cW2-lp-omw" firstAttribute="top" secondItem="TVH-91-41S" secondAttribute="bottom" constant="10" id="beA-Fh-yV2"/>
-                            <constraint firstItem="Wpk-by-aVj" firstAttribute="top" secondItem="Mce-r0-pi8" secondAttribute="bottom" constant="10" id="cvP-LF-G2W"/>
                             <constraint firstItem="N1e-h0-MG2" firstAttribute="leading" secondItem="p27-hZ-crM" secondAttribute="leading" constant="20" id="dzC-SJ-c4q"/>
-                            <constraint firstItem="Wpk-by-aVj" firstAttribute="leading" secondItem="p27-hZ-crM" secondAttribute="leading" constant="20" id="eff-7j-76x"/>
-                            <constraint firstItem="p27-hZ-crM" firstAttribute="trailing" secondItem="nvh-Jf-ZIj" secondAttribute="trailing" constant="20" id="fkA-ld-gOQ"/>
+                            <constraint firstItem="ru8-bY-Usz" firstAttribute="top" secondItem="N1e-h0-MG2" secondAttribute="bottom" constant="10" id="gSp-6U-gFZ"/>
+                            <constraint firstItem="ru8-bY-Usz" firstAttribute="leading" secondItem="p27-hZ-crM" secondAttribute="leading" constant="20" id="pEl-Mk-Att"/>
+                            <constraint firstItem="eS5-oU-Rpx" firstAttribute="leading" secondItem="p27-hZ-crM" secondAttribute="leading" constant="20" id="tfx-1r-hN2"/>
+                            <constraint firstItem="p27-hZ-crM" firstAttribute="trailing" secondItem="eS5-oU-Rpx" secondAttribute="trailing" constant="20" id="uAD-Gc-aT9"/>
+                            <constraint firstItem="eS5-oU-Rpx" firstAttribute="top" secondItem="nvh-Jf-ZIj" secondAttribute="bottom" constant="10" id="z0L-PV-Q40"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Test Details" id="7Pc-J4-XB7">
@@ -444,7 +463,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray6Color">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
