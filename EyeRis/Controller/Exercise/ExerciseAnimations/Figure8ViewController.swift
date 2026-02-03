@@ -7,8 +7,7 @@
 
 import UIKit
 
-class
-ler: UIViewController, ExerciseAlignmentMonitoring, ExerciseFlowHandling {
+class Figure8ViewController: UIViewController, ExerciseAlignmentMonitoring, ExerciseFlowHandling {
     
     @IBOutlet weak var timer_label: UILabel!
     
