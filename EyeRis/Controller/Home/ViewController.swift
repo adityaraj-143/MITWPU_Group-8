@@ -146,8 +146,8 @@ extension ViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as! TodayExerciseCollectionViewCell
             
-            let icons = todaysExercise?.map { $0.exercise.getIcon() } ?? []
-            cell.configureLabel(iconImages: icons)
+            let exercises = ExerciseList.shared?.todaysSet.map { $0.exercise } ?? []
+            cell.configure(exercises: exercises)
             cell.onTapNavigation = { [weak self] in
                 self?.navigate(to: "TodaysExerciseSet", with: "TodaysExerciseSetViewController")
             }

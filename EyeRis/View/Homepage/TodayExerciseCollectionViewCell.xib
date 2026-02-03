@@ -39,12 +39,6 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                             </collectionView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="faR-iF-OOh">
-                                <rect key="frame" x="158" y="103" width="14.333333333333343" height="16"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="fill" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TqQ-Yt-YYb">
                                 <rect key="frame" x="4" y="4" width="346" height="34.333333333333336"/>
                                 <state key="normal" title="Button"/>
@@ -65,14 +59,11 @@
                             <constraint firstAttribute="trailing" secondItem="9ow-BE-OMb" secondAttribute="trailing" constant="200" id="9IK-gM-kkl"/>
                             <constraint firstItem="TqQ-Yt-YYb" firstAttribute="top" secondItem="PWL-eH-1m5" secondAttribute="top" constant="4" id="Ba4-vL-iUU"/>
                             <constraint firstItem="9ow-BE-OMb" firstAttribute="top" secondItem="iS7-Ts-EE6" secondAttribute="bottom" constant="12" id="Esk-AT-oz6"/>
-                            <constraint firstItem="faR-iF-OOh" firstAttribute="leading" secondItem="9ow-BE-OMb" secondAttribute="trailing" constant="4" id="RL7-m0-QMA"/>
                             <constraint firstAttribute="bottom" secondItem="9ow-BE-OMb" secondAttribute="bottom" constant="10" id="bgV-ut-Aa1"/>
                             <constraint firstItem="9ow-BE-OMb" firstAttribute="leading" secondItem="PWL-eH-1m5" secondAttribute="leading" constant="15" id="eDm-ae-5xJ"/>
                             <constraint firstItem="TqQ-Yt-YYb" firstAttribute="leading" secondItem="PWL-eH-1m5" secondAttribute="leading" constant="4" id="h4f-A9-qnE"/>
                             <constraint firstAttribute="trailing" secondItem="iS7-Ts-EE6" secondAttribute="trailing" constant="30" id="pEi-4R-cLz"/>
-                            <constraint firstAttribute="bottom" secondItem="faR-iF-OOh" secondAttribute="bottom" constant="21" id="rSg-ac-zYw"/>
                             <constraint firstItem="iS7-Ts-EE6" firstAttribute="leading" secondItem="PWL-eH-1m5" secondAttribute="leading" constant="18" id="s10-T2-zgM"/>
-                            <constraint firstItem="faR-iF-OOh" firstAttribute="top" secondItem="iS7-Ts-EE6" secondAttribute="bottom" constant="25" id="shk-Gr-Mhb"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -87,7 +78,6 @@
             <size key="customSize" width="299" height="186"/>
             <connections>
                 <outlet property="IconsCollectionView" destination="9ow-BE-OMb" id="qNw-1i-UnG"/>
-                <outlet property="extraCountLabel" destination="faR-iF-OOh" id="PuZ-zb-E5O"/>
                 <outlet property="mainView" destination="PWL-eH-1m5" id="JtV-Zt-EDf"/>
             </connections>
             <point key="canvasLocation" x="300.76335877862596" y="204.92957746478874"/>

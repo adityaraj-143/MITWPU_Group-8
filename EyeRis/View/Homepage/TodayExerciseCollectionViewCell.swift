@@ -8,19 +8,21 @@
 import UIKit
 
 class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDelegate {
-
+    
     var opt1 = "C3EFC3"
-
-    @IBOutlet weak var extraCountLabel: UILabel!
+    
     @IBOutlet weak var IconsCollectionView: UICollectionView!
     @IBOutlet weak var mainView: UIView!
+    
+    var exercises: [Exercise] = []
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         mainView.applyCornerRadius()
         IconsCollectionView.dataSource = self
         IconsCollectionView.delegate = self
-                
+        
         IconsCollectionView.register(
             UINib(nibName: "TodayExerciseIconCell", bundle: nil),
             forCellWithReuseIdentifier: "IconCell"
@@ -35,12 +37,10 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
         
         IconsCollectionView.clipsToBounds = true
         mainView.clipsToBounds = true
-//        contentView.clipsToBounds = true
-
     }
     
     var onTapNavigation: (() -> Void)?
-
+    
     @IBAction func navigationButtonTapped(_ sender: Any) {
         onTapNavigation?()
     }
@@ -62,46 +62,41 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
         )
     }
     
-    func configureLabel(iconImages: [String]) {
-        self.icons = iconImages.compactMap { UIImage(named: $0) }
+    func configure(exercises: [Exercise]?) {
+        self.exercises = exercises ?? []
         IconsCollectionView.reloadData()
-
-        if iconImages.count > 4 {
-            extraCountLabel.text = "+\(iconImages.count - 3)"
-            extraCountLabel.isHidden = false
-        } else {
-            extraCountLabel.text = ""
-            extraCountLabel.isHidden = true
-        }
     }
-    
-    var icons: [UIImage] = []
 }
 
 extension TodayExerciseCollectionViewCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return icons.count
+        return exercises.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
+        
         let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: "IconCell",
             for: indexPath
         ) as! TodayExerciseIconCell
-
+        
+        let exercise = exercises[indexPath.item]
+        
+        let image = UIImage(named: exercise.getIcon())!
+        let bgColor = exercise.getIconBGColor()
+        
         cell.layer.zPosition = CGFloat(indexPath.item)
-        cell.configure(image: icons[indexPath.item])
-
+        cell.configure(image: image, bgColor: bgColor)
+        
         return cell
     }
-
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 40, height: 40)
     }
 }
+
