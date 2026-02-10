@@ -21,8 +21,8 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var StyleContainerView: UIView!
     @IBOutlet weak var iconView: UIView!
-    @IBOutlet weak var checkmark: UIImageView!
     @IBOutlet weak var navigationButton: UIButton!
+    @IBOutlet weak var checkmark: UIButton!
     
     
     override func awakeFromNib() {
@@ -30,6 +30,10 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
 
         self.clipsToBounds = false
         contentView.clipsToBounds = false
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(cardTapped))
+        cardView.addGestureRecognizer(tap)
+        cardView.isUserInteractionEnabled = true
 
         cardView.layer.cornerRadius = 16
         cardView.clipsToBounds = true
@@ -50,9 +54,10 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
     
     var onTapNavigation: (() -> Void)?
 
-    @IBAction func startButton(_ sender: Any) {
+    @objc private func cardTapped() {
         onTapNavigation?()
     }
+
     
     func configure(with item: TodaysExercise) {
         exercise = item.exercise
@@ -64,14 +69,12 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
         durationLabel.text = "\(item.exercise.duration) sec"
         cardView.backgroundColor = .white
         iconView.backgroundColor = item.exercise.getIconBGColor()
-//
-//        if item.isCompleted {
-//            checkmark.image = UIImage(systemName: "checkmark.circle.fill")
-//            checkmark.tintColor = .lightGreen
-//        } else {
-//            checkmark.image = UIImage(systemName: "checkmark.circle")
-//            checkmark.tintColor = .systemGray
-//        }
+
+        if item.isCompleted {
+            checkmark.tintColor = .lightGreen
+        } else {
+            checkmark.isHidden = true
+        }
     }
 
 }
