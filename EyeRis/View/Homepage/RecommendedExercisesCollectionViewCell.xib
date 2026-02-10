@@ -35,10 +35,10 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
+                                    <constraint firstItem="kdY-vm-s5E" firstAttribute="centerX" secondItem="27V-TS-f0v" secondAttribute="centerX" id="39G-Io-U17"/>
                                     <constraint firstAttribute="height" constant="26" id="LVB-zc-v0Z"/>
-                                    <constraint firstItem="kdY-vm-s5E" firstAttribute="centerY" secondItem="27V-TS-f0v" secondAttribute="centerY" id="Mdb-Rv-Plw"/>
                                     <constraint firstAttribute="width" constant="26" id="UvK-vM-Fel"/>
-                                    <constraint firstItem="kdY-vm-s5E" firstAttribute="centerX" secondItem="27V-TS-f0v" secondAttribute="centerX" id="oTp-uh-8vd"/>
+                                    <constraint firstItem="kdY-vm-s5E" firstAttribute="centerY" secondItem="27V-TS-f0v" secondAttribute="centerY" id="tAC-6b-QH3"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Guiding Blinking" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nmW-ZX-8cV">
@@ -104,7 +104,7 @@
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="secondaryLabelColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

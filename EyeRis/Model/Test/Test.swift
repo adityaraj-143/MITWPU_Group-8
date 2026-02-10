@@ -7,15 +7,14 @@
 
 import Foundation
 
-struct AcuityScore { // need to change this (research needed)
+struct AcuityScore{ // need to change this (research needed)
     var temp: String
-
-    func calcScore() {
+    func calcScore () {
         // should return the score of the test
     }
 }
 
-enum AcuityTestType {
+enum AcuityTestType{
     case NearVision
     case DistantVision
 }
@@ -29,8 +28,8 @@ struct SnellenChart {
     let sequence: [SnellenStep]
 }
 
-struct TestInstruction {
-    // var title: String
+struct TestInstruction{
+//  var title: String
     var description: [String]
     var images: [String]
 }
@@ -41,7 +40,8 @@ struct AcuityTest {
     var snellenChart: SnellenChart
 }
 
-struct AcuityTestResult {
+struct AcuityTestResult{
+//  put the details for the snellen chart, and respective score details in the score struct
     var id: Int
     var testType: AcuityTestType
     var testDate: Date
@@ -63,11 +63,11 @@ func calcAcuityScore(level: Int) -> String {
         "20/20",
         "20/15"
     ]
-
+    
     guard level >= 0 && level < snellenMap.count else {
         return "N/A"
     }
-
+    
     return snellenMap[level]
 }
 
@@ -78,16 +78,14 @@ struct AcuityTestsForADate {
 }
 
 final class AcuityTestResultResponse {
-
     static let shared = AcuityTestResultResponse()
-    var results: [AcuityTestResult]
-
+    var results : [AcuityTestResult]
+    
     init() {
         results = dummyAcuityResults
     }
-
+    
     func groupTestsByDate() -> [AcuityTestsForADate] {
-
         // 1. Group every test result by its testDate
         let grouped = Dictionary(grouping: results) {
             Calendar.current.startOfDay(for: $0.testDate)
@@ -95,30 +93,25 @@ final class AcuityTestResultResponse {
 
         // 2. Sort dates in ascending order
         let sortedDates = grouped.keys.sorted()
-
+        
         var dailyTests: [AcuityTestsForADate] = []
-
+        
         // 3. Build a DailyAcuityTests object for each date
         for date in sortedDates {
             guard let items = grouped[date] else { continue }
-
+            
             // Must have BOTH tests for that date
             guard
                 let distant = items.first(where: { $0.testType == .DistantVision }),
-                let near = items.first(where: { $0.testType == .NearVision })
+                let near    = items.first(where: { $0.testType == .NearVision })
             else {
                 continue
             }
-
+            
             dailyTests.append(
-                AcuityTestsForADate(
-                    date: date,
-                    distant: distant,
-                    near: near
-                )
+                AcuityTestsForADate(date: date, distant: distant, near: near)
             )
         }
-
         return dailyTests
     }
 }
@@ -130,32 +123,33 @@ extension AcuityTestResultResponse {
             .filter { $0.testType == type }
             .max { $0.testDate < $1.testDate }
     }
-
+    
     func getDueDate() -> String {
         let groupedResults = groupTestsByDate()
-
+        
         guard let lastDate = groupedResults.last?.date else {
             return "Due: Today"
         }
-
+        
         let calendar = Calendar.current
-
+        
         // Add 20 days to the last test date
         guard let dueDate = calendar.date(byAdding: .day, value: 20, to: lastDate) else {
             return "Due: Today"
         }
-
+        
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .none
-
+        
         // If due date is today or past, show "Due: Today"
         if calendar.isDateInToday(dueDate) || dueDate < Date() {
             return "Due: Today"
         }
-
+        
         return "Due: \(formatter.string(from: dueDate))"
     }
+
 
     func getLastTestDVA() -> AcuityTestResult? {
         latestTest(of: .DistantVision)
@@ -164,56 +158,17 @@ extension AcuityTestResultResponse {
     func getLastTestNVA() -> AcuityTestResult? {
         latestTest(of: .NearVision)
     }
-
-    func getLastComment() -> String {
-        guard
-            let lastNVA = getLastTestNVA(),
-            let lastDVA = getLastTestDVA()
-        else {
-            return "No recent vision test data available."
-        }
-
-        return getComment(NVAScore: lastNVA, DVAScore: lastDVA)
+    
+    func getLastTestComment() -> String? {
+        let nva = getLastTestNVA()
+        let dva = getLastTestDVA()
+        
+        return ""
     }
 }
 
-func getComment(
-    NVAScore: AcuityTestResult,
-    DVAScore: AcuityTestResult
-) -> String {
 
-    guard
-        let nva = snellenValue(NVAScore.leftEyeScore),
-        let dva = snellenValue(DVAScore.leftEyeScore)
-    else {
-        return "We couldn’t evaluate your vision scores properly. Please retake the test."
-    }
-
-    let worstScore = max(nva, dva)
-
-    switch worstScore {
-
-    case 15...20:
-        return "Great news! Your near and distance vision are both in excellent range. Keep maintaining healthy eye habits and regular screen breaks."
-
-    case 25...40:
-        return "Your vision is generally fine, though there are mild signs of strain or reduced clarity. Monitoring your eye health and taking periodic tests is recommended."
-
-    default:
-        return "Your vision scores indicate noticeable difficulty in clarity. It is strongly recommended that you consult an eye care professional for a comprehensive examination."
-    }
-}
-
-// To convert the Snellen Value to a Numeric Value so that it is easy to compare
-private func snellenValue(_ score: String) -> Int? {
-    let parts = score.split(separator: "/")
-    guard parts.count == 2, let value = Int(parts[1]) else {
-        return nil
-    }
-    return value
-}
-
-struct BlinkRateTest {
+struct BlinkRateTest{
     var instructions: TestInstruction
     var passages: String
     var duration: Int = 30
@@ -222,7 +177,7 @@ struct BlinkRateTest {
 struct BlinkRateTestResult {
     var id: Int
     var blinks: Int
-    var duration: Int
+    var duration: Int         
     var performedOn: Date
 
     var bpm: Int {
@@ -238,3 +193,6 @@ struct BlinkWeek {
 struct BlinkRateTestResultResponse {
     private let results: [BlinkRateTestResult]
 }
+
+
+

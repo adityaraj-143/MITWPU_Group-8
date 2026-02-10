@@ -5,13 +5,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var CollectionView: UICollectionView!
     @IBOutlet weak var profileIconView: UIView!
     
-    var lastNVA: AcuityTestResult? {
-        AcuityTestResultResponse.shared.getLastTestNVA()
-    }
     
-    var lastDVA: AcuityTestResult? {
-        AcuityTestResultResponse.shared.getLastTestDVA()
-    }
+    var lastNVA: AcuityTestResult = AcuityTestResultResponse.shared.getLastTestNVA()!
+    
+    var lastDVA: AcuityTestResult = AcuityTestResultResponse.shared.getLastTestDVA()!
     
     let history = ExerciseHistory()
     
@@ -149,8 +146,8 @@ extension ViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as! TodayExerciseCollectionViewCell
             
-            let icons = todaysExercise?.map { $0.exercise.getIcon() } ?? []
-            cell.configureLabel(iconImages: icons)
+            let exercises = ExerciseList.shared?.todaysSet.map { $0.exercise } ?? []
+            cell.configure(exercises: exercises)
             cell.onTapNavigation = { [weak self] in
                 self?.navigate(to: "TodaysExerciseSet", with: "TodaysExerciseSetViewController")
             }
@@ -240,14 +237,12 @@ extension ViewController: UICollectionViewDataSource {
                 self?.navigate(to: "TestHistory", with: "TestHistoryViewController")
             }
             
-            if let nva = lastNVA, let dva = lastDVA {
-                cell.configure(
-                    nvaLE: nva.leftEyeScore,
-                    nvaRE: nva.rightEyeScore,
-                    dvaLE: dva.leftEyeScore,
-                    dvaRE: dva.rightEyeScore
-                )
-            }
+            cell.configure(
+                nvaLE: lastNVA.leftEyeScore,
+                nvaRE: lastNVA.rightEyeScore,
+                dvaLE: lastDVA.leftEyeScore,
+                dvaRE: lastDVA.rightEyeScore
+            )
             return cell
             
         default:
