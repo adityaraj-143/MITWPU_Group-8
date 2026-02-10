@@ -363,46 +363,6 @@
             </objects>
             <point key="canvasLocation" x="2898.4732824427479" y="130.98591549295776"/>
         </scene>
-        <!--All Previous Tests-->
-        <scene sceneID="JSF-Yu-iFh">
-            <objects>
-                <viewController storyboardIdentifier="Tes" id="JdJ-a4-2Ti" customClass="TestHistoryCalendarViewController" customModule="EyeRis" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="yD1-1c-vqe">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="YHY-GT-f7u"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="All Previous Tests" id="OLc-tz-8i9">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="5sH-ng-l1d">
-                            <connections>
-                                <action selector="cancelButton:" destination="JdJ-a4-2Ti" id="Xwv-Qo-zEH"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="d48-L1-Tlz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1992" y="908"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="BZV-LE-ctk">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WUX-Z9-4Ly" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ZJa-Wm-9lc">
-                        <rect key="frame" x="0.0" y="118" width="393" height="54"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="JdJ-a4-2Ti" kind="relationship" relationship="rootViewController" id="j4r-H7-n4u"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="22q-uW-cS3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1065" y="908"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="a68-jl-gR2">
             <objects>
