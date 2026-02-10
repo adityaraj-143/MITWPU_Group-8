@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="WorkModeCollectionViewCell" customModule="EyeRis" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="354" height="140"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="354" height="140"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f1V-Oi-inV">
+                        <rect key="frame" x="0.0" y="0.0" width="354" height="140"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Work Mode" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="23d-Kd-Oap">
+                                <rect key="frame" x="20" y="15" width="86" height="20"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uvr-MC-PjH">
+                                <rect key="frame" x="273" y="10" width="63" height="28"/>
+                                <color key="onTintColor" systemColor="systemGreenColor"/>
+                            </switch>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0fb-LA-Fnb">
+                                <rect key="frame" x="113" y="12.666666666666664" width="40" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="GEU-lK-2C2"/>
+                                    <constraint firstAttribute="width" constant="40" id="Q4P-gs-zpJ"/>
+                                </constraints>
+                                <color key="tintColor" systemColor="tintColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="info.circle" catalog="system" title=""/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="uvr-MC-PjH" secondAttribute="trailing" constant="20" id="HYD-Av-APF"/>
+                            <constraint firstItem="0fb-LA-Fnb" firstAttribute="top" secondItem="f1V-Oi-inV" secondAttribute="top" constant="12.5" id="Se1-gm-RLf"/>
+                            <constraint firstItem="uvr-MC-PjH" firstAttribute="leading" secondItem="0fb-LA-Fnb" secondAttribute="trailing" constant="120" id="gkj-N0-DqK"/>
+                            <constraint firstItem="23d-Kd-Oap" firstAttribute="top" secondItem="f1V-Oi-inV" secondAttribute="top" constant="15" id="nf7-Ky-akr"/>
+                            <constraint firstItem="uvr-MC-PjH" firstAttribute="top" secondItem="f1V-Oi-inV" secondAttribute="top" constant="10" id="r5p-Jd-oMf"/>
+                            <constraint firstItem="23d-Kd-Oap" firstAttribute="leading" secondItem="f1V-Oi-inV" secondAttribute="leading" constant="20" id="zno-u1-jdL"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="f1V-Oi-inV" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Q4d-Dx-hNB"/>
+                <constraint firstAttribute="trailing" secondItem="f1V-Oi-inV" secondAttribute="trailing" id="spX-h9-taR"/>
+                <constraint firstItem="f1V-Oi-inV" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="tCG-y7-XfR"/>
+                <constraint firstAttribute="bottom" secondItem="f1V-Oi-inV" secondAttribute="bottom" id="yeF-qZ-VNI"/>
+            </constraints>
+            <point key="canvasLocation" x="138.93129770992365" y="153.52112676056339"/>
+        </collectionViewCell>
+        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="7dV-NX-0fw">
+            <rect key="frame" x="0.0" y="0.0" width="75" height="35"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <state key="normal" title="Button"/>
+            <buttonConfiguration key="configuration" style="plain" title="Button"/>
+            <point key="canvasLocation" x="121" y="46"/>
+        </button>
+    </objects>
+    <resources>
+        <image name="info.circle" catalog="system" width="128" height="123"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="tintColor">
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
