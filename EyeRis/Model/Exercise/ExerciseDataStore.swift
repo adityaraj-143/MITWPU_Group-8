@@ -243,7 +243,7 @@ struct ExerciseCardInfo {
 }
 
 let defaultStoryboardName = "Figure8"
-let defaultStoryboardID = "Fig8ViewController"
+let defaultStoryboardID = "Figure8ViewController"
 //let defaultVCType = Figure8ViewController
 
 let ExerciseInfo: [Int: ExerciseCardInfo] = [
@@ -352,7 +352,7 @@ let ExerciseInfo: [Int: ExerciseCardInfo] = [
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "2E4057"), // Slate Blue-Grey
         storyboardName: "SmoothPursuit",
-        storyboardID: "smoothPursuitViewController"
+        storyboardID: "SmoothPursuitViewController"
     ),
 
     14: ExerciseCardInfo(

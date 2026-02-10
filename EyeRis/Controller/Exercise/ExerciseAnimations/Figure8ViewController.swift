@@ -7,8 +7,7 @@
 
 import UIKit
 
-class
-ler: UIViewController, ExerciseAlignmentMonitoring, ExerciseFlowHandling {
+class Figure8ViewController: UIViewController, ExerciseAlignmentMonitoring, ExerciseFlowHandling {
     
     @IBOutlet weak var timer_label: UILabel!
     
@@ -287,7 +286,10 @@ ler: UIViewController, ExerciseAlignmentMonitoring, ExerciseFlowHandling {
 
         // If this is the completion screen
         if let completionVC = vc as? CompletionViewController {
-            if (inTodaySet == 0) {
+
+            if inTodaySet == 1 {
+                completionVC.source = .TodaysSet
+            } else {
                 completionVC.source = .Recommended
             }
         }
