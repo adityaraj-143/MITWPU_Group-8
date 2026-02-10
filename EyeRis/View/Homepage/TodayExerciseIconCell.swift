@@ -27,14 +27,15 @@ class TodayExerciseIconCell: UICollectionViewCell {
         backgroundColor = .clear
         contentView.backgroundColor = .clear
         mainView.layer.borderWidth = 2
-        mainView.layer.borderColor = UIColor.lightGreen.cgColor
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         iconImageView.contentMode = .scaleAspectFit
         
     }
     
-    func configure(image: UIImage) {
+    func configure(image: UIImage, bgColor: UIColor) {
         iconImageView.image = image
+        mainView.backgroundColor = bgColor
+        mainView.layer.borderColor = bgColor.cgColor
     }
 }
 

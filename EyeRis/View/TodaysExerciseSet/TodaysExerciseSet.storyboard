@@ -3,6 +3,7 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -53,7 +54,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="feQ-cV-BnA">
-                                                                    <rect key="frame" x="143" y="38" width="50" height="50"/>
+                                                                    <rect key="frame" x="143" y="55" width="50" height="50"/>
                                                                     <subviews>
                                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lSs-AK-q8j">
                                                                             <rect key="frame" x="9" y="9" width="32" height="32"/>
@@ -70,52 +71,36 @@
                                                                         <constraint firstAttribute="bottom" secondItem="lSs-AK-q8j" secondAttribute="bottom" constant="9" id="wzv-F6-Lav"/>
                                                                     </constraints>
                                                                 </view>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e7n-Ol-iSa">
-                                                                    <rect key="frame" x="274" y="129" width="52" height="33"/>
-                                                                    <color key="tintColor" red="0.6588235294117647" green="0.93725490196078431" blue="0.6470588235294118" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    <state key="normal" title="Button"/>
-                                                                    <buttonConfiguration key="configuration" style="filled" title="Start" cornerStyle="capsule">
-                                                                        <fontDescription key="titleFontDescription" type="system" pointSize="0.0"/>
-                                                                        <color key="baseBackgroundColor" red="0.38431372549999998" green="0.74509803919999995" blue="0.31764705879999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    </buttonConfiguration>
-                                                                    <connections>
-                                                                        <action selector="startButton:" destination="g8Z-7B-yvF" eventType="touchUpInside" id="o15-TL-PTE"/>
-                                                                    </connections>
-                                                                </button>
-                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="izd-1a-k9b">
-                                                                    <rect key="frame" x="10" y="134.66666666666666" width="28" height="26.666666666666657"/>
-                                                                    <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Relaxes eye muscles and reduces eye strain" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5NL-2W-dfD">
+                                                                    <rect key="frame" x="38" y="112.99999999999999" width="260" height="31.333333333333329"/>
                                                                     <constraints>
-                                                                        <constraint firstAttribute="height" constant="28" id="p2q-yN-xUg"/>
-                                                                        <constraint firstAttribute="width" constant="28" id="u5t-Rl-vJd"/>
+                                                                        <constraint firstAttribute="width" constant="260" id="JA2-EY-l4f"/>
                                                                     </constraints>
-                                                                </imageView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="poV-vL-QPy">
-                                                                    <rect key="frame" x="80" y="90" width="176" height="27"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
+                                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wXx-1c-ont">
+                                                                    <rect key="frame" x="294" y="1" width="34" height="35"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    <color key="tintColor" systemColor="labelColor"/>
+                                                                    <state key="normal" title="Button"/>
+                                                                    <buttonConfiguration key="configuration" style="plain">
+                                                                        <imageReference key="image" image="chevron.right" catalog="system" symbolScale="small"/>
+                                                                    </buttonConfiguration>
+                                                                </button>
                                                             </subviews>
                                                             <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
                                                             <constraints>
-                                                                <constraint firstItem="izd-1a-k9b" firstAttribute="leading" secondItem="kPf-dg-mkO" secondAttribute="leading" constant="10" id="0ZS-pS-rdl"/>
                                                                 <constraint firstItem="feQ-cV-BnA" firstAttribute="centerX" secondItem="kPf-dg-mkO" secondAttribute="centerX" id="0ke-1c-VTI"/>
-                                                                <constraint firstAttribute="bottom" secondItem="poV-vL-QPy" secondAttribute="bottom" constant="55" id="3Pq-b8-0ou"/>
-                                                                <constraint firstAttribute="trailing" secondItem="poV-vL-QPy" secondAttribute="trailing" constant="80" id="7va-WU-ZLb"/>
-                                                                <constraint firstAttribute="bottom" secondItem="e7n-Ol-iSa" secondAttribute="bottom" constant="10" id="81w-5G-gsv"/>
-                                                                <constraint firstAttribute="bottom" secondItem="izd-1a-k9b" secondAttribute="bottom" constant="10" id="BgN-2b-aRB"/>
                                                                 <constraint firstItem="FHk-91-OD8" firstAttribute="leading" secondItem="kPf-dg-mkO" secondAttribute="leading" constant="10" id="Chw-gG-HhU"/>
-                                                                <constraint firstItem="poV-vL-QPy" firstAttribute="leading" secondItem="kPf-dg-mkO" secondAttribute="leading" constant="80" id="Hep-2f-vQp"/>
+                                                                <constraint firstItem="5NL-2W-dfD" firstAttribute="centerX" secondItem="kPf-dg-mkO" secondAttribute="centerX" id="Ep3-oP-1Pu"/>
                                                                 <constraint firstItem="FHk-91-OD8" firstAttribute="top" secondItem="Csm-Kk-1lT" secondAttribute="bottom" constant="2" id="Kz7-2N-PDu"/>
                                                                 <constraint firstItem="Csm-Kk-1lT" firstAttribute="top" secondItem="kPf-dg-mkO" secondAttribute="top" constant="9" id="Pdx-BJ-AEe"/>
-                                                                <constraint firstItem="feQ-cV-BnA" firstAttribute="top" secondItem="kPf-dg-mkO" secondAttribute="top" constant="38" id="SOF-zc-Jxd"/>
-                                                                <constraint firstAttribute="trailing" secondItem="e7n-Ol-iSa" secondAttribute="trailing" constant="10" id="SPn-4U-YCm"/>
                                                                 <constraint firstItem="Csm-Kk-1lT" firstAttribute="leading" secondItem="kPf-dg-mkO" secondAttribute="leading" constant="10" id="XHD-DS-qg9"/>
+                                                                <constraint firstItem="feQ-cV-BnA" firstAttribute="top" secondItem="kPf-dg-mkO" secondAttribute="top" constant="55" id="bUR-RO-rOK"/>
                                                                 <constraint firstAttribute="height" constant="180" id="jbt-c6-xyf"/>
-                                                                <constraint firstItem="poV-vL-QPy" firstAttribute="top" secondItem="feQ-cV-BnA" secondAttribute="bottom" constant="2" id="ljM-cH-Ba9"/>
-                                                                <constraint firstItem="poV-vL-QPy" firstAttribute="centerX" secondItem="kPf-dg-mkO" secondAttribute="centerX" id="uZ8-dn-zFu"/>
-                                                                <constraint firstItem="e7n-Ol-iSa" firstAttribute="top" secondItem="poV-vL-QPy" secondAttribute="bottom" constant="12" id="yLE-iX-lRk"/>
+                                                                <constraint firstItem="5NL-2W-dfD" firstAttribute="top" secondItem="feQ-cV-BnA" secondAttribute="bottom" constant="8" symbolic="YES" id="vKI-GI-0kp"/>
                                                             </constraints>
                                                         </view>
                                                     </subviews>
@@ -141,13 +126,10 @@
                                         <connections>
                                             <outlet property="StyleContainerView" destination="maA-Jt-dAE" id="czm-H8-lgl"/>
                                             <outlet property="cardView" destination="kPf-dg-mkO" id="J4e-gk-ebk"/>
-                                            <outlet property="checkmark" destination="izd-1a-k9b" id="7U6-tE-sOA"/>
                                             <outlet property="durationLabel" destination="FHk-91-OD8" id="FJN-5d-tHb"/>
-                                            <outlet property="exerciseDescription" destination="poV-vL-QPy" id="nt0-EW-3W1"/>
                                             <outlet property="exerciseImage" destination="lSs-AK-q8j" id="ojO-1Z-N9F"/>
                                             <outlet property="exerciseName" destination="Csm-Kk-1lT" id="4tW-Q8-xZy"/>
                                             <outlet property="iconView" destination="feQ-cV-BnA" id="vpQ-dt-44m"/>
-                                            <outlet property="navigationButton" destination="e7n-Ol-iSa" id="yZh-e8-tVq"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -197,7 +179,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="801" y="-723"/>
+            <point key="canvasLocation" x="800.76335877862596" y="-723.23943661971839"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Mxz-NV-kXf">
@@ -219,9 +201,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="checkmark.circle" catalog="system" width="128" height="123"/>
+        <image name="chevron.right" catalog="system" width="97" height="128"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemGray6Color">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tertiarySystemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
