@@ -111,14 +111,17 @@ extension ViewController: UICollectionViewDelegate {
 // MARK: - DataSource
 extension ViewController: UICollectionViewDataSource {
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int { 7 }
+    func numberOfSections(in collectionView: UICollectionView) -> Int { 8 }
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         switch section {
-        case 2: // Recommended Exercises
+        case 2: // Work Mode
+            return 1
+
+        case 3: // Recommended Exercises
             return recommendedExercises.count      // 5 cells
-        case 3: // Tests
+        case 4: // Tests
             return 2                      // Always 2 cells
         default:
             return 1
@@ -154,7 +157,15 @@ extension ViewController: UICollectionViewDataSource {
             }
             return cell
             
-        case 2: // Recommended Exercises (Horizontal)
+        case 2:
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "workMode_cell",
+                for: indexPath
+            ) as! WorkModeCollectionViewCell
+            return cell
+
+            
+        case 3: // Recommended Exercises (Horizontal)
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "exercises_cell",
                 for: indexPath
@@ -169,7 +180,7 @@ extension ViewController: UICollectionViewDataSource {
             )
             return cell
             
-        case 3: // Tests (Horizontal)
+        case 4: // Tests (Horizontal)
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "tests_cell",
                 for: indexPath
@@ -193,7 +204,7 @@ extension ViewController: UICollectionViewDataSource {
             
             return cell
             
-        case 4: // Blink Rate
+        case 5: // Blink Rate
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "blinkRate_cell",
                 for: indexPath
@@ -212,7 +223,7 @@ extension ViewController: UICollectionViewDataSource {
             }
             return cell
             
-        case 5: // Last Exercise
+        case 6: // Last Exercise
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "lastExercise_cell",
                 for: indexPath
@@ -228,7 +239,7 @@ extension ViewController: UICollectionViewDataSource {
             )
             return cell
             
-        case 6: // Last Test
+        case 7: // Last Test
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "lastTest_cell",
                 for: indexPath

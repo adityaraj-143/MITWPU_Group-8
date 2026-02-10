@@ -12,34 +12,121 @@ class WorkModeCollectionViewCell: UICollectionViewCell,
                                   UIPickerViewDelegate {
     @IBOutlet weak var timerContainer: UIView!
     @IBOutlet weak var Header: UIView!
-    @IBOutlet weak var Picker: UIPickerView!
+    @IBOutlet weak var picker: UIPickerView!
+    
+    @IBOutlet weak var textLabel: UILabel!
     @IBOutlet weak var modeToggle: UISwitch!
     @IBOutlet weak var infoButton: UIButton!
+    @IBOutlet weak var timerLabel: UILabel!
+    
+    @IBAction func modeToggleChanged(_ sender: UISwitch) {
+        if sender.isOn {
+            startTimerFromPicker()
+        } else {
+            stopTimer()
+        }
+    }
+
+    
+    private var timer: Timer?
+    private var remainingSeconds: Int = 0
+    private var endTime: Date?
+    
+    private func startTimerFromPicker() {
+        let minutes = picker.selectedRow(inComponent: 0)
+
+        guard minutes > 0 else {
+            modeToggle.setOn(false, animated: true)
+            return
+        }
+
+        remainingSeconds = minutes * 60
+        endTime = Date().addingTimeInterval(TimeInterval(remainingSeconds))
+
+        // UI switch
+        picker.isHidden = true
+        timerLabel.isHidden = false
+        textLabel.isHidden = true
+
+        updateTimerLabel()
+
+        timer = Timer.scheduledTimer(
+            timeInterval: 1,
+            target: self,
+            selector: #selector(tick),
+            userInfo: nil,
+            repeats: true
+        )
+    }
+    
+    @objc private func tick() {
+        guard let endTime = endTime else { return }
+
+        let secondsLeft = Int(endTime.timeIntervalSinceNow)
+
+        if secondsLeft <= 0 {
+            stopTimer()
+            return
+        }
+
+        remainingSeconds = secondsLeft
+        updateTimerLabel()
+    }
+
+    private func updateTimerLabel() {
+        let minutes = remainingSeconds / 60
+        let seconds = remainingSeconds % 60
+        timerLabel.text = String(format: "%02d:%02d", minutes, seconds)
+    }
+
+    private func stopTimer() {
+        timer?.invalidate()
+        timer = nil
+        endTime = nil
+
+        picker.isHidden = false
+        timerLabel.isHidden = true
+        textLabel.isHidden = false
+    }
+
+
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        Picker.dataSource = self
-        Picker.delegate = self
+        picker.dataSource = self
+        picker.delegate = self
+        timerLabel.isHidden = true
+        picker.isHidden = false
+        
+       
+
     }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 2   // minutes + seconds
+        return 1   // ONLY minutes
     }
+
 
     func pickerView(_ pickerView: UIPickerView,
                     numberOfRowsInComponent component: Int) -> Int {
-        if component == 0 {
-            return 60   // minutes: 0–59
-        } else {
-            return 60   // seconds: 0–59
-        }
+        return 90   // 0–89 minutes
     }
+
 
     func pickerView(_ pickerView: UIPickerView,
                     titleForRow row: Int,
                     forComponent component: Int) -> String? {
-        return String(format: "%02d", row)
+        return "\(row) min"
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        stopTimer()
+        modeToggle.setOn(false, animated: false)
+    }
+
+
 
 
 }

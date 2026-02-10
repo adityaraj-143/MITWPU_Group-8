@@ -50,7 +50,15 @@ extension ViewController {
             case 1: // Today Exercise
                 return Self.makeFullWidthSection(height: 140, top: 0, bottom: 15)
                 
-            case 2: // Recommended
+            case 2: // Work Mode
+                return Self.makeFullWidthSection(
+                    height: 140,
+                    top: 0,
+                    bottom: 15
+                )
+
+                
+            case 3: // Recommended
                 let section = Self.makeHorizontalSection(
                     height: 100,
                     itemWidth: 156,
@@ -59,7 +67,7 @@ extension ViewController {
                 section.boundarySupplementaryItems = [sectionHeaderItem]
                 return section
                 
-            case 3: // Tests
+            case 4: // Tests
                 let section = Self.makeTestsSection(
                     height: 95,
                     itemWidth: 168
@@ -67,15 +75,15 @@ extension ViewController {
                 section.boundarySupplementaryItems = [sectionHeaderItem]
                 return section
                 
-            case 4: // Blink Rate (example using bold header)
+            case 5: // Blink Rate (example using bold header)
                 let section = Self.makeFullWidthSection(height: 165, top: 5, bottom: 15)
                 section.boundarySupplementaryItems = [sectionHeaderItem]
                 return section
                 
-            case 5: // Last Exercise
+            case 6: // Last Exercise
                 return Self.makeFullWidthSection(height: 165, top: 0, bottom: 15)
                 
-            case 6: // Last Test
+            case 7: // Last Test
                 return Self.makeFullWidthSection(height: 216, top: 0, bottom: 40)
                 
             default:
