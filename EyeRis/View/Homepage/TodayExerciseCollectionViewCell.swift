@@ -30,7 +30,7 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
         
         if let layout = IconsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = .horizontal
-            layout.minimumLineSpacing = -10
+            layout.minimumLineSpacing = -4
             layout.minimumInteritemSpacing = 0
             layout.sectionInset = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 4)
         }
@@ -49,7 +49,7 @@ class TodayExerciseCollectionViewCell: UICollectionViewCell, UICollectionViewDel
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let cellHeight: CGFloat = 40
+        let cellHeight: CGFloat = 32
         let collectionHeight = IconsCollectionView.bounds.height
         
         let verticalInset = max(0, (collectionHeight - cellHeight) / 2)
@@ -96,7 +96,7 @@ extension TodayExerciseCollectionViewCell: UICollectionViewDataSource, UICollect
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 40, height: 40)
+        return CGSize(width: 32, height: 32)
     }
 }
 

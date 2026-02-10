@@ -64,14 +64,14 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
         durationLabel.text = "\(item.exercise.duration) sec"
         cardView.backgroundColor = .white
         iconView.backgroundColor = item.exercise.getIconBGColor()
-
-        if item.isCompleted {
-            checkmark.image = UIImage(systemName: "checkmark.circle.fill")
-            checkmark.tintColor = .lightGreen
-        } else {
-            checkmark.image = UIImage(systemName: "checkmark.circle")
-            checkmark.tintColor = .systemGray
-        }
+//
+//        if item.isCompleted {
+//            checkmark.image = UIImage(systemName: "checkmark.circle.fill")
+//            checkmark.tintColor = .lightGreen
+//        } else {
+//            checkmark.image = UIImage(systemName: "checkmark.circle")
+//            checkmark.tintColor = .systemGray
+//        }
     }
 
 }
