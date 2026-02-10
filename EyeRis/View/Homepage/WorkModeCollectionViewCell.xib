@@ -37,7 +37,7 @@
                                         </connections>
                                     </switch>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0fb-LA-Fnb">
-                                        <rect key="frame" x="95" y="12.666666666666664" width="40" height="25"/>
+                                        <rect key="frame" x="99" y="12.666666666666664" width="40" height="25"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="25" id="GEU-lK-2C2"/>
                                             <constraint firstAttribute="width" constant="40" id="Q4P-gs-zpJ"/>
@@ -53,7 +53,7 @@
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="uvr-MC-PjH" secondAttribute="trailing" constant="16" id="3c2-EE-Bie"/>
                                     <constraint firstItem="23d-Kd-Oap" firstAttribute="leading" secondItem="XrS-Uo-gUg" secondAttribute="leading" constant="15" id="4P1-XC-AuK"/>
-                                    <constraint firstItem="uvr-MC-PjH" firstAttribute="leading" secondItem="0fb-LA-Fnb" secondAttribute="trailing" constant="142" id="Awj-eE-lVf"/>
+                                    <constraint firstItem="uvr-MC-PjH" firstAttribute="leading" secondItem="0fb-LA-Fnb" secondAttribute="trailing" constant="138" id="Awj-eE-lVf"/>
                                     <constraint firstItem="23d-Kd-Oap" firstAttribute="top" secondItem="XrS-Uo-gUg" secondAttribute="top" constant="15" id="BMg-cS-uwb"/>
                                     <constraint firstItem="0fb-LA-Fnb" firstAttribute="top" secondItem="XrS-Uo-gUg" secondAttribute="top" constant="12.5" id="SEo-Lj-kND"/>
                                     <constraint firstItem="uvr-MC-PjH" firstAttribute="top" secondItem="XrS-Uo-gUg" secondAttribute="top" constant="11" id="kUw-7q-Pap"/>
@@ -66,18 +66,18 @@
                                         <rect key="frame" x="172" y="0.0" width="133" height="76"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     </pickerView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gnl-ze-yH9">
-                                        <rect key="frame" x="120" y="17" width="114" height="36"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="35"/>
-                                        <color key="textColor" systemColor="systemBlueColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Set Reminder Frequency" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zxd-6P-KeK">
                                         <rect key="frame" x="47" y="6" width="109" height="64"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gnl-ze-yH9">
+                                        <rect key="frame" x="32" y="4" width="291" height="69"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="35"/>
+                                        <color key="textColor" systemColor="systemBlueColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>

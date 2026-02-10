@@ -20,6 +20,8 @@ class WorkModeCollectionViewCell: UICollectionViewCell,
     @IBOutlet weak var infoButton: UIButton!
     @IBOutlet weak var timerLabel: UILabel!
     
+    
+    
     @IBAction func modeToggleChanged(_ sender: UISwitch) {
         if sender.isOn {
             startTimerFromPicker()
@@ -27,12 +29,17 @@ class WorkModeCollectionViewCell: UICollectionViewCell,
             stopTimer()
         }
     }
-
     
+    
+
+    private var isBreakCycle = false
+
     private var timer: Timer?
     private var remainingSeconds: Int = 0
     private var endTime: Date?
     
+    private var initialDurationSeconds: Int = 0
+
 
     
     private func startTimerFromPicker() {
@@ -43,17 +50,19 @@ class WorkModeCollectionViewCell: UICollectionViewCell,
             return
         }
 
-        remainingSeconds = minutes * 60
+        // 🔥 THIS LINE WAS MISSING
+        initialDurationSeconds = minutes * 60
+
+        remainingSeconds = initialDurationSeconds
         endTime = Date().addingTimeInterval(TimeInterval(remainingSeconds))
 
-        // UI switch
         picker.isHidden = true
         timerLabel.isHidden = false
         textLabel.isHidden = true
-        
 
         updateTimerLabel()
 
+        timer?.invalidate()
         timer = Timer.scheduledTimer(
             timeInterval: 1,
             target: self,
@@ -62,20 +71,74 @@ class WorkModeCollectionViewCell: UICollectionViewCell,
             repeats: true
         )
     }
+
     
+    private func fireCompletionHaptics() {
+        let generator = UINotificationFeedbackGenerator()
+        generator.prepare()
+
+        generator.notificationOccurred(.success)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+            generator.notificationOccurred(.success)
+        }
+    }
+    
+    private func startBreakCycle() {
+        isBreakCycle = true
+
+        remainingSeconds = 20
+        endTime = Date().addingTimeInterval(20)
+
+        // UI
+        timerLabel.isHidden = false
+        picker.isHidden = true
+        textLabel.isHidden = true
+        timerLabel.font = UIFont.systemFont(ofSize: 27, weight: .thin)
+        timerLabel.text = "Time’s up.\nLook away for 20 secs."
+        timerLabel.numberOfLines = 2
+        timerLabel.textAlignment = .center
+
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(
+            timeInterval: 1,
+            target: self,
+            selector: #selector(tick),
+            userInfo: nil,
+            repeats: true
+        )
+    }
+
+
     @objc private func tick() {
         guard let endTime = endTime else { return }
 
-        let secondsLeft = Int(endTime.timeIntervalSinceNow)
+        let secondsLeft = Int(ceil(endTime.timeIntervalSinceNow))
 
         if secondsLeft <= 0 {
-            stopTimer()
+
+            if isBreakCycle {
+                // 👀 Break finished → go back to work
+                isBreakCycle = false
+                startNewCycle()
+            } else {
+                // 🧠 Work finished → haptic + break
+                fireCompletionHaptics()
+                startBreakCycle()
+            }
             return
         }
 
         remainingSeconds = secondsLeft
-        updateTimerLabel()
+
+        // Only update numeric timer during work or break countdown
+        if isBreakCycle {
+            timerLabel.text = "Look away\n\(remainingSeconds)s"
+        } else {
+            updateTimerLabel()
+        }
     }
+
 
     private func updateTimerLabel() {
         let minutes = remainingSeconds / 60
@@ -87,10 +150,38 @@ class WorkModeCollectionViewCell: UICollectionViewCell,
         timer?.invalidate()
         timer = nil
         endTime = nil
+        isBreakCycle = false
 
         picker.isHidden = false
         timerLabel.isHidden = true
         textLabel.isHidden = false
+    }
+
+
+    private func startNewCycle() {
+        isBreakCycle = false
+        timerLabel.font = UIFont.systemFont(ofSize: 27, weight: .thin)
+
+
+        remainingSeconds = initialDurationSeconds
+        endTime = Date().addingTimeInterval(TimeInterval(remainingSeconds))
+
+        timerLabel.numberOfLines = 1
+        timerLabel.textAlignment = .center
+
+        picker.isHidden = true
+        timerLabel.isHidden = false
+
+        updateTimerLabel()
+
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(
+            timeInterval: 1,
+            target: self,
+            selector: #selector(tick),
+            userInfo: nil,
+            repeats: true
+        )
     }
 
 
