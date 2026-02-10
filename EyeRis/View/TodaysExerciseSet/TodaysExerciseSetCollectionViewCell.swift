@@ -21,8 +21,8 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var StyleContainerView: UIView!
     @IBOutlet weak var iconView: UIView!
-    @IBOutlet weak var checkmark: UIImageView!
     @IBOutlet weak var navigationButton: UIButton!
+    @IBOutlet weak var checkmark: UIButton!
     
     
     override func awakeFromNib() {
@@ -71,9 +71,9 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
         iconView.backgroundColor = item.exercise.getIconBGColor()
 
         if item.isCompleted {
-            cardView.backgroundColor = .lightGray
+            checkmark.tintColor = .lightGreen
         } else {
-            cardView.backgroundColor = .white
+            checkmark.isHidden = true
         }
     }
 
