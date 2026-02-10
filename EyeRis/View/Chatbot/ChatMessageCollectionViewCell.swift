@@ -22,6 +22,25 @@ class ChatMessageCollectionViewCell: UICollectionViewCell {
         messageLabel.numberOfLines = 0
     }
     
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        
+        setNeedsLayout()
+        layoutIfNeeded()
+        
+        let targetSize = CGSize(width: layoutAttributes.frame.width, height: 0)
+        let autoSize = contentView.systemLayoutSizeFitting(
+            targetSize,
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .fittingSizeLevel
+        )
+        
+        var frame = layoutAttributes.frame
+        frame.size.height = ceil(autoSize.height)
+        layoutAttributes.frame = frame
+        
+        return layoutAttributes
+    }
+
     
     func configure(text: String, isIncoming: Bool) {
         messageLabel.text = text

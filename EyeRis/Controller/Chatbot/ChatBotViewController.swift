@@ -40,6 +40,11 @@ class ChatbotViewController: UIViewController, UITextFieldDelegate {
             forCellWithReuseIdentifier: "ChatMessageCollectionViewCell"
         )
         
+        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.estimatedItemSize = CGSize(width: view.bounds.width, height: 44)
+        }
+
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGesture.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGesture)
@@ -151,16 +156,7 @@ extension ChatbotViewController: UICollectionViewDataSource, UICollectionViewDel
         
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        return CGSize(
-            width: collectionView.bounds.width,
-            height: UICollectionViewFlowLayout.automaticSize.height
-        )
-    }
 
 }
 
