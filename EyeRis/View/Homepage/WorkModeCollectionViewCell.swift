@@ -10,6 +10,7 @@ import UIKit
 class WorkModeCollectionViewCell: UICollectionViewCell,
                                   UIPickerViewDataSource,
                                   UIPickerViewDelegate {
+    @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var timerContainer: UIView!
     @IBOutlet weak var Header: UIView!
     @IBOutlet weak var picker: UIPickerView!
@@ -32,6 +33,8 @@ class WorkModeCollectionViewCell: UICollectionViewCell,
     private var remainingSeconds: Int = 0
     private var endTime: Date?
     
+
+    
     private func startTimerFromPicker() {
         let minutes = picker.selectedRow(inComponent: 0)
 
@@ -47,6 +50,7 @@ class WorkModeCollectionViewCell: UICollectionViewCell,
         picker.isHidden = true
         timerLabel.isHidden = false
         textLabel.isHidden = true
+        
 
         updateTimerLabel()
 
@@ -99,6 +103,11 @@ class WorkModeCollectionViewCell: UICollectionViewCell,
         timerLabel.isHidden = true
         picker.isHidden = false
         
+        mainView.applyCornerRadius()
+
+        
+        modeToggle.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        
        
 
     }
@@ -115,10 +124,32 @@ class WorkModeCollectionViewCell: UICollectionViewCell,
 
 
     func pickerView(_ pickerView: UIPickerView,
-                    titleForRow row: Int,
-                    forComponent component: Int) -> String? {
-        return "\(row) min"
+                    viewForRow row: Int,
+                    forComponent component: Int,
+                    reusing view: UIView?) -> UIView {
+
+        let label: UILabel
+
+        if let reused = view as? UILabel {
+            label = reused
+        } else {
+            label = UILabel()
+            label.textAlignment = .center
+        }
+
+        label.text = "\(row) min"
+
+        // FONT CONTROL HERE
+        label.font = UIFont.systemFont(
+            ofSize: 16,
+            weight: .medium
+        )
+
+        label.textColor = .label
+
+        return label
     }
+
     
     override func prepareForReuse() {
         super.prepareForReuse()
