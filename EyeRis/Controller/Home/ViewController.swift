@@ -45,6 +45,7 @@ class ViewController: UIViewController {
     private func registerCells() {
         CollectionView.register(UINib(nibName: "GreetingCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "greet_cell")
         CollectionView.register(UINib(nibName: "TodayExerciseCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "todayExercise_cell")
+        CollectionView.register(UINib(nibName: "WorkModeCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "workMode_cell")
         CollectionView.register(UINib(nibName: "RecommendedExercisesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "exercises_cell")
         CollectionView.register(UINib(nibName: "TestsCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "tests_cell")
         CollectionView.register(UINib(nibName: "BlinkRateCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "blinkRate_cell")
