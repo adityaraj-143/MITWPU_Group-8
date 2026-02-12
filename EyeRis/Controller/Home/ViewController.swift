@@ -71,7 +71,7 @@ extension ViewController: UICollectionViewDelegate {
             return
         }
         
-        if indexPath.section == 2 {
+        if indexPath.section == 3 {
             let exercise = recommendedExercises[indexPath.row]
             
             let storyboard = UIStoryboard(
@@ -95,7 +95,7 @@ extension ViewController: UICollectionViewDelegate {
             return
         }
         
-        if indexPath.section == 3 {
+        if indexPath.section == 4 {
             if indexPath.item == 0 {
                 // Acuity Test
                 navigate(to: "TestInstructions", with: "TestInstructionsViewController", source: .NVALeft)
@@ -273,7 +273,7 @@ extension ViewController: UICollectionViewDataSource {
         ) as! SectionHeaderCollectionReusableView
         
         switch indexPath.section {
-        case 2:
+        case 3:
             // Recommended Exercises → show NavigateLabel
             header.congfigure(
                 headerText: "Exercises for you",
@@ -284,7 +284,7 @@ extension ViewController: UICollectionViewDataSource {
                 self?.navigate(to: "ExerciseList", with: "ExerciseListViewController")
             }
             
-        case 3:
+        case 4:
             // Tests → hide NavigateLabel
             header.congfigure(
                 headerText: "Tests",
@@ -293,7 +293,7 @@ extension ViewController: UICollectionViewDataSource {
             
             header.onTapNavigation = nil
             
-        case 4:
+        case 5:
             header.congfigure(
                 headerText: "Summary",
                 hideNav: true
