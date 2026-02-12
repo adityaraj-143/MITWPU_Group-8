@@ -130,7 +130,8 @@ class ExerciseCalibrationViewController: UIViewController {
 
         let identifier = exercise.getStoryboardID()
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
-
+        print("HERE", identifier)
+        print("AAA", vc.storyboard?.description ?? "NO STORYBOARD")
         if let exerciseVC = vc as? ExerciseFlowHandling {
             exerciseVC.exercise = exercise
             exerciseVC.inTodaySet = inTodaySet

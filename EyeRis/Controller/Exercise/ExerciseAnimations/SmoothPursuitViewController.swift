@@ -266,7 +266,10 @@ class SmoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
         }
         
         if let completionVC = vc as? CompletionViewController {
-            if (inTodaySet == 0) {
+
+            if inTodaySet == 1 {
+                completionVC.source = .TodaysSet
+            } else {
                 completionVC.source = .Recommended
             }
         }

@@ -286,7 +286,10 @@ class Figure8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exer
 
         // If this is the completion screen
         if let completionVC = vc as? CompletionViewController {
-            if (inTodaySet == 0) {
+
+            if inTodaySet == 1 {
+                completionVC.source = .TodaysSet
+            } else {
                 completionVC.source = .Recommended
             }
         }
