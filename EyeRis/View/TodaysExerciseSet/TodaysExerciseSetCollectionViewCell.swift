@@ -21,7 +21,6 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var StyleContainerView: UIView!
     @IBOutlet weak var iconView: UIView!
-    @IBOutlet weak var navigationButton: UIButton!
     @IBOutlet weak var checkmark: UIButton!
     
     
@@ -38,9 +37,6 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
         cardView.layer.cornerRadius = 16
         cardView.clipsToBounds = true
         cardView.backgroundColor = UIColor(white: 0.98, alpha: 1)
-
-//        StyleContainerView.applyShadow()
-//        navigationButton.backgroundColor = .lightGreen
 
         iconView.makeRounded()
     }
@@ -71,9 +67,11 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
         iconView.backgroundColor = item.exercise.getIconBGColor()
 
         if item.isCompleted {
+            checkmark.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)
             checkmark.tintColor = .lightGreen
         } else {
-            checkmark.isHidden = true
+            checkmark.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
+            checkmark.tintColor = .lightGray
         }
     }
 

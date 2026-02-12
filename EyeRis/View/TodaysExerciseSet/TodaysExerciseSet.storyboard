@@ -80,34 +80,28 @@
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wXx-1c-ont">
-                                                                    <rect key="frame" x="294" y="1" width="34" height="35"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wXx-1c-ont">
+                                                                    <rect key="frame" x="290" y="1" width="44" height="35"/>
                                                                     <color key="tintColor" systemColor="labelColor"/>
                                                                     <state key="normal" title="Button"/>
                                                                     <buttonConfiguration key="configuration" style="plain">
-                                                                        <imageReference key="image" image="chevron.right" catalog="system" symbolScale="small"/>
+                                                                        <imageReference key="image" image="checkmark.circle" catalog="system" symbolScale="medium"/>
                                                                     </buttonConfiguration>
-                                                                </button>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jR8-3J-PbO">
-                                                                    <rect key="frame" x="0.0" y="135" width="50" height="35"/>
-                                                                    <state key="normal" title="Button"/>
-                                                                    <buttonConfiguration key="configuration" style="plain" image="checkmark.circle" catalog="system"/>
                                                                 </button>
                                                             </subviews>
                                                             <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
                                                             <constraints>
                                                                 <constraint firstItem="feQ-cV-BnA" firstAttribute="centerX" secondItem="kPf-dg-mkO" secondAttribute="centerX" id="0ke-1c-VTI"/>
+                                                                <constraint firstItem="wXx-1c-ont" firstAttribute="top" secondItem="kPf-dg-mkO" secondAttribute="top" constant="1" id="CDN-lA-XxN"/>
                                                                 <constraint firstItem="FHk-91-OD8" firstAttribute="leading" secondItem="kPf-dg-mkO" secondAttribute="leading" constant="10" id="Chw-gG-HhU"/>
-                                                                <constraint firstAttribute="bottom" secondItem="jR8-3J-PbO" secondAttribute="bottom" constant="2" id="DjB-PX-2hh"/>
                                                                 <constraint firstItem="5NL-2W-dfD" firstAttribute="centerX" secondItem="kPf-dg-mkO" secondAttribute="centerX" id="Ep3-oP-1Pu"/>
+                                                                <constraint firstAttribute="trailing" secondItem="wXx-1c-ont" secondAttribute="trailing" constant="2" id="KCn-0o-oiU"/>
                                                                 <constraint firstItem="FHk-91-OD8" firstAttribute="top" secondItem="Csm-Kk-1lT" secondAttribute="bottom" constant="2" id="Kz7-2N-PDu"/>
                                                                 <constraint firstItem="Csm-Kk-1lT" firstAttribute="top" secondItem="kPf-dg-mkO" secondAttribute="top" constant="9" id="Pdx-BJ-AEe"/>
                                                                 <constraint firstItem="Csm-Kk-1lT" firstAttribute="leading" secondItem="kPf-dg-mkO" secondAttribute="leading" constant="10" id="XHD-DS-qg9"/>
                                                                 <constraint firstItem="feQ-cV-BnA" firstAttribute="top" secondItem="kPf-dg-mkO" secondAttribute="top" constant="55" id="bUR-RO-rOK"/>
                                                                 <constraint firstAttribute="height" constant="180" id="jbt-c6-xyf"/>
                                                                 <constraint firstItem="5NL-2W-dfD" firstAttribute="top" secondItem="feQ-cV-BnA" secondAttribute="bottom" constant="8" symbolic="YES" id="vKI-GI-0kp"/>
-                                                                <constraint firstItem="jR8-3J-PbO" firstAttribute="leading" secondItem="kPf-dg-mkO" secondAttribute="leading" id="zhG-JA-GGs"/>
                                                             </constraints>
                                                         </view>
                                                     </subviews>
@@ -133,7 +127,7 @@
                                         <connections>
                                             <outlet property="StyleContainerView" destination="maA-Jt-dAE" id="czm-H8-lgl"/>
                                             <outlet property="cardView" destination="kPf-dg-mkO" id="J4e-gk-ebk"/>
-                                            <outlet property="checkmark" destination="jR8-3J-PbO" id="YTn-bf-9vy"/>
+                                            <outlet property="checkmark" destination="wXx-1c-ont" id="dSs-HO-oPo"/>
                                             <outlet property="durationLabel" destination="FHk-91-OD8" id="FJN-5d-tHb"/>
                                             <outlet property="exerciseImage" destination="lSs-AK-q8j" id="ojO-1Z-N9F"/>
                                             <outlet property="exerciseName" destination="Csm-Kk-1lT" id="4tW-Q8-xZy"/>
@@ -210,7 +204,6 @@
     </scenes>
     <resources>
         <image name="checkmark.circle" catalog="system" width="128" height="123"/>
-        <image name="chevron.right" catalog="system" width="97" height="128"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

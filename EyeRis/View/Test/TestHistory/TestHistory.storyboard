@@ -216,6 +216,9 @@
                                         </constraints>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="tinted" title="Ask EyeRis To Explain"/>
+                                        <connections>
+                                            <action selector="explainWithEyeris:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="8jg-Gv-3ep"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>

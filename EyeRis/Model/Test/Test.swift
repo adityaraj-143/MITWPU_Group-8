@@ -114,6 +114,7 @@ final class AcuityTestResultResponse {
         }
         return dailyTests
     }
+    
 }
 
 extension AcuityTestResultResponse {

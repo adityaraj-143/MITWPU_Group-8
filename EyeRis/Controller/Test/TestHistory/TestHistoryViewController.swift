@@ -69,6 +69,44 @@ class TestHistoryViewController: UIViewController {
         }
     }
     
+    @IBAction func explainWithEyeris(_ sender: Any) {
+        let prompt = generateCurrentTestSummaryForAI()
+         
+        print(prompt)
+    }
+    
+    func generateCurrentTestSummaryForAI() -> String {
+        
+        guard !groupedResultsByDate.isEmpty else {
+            return "No test history available."
+        }
+        
+        let testsForDate = groupedResultsByDate[currentIndex]
+        
+        let dateString = dateFormatter.string(from: testsForDate.date)
+        
+        let summary = """
+        The user completed a visual acuity test on \(dateString).
+
+        Distant Vision (DVA):
+        - Healthy Benchmark: \(testsForDate.distant.heathyScore)
+        - Left Eye Score: \(testsForDate.distant.leftEyeScore)
+        - Right Eye Score: \(testsForDate.distant.rightEyeScore)
+
+        Near Vision (NVA):
+        - Healthy Benchmark: \(testsForDate.near.heathyScore)
+        - Left Eye Score: \(testsForDate.near.leftEyeScore)
+        - Right Eye Score: \(testsForDate.near.rightEyeScore)
+
+        Clinician Comment:
+        \(testsForDate.distant.comment)
+
+        Please explain these results in simple language and suggest if improvement or professional consultation is recommended.
+        """
+        
+        return summary
+    }
+
 }
 
 extension TestHistoryViewController{
