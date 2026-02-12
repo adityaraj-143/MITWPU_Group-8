@@ -90,14 +90,13 @@ class WorkModeCollectionViewCell: UICollectionViewCell,
         remainingSeconds = 20
         endTime = Date().addingTimeInterval(20)
 
-        // UI
+        applyBreakStyle()
+
         timerLabel.isHidden = false
         picker.isHidden = true
         textLabel.isHidden = true
-        timerLabel.font = UIFont.systemFont(ofSize: 27, weight: .thin)
+
         timerLabel.text = "Time’s up.\nLook away for 20 secs."
-        timerLabel.numberOfLines = 2
-        timerLabel.textAlignment = .center
 
         timer?.invalidate()
         timer = Timer.scheduledTimer(
@@ -109,6 +108,19 @@ class WorkModeCollectionViewCell: UICollectionViewCell,
         )
     }
 
+    
+    private func applyWorkStyle() {
+        timerLabel.font = UIFont.systemFont(ofSize: 32, weight: .semibold)
+        timerLabel.numberOfLines = 1
+        timerLabel.textAlignment = .center
+    }
+
+    private func applyBreakStyle() {
+        timerLabel.font = UIFont.systemFont(ofSize: 27, weight: .semibold)
+        timerLabel.numberOfLines = 2
+        timerLabel.textAlignment = .center
+    }
+    
 
     @objc private func tick() {
         guard let endTime = endTime else { return }
@@ -117,13 +129,14 @@ class WorkModeCollectionViewCell: UICollectionViewCell,
 
         if secondsLeft <= 0 {
 
+            fireCompletionHaptics()   // 🔥 Always fire
+
             if isBreakCycle {
                 // 👀 Break finished → go back to work
                 isBreakCycle = false
                 startNewCycle()
             } else {
-                // 🧠 Work finished → haptic + break
-                fireCompletionHaptics()
+                // 🧠 Work finished → go to break
                 startBreakCycle()
             }
             return
@@ -131,7 +144,6 @@ class WorkModeCollectionViewCell: UICollectionViewCell,
 
         remainingSeconds = secondsLeft
 
-        // Only update numeric timer during work or break countdown
         if isBreakCycle {
             timerLabel.text = "Look away\n\(remainingSeconds)s"
         } else {
@@ -139,6 +151,7 @@ class WorkModeCollectionViewCell: UICollectionViewCell,
         }
     }
 
+    
 
     private func updateTimerLabel() {
         let minutes = remainingSeconds / 60
@@ -160,14 +173,11 @@ class WorkModeCollectionViewCell: UICollectionViewCell,
 
     private func startNewCycle() {
         isBreakCycle = false
-        timerLabel.font = UIFont.systemFont(ofSize: 27, weight: .thin)
 
+        applyWorkStyle()
 
         remainingSeconds = initialDurationSeconds
         endTime = Date().addingTimeInterval(TimeInterval(remainingSeconds))
-
-        timerLabel.numberOfLines = 1
-        timerLabel.textAlignment = .center
 
         picker.isHidden = true
         timerLabel.isHidden = false
@@ -183,6 +193,7 @@ class WorkModeCollectionViewCell: UICollectionViewCell,
             repeats: true
         )
     }
+
 
 
 
