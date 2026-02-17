@@ -52,7 +52,7 @@ extension ViewController {
                 
             case 2: // Work Mode
                 return Self.makeFullWidthSection(
-                    height: 140,
+                    height: 80,
                     top: 0,
                     bottom: 15
                 )
