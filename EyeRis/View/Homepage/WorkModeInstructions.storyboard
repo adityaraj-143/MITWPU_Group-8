@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="TeI-s2-Okn">
+            <objects>
+                <viewController id="YkG-GW-ct5" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zM3-9y-Jmr">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="rqT-aU-PTM"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <connections>
+                        <segue destination="4R7-Kj-0nL" kind="presentation" id="RAb-Wp-Lrh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qvs-DC-Ia9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1001" y="70"/>
+        </scene>
+        <!--Work Mode Description-->
+        <scene sceneID="FNn-v1-4pj">
+            <objects>
+                <viewController id="xdF-hT-EzA" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="6x5-5s-fAH">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="793"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What is Work Mode?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xL6-8y-54x">
+                                <rect key="frame" x="16" y="86" width="361" height="24"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How does this help?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f6G-7D-mmZ">
+                                <rect key="frame" x="16" y="225" width="184" height="24"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How does this help?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NEn-dJ-Cl1">
+                                <rect key="frame" x="16" y="342" width="184" height="24"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vFH-BS-5v3">
+                                <rect key="frame" x="16" y="118" width="361" height="83"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="83" id="q4B-Ez-LmJ"/>
+                                </constraints>
+                                <string key="text">Work Mode helps protect your eyes during screen use. When enabled, it reminds you at set intervals to look at least 20 feet away, blink 20 times quickly, and then continue your work.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="These short breaks reduce eye strain and dryness by relaxing your eye muscles and restoring natural blinking." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PNc-Rz-I64">
+                                <rect key="frame" x="16" y="257" width="361" height="61"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use it whenever you’re working on a screen for long periods, especially when taking breaks isn’t easy." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EVA-4n-7Qh">
+                                <rect key="frame" x="16" y="374" width="361" height="61"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="yii-s4-bm9"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="vFH-BS-5v3" firstAttribute="top" secondItem="xL6-8y-54x" secondAttribute="bottom" constant="8" symbolic="YES" id="1RS-8V-WTB"/>
+                            <constraint firstItem="yii-s4-bm9" firstAttribute="trailing" secondItem="vFH-BS-5v3" secondAttribute="trailing" constant="16" id="8UN-Lx-bOb"/>
+                            <constraint firstItem="PNc-Rz-I64" firstAttribute="leading" secondItem="yii-s4-bm9" secondAttribute="leading" constant="16" id="GYs-jh-s8n"/>
+                            <constraint firstItem="EVA-4n-7Qh" firstAttribute="leading" secondItem="yii-s4-bm9" secondAttribute="leading" constant="16" id="Hy5-je-hde"/>
+                            <constraint firstItem="yii-s4-bm9" firstAttribute="trailing" secondItem="PNc-Rz-I64" secondAttribute="trailing" constant="16" id="JDZ-h2-b5Q"/>
+                            <constraint firstItem="vFH-BS-5v3" firstAttribute="leading" secondItem="xL6-8y-54x" secondAttribute="leading" id="Ncy-7x-uTF"/>
+                            <constraint firstItem="yii-s4-bm9" firstAttribute="trailing" secondItem="xL6-8y-54x" secondAttribute="trailing" constant="16" id="OFc-2C-8ph"/>
+                            <constraint firstItem="PNc-Rz-I64" firstAttribute="top" secondItem="f6G-7D-mmZ" secondAttribute="bottom" constant="8" symbolic="YES" id="P8G-V4-rdG"/>
+                            <constraint firstItem="xL6-8y-54x" firstAttribute="leading" secondItem="yii-s4-bm9" secondAttribute="leading" constant="16" id="VBC-zc-EX0"/>
+                            <constraint firstItem="f6G-7D-mmZ" firstAttribute="top" secondItem="vFH-BS-5v3" secondAttribute="bottom" constant="24" id="bKE-lA-GGG"/>
+                            <constraint firstItem="NEn-dJ-Cl1" firstAttribute="leading" secondItem="yii-s4-bm9" secondAttribute="leading" constant="16" id="iEv-r8-3kN"/>
+                            <constraint firstItem="f6G-7D-mmZ" firstAttribute="leading" secondItem="yii-s4-bm9" secondAttribute="leading" constant="16" id="jOO-kn-MAz"/>
+                            <constraint firstItem="NEn-dJ-Cl1" firstAttribute="top" secondItem="PNc-Rz-I64" secondAttribute="bottom" constant="24" id="jp0-el-VIz"/>
+                            <constraint firstItem="vFH-BS-5v3" firstAttribute="leading" secondItem="yii-s4-bm9" secondAttribute="leading" constant="16" id="ljl-x5-VEN"/>
+                            <constraint firstItem="vFH-BS-5v3" firstAttribute="top" secondItem="xL6-8y-54x" secondAttribute="bottom" constant="8" symbolic="YES" id="sye-AY-rn0"/>
+                            <constraint firstItem="xL6-8y-54x" firstAttribute="top" secondItem="yii-s4-bm9" secondAttribute="top" constant="16" id="tAu-tr-iun"/>
+                            <constraint firstItem="EVA-4n-7Qh" firstAttribute="top" secondItem="NEn-dJ-Cl1" secondAttribute="bottom" constant="8" symbolic="YES" id="w0Q-UW-vY8"/>
+                            <constraint firstItem="yii-s4-bm9" firstAttribute="trailing" secondItem="EVA-4n-7Qh" secondAttribute="trailing" constant="16" id="zmd-jm-0fx"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Work Mode Description" id="b1J-6Z-GLn"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Nkq-cR-jLj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2837.4045801526718" y="69.718309859154928"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="alY-is-9yZ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="4R7-Kj-0nL" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="QR6-mG-oew">
+                        <rect key="frame" x="0.0" y="16" width="393" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="xdF-hT-EzA" kind="relationship" relationship="rootViewController" id="2GX-aV-vf8"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7E3-zt-Hqy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1910.6870229007632" y="69.718309859154928"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
