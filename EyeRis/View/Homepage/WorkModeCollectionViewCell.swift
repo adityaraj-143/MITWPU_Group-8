@@ -11,12 +11,11 @@ class WorkModeCollectionViewCell: UICollectionViewCell,
                                   UIPickerViewDelegate {
     @IBOutlet weak var mainView: UIView!
     
-    
+
+    @IBOutlet weak var iconView: UIView!
     @IBOutlet weak var modeToggle: UISwitch!
     @IBOutlet weak var infoButton: UIButton!
-    
-    
-    
+  
     //
     //    @IBAction func modeToggleChanged(_ sender: UISwitch) {
     //        if sender.isOn {
@@ -25,19 +24,13 @@ class WorkModeCollectionViewCell: UICollectionViewCell,
     //            stopTimer()
     //        }
     //    }
-    
-    
-    
+  
     private var isBreakCycle = false
-    
     private var timer: Timer?
     private var remainingSeconds: Int = 0
     private var endTime: Date?
-    
     private var initialDurationSeconds: Int = 0
-    
-    
-    
+  
     //
     //    private func startTimerFromPicker() {
     //        let minutes = picker.selectedRow(inComponent: 0)
@@ -194,6 +187,7 @@ class WorkModeCollectionViewCell: UICollectionViewCell,
     override func awakeFromNib() {
         super.awakeFromNib()
         mainView.applyCornerRadius()
+        modeToggle.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
         
         //        picker.dataSource = self
         //        picker.delegate = self
@@ -254,8 +248,7 @@ class WorkModeCollectionViewCell: UICollectionViewCell,
         //        modeToggle.setOn(false, animated: false)
         //    }
         
-        
-        
+        iconView.makeRounded()
         
     }
 }
