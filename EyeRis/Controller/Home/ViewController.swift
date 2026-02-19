@@ -71,6 +71,19 @@ extension ViewController: UICollectionViewDelegate {
             return
         }
         
+        if(indexPath.section == 2){
+            let storyboard = UIStoryboard(name: "WorkModeInstructions", bundle: nil)
+            
+            let profileVC = storyboard.instantiateViewController(
+                withIdentifier: "WorkModeInstructionsViewController"
+            )
+
+            let navController = UINavigationController(rootViewController: profileVC)
+            navController.modalPresentationStyle = .pageSheet
+
+            present(navController, animated: true)
+        }
+        
         if indexPath.section == 3 {
             let exercise = recommendedExercises[indexPath.row]
             

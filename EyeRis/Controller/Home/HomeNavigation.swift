@@ -37,7 +37,7 @@ extension ViewController {
         )
 
         let navController = UINavigationController(rootViewController: profileVC)
-        navController.modalPresentationStyle = .pageSheet   // or .fullScreen
+        navController.modalPresentationStyle = .pageSheet
 
         present(navController, animated: true)
     }
