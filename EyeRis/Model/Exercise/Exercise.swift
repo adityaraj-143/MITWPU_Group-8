@@ -10,12 +10,18 @@ import UIKit
 
 // MARK: - Exercise
 
+enum ExerciseType {
+    case onScreen
+    case offScreen
+}
+
 struct Exercise: Equatable {
     let id: Int
     let name: String
     let duration: Int
     let instructions: ExerciseInstruction
     let targetedConditions: [Conditions]
+    let type: ExerciseType = .offScreen
     
     static func == (lhs: Exercise, rhs: Exercise) -> Bool {
         return lhs.id == rhs.id
