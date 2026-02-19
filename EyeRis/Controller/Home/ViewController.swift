@@ -66,10 +66,10 @@ class ViewController: UIViewController {
 extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if indexPath.section == 1 {
-            navigate(to: "TodaysExerciseSet", with: "TodaysExerciseSetViewController")
-            return
-        }
+//        if indexPath.section == 1 {
+//            navigate(to: "TodaysExerciseSet", with: "TodaysExerciseSetViewController")
+//            return
+//        }
         
         if(indexPath.section == 2){
             let storyboard = UIStoryboard(name: "WorkModeInstructions", bundle: nil)
