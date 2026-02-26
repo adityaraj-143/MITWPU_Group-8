@@ -174,31 +174,30 @@ let allExercises: [Exercise] = [
     )
 ]
 
-struct ExerciseCardInfo {
+struct ExerciseInfoType {
     let icon: String
     let bgColor: UIColor
     let iconBGColor: UIColor
     let storyboardName: String
     let storyboardID: String
-    
-//    let vcType: UIViewController.Type
+    let exerciseData: [ExerciseStageData]
 }
 
 let defaultStoryboardName = "Figure8"
 let defaultStoryboardID = "Figure8ViewController"
 //let defaultVCType = Figure8ViewController
 
-let ExerciseInfo: [Int: ExerciseCardInfo] = [
+let ExerciseInfo: [Int: ExerciseInfoType] = [
     
-    1: ExerciseCardInfo(
+    1: ExerciseInfoType(
         icon: "20",
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "5BC8A8"), // kept
         storyboardName: defaultStoryboardName,
-        storyboardID: defaultStoryboardID
+        storyboardID: defaultStoryboardID,
     ),
     
-    2: ExerciseCardInfo(
+    2: ExerciseInfoType(
         icon: "Guided Blinking",
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "6FAEFF"), // kept
@@ -206,7 +205,7 @@ let ExerciseInfo: [Int: ExerciseCardInfo] = [
         storyboardID: defaultStoryboardID
     ),
     
-    3: ExerciseCardInfo(
+    3: ExerciseInfoType(
         icon: "Infinity",
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "A68BEB"), // kept
@@ -214,7 +213,7 @@ let ExerciseInfo: [Int: ExerciseCardInfo] = [
         storyboardID: defaultStoryboardID
     ),
     
-    4: ExerciseCardInfo(
+    4: ExerciseInfoType(
         icon: "Roll",
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "F5B942"), // kept
@@ -222,7 +221,7 @@ let ExerciseInfo: [Int: ExerciseCardInfo] = [
         storyboardID: defaultStoryboardID
     ),
     
-    5: ExerciseCardInfo(
+    5: ExerciseInfoType(
         icon: "Peripheral Focus",
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "E66A7A"), // kept
@@ -230,7 +229,7 @@ let ExerciseInfo: [Int: ExerciseCardInfo] = [
         storyboardID: defaultStoryboardID
     ),
     
-    6: ExerciseCardInfo(
+    6: ExerciseInfoType(
         icon: "Light Adaption",
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "FF9C66"), // kept
@@ -238,7 +237,7 @@ let ExerciseInfo: [Int: ExerciseCardInfo] = [
         storyboardID: defaultStoryboardID
     ),
     
-    7: ExerciseCardInfo(
+    7: ExerciseInfoType(
         icon: "Color Contrast",
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "4DB6C6"), // unique already
@@ -246,7 +245,7 @@ let ExerciseInfo: [Int: ExerciseCardInfo] = [
         storyboardID: defaultStoryboardID
     ),
     
-    8: ExerciseCardInfo(
+    8: ExerciseInfoType(
         icon: "Focus Shifting",
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "6B7CFF"), // unique already
@@ -254,7 +253,7 @@ let ExerciseInfo: [Int: ExerciseCardInfo] = [
         storyboardID: "FocusShiftingViewController"
     ),
     
-    9: ExerciseCardInfo(
+    9: ExerciseInfoType(
         icon: "Zoom",
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "7FD16A"), // NEW
@@ -262,7 +261,7 @@ let ExerciseInfo: [Int: ExerciseCardInfo] = [
         storyboardID: defaultStoryboardID
     ),
     
-    10: ExerciseCardInfo(
+    10: ExerciseInfoType(
         icon: "Saccadic Movement",
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "FF7DB0"), // NEW
@@ -270,7 +269,7 @@ let ExerciseInfo: [Int: ExerciseCardInfo] = [
         storyboardID: defaultStoryboardID
     ),
     
-    11: ExerciseCardInfo(
+    11: ExerciseInfoType(
         icon: "Convergence",
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "9BC53D"), // Olive Green
@@ -278,15 +277,15 @@ let ExerciseInfo: [Int: ExerciseCardInfo] = [
         storyboardID: defaultStoryboardID
     ),
 
-    12: ExerciseCardInfo(
+    12: ExerciseInfoType(
         icon: "Brock",
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "D1495B"), // Brick Red
         storyboardName: defaultStoryboardName,
-        storyboardID: defaultStoryboardID
+        storyboardID: defaultStoryboardID,
     ),
 
-    13: ExerciseCardInfo(
+    13: ExerciseInfoType(
         icon: "Smooth Pursuit",
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "2E4057"), // Slate Blue-Grey
@@ -294,7 +293,7 @@ let ExerciseInfo: [Int: ExerciseCardInfo] = [
         storyboardID: "SmoothPursuitViewController"
     ),
 
-    14: ExerciseCardInfo(
+    14: ExerciseInfoType(
         icon: "Eye Movement",
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "F4D35E"), // Soft Gold
