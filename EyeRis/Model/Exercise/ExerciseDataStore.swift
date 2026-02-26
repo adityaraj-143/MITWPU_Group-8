@@ -1,101 +1,46 @@
-//
-//  ExerciseMockDataStore.swift
-//  EyeRis
-//
-//  Created by SDC-USER on 12/12/25.
-//
 
 import Foundation
 import UIKit
-//MARK: EXERCISE HISTORY
-// Dummy data for Exercise History
-
-let mockPerformedExerciseStats: [PerformedExerciseStat] = [
-    // Today (2 exercises → 90+ avg)
-    PerformedExerciseStat(id: 1, name: "Eye Focus Drill", performedOn: Date(), accuracy: 94, speed: 91),
-    PerformedExerciseStat(id: 2, name: "Blink Control", performedOn: Date(), accuracy: 92, speed: 90),
-    
-    // 2 days ago (3 exercises → 80+ avg)
-    PerformedExerciseStat(id: 3, name: "Peripheral Vision", performedOn: Date(timeIntervalSinceNow: -2*24*60*60), accuracy: 86, speed: 82),
-    PerformedExerciseStat(id: 4, name: "Eye Tracking", performedOn: Date(timeIntervalSinceNow: -2*24*60*60), accuracy: 84, speed: 80),
-    PerformedExerciseStat(id: 5, name: "Near-Far Focus", performedOn: Date(timeIntervalSinceNow: -2*24*60*60), accuracy: 85, speed: 81),
-    
-    // 4 days ago (1 exercise → <75)
-    PerformedExerciseStat(id: 6, name: "Color Recognition", performedOn: Date(timeIntervalSinceNow: -4*24*60*60), accuracy: 73, speed: 70),
-    
-    // 7 days ago (4 exercises → 80+ avg)
-    PerformedExerciseStat(id: 7, name: "Eye Focus Drill", performedOn: Date(timeIntervalSinceNow: -7*24*60*60), accuracy: 88, speed: 84),
-    PerformedExerciseStat(id: 8, name: "Blink Control", performedOn: Date(timeIntervalSinceNow: -7*24*60*60), accuracy: 85, speed: 82),
-    PerformedExerciseStat(id: 9, name: "Peripheral Vision", performedOn: Date(timeIntervalSinceNow: -7*24*60*60), accuracy: 86, speed: 83),
-    PerformedExerciseStat(id: 10, name: "Eye Tracking", performedOn: Date(timeIntervalSinceNow: -7*24*60*60), accuracy: 84, speed: 81),
-    
-    // 9 days ago (2 exercises → <75 avg)
-    PerformedExerciseStat(id: 11, name: "Near-Far Focus", performedOn: Date(timeIntervalSinceNow: -9*24*60*60), accuracy: 74, speed: 71),
-    PerformedExerciseStat(id: 12, name: "Blink Control", performedOn: Date(timeIntervalSinceNow: -9*24*60*60), accuracy: 72, speed: 69),
-    
-    
-    // 14 days ago (5 exercises → 90+ avg)
-    PerformedExerciseStat(id: 13, name: "Eye Focus Drill", performedOn: Date(timeIntervalSinceNow: -14*24*60*60), accuracy: 93, speed: 91),
-    PerformedExerciseStat(id: 14, name: "Blink Control", performedOn: Date(timeIntervalSinceNow: -14*24*60*60), accuracy: 92, speed: 90),
-    PerformedExerciseStat(id: 15, name: "Peripheral Vision", performedOn: Date(timeIntervalSinceNow: -14*24*60*60), accuracy: 94, speed: 92),
-    PerformedExerciseStat(id: 16, name: "Near-Far Focus", performedOn: Date(timeIntervalSinceNow: -14*24*60*60), accuracy: 91, speed: 89),
-    PerformedExerciseStat(id: 17, name: "Eye Tracking", performedOn: Date(timeIntervalSinceNow: -14*24*60*60), accuracy: 93, speed: 90),
-    
-    // 16 days ago (1 exercise → 80+)
-    PerformedExerciseStat(id: 18, name: "Color Recognition", performedOn: Date(timeIntervalSinceNow: -16*24*60*60), accuracy: 82, speed: 79),
-    
-    // 21 days ago (6 exercises → <75 avg)
-    PerformedExerciseStat(id: 19, name: "Eye Focus Drill", performedOn: Date(timeIntervalSinceNow: -21*24*60*60), accuracy: 74, speed: 70),
-    PerformedExerciseStat(id: 20, name: "Blink Control", performedOn: Date(timeIntervalSinceNow: -21*24*60*60), accuracy: 73, speed: 69),
-    PerformedExerciseStat(id: 21, name: "Peripheral Vision", performedOn: Date(timeIntervalSinceNow: -21*24*60*60), accuracy: 72, speed: 68),
-    PerformedExerciseStat(id: 22, name: "Near-Far Focus", performedOn: Date(timeIntervalSinceNow: -21*24*60*60), accuracy: 71, speed: 67),
-    PerformedExerciseStat(id: 23, name: "Eye Tracking", performedOn: Date(timeIntervalSinceNow: -21*24*60*60), accuracy: 73, speed: 69),
-    PerformedExerciseStat(id: 24, name: "Color Recognition", performedOn: Date(timeIntervalSinceNow: -21*24*60*60), accuracy: 72, speed: 68),
-    
-    // 23 days ago (3 exercises → 80+ avg)
-    PerformedExerciseStat(id: 25, name: "Eye Focus Drill", performedOn: Date(timeIntervalSinceNow: -23*24*60*60), accuracy: 85, speed: 82),
-    PerformedExerciseStat(id: 26, name: "Blink Control", performedOn: Date(timeIntervalSinceNow: -23*24*60*60), accuracy: 87, speed: 83),
-    PerformedExerciseStat(id: 27, name: "Peripheral Vision", performedOn: Date(timeIntervalSinceNow: -23*24*60*60), accuracy: 84, speed: 81)
-]
 
 // MARK: - All Exercises (Complete Library)
-
 let allExercises: [Exercise] = [
-    
     Exercise(
         id: 1,
-        name: "20-20-20",
-        duration: 20,
+        name: "Palming",
+        duration: 120,
         instructions: ExerciseInstruction(
-            title: "20-20-20 Rule",
-            description: "Every 20 minutes, look at a point 20 feet away for 20 seconds.",
-            video: "figure8"
+            title: "Palming",
+            description: "Rub hands to warm them, close eyes and gently cup palms over them without pressure for 1–3 minutes while breathing slowly.",
+            video: "palming"
         ),
-        targetedConditions: [.digitalEyeStrain]
+        targetedConditions: [.eyeStrain, .dryEyeSyndrome, .lightSensitivity],
+        type: .offScreen
     ),
     
     Exercise(
         id: 2,
-        name: "Guided Blinking",
-        duration: 60,
+        name: "Focus Shifting",
+        duration: 100,
         instructions: ExerciseInstruction(
-            title: "Blinking Exercise",
-            description: "Follow visual or audio cues to perform complete blinks at set intervals.",
-            video: "FocusShifting"
+            title: "Near-Far Focus",
+            description: "Hold a finger 10–12 inches away, focus for 5 seconds, then shift focus to a distant object for 5 seconds. Repeat 10 times.",
+            video: "focusShifting"
         ),
-        targetedConditions: [.dryEyeSyndrome]
+        targetedConditions: [.accommodativeDysfunction, .digitalEyeStrain],
+        type: .offScreen
     ),
     
     Exercise(
         id: 3,
-        name: "Figure 8",
+        name: "Blinking Exercise",
         duration: 60,
         instructions: ExerciseInstruction(
-            title: "Figure 8",
-            description: "Track a moving dot following a figure-8 pattern on screen.",
-            video: "figure8"
+            title: "Blinking",
+            description: "Blink slowly and fully 10–15 times, then close eyes for 10 seconds.",
+            video: "blinking"
         ),
-        targetedConditions: [.eyeFatigue]
+        targetedConditions: [.dryEyeSyndrome],
+        type: .offScreen
     ),
     
     Exercise(
@@ -104,133 +49,130 @@ let allExercises: [Exercise] = [
         duration: 45,
         instructions: ExerciseInstruction(
             title: "Eye Rolling",
-            description: "Rotate eyes slowly in clockwise and counterclockwise circles.",
-            video: "FocusShifting"
+            description: "Slowly roll eyes clockwise 5 times and counterclockwise 5 times.",
+            video: "eyeRolling"
         ),
-        targetedConditions: [.eyeMuscleTension]
+        targetedConditions: [.eyeMuscleTension, .eyeFatigue],
+        type: .offScreen
     ),
     
     Exercise(
         id: 5,
-        name: "Peripheral Vision",
-        duration: 120,
+        name: "Figure 8",
+        duration: 60,
         instructions: ExerciseInstruction(
-            title: "Peripheral Vision",
-            description: "Cover closed eyes with palms and follow guided breathing.",
-            video: "FocusShifting"
+            title: "Figure 8 Exercise",
+            description: "Imagine a large sideways 8 about 10 feet away and trace it slowly with your eyes for 30 seconds each direction.",
+            video: "figure8"
         ),
-        targetedConditions: [.eyeStress, .eyeFatigue]
+        targetedConditions: [.generalEyeCoordination, .eyeFatigue],
+        type: .offScreen
     ),
     
     Exercise(
         id: 6,
-        name: "Light Adaptation",
-        duration: 90,
-        instructions: ExerciseInstruction(
-            title: "Light Adaptation",
-            description: "Gradually adjust screen brightness to train light tolerance.",
-            video: "figure8"
-        ),
-        targetedConditions: [.lightSensitivity]
-    ),
-    
-    Exercise(
-        id: 7,
-        name: "Color Contrast",
-        duration: 60,
-        instructions: ExerciseInstruction(
-            title: "Color Contrast",
-            description: "View varying color and contrast combinations.",
-            video: "figure8"
-        ),
-        targetedConditions: [.visualStress]
-    ),
-    
-    Exercise(
-        id: 8,
-        name: "Focus Shifting",
-        duration: 60,
-        instructions: ExerciseInstruction(
-            title: "Near Far Focus",
-            description: "Alternate focus between near and far targets.",
-            video: "FocusShifting"
-        ),
-        targetedConditions: [.accommodativeDysfunction]
-    ),
-    
-    Exercise(
-        id: 9,
         name: "Zooming Exercise",
         duration: 60,
         instructions: ExerciseInstruction(
             title: "Zooming",
-            description: "Follow objects that expand and contract in size.",
-            video: "figure8"
+            description: "Hold thumb at arm’s length, focus on it, slowly bring it closer to the nose while maintaining focus. Repeat 10 times.",
+            video: "zooming"
         ),
-        targetedConditions: [.accommodativeDysfunction]
+        targetedConditions: [.accommodativeDysfunction],
+        type: .offScreen
+    ),
+    
+    Exercise(
+        id: 7,
+        name: "Eye Squeeze",
+        duration: 45,
+        instructions: ExerciseInstruction(
+            title: "Eye Squeeze",
+            description: "Close eyes tightly for 3–5 seconds then relax. Repeat 5–7 times.",
+            video: "eyeSqueeze"
+        ),
+        targetedConditions: [.dryEyeSyndrome, .eyeFatigue],
+        type: .offScreen
+    ),
+    
+    Exercise(
+        id: 8,
+        name: "Distance Gazing",
+        duration: 120,
+        instructions: ExerciseInstruction(
+            title: "Distance Gazing",
+            description: "Look at a distant object (trees or skyline) for 1–2 minutes without focusing on details.",
+            video: "distanceGazing"
+        ),
+        targetedConditions: [.digitalEyeStrain, .eyeFatigue],
+        type: .offScreen
+    ),
+    
+    Exercise(
+        id: 9,
+        name: "Warm Compress",
+        duration: 180,
+        instructions: ExerciseInstruction(
+            title: "Warm Compress",
+            description: "Place a warm cloth over closed eyes for 3–5 minutes.",
+            video: "warmCompress"
+        ),
+        targetedConditions: [.dryEyeSyndrome],
+        type: .offScreen
     ),
     
     Exercise(
         id: 10,
-        name: "Saccadic Movement",
-        duration: 45,
+        name: "Saccadic Target Chase",
+        duration: 60,
         instructions: ExerciseInstruction(
-            title: "Saccadic Movements",
-            description: "Shift gaze rapidly between targets on screen.",
-            video: "smoothPursuit"
+            title: "Saccadic Target Chase",
+            description: "Watch for shapes that appear randomly on the screen and quickly shift your gaze to each one, holding focus briefly.",
+            video: "saccadicChase"
         ),
-        targetedConditions: [.saccadicDysfunction]
+        targetedConditions: [.eyeFatigue, .accommodativeDysfunction],
+        type: .onScreen
     ),
-    
+
     Exercise(
         id: 11,
-        name: "Convergence Drill",
-        duration: 60,
-        instructions: ExerciseInstruction(
-            title: "Convergence",
-            description: "Follow a virtual object moving toward and away.",
-            video: "smoothPursuit"
-        ),
-        targetedConditions: [.convergenceInsufficiency]
-    ),
-    
-    Exercise(
-        id: 12,
-        name: "Brock String",
-        duration: 90,
-        instructions: ExerciseInstruction(
-            title: "Brock String",
-            description: "Focus sequentially on virtual beads at varying depths.",
-            video: "smoothPursuit"
-        ),
-        targetedConditions: [.convergenceInsufficiency]
-    ),
-    
-    Exercise(
-        id: 13,
-        name: "Smooth Pursuit",
-        duration: 60,
-        instructions: ExerciseInstruction(
-            title: "Smooth Pursuit",
-            description: "Follow slowly moving objects across the screen.",
-            video: "smoothPursuit"
-        ),
-        targetedConditions: [.smoothPursuitDysfunction]
-    ),
-    
-    Exercise(
-        id: 14,
-        name: "Eye Movement",
+        name: "Smooth Pursuit Tracking",
         duration: 120,
         instructions: ExerciseInstruction(
-            title: "Eye Games",
-            description: "Play gamified tasks requiring specific eye movements.",
+            title: "Smooth Pursuit Tracking",
+            description: "Follow a moving dot or ball on the screen with your eyes in all directions for 30 seconds each direction.",
             video: "smoothPursuit"
         ),
-        targetedConditions: [.generalEyeCoordination, .eyeFatigue]
+        targetedConditions: [.eyeMuscleTension, .smoothPursuitDysfunction],
+        type: .onScreen
+    ),
+
+    Exercise(
+        id: 12,
+        name: "Hidden Object Search",
+        duration: 90,
+        instructions: ExerciseInstruction(
+            title: "Hidden Object Search",
+            description: "Identify and tap the designated letter or object hidden among other shapes on the screen.",
+            video: "hiddenObject"
+        ),
+        targetedConditions: [.digitalEyeStrain, .eyeFatigue],
+        type: .onScreen
+    ),
+
+    Exercise(
+        id: 13,
+        name: "Color Adaptation",
+        duration: 60,
+        instructions: ExerciseInstruction(
+            title: "Color Adaptation",
+            description: "Identify and tap the odd color among similar colored objects displayed on the screen.",
+            video: "colorAdaptation"
+        ),
+        targetedConditions: [.visualStress, .digitalEyeStrain],
+        type: .onScreen
     )
 ]
-
 
 struct ExerciseCardInfo {
     let icon: String
@@ -312,7 +254,6 @@ let ExerciseInfo: [Int: ExerciseCardInfo] = [
         storyboardID: "FocusShiftingViewController"
     ),
     
-    // 🔁 second occurrence → replaced
     9: ExerciseCardInfo(
         icon: "Zoom",
         bgColor: UIColor(hex: "FFFFFF"),
@@ -321,7 +262,6 @@ let ExerciseInfo: [Int: ExerciseCardInfo] = [
         storyboardID: defaultStoryboardID
     ),
     
-    // 🔁 second occurrence → replaced
     10: ExerciseCardInfo(
         icon: "Saccadic Movement",
         bgColor: UIColor(hex: "FFFFFF"),
@@ -330,7 +270,6 @@ let ExerciseInfo: [Int: ExerciseCardInfo] = [
         storyboardID: defaultStoryboardID
     ),
     
-    // 🔁 second occurrence → replaced
     11: ExerciseCardInfo(
         icon: "Convergence",
         bgColor: UIColor(hex: "FFFFFF"),

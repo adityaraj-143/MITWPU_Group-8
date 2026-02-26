@@ -21,6 +21,7 @@ enum Conditions {
     case smoothPursuitDysfunction
     case generalEyeCoordination
     case dryEyes
+    case eyeStrain
 
     /// Human-readable text for UI
     var displayText: String {
@@ -38,6 +39,7 @@ enum Conditions {
         case .smoothPursuitDysfunction: return "Smooth Pursuit Dysfunction"
         case .generalEyeCoordination: return "General Eye Coordination"
         case .dryEyes: return "Dry eyes"
+        case .eyeStrain: return "Eye Strain"
         }
     }
 }
