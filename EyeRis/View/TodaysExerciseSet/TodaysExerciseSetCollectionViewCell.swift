@@ -71,7 +71,7 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
             checkmark.tintColor = .lightGreen
         } else {
             checkmark.setImage(UIImage(systemName: "checkmark.circle"), for: .normal)
-            checkmark.layer.opacity = 0¸
+            checkmark.layer.opacity = 0
         }
     }
 
