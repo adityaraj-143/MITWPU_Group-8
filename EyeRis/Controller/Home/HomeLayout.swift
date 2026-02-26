@@ -80,10 +80,10 @@ extension ViewController {
                 section.boundarySupplementaryItems = [sectionHeaderItem]
                 return section
                 
-            case 6: // Last Exercise
-                return Self.makeFullWidthSection(height: 165, top: 0, bottom: 15)
+//            case 6: // Last Exercise
+//                return Self.makeFullWidthSection(height: 165, top: 0, bottom: 15)
                 
-            case 7: // Last Test
+            case 6: // Last Test
                 return Self.makeFullWidthSection(height: 216, top: 0, bottom: 40)
                 
             default:
