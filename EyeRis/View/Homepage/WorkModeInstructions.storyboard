@@ -29,7 +29,7 @@
         <!--Work Mode Description-->
         <scene sceneID="FNn-v1-4pj">
             <objects>
-                <viewController id="xdF-hT-EzA" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WorkModeInstructionsViewController" id="xdF-hT-EzA" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6x5-5s-fAH">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="793"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

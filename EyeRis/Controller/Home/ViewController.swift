@@ -45,10 +45,11 @@ class ViewController: UIViewController {
     private func registerCells() {
         CollectionView.register(UINib(nibName: "GreetingCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "greet_cell")
         CollectionView.register(UINib(nibName: "TodayExerciseCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "todayExercise_cell")
+        CollectionView.register(UINib(nibName: "WorkModeCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "workMode_cell")
         CollectionView.register(UINib(nibName: "RecommendedExercisesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "exercises_cell")
         CollectionView.register(UINib(nibName: "TestsCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "tests_cell")
         CollectionView.register(UINib(nibName: "BlinkRateCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "blinkRate_cell")
-        CollectionView.register(UINib(nibName: "LastExerciseCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "lastExercise_cell")
+//        CollectionView.register(UINib(nibName: "LastExerciseCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "lastExercise_cell")
         CollectionView.register(UINib(nibName: "LastTestCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "lastTest_cell")
         CollectionView.register(
             UINib(nibName: "SectionHeaderCollectionReusableView", bundle: nil),
@@ -65,12 +66,25 @@ class ViewController: UIViewController {
 extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if indexPath.section == 1 {
-            navigate(to: "TodaysExerciseSet", with: "TodaysExerciseSetViewController")
-            return
+//        if indexPath.section == 1 {
+//            navigate(to: "TodaysExerciseSet", with: "TodaysExerciseSetViewController")
+//            return
+//        }
+        
+        if(indexPath.section == 2){
+            let storyboard = UIStoryboard(name: "WorkModeInstructions", bundle: nil)
+            
+            let profileVC = storyboard.instantiateViewController(
+                withIdentifier: "WorkModeInstructionsViewController"
+            )
+
+            let navController = UINavigationController(rootViewController: profileVC)
+            navController.modalPresentationStyle = .pageSheet
+
+            present(navController, animated: true)
         }
         
-        if indexPath.section == 2 {
+        if indexPath.section == 3 {
             let exercise = recommendedExercises[indexPath.row]
             
             let storyboard = UIStoryboard(
@@ -94,7 +108,7 @@ extension ViewController: UICollectionViewDelegate {
             return
         }
         
-        if indexPath.section == 3 {
+        if indexPath.section == 4 {
             if indexPath.item == 0 {
                 // Acuity Test
                 navigate(to: "TestInstructions", with: "TestInstructionsViewController", source: .NVALeft)
@@ -115,9 +129,12 @@ extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
         switch section {
-        case 2: // Recommended Exercises
+        case 2: // Work Mode
+            return 1
+
+        case 3: // Recommended Exercises
             return recommendedExercises.count      // 5 cells
-        case 3: // Tests
+        case 4: // Tests
             return 2                      // Always 2 cells
         default:
             return 1
@@ -153,7 +170,15 @@ extension ViewController: UICollectionViewDataSource {
             }
             return cell
             
-        case 2: // Recommended Exercises (Horizontal)
+        case 2:
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "workMode_cell",
+                for: indexPath
+            ) as! WorkModeCollectionViewCell
+            return cell
+
+            
+        case 3: // Recommended Exercises (Horizontal)
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "exercises_cell",
                 for: indexPath
@@ -168,7 +193,7 @@ extension ViewController: UICollectionViewDataSource {
             )
             return cell
             
-        case 3: // Tests (Horizontal)
+        case 4: // Tests (Horizontal)
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "tests_cell",
                 for: indexPath
@@ -192,7 +217,7 @@ extension ViewController: UICollectionViewDataSource {
             
             return cell
             
-        case 4: // Blink Rate
+        case 5: // Blink Rate
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "blinkRate_cell",
                 for: indexPath
@@ -211,21 +236,21 @@ extension ViewController: UICollectionViewDataSource {
             }
             return cell
             
-        case 5: // Last Exercise
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "lastExercise_cell",
-                for: indexPath
-            ) as! LastExerciseCollectionViewCell
-            
-            cell.onTapNavigation = { [weak self] in
-                self?.navigate(to: "ExerciseHistory", with: "ExerciseHistoryViewController")
-            }
-            
-            cell.configure(
-                acc: lastExercise.accuracy,
-                speed: lastExercise.speed
-            )
-            return cell
+//        case 6: // Last Exercise
+//            let cell = collectionView.dequeueReusableCell(
+//                withReuseIdentifier: "lastExercise_cell",
+//                for: indexPath
+//            ) as! LastExerciseCollectionViewCell
+//            
+//            cell.onTapNavigation = { [weak self] in
+//                self?.navigate(to: "ExerciseHistory", with: "ExerciseHistoryViewController")
+//            }
+//            
+//            cell.configure(
+//                acc: lastExercise.accuracy,
+//                speed: lastExercise.speed
+//            )
+//            return cell
             
         case 6: // Last Test
             let cell = collectionView.dequeueReusableCell(
@@ -261,7 +286,7 @@ extension ViewController: UICollectionViewDataSource {
         ) as! SectionHeaderCollectionReusableView
         
         switch indexPath.section {
-        case 2:
+        case 3:
             // Recommended Exercises → show NavigateLabel
             header.congfigure(
                 headerText: "Exercises for you",
@@ -272,7 +297,7 @@ extension ViewController: UICollectionViewDataSource {
                 self?.navigate(to: "ExerciseList", with: "ExerciseListViewController")
             }
             
-        case 3:
+        case 4:
             // Tests → hide NavigateLabel
             header.congfigure(
                 headerText: "Tests",
@@ -281,7 +306,7 @@ extension ViewController: UICollectionViewDataSource {
             
             header.onTapNavigation = nil
             
-        case 4:
+        case 5:
             header.congfigure(
                 headerText: "Summary",
                 hideNav: true
