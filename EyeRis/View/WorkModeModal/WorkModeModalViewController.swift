@@ -6,10 +6,11 @@ class WorkModeModalViewController: UIViewController,
 
     @IBOutlet weak var picker: UIPickerView!
     @IBOutlet weak var timerLabel: UILabel!
-
+    
+    private let minuteOptions = Array(stride(from: 20, through: 50, by: 5))
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         picker.delegate = self
         picker.dataSource = self
 
@@ -62,18 +63,21 @@ class WorkModeModalViewController: UIViewController,
     func numberOfComponents(in pickerView: UIPickerView) -> Int { 1 }
 
     func pickerView(_ pickerView: UIPickerView,
-                    numberOfRowsInComponent component: Int) -> Int { 90 }
+                    numberOfRowsInComponent component: Int) -> Int {
+        return minuteOptions.count
+    }
 
     func pickerView(_ pickerView: UIPickerView,
                     titleForRow row: Int,
                     forComponent component: Int) -> String? {
-        "\(row) min"
+        return "\(minuteOptions[row]) min"
     }
 
     func pickerView(_ pickerView: UIPickerView,
                     didSelectRow row: Int,
                     inComponent component: Int) {
-        UserDefaults.standard.set(row, forKey: "workModeMinutes")
+        let selectedMinutes = minuteOptions[row]
+        UserDefaults.standard.set(selectedMinutes, forKey: "workModeMinutes")
     }
     
     
