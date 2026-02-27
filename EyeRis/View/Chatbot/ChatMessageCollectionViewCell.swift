@@ -46,8 +46,8 @@ class ChatMessageCollectionViewCell: UICollectionViewCell {
         messageLabel.text = text
 
         if isIncoming {
-            bubbleView.backgroundColor = .systemGray5
-            messageLabel.textColor = .black
+            bubbleView.backgroundColor = .tertiarySystemBackground
+            messageLabel.textColor = .label
 
             // LEFT aligned
             leadingConstraint.constant = 16
