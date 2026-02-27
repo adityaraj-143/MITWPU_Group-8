@@ -188,7 +188,6 @@ extension ViewController: UICollectionViewDataSource {
                 title: data.name,
                 subtitle: "204 people did this today",
                 icon: data.getIcon(),
-                bgColor: data.getBGColor(),
                 iconBG: data.getIconBGColor()
             )
             return cell
