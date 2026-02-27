@@ -180,7 +180,7 @@ struct ExerciseInfoType {
     let iconBGColor: UIColor
     let storyboardName: String
     let storyboardID: String
-    let exerciseData: [ExerciseStageData]
+    let exerciseData: [ExerciseStage]
 }
 
 let defaultStoryboardName = "Figure8"
@@ -188,118 +188,148 @@ let defaultStoryboardID = "Figure8ViewController"
 //let defaultVCType = Figure8ViewController
 
 let ExerciseInfo: [Int: ExerciseInfoType] = [
-    
+
     1: ExerciseInfoType(
-        icon: "20",
+        icon: "placeholder", // TODO: add Palming icon
         bgColor: UIColor(hex: "FFFFFF"),
-        iconBGColor: UIColor(hex: "5BC8A8"), // kept
+        iconBGColor: UIColor(hex: "5BC8A8"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
+        exerciseData: [
+            ExerciseStage(instruction: "Rub hands together to warm them.", duration: 15),
+            ExerciseStage(instruction: "Close eyes and gently cup palms over them without pressure.", duration: 90),
+            ExerciseStage(instruction: "Relax and breathe slowly.", duration: 15)
+        ]
     ),
-    
+
     2: ExerciseInfoType(
+        icon: "Focus Shifting",
+        bgColor: UIColor(hex: "FFFFFF"),
+        iconBGColor: UIColor(hex: "6FAEFF"),
+        storyboardName: defaultStoryboardName,
+        storyboardID: defaultStoryboardID,
+        exerciseData: [
+            ExerciseStage(instruction: "Focus on finger 10–12 inches away.", duration: 5),
+            ExerciseStage(instruction: "Shift focus to distant object.", duration: 5)
+        ]
+    ),
+
+    3: ExerciseInfoType(
         icon: "Guided Blinking",
         bgColor: UIColor(hex: "FFFFFF"),
-        iconBGColor: UIColor(hex: "6FAEFF"), // kept
+        iconBGColor: UIColor(hex: "A68BEB"),
         storyboardName: defaultStoryboardName,
-        storyboardID: defaultStoryboardID
+        storyboardID: defaultStoryboardID,
+        exerciseData: [
+            ExerciseStage(instruction: "Blink slowly and fully 15 times.", duration: 20),
+            ExerciseStage(instruction: "Close eyes and relax.", duration: 10)
+        ]
     ),
-    
-    3: ExerciseInfoType(
-        icon: "Infinity",
-        bgColor: UIColor(hex: "FFFFFF"),
-        iconBGColor: UIColor(hex: "A68BEB"), // kept
-        storyboardName: defaultStoryboardName,
-        storyboardID: defaultStoryboardID
-    ),
-    
+
     4: ExerciseInfoType(
         icon: "Roll",
         bgColor: UIColor(hex: "FFFFFF"),
-        iconBGColor: UIColor(hex: "F5B942"), // kept
+        iconBGColor: UIColor(hex: "F5B942"),
         storyboardName: defaultStoryboardName,
-        storyboardID: defaultStoryboardID
+        storyboardID: defaultStoryboardID,
+        exerciseData: [
+            ExerciseStage(instruction: "Roll eyes clockwise 5 times.", duration: 15),
+            ExerciseStage(instruction: "Roll eyes counterclockwise 5 times.", duration: 15)
+        ]
     ),
-    
+
     5: ExerciseInfoType(
-        icon: "Peripheral Focus",
+        icon: "Infinity",
         bgColor: UIColor(hex: "FFFFFF"),
-        iconBGColor: UIColor(hex: "E66A7A"), // kept
+        iconBGColor: UIColor(hex: "E66A7A"),
         storyboardName: defaultStoryboardName,
-        storyboardID: defaultStoryboardID
+        storyboardID: defaultStoryboardID,
+        exerciseData: [
+            ExerciseStage(instruction: "Trace sideways 8 clockwise.", duration: 30),
+            ExerciseStage(instruction: "Trace sideways 8 counterclockwise.", duration: 30)
+        ]
     ),
-    
+
     6: ExerciseInfoType(
-        icon: "Light Adaption",
-        bgColor: UIColor(hex: "FFFFFF"),
-        iconBGColor: UIColor(hex: "FF9C66"), // kept
-        storyboardName: defaultStoryboardName,
-        storyboardID: defaultStoryboardID
-    ),
-    
-    7: ExerciseInfoType(
-        icon: "Color Contrast",
-        bgColor: UIColor(hex: "FFFFFF"),
-        iconBGColor: UIColor(hex: "4DB6C6"), // unique already
-        storyboardName: defaultStoryboardName,
-        storyboardID: defaultStoryboardID
-    ),
-    
-    8: ExerciseInfoType(
-        icon: "Focus Shifting",
-        bgColor: UIColor(hex: "FFFFFF"),
-        iconBGColor: UIColor(hex: "6B7CFF"), // unique already
-        storyboardName: "FocusShifting",
-        storyboardID: "FocusShiftingViewController"
-    ),
-    
-    9: ExerciseInfoType(
         icon: "Zoom",
         bgColor: UIColor(hex: "FFFFFF"),
-        iconBGColor: UIColor(hex: "7FD16A"), // NEW
+        iconBGColor: UIColor(hex: "FF9C66"),
         storyboardName: defaultStoryboardName,
-        storyboardID: defaultStoryboardID
+        storyboardID: defaultStoryboardID,
+        exerciseData: [
+            ExerciseStage(instruction: "Focus on thumb at arm’s length.", duration: 5),
+            ExerciseStage(instruction: "Slowly bring thumb closer while maintaining focus.", duration: 10),
+            ExerciseStage(instruction: "Move thumb back to arm’s length.", duration: 5)
+        ]
     ),
-    
+
+    7: ExerciseInfoType(
+        icon: "placeholder", // TODO: add Eye Squeeze icon
+        bgColor: UIColor(hex: "FFFFFF"),
+        iconBGColor: UIColor(hex: "4DB6C6"),
+        storyboardName: defaultStoryboardName,
+        storyboardID: defaultStoryboardID,
+        exerciseData: [
+            ExerciseStage(instruction: "Close eyes tightly.", duration: 5),
+            ExerciseStage(instruction: "Relax eyes.", duration: 5)
+        ]
+    ),
+
+    8: ExerciseInfoType(
+        icon: "Peripheral Focus",
+        bgColor: UIColor(hex: "FFFFFF"),
+        iconBGColor: UIColor(hex: "6B7CFF"),
+        storyboardName: defaultStoryboardName,
+        storyboardID: defaultStoryboardID,
+        exerciseData: [
+            ExerciseStage(instruction: "Look at a distant object without focusing on details.", duration: 120)
+        ]
+    ),
+
+    9: ExerciseInfoType(
+        icon: "placeholder", // TODO: add Warm Compress icon
+        bgColor: UIColor(hex: "FFFFFF"),
+        iconBGColor: UIColor(hex: "7FD16A"),
+        storyboardName: defaultStoryboardName,
+        storyboardID: defaultStoryboardID,
+        exerciseData: [
+            ExerciseStage(instruction: "Place warm cloth over closed eyes and relax.", duration: 180)
+        ]
+    ),
+
     10: ExerciseInfoType(
         icon: "Saccadic Movement",
         bgColor: UIColor(hex: "FFFFFF"),
-        iconBGColor: UIColor(hex: "FF7DB0"), // NEW
+        iconBGColor: UIColor(hex: "FF7DB0"),
         storyboardName: defaultStoryboardName,
-        storyboardID: defaultStoryboardID
+        storyboardID: defaultStoryboardID,
+        exerciseData: []
     ),
-    
+
     11: ExerciseInfoType(
-        icon: "Convergence",
+        icon: "Smooth Pursuit",
         bgColor: UIColor(hex: "FFFFFF"),
-        iconBGColor: UIColor(hex: "9BC53D"), // Olive Green
+        iconBGColor: UIColor(hex: "9BC53D"),
         storyboardName: defaultStoryboardName,
-        storyboardID: defaultStoryboardID
+        storyboardID: defaultStoryboardID,
+        exerciseData: []
     ),
 
     12: ExerciseInfoType(
         icon: "Brock",
         bgColor: UIColor(hex: "FFFFFF"),
-        iconBGColor: UIColor(hex: "D1495B"), // Brick Red
+        iconBGColor: UIColor(hex: "D1495B"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
+        exerciseData: []
     ),
 
     13: ExerciseInfoType(
-        icon: "Smooth Pursuit",
+        icon: "Color Contrast",
         bgColor: UIColor(hex: "FFFFFF"),
-        iconBGColor: UIColor(hex: "2E4057"), // Slate Blue-Grey
-        storyboardName: "SmoothPursuit",
-        storyboardID: "SmoothPursuitViewController"
-    ),
-
-    14: ExerciseInfoType(
-        icon: "Eye Movement",
-        bgColor: UIColor(hex: "FFFFFF"),
-        iconBGColor: UIColor(hex: "F4D35E"), // Soft Gold
+        iconBGColor: UIColor(hex: "2E4057"),
         storyboardName: defaultStoryboardName,
-        storyboardID: defaultStoryboardID
+        storyboardID: defaultStoryboardID,
+        exerciseData: []
     )
-
 ]
-

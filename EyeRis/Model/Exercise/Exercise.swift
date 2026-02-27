@@ -28,9 +28,9 @@ struct Exercise: Equatable {
     }
 }
 
-struct ExerciseStageData {
-    let instructions: String
-    let timings: Int
+struct ExerciseStage {
+    let instruction: String
+    let duration: Int
 }
 
 extension Exercise {
@@ -60,8 +60,8 @@ extension Exercise {
 //        ExerciseInfo[id]?.vcType ?? defaultVCType
 //    }
     
-    func get () -> [ExerciseStageData]{
-        return []
+    func get () -> [ExerciseStage]{
+        ExerciseInfo[id]?.exerciseData ?? []
     }
 }
 
