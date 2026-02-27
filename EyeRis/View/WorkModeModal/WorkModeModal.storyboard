@@ -29,31 +29,31 @@
         <!--Work Mode Description-->
         <scene sceneID="FNn-v1-4pj">
             <objects>
-                <viewController storyboardIdentifier="WorkModeInstructionsViewController" id="xdF-hT-EzA" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WorkModeModalViewController" id="xdF-hT-EzA" customClass="WorkModeModalViewController" customModule="EyeRis" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6x5-5s-fAH">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="793"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What is Work Mode?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xL6-8y-54x">
-                                <rect key="frame" x="16" y="86" width="361" height="24"/>
+                                <rect key="frame" x="16" y="323" width="361" height="24"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How does this help?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f6G-7D-mmZ">
-                                <rect key="frame" x="16" y="225" width="184" height="24"/>
+                                <rect key="frame" x="16" y="462" width="184" height="24"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How does this help?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NEn-dJ-Cl1">
-                                <rect key="frame" x="16" y="342" width="184" height="24"/>
+                                <rect key="frame" x="16" y="579" width="184" height="24"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vFH-BS-5v3">
-                                <rect key="frame" x="16" y="118" width="361" height="83"/>
+                                <rect key="frame" x="16" y="355" width="361" height="83"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="83" id="q4B-Ez-LmJ"/>
                                 </constraints>
@@ -63,17 +63,37 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="These short breaks reduce eye strain and dryness by relaxing your eye muscles and restoring natural blinking." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PNc-Rz-I64">
-                                <rect key="frame" x="16" y="257" width="361" height="61"/>
+                                <rect key="frame" x="16" y="494" width="361" height="61"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use it whenever you’re working on a screen for long periods, especially when taking breaks isn’t easy." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EVA-4n-7Qh">
-                                <rect key="frame" x="16" y="374" width="361" height="61"/>
+                                <rect key="frame" x="16" y="611" width="361" height="61"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VqY-04-vyx">
+                                <rect key="frame" x="16" y="143" width="361" height="106"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </pickerView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Set Timer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yxB-JQ-psa">
+                                <rect key="frame" x="159" y="85" width="74" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="INS-k4-g5R">
+                                <rect key="frame" x="269" y="78" width="75" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Button"/>
+                                <connections>
+                                    <action selector="startTimerPressed:" destination="xdF-hT-EzA" eventType="touchUpInside" id="845-oF-IIX"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="yii-s4-bm9"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -93,12 +113,16 @@
                             <constraint firstItem="NEn-dJ-Cl1" firstAttribute="top" secondItem="PNc-Rz-I64" secondAttribute="bottom" constant="24" id="jp0-el-VIz"/>
                             <constraint firstItem="vFH-BS-5v3" firstAttribute="leading" secondItem="yii-s4-bm9" secondAttribute="leading" constant="16" id="ljl-x5-VEN"/>
                             <constraint firstItem="vFH-BS-5v3" firstAttribute="top" secondItem="xL6-8y-54x" secondAttribute="bottom" constant="8" symbolic="YES" id="sye-AY-rn0"/>
-                            <constraint firstItem="xL6-8y-54x" firstAttribute="top" secondItem="yii-s4-bm9" secondAttribute="top" constant="16" id="tAu-tr-iun"/>
+                            <constraint firstItem="xL6-8y-54x" firstAttribute="top" secondItem="yii-s4-bm9" secondAttribute="top" constant="253" id="tAu-tr-iun"/>
                             <constraint firstItem="EVA-4n-7Qh" firstAttribute="top" secondItem="NEn-dJ-Cl1" secondAttribute="bottom" constant="8" symbolic="YES" id="w0Q-UW-vY8"/>
                             <constraint firstItem="yii-s4-bm9" firstAttribute="trailing" secondItem="EVA-4n-7Qh" secondAttribute="trailing" constant="16" id="zmd-jm-0fx"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Work Mode Description" id="b1J-6Z-GLn"/>
+                    <connections>
+                        <outlet property="picker" destination="VqY-04-vyx" id="0Lj-N3-NgW"/>
+                        <outlet property="timerLabel" destination="yxB-JQ-psa" id="dsb-Xd-0nj"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nkq-cR-jLj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
