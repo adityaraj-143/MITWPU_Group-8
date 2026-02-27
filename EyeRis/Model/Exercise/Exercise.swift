@@ -56,12 +56,12 @@ extension Exercise {
         ExerciseInfo[id]?.storyboardID ?? "ExerciseListViewController"
     }
     
-//    func getVC() -> UIViewController.Type {
-//        ExerciseInfo[id]?.vcType ?? defaultVCType
-//    }
-    
-    func get () -> [ExerciseStage]{
+    func getPerformanceInstruction () -> [ExerciseStage]{
         ExerciseInfo[id]?.exerciseData ?? []
+    }
+    
+    func getImpact () -> String {
+        ExerciseInfo[id]?.impact ?? "Impacts unknown"
     }
 }
 

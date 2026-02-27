@@ -15,13 +15,11 @@ class SectionHeaderCollectionReusableView: UICollectionReusableView {
         super.awakeFromNib()
 
         let font = UIFont.systemFont(ofSize: 14)
-        let color = UIColor.black
 
         let currentTitle = NavigateButton.attributedTitle(for: .normal)?.string ?? "See all "
 
         let attrs: [NSAttributedString.Key: Any] = [
             .font: font,
-            .foregroundColor: color
         ]
 
         let attributedTitle = NSAttributedString(string: currentTitle, attributes: attrs)

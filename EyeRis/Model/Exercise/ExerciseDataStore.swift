@@ -181,16 +181,16 @@ struct ExerciseInfoType {
     let storyboardName: String
     let storyboardID: String
     let exerciseData: [ExerciseStage]
+    let impact: String
 }
 
 let defaultStoryboardName = "Figure8"
 let defaultStoryboardID = "Figure8ViewController"
-//let defaultVCType = Figure8ViewController
 
 let ExerciseInfo: [Int: ExerciseInfoType] = [
 
     1: ExerciseInfoType(
-        icon: "placeholder", // TODO: add Palming icon
+        icon: "Brock", // TODO: add Palming icon
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "5BC8A8"),
         storyboardName: defaultStoryboardName,
@@ -199,7 +199,8 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
             ExerciseStage(instruction: "Rub hands together to warm them.", duration: 15),
             ExerciseStage(instruction: "Close eyes and gently cup palms over them without pressure.", duration: 90),
             ExerciseStage(instruction: "Relax and breathe slowly.", duration: 15)
-        ]
+        ],
+        impact: "Relaxes eye muscles and reduces fatigue"
     ),
 
     2: ExerciseInfoType(
@@ -211,7 +212,8 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         exerciseData: [
             ExerciseStage(instruction: "Focus on finger 10–12 inches away.", duration: 5),
             ExerciseStage(instruction: "Shift focus to distant object.", duration: 5)
-        ]
+        ],
+        impact: "Improves focusing flexibility and reduces stiffness"
     ),
 
     3: ExerciseInfoType(
@@ -223,7 +225,8 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         exerciseData: [
             ExerciseStage(instruction: "Blink slowly and fully 15 times.", duration: 20),
             ExerciseStage(instruction: "Close eyes and relax.", duration: 10)
-        ]
+        ],
+        impact: "Improves tear distribution and prevents dryness"
     ),
 
     4: ExerciseInfoType(
@@ -235,7 +238,8 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         exerciseData: [
             ExerciseStage(instruction: "Roll eyes clockwise 5 times.", duration: 15),
             ExerciseStage(instruction: "Roll eyes counterclockwise 5 times.", duration: 15)
-        ]
+        ],
+        impact: "Relaxes extraocular muscles and improves mobility"
     ),
 
     5: ExerciseInfoType(
@@ -247,7 +251,8 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         exerciseData: [
             ExerciseStage(instruction: "Trace sideways 8 clockwise.", duration: 30),
             ExerciseStage(instruction: "Trace sideways 8 counterclockwise.", duration: 30)
-        ]
+        ],
+        impact: "Improves eye coordination and control"
     ),
 
     6: ExerciseInfoType(
@@ -260,11 +265,12 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
             ExerciseStage(instruction: "Focus on thumb at arm’s length.", duration: 5),
             ExerciseStage(instruction: "Slowly bring thumb closer while maintaining focus.", duration: 10),
             ExerciseStage(instruction: "Move thumb back to arm’s length.", duration: 5)
-        ]
+        ],
+        impact: "Strengthens focusing ability"
     ),
 
     7: ExerciseInfoType(
-        icon: "placeholder", // TODO: add Eye Squeeze icon
+        icon: "Brock", // TODO: add Eye Squeeze icon
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "4DB6C6"),
         storyboardName: defaultStoryboardName,
@@ -272,7 +278,8 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         exerciseData: [
             ExerciseStage(instruction: "Close eyes tightly.", duration: 5),
             ExerciseStage(instruction: "Relax eyes.", duration: 5)
-        ]
+        ],
+        impact: "Stimulates tear glands and relaxes muscles"
     ),
 
     8: ExerciseInfoType(
@@ -283,18 +290,20 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         storyboardID: defaultStoryboardID,
         exerciseData: [
             ExerciseStage(instruction: "Look at a distant object without focusing on details.", duration: 120)
-        ]
+        ],
+        impact: "Relaxes focusing muscles"
     ),
 
     9: ExerciseInfoType(
-        icon: "placeholder", // TODO: add Warm Compress icon
+        icon: "Brock", // TODO: add Warm Compress icon
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "7FD16A"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
         exerciseData: [
             ExerciseStage(instruction: "Place warm cloth over closed eyes and relax.", duration: 180)
-        ]
+        ],
+        impact: "Improves oil gland function and tear stability"
     ),
 
     10: ExerciseInfoType(
@@ -303,7 +312,8 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         iconBGColor: UIColor(hex: "FF7DB0"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
-        exerciseData: []
+        exerciseData: [],
+        impact: "Improves saccadic speed and eye movement accuracy, enhances visual scanning"
     ),
 
     11: ExerciseInfoType(
@@ -312,7 +322,8 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         iconBGColor: UIColor(hex: "9BC53D"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
-        exerciseData: []
+        exerciseData: [],
+        impact: "Strengthens continuous eye tracking and coordination"
     ),
 
     12: ExerciseInfoType(
@@ -321,7 +332,8 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         iconBGColor: UIColor(hex: "D1495B"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
-        exerciseData: []
+        exerciseData: [],
+        impact: "Exercises visual search and attention, disperses focus to reduce fixation strain"
     ),
 
     13: ExerciseInfoType(
@@ -330,6 +342,7 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         iconBGColor: UIColor(hex: "2E4057"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
-        exerciseData: []
+        exerciseData: [],
+        impact: "Improves color discrimination and visual processing flexibility"
     )
 ]
