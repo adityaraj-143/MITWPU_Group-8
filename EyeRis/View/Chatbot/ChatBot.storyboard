@@ -30,6 +30,7 @@
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Ask EyeRis" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lrr-pw-RSF">
                                         <rect key="frame" x="8" y="10" width="309" height="40"/>
+                                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
@@ -92,9 +93,9 @@
                     </view>
                     <navigationItem key="navigationItem" title="EyeRis" id="ft7-kS-rs3"/>
                     <connections>
-                        <outlet property="TextField" destination="lrr-pw-RSF" id="7f7-YF-nSo"/>
                         <outlet property="collectionView" destination="A89-oY-l2Q" id="A1i-57-Y72"/>
                         <outlet property="inputContainerView" destination="DKD-Lb-qQU" id="eWL-sQ-y0x"/>
+                        <outlet property="textField" destination="lrr-pw-RSF" id="7f7-YF-nSo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -104,7 +105,6 @@
         <!--Navigation Controller-->
         <scene sceneID="PyE-AY-l7Q">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zbp-V9-Zz5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="V9K-bl-7Ps" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="v4Y-J0-bPV">
@@ -116,6 +116,7 @@
                         <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="dpt-54-dBr"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zbp-V9-Zz5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1995.3846153846152" y="90.995260663507111"/>
         </scene>
@@ -124,6 +125,9 @@
         <image name="paperplane.fill" catalog="system" width="128" height="119"/>
         <systemColor name="systemGray6Color">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="tertiarySystemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>
