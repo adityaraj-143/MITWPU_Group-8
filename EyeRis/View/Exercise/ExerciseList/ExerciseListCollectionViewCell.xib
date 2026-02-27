@@ -45,8 +45,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="204 people did this today" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gfg-hk-WuM">
-                                <rect key="frame" x="8" y="86.666666666666671" width="148" height="13.333333333333329"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="abc" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gfg-hk-WuM">
+                                <rect key="frame" x="8" y="88.666666666666671" width="148" height="13.333333333333329"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" systemColor="secondaryLabelColor"/>
                                 <nil key="highlightedColor"/>
@@ -61,7 +61,7 @@
                         <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Gfg-hk-WuM" secondAttribute="trailing" constant="8" id="7Jp-er-wyW"/>
-                            <constraint firstAttribute="bottom" secondItem="Gfg-hk-WuM" secondAttribute="bottom" constant="16" id="7eh-ni-oWU"/>
+                            <constraint firstAttribute="bottom" secondItem="Gfg-hk-WuM" secondAttribute="bottom" constant="14" id="7eh-ni-oWU"/>
                             <constraint firstItem="nmW-ZX-8cV" firstAttribute="top" secondItem="27V-TS-f0v" secondAttribute="bottom" constant="14" id="9Zk-gt-UrV"/>
                             <constraint firstItem="nmW-ZX-8cV" firstAttribute="leading" secondItem="PXd-sl-Fvr" secondAttribute="leading" constant="8" id="BuU-Pv-Ulq"/>
                             <constraint firstItem="27V-TS-f0v" firstAttribute="top" secondItem="PXd-sl-Fvr" secondAttribute="top" constant="7" id="CCk-tY-4rz"/>
@@ -83,8 +83,8 @@
             <connections>
                 <outlet property="IconImage" destination="kdY-vm-s5E" id="lva-kK-7Q6"/>
                 <outlet property="iconBG" destination="27V-TS-f0v" id="JMl-kp-sWh"/>
+                <outlet property="impactLabel" destination="Gfg-hk-WuM" id="7wM-8i-2sH"/>
                 <outlet property="mainView" destination="PXd-sl-Fvr" id="FA5-1f-Njg"/>
-                <outlet property="subtitleLabel" destination="Gfg-hk-WuM" id="7wM-8i-2sH"/>
                 <outlet property="titleLabel" destination="nmW-ZX-8cV" id="IPk-8B-Kfz"/>
             </connections>
             <point key="canvasLocation" x="-490.07633587786256" y="107.74647887323944"/>

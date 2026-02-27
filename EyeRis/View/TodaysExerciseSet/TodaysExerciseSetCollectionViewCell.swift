@@ -22,6 +22,7 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var StyleContainerView: UIView!
     @IBOutlet weak var iconView: UIView!
     @IBOutlet weak var checkmark: UIButton!
+    @IBOutlet weak var exerciseImpact: UILabel!
     
     
     override func awakeFromNib() {
@@ -57,6 +58,7 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
         exerciseImage.image = UIImage(named: item.exercise.getIcon())
         durationLabel.text = "\(item.exercise.duration) sec"
         iconView.backgroundColor = item.exercise.getIconBGColor()
+        exerciseImpact.text = item.exercise.getImpact()
 
         if item.isCompleted {
             checkmark.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .normal)

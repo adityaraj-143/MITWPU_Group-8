@@ -130,6 +130,7 @@
                                             <outlet property="checkmark" destination="wXx-1c-ont" id="dSs-HO-oPo"/>
                                             <outlet property="durationLabel" destination="FHk-91-OD8" id="FJN-5d-tHb"/>
                                             <outlet property="exerciseImage" destination="lSs-AK-q8j" id="ojO-1Z-N9F"/>
+                                            <outlet property="exerciseImpact" destination="5NL-2W-dfD" id="wIq-Lw-uHF"/>
                                             <outlet property="exerciseName" destination="Csm-Kk-1lT" id="4tW-Q8-xZy"/>
                                             <outlet property="iconView" destination="feQ-cV-BnA" id="vpQ-dt-44m"/>
                                         </connections>

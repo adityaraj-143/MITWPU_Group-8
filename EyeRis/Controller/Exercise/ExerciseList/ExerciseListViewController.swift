@@ -110,7 +110,7 @@ extension ExerciseListViewController: UICollectionViewDataSource {
         
         cell.configure(
             title: exercise.name,
-            subtitle: exercise.instructions.description,
+            impact: exercise.getImpact(),
             icon: exercise.getIcon(),
             iconBG: exercise.getIconBGColor()
         )

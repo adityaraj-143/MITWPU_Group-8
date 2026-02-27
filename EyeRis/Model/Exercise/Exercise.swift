@@ -59,6 +59,10 @@ extension Exercise {
     func getPerformanceInstruction () -> [ExerciseStage]{
         ExerciseInfo[id]?.exerciseData ?? []
     }
+    
+    func getImpact () -> String {
+        ExerciseInfo[id]?.impact ?? "Impacts unknown"
+    }
 }
 
 // MARK: - Exercise List

@@ -12,7 +12,7 @@ class ExerciseListCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var iconBG: UIView!
     @IBOutlet weak var IconImage: UIImageView!
-    @IBOutlet weak var subtitleLabel: UILabel!
+    @IBOutlet weak var impactLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
 
     override func awakeFromNib() {
@@ -26,13 +26,12 @@ class ExerciseListCollectionViewCell: UICollectionViewCell {
 
     func configure(
         title: String,
-        subtitle: String,
+        impact: String,
         icon: String,
         iconBG: UIColor
     ) {
         titleLabel.text = title
-        subtitleLabel.text = subtitle
-
+        impactLabel.text = impact
         IconImage.image = UIImage(named: icon)
         self.iconBG.backgroundColor = iconBG
     }
