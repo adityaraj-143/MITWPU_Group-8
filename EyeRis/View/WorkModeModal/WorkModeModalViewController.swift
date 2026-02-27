@@ -11,6 +11,16 @@ class WorkModeModalViewController: UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .close,
+            target: self,
+            action: #selector(dismissModal)
+            
+            
+        )
+        
+       
+        
         picker.delegate = self
         picker.dataSource = self
 
@@ -45,6 +55,11 @@ class WorkModeModalViewController: UIViewController,
             timerLabel.isHidden = true
         }
     }
+    
+    @objc private func dismissModal() {
+        dismiss(animated: true)
+    }
+    
 
     @objc private func handleTick(_ notification: Notification) {
         guard let seconds = notification.object as? Int else { return }

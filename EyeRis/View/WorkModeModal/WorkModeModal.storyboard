@@ -26,7 +26,7 @@
             </objects>
             <point key="canvasLocation" x="1001" y="70"/>
         </scene>
-        <!--Work Mode Description-->
+        <!--Work Mode-->
         <scene sceneID="FNn-v1-4pj">
             <objects>
                 <viewController storyboardIdentifier="WorkModeModalViewController" id="xdF-hT-EzA" customClass="WorkModeModalViewController" customModule="EyeRis" customModuleProvider="target" sceneMemberID="viewController">
@@ -46,8 +46,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How does this help?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NEn-dJ-Cl1">
-                                <rect key="frame" x="16" y="579" width="184" height="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="When does this help?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NEn-dJ-Cl1">
+                                <rect key="frame" x="16" y="579" width="196" height="24"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -113,7 +113,7 @@
                             <constraint firstItem="yii-s4-bm9" firstAttribute="trailing" secondItem="EVA-4n-7Qh" secondAttribute="trailing" constant="16" id="zmd-jm-0fx"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Work Mode Description" id="b1J-6Z-GLn"/>
+                    <navigationItem key="navigationItem" title="Work Mode" id="b1J-6Z-GLn" userLabel="Work Mode"/>
                     <connections>
                         <outlet property="picker" destination="VqY-04-vyx" id="0Lj-N3-NgW"/>
                         <outlet property="timerLabel" destination="yxB-JQ-psa" id="dsb-Xd-0nj"/>
