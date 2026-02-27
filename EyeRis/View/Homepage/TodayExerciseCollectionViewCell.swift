@@ -84,11 +84,11 @@ extension TodayExerciseCollectionViewCell: UICollectionViewDataSource, UICollect
         
         let exercise = exercises[indexPath.item]
         
-        let image = UIImage(named: exercise.getIcon())!
+        let image = UIImage(named: exercise.getIcon())
         let bgColor = exercise.getIconBGColor()
         
         cell.layer.zPosition = CGFloat(indexPath.item)
-        cell.configure(image: image, bgColor: bgColor)
+        cell.configure(image: image!, bgColor: bgColor)
         
         return cell
     }

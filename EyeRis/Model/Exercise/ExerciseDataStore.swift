@@ -185,12 +185,11 @@ struct ExerciseInfoType {
 
 let defaultStoryboardName = "Figure8"
 let defaultStoryboardID = "Figure8ViewController"
-//let defaultVCType = Figure8ViewController
 
 let ExerciseInfo: [Int: ExerciseInfoType] = [
 
     1: ExerciseInfoType(
-        icon: "placeholder", // TODO: add Palming icon
+        icon: "Brock", // TODO: add Palming icon
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "5BC8A8"),
         storyboardName: defaultStoryboardName,
@@ -264,7 +263,7 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
     ),
 
     7: ExerciseInfoType(
-        icon: "placeholder", // TODO: add Eye Squeeze icon
+        icon: "Brock", // TODO: add Eye Squeeze icon
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "4DB6C6"),
         storyboardName: defaultStoryboardName,
@@ -287,7 +286,7 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
     ),
 
     9: ExerciseInfoType(
-        icon: "placeholder", // TODO: add Warm Compress icon
+        icon: "Brock", // TODO: add Warm Compress icon
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "7FD16A"),
         storyboardName: defaultStoryboardName,
