@@ -28,15 +28,13 @@ class ExerciseListCollectionViewCell: UICollectionViewCell {
         title: String,
         subtitle: String,
         icon: String,
-        bgColor: UIColor,
         iconBG: UIColor
     ) {
         titleLabel.text = title
         subtitleLabel.text = subtitle
 
         IconImage.image = UIImage(named: icon)
-
-        mainView.backgroundColor = bgColor
         self.iconBG.backgroundColor = iconBG
     }
 }
+

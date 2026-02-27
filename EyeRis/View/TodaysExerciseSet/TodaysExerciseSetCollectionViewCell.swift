@@ -36,15 +36,11 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
 
         cardView.layer.cornerRadius = 16
         cardView.clipsToBounds = true
-        cardView.backgroundColor = UIColor(white: 0.98, alpha: 1)
-
         iconView.makeRounded()
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-//        exerciseDescription.preferredMaxLayoutWidth = exerciseDescription.frame.width
         
     }
     
@@ -58,12 +54,8 @@ class TodaysExerciseSetCollectionViewCell: UICollectionViewCell {
     func configure(with item: TodaysExercise) {
         exercise = item.exercise
         exerciseName.text = item.exercise.name
-        
-//        exerciseDescription.text = item.exercise.instructions.description
-        
         exerciseImage.image = UIImage(named: item.exercise.getIcon())
         durationLabel.text = "\(item.exercise.duration) sec"
-        cardView.backgroundColor = .white
         iconView.backgroundColor = item.exercise.getIconBGColor()
 
         if item.isCompleted {
