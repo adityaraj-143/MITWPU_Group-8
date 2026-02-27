@@ -18,9 +18,13 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
     }
 
     @IBAction func modeToggleChanged(_ sender: UISwitch) {
+        print("Switch toggled:", sender.isOn)
+
         if sender.isOn {
+            print("Starting timer")
             WorkModeTimerManager.shared.start()
         } else {
+            print("Stopping timer")
             WorkModeTimerManager.shared.stop()
         }
     }

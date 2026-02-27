@@ -75,4 +75,30 @@ class WorkModeModalViewController: UIViewController,
                     inComponent component: Int) {
         UserDefaults.standard.set(row, forKey: "workModeMinutes")
     }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if WorkModeTimerManager.shared.isRunning {
+            picker.isHidden = true
+            timerLabel.isHidden = false
+
+            // Also immediately update label
+            updateImmediately()
+        } else {
+            picker.isHidden = false
+            timerLabel.isHidden = true
+        }
+    }
+    
+    private func updateImmediately() {
+        if let seconds = WorkModeTimerManager.shared.currentRemainingSeconds {
+            let min = seconds / 60
+            let sec = seconds % 60
+            timerLabel.text = String(format: "%02d:%02d", min, sec)
+        }
+    }
+    
+    
 }

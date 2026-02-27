@@ -12,7 +12,10 @@ final class WorkModeTimerManager {
     private var timer: Timer?
     private var endTime: Date?
     private var isBreak = false
-
+    var currentRemainingSeconds: Int? {
+        guard let endTime else { return nil }
+        return Int(ceil(endTime.timeIntervalSinceNow))
+    }
     private init() {}
 
     var isRunning: Bool {
@@ -20,10 +23,11 @@ final class WorkModeTimerManager {
     }
 
     func start() {
-
         let minutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
-        guard minutes > 0 else { return }
+        print("Saved minutes:", minutes)
 
+        guard minutes > 0 else { return }
+        
         isBreak = false
         endTime = Date().addingTimeInterval(TimeInterval(minutes * 60))
 
