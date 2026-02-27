@@ -23,6 +23,9 @@
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="uvr-MC-PjH">
                                 <rect key="frame" x="269" y="28" width="63" height="28"/>
                                 <color key="onTintColor" systemColor="systemGreenColor"/>
+                                <connections>
+                                    <action selector="modeToggleChanged:" destination="gTV-IL-0wX" eventType="valueChanged" id="xgd-gl-SAN"/>
+                                </connections>
                             </switch>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QVy-JT-zpU">
                                 <rect key="frame" x="12" y="23" width="34" height="34"/>
@@ -80,7 +83,7 @@
             <connections>
                 <outlet property="iconView" destination="QVy-JT-zpU" id="Cho-1A-CCE"/>
                 <outlet property="mainView" destination="f1V-Oi-inV" id="Bxg-vS-2Js"/>
-                <outlet property="modeToggle" destination="uvr-MC-PjH" id="bJV-g1-o8p"/>
+                <outlet property="modeToggle" destination="uvr-MC-PjH" id="15i-UN-30H"/>
             </connections>
             <point key="canvasLocation" x="138.93129770992365" y="153.52112676056339"/>
         </collectionViewCell>
@@ -88,10 +91,10 @@
     <resources>
         <image name="laptopcomputer.and.iphone" catalog="system" width="128" height="78"/>
         <systemColor name="secondaryLabelColor">
-            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGreenColor">
-            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tertiarySystemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
