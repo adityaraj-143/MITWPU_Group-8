@@ -72,10 +72,10 @@ extension ViewController: UICollectionViewDelegate {
 //        }
         
         if(indexPath.section == 2){
-            let storyboard = UIStoryboard(name: "WorkModeInstructions", bundle: nil)
+            let storyboard = UIStoryboard(name: "WorkModeModal", bundle: nil)
             
             let profileVC = storyboard.instantiateViewController(
-                withIdentifier: "WorkModeInstructionsViewController"
+                withIdentifier: "WorkModeModalViewController"
             )
 
             let navController = UINavigationController(rootViewController: profileVC)
