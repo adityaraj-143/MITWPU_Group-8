@@ -1,5 +1,7 @@
 //MARK: EXERCISE HISTORY
 // Dummy data for Exercise History
+
+import Foundation
 let mockPerformedExerciseStats: [PerformedExerciseStat] = [
     // Today (2 exercises → 90+ avg)
     PerformedExerciseStat(id: 1, name: "Eye Focus Drill", performedOn: Date(), accuracy: 94, speed: 91),
