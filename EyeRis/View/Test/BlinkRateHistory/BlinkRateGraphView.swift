@@ -26,6 +26,7 @@ final class BlinkRateGraphView: UIView {
     private var labelLayers: [CATextLayer] = []
     private var referenceLineLayer: CAShapeLayer?
     private var connectorLineLayer: CAShapeLayer?
+    private let graphLayer = CALayer()
 
     // MARK: - Tooltip
     private var tooltipView: BlinkTooltipView?
@@ -40,16 +41,23 @@ final class BlinkRateGraphView: UIView {
     private var currentScreenScale: CGFloat {
         window?.windowScene?.screen.scale ?? traitCollection.displayScale
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        graphLayer.frame = bounds
+    }
 
     // MARK: - Initialization
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupGesture()
+        layer.addSublayer(graphLayer)
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupGesture()
+        layer.addSublayer(graphLayer)
     }
 
     // MARK: - Public API
@@ -57,7 +65,7 @@ final class BlinkRateGraphView: UIView {
         isBeingReused = false
         isUserInteractionEnabled = true
 
-        layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        graphLayer.sublayers?.forEach { $0.removeFromSuperlayer() }
         barLayers.removeAll()
         gridLineLayers.removeAll()
         labelLayers.removeAll()
@@ -81,6 +89,7 @@ final class BlinkRateGraphView: UIView {
         let newTooltip = BlinkTooltipView()
         newTooltip.configure()
         addSubview(newTooltip)
+        bringSubviewToFront(newTooltip)
         tooltipView = newTooltip
 
         let values = week.days.map { $0?.bpm ?? 0 }
@@ -133,7 +142,7 @@ final class BlinkRateGraphView: UIView {
             line.lineWidth = 1
             line.contentsScale = currentScreenScale
 
-            layer.addSublayer(line)
+            graphLayer.addSublayer(line)
             gridLineLayers.append(line)
 
             let label = CATextLayer()
@@ -143,7 +152,7 @@ final class BlinkRateGraphView: UIView {
             label.contentsScale = currentScreenScale
             label.frame = CGRect(x: bounds.width - 12, y: y - 8, width: 30, height: 16)
 
-            layer.addSublayer(label)
+            graphLayer.addSublayer(label)
             labelLayers.append(label)
         }
     }
@@ -181,7 +190,7 @@ final class BlinkRateGraphView: UIView {
             layer.add(fade, forKey: nil)
             layer.opacity = 1
 
-            self.layer.addSublayer(layer)
+            graphLayer.addSublayer(layer)
             barLayers.append(layer)
         }
     }
@@ -200,7 +209,7 @@ final class BlinkRateGraphView: UIView {
         line.lineDashPattern = [4, 4]
         line.contentsScale = currentScreenScale
 
-        layer.addSublayer(line)
+        graphLayer.addSublayer(line)
         referenceLineLayer = line
     }
 
@@ -232,7 +241,7 @@ final class BlinkRateGraphView: UIView {
         line.add(drawAnimation, forKey: "drawLine")
         line.strokeEnd = 1
 
-        layer.addSublayer(line)
+        graphLayer.addSublayer(line)
         connectorLineLayer = line
     }
 

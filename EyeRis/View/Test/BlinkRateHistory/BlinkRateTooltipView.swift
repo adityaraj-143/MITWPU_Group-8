@@ -53,11 +53,25 @@ final class BlinkTooltipView: UIView {
         formatter.dateFormat = "EEE, d MMM"
         dateLabel.text = formatter.string(from: result.performedOn)
 
+        let tooltipWidth: CGFloat = 140
+        let tooltipHeight: CGFloat = 56
+
+        let topPadding: CGFloat = 12   // minimal distance from top
+        let idealY = barFrame.minY - offset
+
+        // If idealY is too high, place tooltip just above the bar with small spacing
+        let finalY: CGFloat
+        if idealY < topPadding {
+            finalY = barFrame.minY - tooltipHeight - 12
+        } else {
+            finalY = idealY
+        }
+
         frame = CGRect(
-            x: barFrame.midX - 70,
-            y: barFrame.minY - offset,
-            width: 140,
-            height: 56
+            x: barFrame.midX - tooltipWidth / 2,
+            y: finalY,
+            width: tooltipWidth,
+            height: tooltipHeight
         )
 
         UIView.animate(
