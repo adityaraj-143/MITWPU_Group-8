@@ -88,22 +88,26 @@ extension ViewController: UICollectionViewDelegate {
             let exercise = recommendedExercises[indexPath.row]
             
             let storyboard = UIStoryboard(
-                name: "ExerciseInstruction",
+                name: exercise.type == .onScreen ? "ExerciseInstruction" : "OffScreenExerciseInstruction",
                 bundle: nil
             )
             
-            let identifier = "ExerciseInstructionViewController"
+            let identifier = exercise.type == .onScreen ? "ExerciseInstructionViewController" : "OffScreenExerciseInstructionViewController"
             let vc = storyboard.instantiateViewController(withIdentifier: identifier)
             
-            guard let instructionVC = vc as? (ExerciseInstructionViewController & ExerciseFlowHandling) else {
-                assertionFailure("Instruction VC does not conform to ExerciseFlowHandling")
+            guard let flowVC = vc as? ExerciseFlowHandling else {
+                assertionFailure("Invalid instruction VC")
                 return
             }
-            
-            instructionVC.exercise = exercise
-            instructionVC.inTodaySet = 0
-            instructionVC.source = .home
-            
+
+            flowVC.exercise = exercise
+            flowVC.inTodaySet = 0
+            if let vc = vc as? ExerciseInstructionViewController {
+                vc.source = .home
+            }
+            else if let vc = vc as? OffScreenExerciseInstructionViewController {
+                vc.source = .home
+            }
             navigationController?.pushViewController(vc, animated: true)
             return
         }

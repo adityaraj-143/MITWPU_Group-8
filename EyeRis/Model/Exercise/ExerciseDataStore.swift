@@ -11,7 +11,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Palming",
             description: "Rub hands to warm them, close eyes and gently cup palms over them without pressure for 1–3 minutes while breathing slowly.",
-            video: "palming"
+            video: "figure8"
         ),
         targetedConditions: [.eyeStrain, .dryEyeSyndrome, .lightSensitivity],
         type: .offScreen
@@ -24,7 +24,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Near-Far Focus",
             description: "Hold a finger 10–12 inches away, focus for 5 seconds, then shift focus to a distant object for 5 seconds. Repeat 10 times.",
-            video: "focusShifting"
+            video: "FocusShifting"
         ),
         targetedConditions: [.accommodativeDysfunction, .digitalEyeStrain],
         type: .offScreen
@@ -37,7 +37,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Blinking",
             description: "Blink slowly and fully 10–15 times, then close eyes for 10 seconds.",
-            video: "blinking"
+            video: "figure8" //placeholder
         ),
         targetedConditions: [.dryEyeSyndrome],
         type: .offScreen
@@ -50,7 +50,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Eye Rolling",
             description: "Slowly roll eyes clockwise 5 times and counterclockwise 5 times.",
-            video: "eyeRolling"
+            video: "figure8" //placeholder
         ),
         targetedConditions: [.eyeMuscleTension, .eyeFatigue],
         type: .offScreen
@@ -76,7 +76,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Zooming",
             description: "Hold thumb at arm’s length, focus on it, slowly bring it closer to the nose while maintaining focus. Repeat 10 times.",
-            video: "zooming"
+            video: "figure8" //placeholder
         ),
         targetedConditions: [.accommodativeDysfunction],
         type: .offScreen
@@ -89,7 +89,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Eye Squeeze",
             description: "Close eyes tightly for 3–5 seconds then relax. Repeat 5–7 times.",
-            video: "eyeSqueeze"
+            video: "figure8" //placehoder
         ),
         targetedConditions: [.dryEyeSyndrome, .eyeFatigue],
         type: .offScreen
@@ -102,7 +102,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Distance Gazing",
             description: "Look at a distant object (trees or skyline) for 1–2 minutes without focusing on details.",
-            video: "distanceGazing"
+            video: "figure8" //placeholder
         ),
         targetedConditions: [.digitalEyeStrain, .eyeFatigue],
         type: .offScreen
@@ -115,7 +115,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Warm Compress",
             description: "Place a warm cloth over closed eyes for 3–5 minutes.",
-            video: "warmCompress"
+            video: "figure8"
         ),
         targetedConditions: [.dryEyeSyndrome],
         type: .offScreen
@@ -128,7 +128,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Saccadic Target Chase",
             description: "Watch for shapes that appear randomly on the screen and quickly shift your gaze to each one, holding focus briefly.",
-            video: "saccadicChase"
+            video: "figure8"
         ),
         targetedConditions: [.eyeFatigue, .accommodativeDysfunction],
         type: .onScreen
@@ -141,7 +141,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Smooth Pursuit Tracking",
             description: "Follow a moving dot or ball on the screen with your eyes in all directions for 30 seconds each direction.",
-            video: "smoothPursuit"
+            video: "figure8"
         ),
         targetedConditions: [.eyeMuscleTension, .smoothPursuitDysfunction],
         type: .onScreen
@@ -154,7 +154,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Hidden Object Search",
             description: "Identify and tap the designated letter or object hidden among other shapes on the screen.",
-            video: "hiddenObject"
+            video: "figure8"
         ),
         targetedConditions: [.digitalEyeStrain, .eyeFatigue],
         type: .onScreen
@@ -167,7 +167,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Color Adaptation",
             description: "Identify and tap the odd color among similar colored objects displayed on the screen.",
-            video: "colorAdaptation"
+            video: "figure8"
         ),
         targetedConditions: [.visualStress, .digitalEyeStrain],
         type: .onScreen
