@@ -10,10 +10,15 @@ import UIKit
 class ExerciseListViewController: UIViewController {
     
     let exercises = ExerciseList(user: UserDataStore.shared.currentUser).exercises
+    private var filteredExercises: [Exercise] = []
+    @IBOutlet weak var exerciseSegmentController: UISegmentedControl!
     
     @IBOutlet weak var CollectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        filteredExercises = exercises.filter { $0.type == .offScreen }
+        exerciseSegmentController.selectedSegmentIndex = 0
         
         CollectionView.dataSource = self
         CollectionView.delegate = self
@@ -21,6 +26,13 @@ class ExerciseListViewController: UIViewController {
         CollectionView.register(UINib(nibName: "ExerciseListCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "exercise_cell")
         
         CollectionView.collectionViewLayout = generateLayout()
+    }
+    
+    @IBAction func segmentControllerTapped(_ sender: UISegmentedControl) {
+        let selectedType: ExerciseType = sender.selectedSegmentIndex == 0 ? .offScreen : .onScreen
+        filteredExercises = exercises.filter { $0.type == selectedType }
+        
+        CollectionView.reloadData()
     }
     
     private func navigateToInstruction(exercise: Exercise) {
@@ -96,7 +108,7 @@ extension ExerciseListViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return exercises.count
+        return filteredExercises.count
     }
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -106,7 +118,7 @@ extension ExerciseListViewController: UICollectionViewDataSource {
             for: indexPath
         ) as! ExerciseListCollectionViewCell
         
-        let exercise = exercises[indexPath.item]
+        let exercise = filteredExercises[indexPath.item]
         
         cell.configure(
             title: exercise.name,
@@ -122,7 +134,7 @@ extension ExerciseListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
         
-        let selectedExercise = exercises[indexPath.item]
+        let selectedExercise = filteredExercises[indexPath.item]
         navigateToInstruction(exercise: selectedExercise)
     }
 }
