@@ -28,7 +28,7 @@
                                                     <constraint firstAttribute="width" constant="32" id="yes-nD-3HZ"/>
                                                 </constraints>
                                                 <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="tinted" image="chevron.left" catalog="system"/>
+                                                <buttonConfiguration key="configuration" style="tinted" image="chevron.left" catalog="system" cornerStyle="capsule"/>
                                                 <connections>
                                                     <action selector="prevTestTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Fdt-v8-adW"/>
                                                 </connections>
@@ -48,7 +48,7 @@
                                                     <constraint firstAttribute="width" constant="32" id="D1I-kZ-9Je"/>
                                                 </constraints>
                                                 <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="tinted" image="chevron.right" catalog="system"/>
+                                                <buttonConfiguration key="configuration" style="tinted" image="chevron.right" catalog="system" cornerStyle="capsule"/>
                                                 <connections>
                                                     <action selector="nextTestTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="E5X-qM-SAX"/>
                                                 </connections>
