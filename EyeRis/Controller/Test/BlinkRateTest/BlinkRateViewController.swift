@@ -15,7 +15,7 @@ class BlinkRateViewController: UIViewController, ARSessionDelegate {
     // Invisible AR session
     let session = ARSession()
     var source: TestFlowSource?
-    let blinkTest = BlinkRateTestStore.shared
+    let blinkTest = BlinkRateTestStore.shared.test
     
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var Passage: UILabel!
@@ -31,11 +31,9 @@ class BlinkRateViewController: UIViewController, ARSessionDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let test = blinkTest.test
         
-        
-        Passage.text = test.passages
-        timeRemaining = test.duration
+        Passage.text = blinkTest.passages
+        timeRemaining = blinkTest.duration
         
         requestCameraPermission { granted in
             if granted {
@@ -49,7 +47,7 @@ class BlinkRateViewController: UIViewController, ARSessionDelegate {
     
     
     func startTimer() {
-        let duration = blinkTest.test.duration
+        let duration = blinkTest.duration
         timeRemaining = duration
         timerLabel.text = String(format: "%02d:%02d", duration / 60, duration % 60)
         
@@ -75,19 +73,13 @@ class BlinkRateViewController: UIViewController, ARSessionDelegate {
             
             timerLabel.text = "00:00"
             
-            // ---- ADD THIS PART ----
-            let store = BlinkRateDataStore.shared
-            
-            let newResult = BlinkRateTestResult(
-                id: store.results.count + 1,
+            let result = BlinkRateTestResult(
+                id: Int.random(in: 1000...9999),
                 blinks: blinkCount,
-                duration: blinkTest.test.duration,
+                duration: blinkTest.duration,
                 performedOn: Date()
             )
-
-            
-            store.addResult(newResult)
-            // -----------------------
+            BlinkRateTestResultDataStore.shared.save(result)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.navigate(to: "Completion", with: "CompletionViewController", source: .BlinkRateTest)
@@ -217,7 +209,7 @@ class BlinkRateViewController: UIViewController, ARSessionDelegate {
         timer = nil
         session.pause()
         
-        let duration = blinkTest.test.duration
+        let duration = blinkTest.duration
         timeRemaining = duration
         blinkCount = 0
         isBlinking = false

@@ -27,7 +27,7 @@ final class CompletionViewController: UIViewController {
         super.viewDidLoad()
         
         print("ALL RESULTS:")
-        AcuityTestResultResponse.shared.results.forEach {
+        AcuityTestResultManager.shared.results.forEach {
             print($0)
         }
     }

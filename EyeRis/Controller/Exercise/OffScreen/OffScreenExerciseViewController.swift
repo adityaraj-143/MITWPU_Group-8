@@ -20,7 +20,27 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
     private var remainingTime = 0
     
     func navigate(to storyboard: String, id identifier: String, nextExercise: Exercise?) {
-        
+        let storyboard = UIStoryboard(name: storyboard, bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: identifier)
+
+        // If this is another exercise screen
+        if let nextExercise,
+           let exerciseVC = vc as? ExerciseFlowHandling {
+            exerciseVC.exercise = nextExercise
+            exerciseVC.inTodaySet = 1
+        }
+
+        // If this is the completion screen
+        if let completionVC = vc as? CompletionViewController {
+
+            if inTodaySet == 1 {
+                completionVC.source = .TodaysSet
+            } else {
+                completionVC.source = .Recommended
+            }
+        }
+
+        navigationController?.pushViewController(vc, animated: true)
     }
     
 
@@ -68,6 +88,6 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
     }
     
     private func finishExercise() {
-        print("Exercise Completed")
+        handleExerciseCompletion()
     }
 }

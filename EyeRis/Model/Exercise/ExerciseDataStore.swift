@@ -196,9 +196,9 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
         exerciseData: [
-            ExerciseStage(instruction: "Rub hands together to warm them.", duration: 15),
-            ExerciseStage(instruction: "Close eyes and gently cup palms over them without pressure.", duration: 90),
-            ExerciseStage(instruction: "Relax and breathe slowly.", duration: 15)
+            ExerciseStage(instruction: "Rub hands together to warm them.", duration: 5),//15
+            ExerciseStage(instruction: "Close eyes and gently cup palms over them without pressure.", duration: 5),//90
+            ExerciseStage(instruction: "Relax and breathe slowly.", duration: 5)//15
         ],
         impact: "Relaxes eye muscles and reduces fatigue"
     ),

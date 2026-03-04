@@ -2,22 +2,11 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var CollectionView: UICollectionView!
+    @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var profileIconView: UIView!
     
-    
-    var lastNVA: AcuityTestResult = AcuityTestResultResponse.shared.getLastTestNVA()!
-    
-    var lastDVA: AcuityTestResult = AcuityTestResultResponse.shared.getLastTestDVA()!
-    
-    let history = ExerciseHistory()
-    
-    var lastExercise: ExerciseSummary {
-        history.lastExerciseSummary()
-        ?? ExerciseSummary(accuracy: 20, speed: 20)
-    }
-    
-    let blinkRateStore = BlinkRateDataStore.shared
+    var lastNVA: AcuityTestResult?
+    var lastDVA: AcuityTestResult?
     var todayBlinkResult: BlinkRateTestResult?
     
     let recommendedExercises = ExerciseList(user: UserDataStore.shared.currentUser).recommended
@@ -27,9 +16,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        CollectionView.setCollectionViewLayout(generateLayout(), animated: false)
-        CollectionView.dataSource = self
-        CollectionView.delegate = self
+        collectionView.setCollectionViewLayout(generateLayout(), animated: false)
+        collectionView.dataSource = self
+        collectionView.delegate = self
         
         registerCells()
     }
@@ -37,21 +26,24 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        todayBlinkResult = blinkRateStore.todayResult()
-        CollectionView.reloadData()
+        lastNVA = AcuityTestResultManager.shared.getLastTestNVA()
+        lastDVA = AcuityTestResultManager.shared.getLastTestDVA()
+        
+        todayBlinkResult = BlinkRateTestResultManager.shared.getTodayResult()
+        collectionView.reloadData()
     }
     
     // MARK: - Register Cells
     private func registerCells() {
-        CollectionView.register(UINib(nibName: "GreetingCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "greet_cell")
-        CollectionView.register(UINib(nibName: "TodayExerciseCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "todayExercise_cell")
-        CollectionView.register(UINib(nibName: "WorkModeCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "workMode_cell")
-        CollectionView.register(UINib(nibName: "RecommendedExercisesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "exercises_cell")
-        CollectionView.register(UINib(nibName: "TestsCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "tests_cell")
-        CollectionView.register(UINib(nibName: "BlinkRateCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "blinkRate_cell")
+        collectionView.register(UINib(nibName: "GreetingCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "greet_cell")
+        collectionView.register(UINib(nibName: "TodayExerciseCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "todayExercise_cell")
+        collectionView.register(UINib(nibName: "WorkModeCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "workMode_cell")
+        collectionView.register(UINib(nibName: "RecommendedExercisesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "exercises_cell")
+        collectionView.register(UINib(nibName: "TestsCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "tests_cell")
+        collectionView.register(UINib(nibName: "BlinkRateCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "blinkRate_cell")
 //        CollectionView.register(UINib(nibName: "LastExerciseCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "lastExercise_cell")
-        CollectionView.register(UINib(nibName: "LastTestCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "lastTest_cell")
-        CollectionView.register(
+        collectionView.register(UINib(nibName: "LastTestCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "lastTest_cell")
+        collectionView.register(
             UINib(nibName: "SectionHeaderCollectionReusableView", bundle: nil),
             forSupplementaryViewOfKind: "header-kind",
             withReuseIdentifier: "section_header_cell"
@@ -202,7 +194,7 @@ extension ViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as! TestsCollectionViewCell
             
-            let dueOn = AcuityTestResultResponse.shared.getDueDate()
+            let dueOn = AcuityTestResultManager.shared.getDueDate()
             
             if(indexPath.item == 0) {
                 cell.configure(
@@ -266,10 +258,10 @@ extension ViewController: UICollectionViewDataSource {
             }
             
             cell.configure(
-                nvaLE: lastNVA.leftEyeScore,
-                nvaRE: lastNVA.rightEyeScore,
-                dvaLE: lastDVA.leftEyeScore,
-                dvaRE: lastDVA.rightEyeScore
+                nvaLE: lastNVA?.leftEyeScore ?? "--",
+                nvaRE: lastNVA?.rightEyeScore ?? "--",
+                dvaLE: lastDVA?.leftEyeScore ?? "--",
+                dvaRE: lastDVA?.rightEyeScore ?? "--"
             )
             return cell
             

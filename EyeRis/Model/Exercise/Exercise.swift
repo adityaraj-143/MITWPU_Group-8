@@ -143,13 +143,13 @@ struct ExerciseInstruction {
     let description: String
     let video: String
 }
-
-// MARK: - Exercise Summary
-
-struct ExerciseSummary {
-    let accuracy: Int
-    let speed: Int
-}
+//
+//// MARK: - Exercise Summary
+//
+//struct ExerciseSummary {
+//    let accuracy: Int
+//    let speed: Int
+//}
 
 // One Item of the today's exercise set
 struct TodaysExercise {
