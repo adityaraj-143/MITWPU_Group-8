@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="24512" systemVersion="25D125" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
-    <entity name="AcuityTestResultEntity" representedClassName="AcuityTestResultEntity" syncable="YES" codeGenerationType="class">
+    <entity name="AcuityTestResultEntity" representedClassName=".AcuityTestResultEntity" syncable="YES" codeGenerationType="class">
         <attribute name="comment" optional="YES" attributeType="String"/>
         <attribute name="healthyScore" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -9,20 +9,20 @@
         <attribute name="testDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="testType" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="BlinkRateTestResultEntity" representedClassName="BlinkRateTestResultEntity" syncable="YES" codeGenerationType="class">
+    <entity name="BlinkRateTestResultEntity" representedClassName=".BlinkRateTestResultEntity" syncable="YES" codeGenerationType="class">
         <attribute name="blinks" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="duration" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="performedOn" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
-    <entity name="PerformedExerciseStatEntity" representedClassName="PerformedExerciseStatEntity" syncable="YES" codeGenerationType="class">
+    <entity name="PerformedExerciseStatEntity" representedClassName=".PerformedExerciseStatEntity" syncable="YES" codeGenerationType="class">
         <attribute name="accuracy" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="performedOn" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="speed" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
-    <entity name="UserEntity" representedClassName="UserEntity" syncable="YES" codeGenerationType="class">
+    <entity name="UserEntity" representedClassName=".UserEntity" syncable="YES" codeGenerationType="class">
         <attribute name="conditions" optional="YES" attributeType="String"/>
         <attribute name="dob" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="firstName" optional="YES" attributeType="String"/>

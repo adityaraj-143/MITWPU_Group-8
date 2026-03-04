@@ -14,7 +14,7 @@ struct PersistenceController {
     let container: NSPersistentContainer
     
     init() {
-        container = NSPersistentContainer(name: "EyeRis") // must match your .xcdatamodeld filename exactly
+        container = NSPersistentContainer(name: "Model") // must match your .xcdatamodeld filename exactly
         container.loadPersistentStores { _, error in
             if let error {
                 fatalError("Core Data failed to load: \(error)")

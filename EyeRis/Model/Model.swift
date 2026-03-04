@@ -62,13 +62,6 @@ struct Comment {
     }
 }
 
-struct EyeTips{
-    var tip: String
-    var condition: [Conditions]
-}
-
-
-
 //MARK: DATE HELPER
 // Helper to create a Date like makeDate(year: 2025, month: 5, day: 8)
 func makeDate(year: Int, month: Int, day: Int) -> Date {

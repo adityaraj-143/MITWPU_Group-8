@@ -19,7 +19,10 @@ struct UserStore {
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
         _ = try? context.execute(deleteRequest)
         
-        let entity = UserEntity(context: context)
+        guard let entity = NSEntityDescription.insertNewObject(
+            forEntityName: "UserEntity",
+            into: context
+        ) as? UserEntity else { return }
         entity.firstName = user.firstName
         entity.lastName = user.lastName
         entity.gender = user.gender
