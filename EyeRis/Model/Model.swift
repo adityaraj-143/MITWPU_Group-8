@@ -7,21 +7,21 @@
 
 import Foundation
 
-enum Conditions {
-    case digitalEyeStrain
-    case dryEyeSyndrome
-    case eyeFatigue
-    case eyeMuscleTension
-    case eyeStress
-    case lightSensitivity
-    case visualStress
-    case accommodativeDysfunction
-    case saccadicDysfunction
-    case convergenceInsufficiency
-    case smoothPursuitDysfunction
-    case generalEyeCoordination
-    case dryEyes
-    case eyeStrain
+enum Conditions: String {
+    case digitalEyeStrain = "digitalEyeStrain"
+    case dryEyeSyndrome = "dryEyeSyndrome"
+    case eyeFatigue = "eyeFatigue"
+    case eyeMuscleTension = "eyeMuscleTension"
+    case eyeStress = "eyeStress"
+    case lightSensitivity = "lightSensitivity"
+    case visualStress = "visualStress"
+    case accommodativeDysfunction = "accommodativeDysfunction"
+    case saccadicDysfunction = "saccadicDysfunction"
+    case convergenceInsufficiency = "convergenceInsufficiency"
+    case smoothPursuitDysfunction = "smoothPursuitDysfunction"
+    case generalEyeCoordination = "generalEyeCoordination"
+    case dryEyes = "dryEyes"
+    case eyeStrain = "eyeStrain"
 
     /// Human-readable text for UI
     var displayText: String {
