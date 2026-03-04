@@ -269,12 +269,12 @@ class Figure8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exer
         monitorTimer = nil
     }
 
-    func navigate(to storyboardName: String,
+    func navigate(to storyboard: String,
                   id identifier: String,
                   nextExercise: Exercise?) {
 
         stopAllTimers()
-        let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
+        let storyboard = UIStoryboard(name: storyboard, bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
 
         // If this is another exercise screen
