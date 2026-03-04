@@ -170,19 +170,15 @@ final class BlinkRateDataStore {
     
     private(set) var results: [BlinkRateTestResult] = []
     
-    // Load once (from mock or disk)
     func loadInitialData() {
-        if results.isEmpty {
-            results = blinkRateMockData   // your fixed dataset
-        }
+        results = BlinkRateTestResultStore().fetchAll()
     }
-    
-    // Add new result
+
     func addResult(_ result: BlinkRateTestResult) {
-        results.append(result)
+        BlinkRateTestResultStore().save(result)
+        results = BlinkRateTestResultStore().fetchAll()
     }
     
-    // Today
     func todayResult() -> BlinkRateTestResult? {
         results
             .filter { Calendar.current.isDateInToday($0.performedOn) }
