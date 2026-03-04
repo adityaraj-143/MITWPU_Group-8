@@ -14,18 +14,18 @@ let dummyAcuityResults: [AcuityTestResult] = [
     // Jan 10
     AcuityTestResult(
         id: 1001,
-        testType: .NearVision,
+        testType: .nearVision,
         testDate: Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 10))!,
-        heathyScore: "20/20",
+        healthyScore: "20/20",
         leftEyeScore: "20/30",
         rightEyeScore: "20/25"
     ),
     
     AcuityTestResult(
         id: 1002,
-        testType: .DistantVision,
+        testType: .distantVision,
         testDate: Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 10))!,
-        heathyScore: "20/20",
+        healthyScore: "20/20",
         leftEyeScore: "20/40",
         rightEyeScore: "20/30"
     ),
@@ -33,18 +33,18 @@ let dummyAcuityResults: [AcuityTestResult] = [
     // Feb 3
     AcuityTestResult(
         id: 2001,
-        testType: .NearVision,
+        testType: .nearVision,
         testDate: Calendar.current.date(from: DateComponents(year: 2024, month: 2, day: 3))!,
-        heathyScore: "20/20",
+        healthyScore: "20/20",
         leftEyeScore: "20/25",
         rightEyeScore: "20/20"
     ),
     
     AcuityTestResult(
         id: 2002,
-        testType: .DistantVision,
+        testType: .distantVision,
         testDate: Calendar.current.date(from: DateComponents(year: 2024, month: 2, day: 3))!,
-        heathyScore: "20/20",
+        healthyScore: "20/20",
         leftEyeScore: "20/30",
         rightEyeScore: "20/25"
     ),
@@ -52,18 +52,18 @@ let dummyAcuityResults: [AcuityTestResult] = [
     // March 15
     AcuityTestResult(
         id: 3001,
-        testType: .NearVision,
+        testType: .nearVision,
         testDate: Calendar.current.date(from: DateComponents(year: 2024, month: 3, day: 15))!,
-        heathyScore: "20/20",
+        healthyScore: "20/20",
         leftEyeScore: "20/20",
         rightEyeScore: "20/20"
     ),
     
     AcuityTestResult(
         id: 3002,
-        testType: .DistantVision,
+        testType: .distantVision,
         testDate: Calendar.current.date(from: DateComponents(year: 2024, month: 3, day: 15))!,
-        heathyScore: "20/20",
+        healthyScore: "20/20",
         leftEyeScore: "20/25",
         rightEyeScore: "20/20"
     )
@@ -72,7 +72,7 @@ let dummyAcuityResults: [AcuityTestResult] = [
 
 
 let mockTestNVA = AcuityTest(
-    testType: .NearVision,
+    testType: .nearVision,
     instruction: TestInstruction(
         description: [
             "This is a Near Vision Test — place your phone about 40 cm away from you.",
@@ -96,7 +96,7 @@ let mockTestNVA = AcuityTest(
 )
 
 let mockTestDVA = AcuityTest(
-    testType: .DistantVision,
+    testType: .distantVision,
     instruction: TestInstruction(
         description: [
             "This is a Distant Vision Test — keep your phone about 2 metres away from your eyes.",
@@ -133,97 +133,6 @@ let mockTestBlink = BlinkRateTest(
         Arjun always took his eyesight for granted. He spent hours scrolling on his phone, studying on his laptop, and gaming late into the night. Slowly, his eyes began to ache, and everything started to look slightly hazy. He ignored it at first, brushing it off as simple tiredness. But one day, while driving, he realized he couldn’t clearly read a road sign until he was dangerously close. That moment scared him enough to finally visit an eye specialist.
         
         The doctor explained that his vision had weakened and warned him about the long-term effects of screen strain. Determined to change, Arjun began following the 20-20-20 rule—every 20 minutes, he looked 20 feet away for 20 seconds. He reduced his screen brightness, took regular breaks, ate more greens, and even started wearing protective glasses. Within weeks, his eyes felt lighter and healthier. He learned an important lesson: caring for your eyes isn’t optional—it’s essential.
-        """
+        """, duration: 30
 )
 
-let calendar = Calendar.current
-
-let blinkRateMockData: [BlinkRateTestResult] = {
-    let today = Date()
-    var results: [BlinkRateTestResult] = []
-    
-    // last 28 days (4 weeks)
-    for i in 0..<28 {
-        guard let date = calendar.date(byAdding: .day, value: -i, to: today) else {
-            continue
-        }
-        
-        let blinks = Int.random(in: 5...15)
-        results.append(
-            BlinkRateTestResult(
-                id: i,
-                blinks: blinks,
-                duration: 30,
-                performedOn: date
-            )
-        )
-    }
-    
-    return results
-}()
-
-
-final class BlinkRateDataStore {
-    static let shared = BlinkRateDataStore()
-    
-    private init() {loadInitialData()}
-    
-    private(set) var results: [BlinkRateTestResult] = []
-    
-    func loadInitialData() {
-        results = BlinkRateTestResultStore().fetchAll()
-    }
-
-    func addResult(_ result: BlinkRateTestResult) {
-        BlinkRateTestResultStore().save(result)
-        results = BlinkRateTestResultStore().fetchAll()
-    }
-    
-    func todayResult() -> BlinkRateTestResult? {
-        results
-            .filter { Calendar.current.isDateInToday($0.performedOn) }
-            .max { $0.performedOn < $1.performedOn }
-    }
-    
-    // Last 4 Weeks
-    func makeLast4Weeks() -> [BlinkWeek] {
-        var calendar = Calendar.current
-        calendar.firstWeekday = 2   // Monday
-        
-        let today = calendar.startOfDay(for: Date())
-        
-        let byDate = Dictionary(grouping: results) {
-            calendar.startOfDay(for: $0.performedOn)
-        }.mapValues { dailyResults in
-            dailyResults.max { $0.performedOn < $1.performedOn }!
-        }
-        
-        
-        var weeks: [BlinkWeek] = []
-        
-        for offset in (0..<4).reversed() {
-            guard let weekStart = calendar.date(
-                byAdding: .weekOfYear,
-                value: -offset,
-                to: today
-            )?.startOfWeek(calendar: calendar) else { continue }
-            
-            let days = (0..<7).map { day -> BlinkRateTestResult? in
-                let date = calendar.date(byAdding: .day, value: day, to: weekStart)!
-                return byDate[date]
-            }
-            
-            weeks.append(BlinkWeek(startDate: weekStart, days: days))
-        }
-        
-        return weeks
-    }
-    
-}
-
-final class BlinkRateTestStore {
-    static let shared = BlinkRateTestStore()
-    private init() {}
-    
-    var test: BlinkRateTest = mockTestBlink
-}

@@ -49,7 +49,7 @@ class TestHistoryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        groupedResultsByDate = AcuityTestResultResponse.shared.groupTestsByDate()
+        groupedResultsByDate = AcuityTestResultManager.shared.groupTestsByDate()
         
         if !groupedResultsByDate.isEmpty {
             currentIndex = groupedResultsByDate.count - 1
@@ -89,12 +89,12 @@ class TestHistoryViewController: UIViewController {
         The user completed a visual acuity test on \(dateString).
 
         Distant Vision (DVA):
-        - Healthy Benchmark: \(testsForDate.distant.heathyScore)
+        - Healthy Benchmark: \(testsForDate.distant.healthyScore)
         - Left Eye Score: \(testsForDate.distant.leftEyeScore)
         - Right Eye Score: \(testsForDate.distant.rightEyeScore)
 
         Near Vision (NVA):
-        - Healthy Benchmark: \(testsForDate.near.heathyScore)
+        - Healthy Benchmark: \(testsForDate.near.healthyScore)
         - Left Eye Score: \(testsForDate.near.leftEyeScore)
         - Right Eye Score: \(testsForDate.near.rightEyeScore)
 
@@ -122,12 +122,12 @@ extension TestHistoryViewController{
         testDate.text = dateFormatter.string(from: testsForDate.date)
         
         // 4. Update Distant Vision (DVA) card
-        DVAHealthyScore.text  = "Healthy Score \(testsForDate.distant.heathyScore)"
+        DVAHealthyScore.text  = "Healthy Score \(testsForDate.distant.healthyScore)"
         DVALeftEyeScore.text  = testsForDate.distant.leftEyeScore
         DVARightEyeScore.text = testsForDate.distant.rightEyeScore
         
         // 5. Update Near Vision (NVA) card
-        NVAHealthyScore.text  = "Healthy Score \(testsForDate.near.heathyScore)"
+        NVAHealthyScore.text  = "Healthy Score \(testsForDate.near.healthyScore)"
         NVALeftEyeScore.text  = testsForDate.near.leftEyeScore
         NVARightEyeScore.text = testsForDate.near.rightEyeScore
         

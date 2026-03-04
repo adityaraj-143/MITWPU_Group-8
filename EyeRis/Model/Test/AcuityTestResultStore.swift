@@ -9,9 +9,9 @@ struct AcuityTestResultStore {
     func save(_ result: AcuityTestResult) {
         let entity = AcuityTestResultEntity(context: context)
         entity.id = Int32(result.id)
-        entity.testType = result.testType == .DistantVision ? "DistantVision" : "NearVision"
+        entity.testType = result.testType == .distantVision ? "DistantVision" : "NearVision"
         entity.testDate = result.testDate
-        entity.healthyScore = result.heathyScore
+        entity.healthyScore = result.healthyScore
         entity.leftEyeScore = result.leftEyeScore
         entity.rightEyeScore = result.rightEyeScore
         entity.comment = result.comment
@@ -34,9 +34,9 @@ struct AcuityTestResultStore {
             return entities.map { entity in
                 AcuityTestResult(
                     id: Int(entity.id),
-                    testType: entity.testType == "DistantVision" ? .DistantVision : .NearVision,
+                    testType: entity.testType == "DistantVision" ? .distantVision : .nearVision,
                     testDate: entity.testDate ?? Date(),
-                    heathyScore: entity.healthyScore ?? "",
+                    healthyScore: entity.healthyScore ?? "",
                     leftEyeScore: entity.leftEyeScore ?? "",
                     rightEyeScore: entity.rightEyeScore ?? "",
                     comment: entity.comment ?? ""
