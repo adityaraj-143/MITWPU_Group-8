@@ -14,21 +14,17 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
     var nextNavId = ""
     
     var expectedTexts: [String] = []
-
     var silenceTimer: Timer?
-    
     let speechRecognizer = SFSpeechRecognizer(
         locale: Locale(identifier: "en-US")
     )
     var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     var recognitionTask: SFSpeechRecognitionTask?
-    
     let audioEngine = AVAudioEngine()
     var Recording = false
     
     var capturedTexts: [String] = []
     var currentSpeechBuffer = ""
-    
     
     var currentLevel = 0
     
@@ -210,11 +206,6 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
         
         Recording = true
         
-        //        DispatchQueue.main.async {
-        //            self.RecordingStatus.text = "Recording Audio"
-        //            self.RecordingStatus.textColor = .systemGreen
-        //        }
-        
         print("recording started")
         
         let audioSession = AVAudioSession.sharedInstance()
@@ -376,16 +367,6 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
         }
     }
     
-    //    @IBAction func MicBtn(_ sender: UIButton) {
-    //        print("button Pressed")
-    //        if audioEngine.isRunning {
-    //            stopListening()
-    //        } else {
-    //            startListening()
-    //        }
-    //    }
-    //
-    
     func resetSilenceTimer() {
         silenceTimer?.invalidate()
         //        startSilenceTimer()
@@ -500,7 +481,7 @@ class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptiv
         )
         print("acuity page result: ", result)
 
-        AcuityTestResultResponse.shared.results.append(result)
+        AcuityTestResultStore().save(result)
 
         print("Stored result:", result)
     }

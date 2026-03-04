@@ -29,7 +29,7 @@ struct SnellenChart {
 }
 
 struct TestInstruction{
-//  var title: String
+    //  var title: String
     var description: [String]
     var images: [String]
 }
@@ -41,7 +41,7 @@ struct AcuityTest {
 }
 
 struct AcuityTestResult{
-//  put the details for the snellen chart, and respective score details in the score struct
+    //  put the details for the snellen chart, and respective score details in the score struct
     var id: Int
     var testType: AcuityTestType
     var testDate: Date
@@ -79,10 +79,8 @@ struct AcuityTestsForADate {
 
 final class AcuityTestResultResponse {
     static let shared = AcuityTestResultResponse()
-    var results : [AcuityTestResult]
-    
-    init() {
-        results = dummyAcuityResults
+    var results: [AcuityTestResult] {
+        AcuityTestResultStore().fetchAll()
     }
     
     func groupTestsByDate() -> [AcuityTestsForADate] {
@@ -90,7 +88,7 @@ final class AcuityTestResultResponse {
         let grouped = Dictionary(grouping: results) {
             Calendar.current.startOfDay(for: $0.testDate)
         }
-
+        
         // 2. Sort dates in ascending order
         let sortedDates = grouped.keys.sorted()
         
@@ -118,7 +116,7 @@ final class AcuityTestResultResponse {
 }
 
 extension AcuityTestResultResponse {
-
+    
     private func latestTest(of type: AcuityTestType) -> AcuityTestResult? {
         results
             .filter { $0.testType == type }
@@ -150,12 +148,12 @@ extension AcuityTestResultResponse {
         
         return "Due: \(formatter.string(from: dueDate))"
     }
-
-
+    
+    
     func getLastTestDVA() -> AcuityTestResult? {
         latestTest(of: .DistantVision)
     }
-
+    
     func getLastTestNVA() -> AcuityTestResult? {
         latestTest(of: .NearVision)
     }
@@ -178,9 +176,9 @@ struct BlinkRateTest{
 struct BlinkRateTestResult {
     var id: Int
     var blinks: Int
-    var duration: Int         
+    var duration: Int
     var performedOn: Date
-
+    
     var bpm: Int {
         Int(Double(blinks) * (60.0 / Double(duration)))
     }
