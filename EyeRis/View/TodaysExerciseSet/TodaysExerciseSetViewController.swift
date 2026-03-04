@@ -22,21 +22,26 @@ class TodaysExerciseSetViewController: UIViewController {
         }
         
         let storyboard = UIStoryboard(
-            name: "ExerciseInstruction",
+            name: firstTodayExercise.type == .onScreen ? "ExerciseInstruction" : "OffScreenExerciseInstruction",
             bundle: nil
         )
         
-        let identifier = "ExerciseInstructionViewController"
+        let identifier = firstTodayExercise.type == .onScreen ? "ExerciseInstructionViewController" : "OffScreenExerciseInstructionViewController"
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
         
-        guard let instructionVC = vc as? (ExerciseInstructionViewController & ExerciseFlowHandling) else {
+        guard let instructionVC = vc as? ExerciseFlowHandling else {
             assertionFailure("Instruction VC does not conform to ExerciseFlowHandling")
             return
         }
         
         instructionVC.exercise = firstTodayExercise
         instructionVC.inTodaySet = 1   // Started as Today’s Set
-        instructionVC.source = .todaySet
+        if let vc = vc as? ExerciseInstructionViewController {
+            vc.source = .todaySet
+        }
+        else if let vc = vc as? OffScreenExerciseInstructionViewController {
+            vc.source = .todaySet
+        }
         
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -44,21 +49,26 @@ class TodaysExerciseSetViewController: UIViewController {
     private func navigateToInstructionForSingleExercise(_ exercise: Exercise) {
         
         let storyboard = UIStoryboard(
-            name: "ExerciseInstruction",
+            name: exercise.type == .onScreen ? "ExerciseInstruction" : "OffScreenExerciseInstruction",
             bundle: nil
         )
 
-        let identifier = "ExerciseInstructionViewController"
+        let identifier = exercise.type == .onScreen ? "ExerciseInstructionViewController" : "OffScreenExerciseInstructionViewController"
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
 
-        guard let instructionVC = vc as? (ExerciseInstructionViewController & ExerciseFlowHandling) else {
+        guard let instructionVC = vc as? ExerciseFlowHandling else {
             assertionFailure("Instruction VC does not conform to ExerciseFlowHandling")
             return
         }
 
         instructionVC.exercise = exercise
         instructionVC.inTodaySet = 0
-        instructionVC.source = .todaySet
+        if let vc = vc as? ExerciseInstructionViewController {
+            vc.source = .todaySet
+        }
+        else if let vc = vc as? OffScreenExerciseInstructionViewController {
+            vc.source = .todaySet
+        }
 
         navigationController?.pushViewController(vc, animated: true)
     }

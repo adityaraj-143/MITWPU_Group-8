@@ -39,8 +39,8 @@ extension ExerciseFlowHandling where Self: UIViewController {
 
         if let next = list.nextExercise(after: currentExercise) {
             navigate(
-                to: "ExerciseInstruction",
-                id: "ExerciseInstructionViewController",
+                to: next.type == .onScreen ? "ExerciseInstruction" : "OffScreenExerciseInstruction",
+                id: next.type == .onScreen ? "ExerciseInstructionViewController" : "OffScreenExerciseInstructionViewController",
                 nextExercise: next
             )
         } else {

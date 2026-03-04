@@ -144,32 +144,55 @@ extension TestHistoryViewController{
     }
     
     @IBAction func prevTestTapped(_ sender: UIButton) {
-        // Move to previous date if possible
         guard currentIndex > 0 else { return }
+        
+        animateButtonTap(sender)
+        
         currentIndex -= 1
-        //        updateUIForCurrentDate() // without animation
-        UIView.transition(with: view,
-                          duration: 0.25,
-                          options: .transitionCrossDissolve,
-                          animations: {
-            self.updateUIForCurrentDate()
-        }, completion: nil)
+        animateTransition(direction: .fromLeft)
     }
     
     @IBAction func nextTestTapped(_ sender: UIButton) {
-        // Move to next date if possible
         guard currentIndex < groupedResultsByDate.count - 1 else { return }
-        currentIndex += 1
-        //        updateUIForCurrentDate() //without animation
-        UIView.transition(with: view,
-                          duration: 0.25,
-                          options: .transitionCrossDissolve,
-                          animations: {
-            self.updateUIForCurrentDate()
-        }, completion: nil)
+           
+           animateButtonTap(sender)
+           
+           currentIndex += 1
+           animateTransition(direction: .fromRight)
     }
     
+    private func animateTransition(direction: CATransitionSubtype) {
+        
+        let transition = CATransition()
+        transition.type = .push
+        transition.subtype = direction
+        transition.duration = 0.28
+        transition.timingFunction = CAMediaTimingFunction(controlPoints: 0.4, 0.0, 0.2, 1.0)
+        mainView.layer.add(transition, forKey: kCATransition)
+        
+        updateUIForCurrentDate()
+    }
     
+    private func animateButtonTap(_ button: UIButton) {
+        
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        
+        UIView.animate(withDuration: 0.08,
+                       animations: {
+            button.transform = CGAffineTransform(scaleX: 0.94, y: 0.94)
+            button.alpha = 0.8
+        }) { _ in
+            
+            UIView.animate(withDuration: 0.25,
+                           delay: 0,
+                           usingSpringWithDamping: 0.5,
+                           initialSpringVelocity: 3,
+                           options: [.curveEaseOut]) {
+                button.transform = .identity
+                button.alpha = 1.0
+            }
+        }
+    }
 }
 
 

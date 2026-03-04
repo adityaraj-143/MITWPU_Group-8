@@ -51,7 +51,7 @@ class Figure8ViewController: UIViewController, ExerciseAlignmentMonitoring, Exer
             ExerciseSessionManager.shared.onSessionCompleted = { [weak self] in
                 guard let self = self else { return }
                 guard !self.hasNavigatedToCompletion else { return }
-                guard !self.didExitManually else { return }   // ⭐️ THE FIX
+                guard !self.didExitManually else { return }
 
                 self.hasNavigatedToCompletion = true
 
