@@ -7,12 +7,16 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var modeToggle: UISwitch!
 
     private var orb: UIView?
-
+    private var trail: CAShapeLayer?
     override func awakeFromNib() {
         super.awakeFromNib()
 
         configureUI()
         configureOrb()
+        trail = OrbAnimations.attachTrail(
+            to: contentView,
+            around: mainView
+        )
         configureObservers()
     }
 
@@ -52,7 +56,7 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
         guard let orb else { return }
 
         if sender.isOn {
-
+            
             let minutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
             let duration = TimeInterval(minutes * 60)
 
@@ -64,14 +68,25 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
                 duration: duration
             )
 
-            WorkModeTimerManager.shared.start()
+            if let trail {
+                OrbAnimations.startTrailAnimation(
+                    trail: trail,
+                    duration: duration
+                )
+            }
 
-        } else {
+            WorkModeTimerManager.shared.start()
+        }
+        else {
 
             WorkModeTimerManager.shared.stop()
 
             OrbAnimations.stopOrbAnimation(orb: orb)
             OrbAnimations.resetOrb(orb: orb, around: mainView)
+
+            if let trail {
+                OrbAnimations.stopTrailAnimation(trail: trail)
+            }
         }
     }
 

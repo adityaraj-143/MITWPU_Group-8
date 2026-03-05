@@ -62,4 +62,55 @@ class OrbAnimations {
         orb.layer.removeAnimation(forKey: "orbPath")
     }
     
+    static func attachTrail(to view: UIView, around card: UIView) -> CAShapeLayer {
+
+        let path = UIBezierPath(
+            roundedRect: card.frame,
+            cornerRadius: card.layer.cornerRadius
+        )
+
+        let trail = CAShapeLayer()
+        trail.path = path.cgPath
+        trail.fillColor = UIColor.clear.cgColor
+        trail.strokeColor = UIColor.systemGreen.cgColor
+        trail.lineWidth = 2
+
+        trail.strokeStart = 0
+        trail.strokeEnd = 0
+
+        trail.shadowColor = UIColor.systemGreen.cgColor
+        trail.shadowRadius = 6
+        trail.shadowOpacity = 0.8
+        trail.shadowOffset = .zero
+
+        view.layer.addSublayer(trail)
+
+        return trail
+    }
+    
+    static func startTrailAnimation(
+        trail: CAShapeLayer,
+        duration: TimeInterval
+    ) {
+
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.fromValue = 0
+        animation.toValue = 1
+        animation.duration = duration
+        animation.timingFunction = CAMediaTimingFunction(name: .linear)
+        animation.fillMode = .forwards
+        animation.isRemovedOnCompletion = false
+
+        // match orb offset
+        animation.timeOffset = -duration * 0.02
+
+        trail.add(animation, forKey: "trailProgress")
+    }
+    
+    static func stopTrailAnimation(trail: CAShapeLayer) {
+
+        trail.removeAnimation(forKey: "trailProgress")
+        trail.strokeEnd = 0
+    }
+    
 }
