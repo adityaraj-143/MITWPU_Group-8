@@ -29,7 +29,7 @@ class ViewController: UIViewController {
         lastNVA = AcuityTestResultManager.shared.getLastTestNVA()
         lastDVA = AcuityTestResultManager.shared.getLastTestDVA()
         
-        todayBlinkResult = BlinkRateTestResultManager.shared.getTodayResult()
+        todayBlinkResult = BlinkRateTestResultManager.shared.getLastTestResult()
         collectionView.reloadData()
     }
     
