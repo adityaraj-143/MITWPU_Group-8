@@ -9,25 +9,39 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
     private var orb: UIView?
     override func awakeFromNib() {
         super.awakeFromNib()
+
         mainView.clipsToBounds = false
         mainView.layer.masksToBounds = false
         contentView.clipsToBounds = false
         self.clipsToBounds = false
+
         orb = OrbAnimations.attachOrb(to: contentView)
+
+        // ✅ Fix initial visibility
+        orb?.isHidden = !WorkModeTimerManager.shared.isRunning
+
         mainView.applyCornerRadius()
         iconView.makeRounded()
         modeToggle.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
 
-        // Keep switch in sync with timer state
         modeToggle.isOn = WorkModeTimerManager.shared.isRunning
-        
+
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleTick(_:)),
             name: .workModeTick,
             object: nil
         )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleStateChange(_:)),
+            name: .workModeStateChanged,
+            object: nil
+        )
     }
+    
+    
 
     @IBAction func modeToggleChanged(_ sender: UISwitch) {
         print("Switch toggled:", sender.isOn)
@@ -44,8 +58,8 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        // Sync switch again when reused
         modeToggle.isOn = WorkModeTimerManager.shared.isRunning
+        orb?.isHidden = !WorkModeTimerManager.shared.isRunning
     }
     
     @objc private func handleTick(_ notification: Notification) {
@@ -64,5 +78,12 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
                 progress: progress
             )
         }
+    }
+    
+    @objc private func handleStateChange(_ notification: Notification) {
+
+        guard let isRunning = notification.object as? Bool else { return }
+
+        orb?.isHidden = !isRunning
     }
 }
