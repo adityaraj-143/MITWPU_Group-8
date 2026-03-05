@@ -7,32 +7,36 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var modeToggle: UISwitch!
 
     private var orb: UIView?
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        configureUI()
+        configureOrb()
+        configureObservers()
+    }
+
+    // MARK: - Setup
+
+    private func configureUI() {
         mainView.clipsToBounds = false
         mainView.layer.masksToBounds = false
         contentView.clipsToBounds = false
-        self.clipsToBounds = false
-
-        orb = OrbAnimations.attachOrb(to: contentView)
-
-        // ✅ Fix initial visibility
-        orb?.isHidden = !WorkModeTimerManager.shared.isRunning
+        clipsToBounds = false
 
         mainView.applyCornerRadius()
         iconView.makeRounded()
+
         modeToggle.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
-
         modeToggle.isOn = WorkModeTimerManager.shared.isRunning
+    }
 
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleTick(_:)),
-            name: .workModeTick,
-            object: nil
-        )
+    private func configureOrb() {
+        orb = OrbAnimations.attachOrb(to: contentView)
+        orb?.isHidden = !WorkModeTimerManager.shared.isRunning
+    }
 
+    private func configureObservers() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleStateChange(_:)),
@@ -40,20 +44,45 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
             object: nil
         )
     }
-    
-    
+
+    // MARK: - Switch Action
 
     @IBAction func modeToggleChanged(_ sender: UISwitch) {
-        print("Switch toggled:", sender.isOn)
+
+        guard let orb else { return }
 
         if sender.isOn {
-            print("Starting timer")
+
+            let minutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
+            let duration = TimeInterval(minutes * 60)
+
+            OrbAnimations.resetOrb(orb: orb, around: mainView)
+
+            OrbAnimations.startOrbAnimation(
+                orb: orb,
+                around: mainView,
+                duration: duration
+            )
+
             WorkModeTimerManager.shared.start()
+
         } else {
-            print("Stopping timer")
+
             WorkModeTimerManager.shared.stop()
+
+            OrbAnimations.stopOrbAnimation(orb: orb)
+            OrbAnimations.resetOrb(orb: orb, around: mainView)
         }
     }
+
+    // MARK: - Notification
+
+    @objc private func handleStateChange(_ notification: Notification) {
+        guard let isRunning = notification.object as? Bool else { return }
+        orb?.isHidden = !isRunning
+    }
+
+    // MARK: - Reuse
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -61,29 +90,8 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
         modeToggle.isOn = WorkModeTimerManager.shared.isRunning
         orb?.isHidden = !WorkModeTimerManager.shared.isRunning
     }
-    
-    @objc private func handleTick(_ notification: Notification) {
 
-        guard let seconds = notification.object as? Int else { return }
-
-        let total = UserDefaults.standard.integer(forKey: "workModeMinutes") * 60
-
-        let progress = 1 - (CGFloat(seconds) / CGFloat(total))
-
-        if let orb = orb {
-            OrbAnimations.moveOrb(
-                orb: orb,
-                in: contentView,
-                around: mainView,
-                progress: progress
-            )
-        }
-    }
-    
-    @objc private func handleStateChange(_ notification: Notification) {
-
-        guard let isRunning = notification.object as? Bool else { return }
-
-        orb?.isHidden = !isRunning
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }

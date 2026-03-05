@@ -19,46 +19,47 @@ class OrbAnimations {
         return orb
     }
 
-    static func moveOrb(
+
+    static func resetOrb(
         orb: UIView,
-        in container: UIView,
+        around card: UIView
+    ) {
+        let rect = card.frame
+        let startX = rect.minX
+        let startY = rect.minY
+
+        UIView.performWithoutAnimation {
+            orb.center = CGPoint(x: startX, y: startY)
+        }
+    }
+    
+    
+    static func startOrbAnimation(
+        orb: UIView,
         around card: UIView,
-        progress: CGFloat
+        duration: TimeInterval
     ) {
 
-        // Card frame inside the container (contentView)
-        let rect = card.frame
+        let path = UIBezierPath(
+            roundedRect: card.frame,
+            cornerRadius: card.layer.cornerRadius
+        )
 
-        let perimeter =
-            (rect.width * 2) +
-            (rect.height * 2)
+        let animation = CAKeyframeAnimation(keyPath: "position")
+        animation.path = path.cgPath
+        animation.duration = duration
+        animation.calculationMode = .paced
+        animation.repeatCount = .infinity
+        animation.rotationMode = .none
 
-        let distance = perimeter * progress
+        // small offset so it starts exactly at visual top-left
+        animation.timeOffset = -duration * 0.02
 
-        var x: CGFloat = 0
-        var y: CGFloat = 0
-
-        if distance < rect.width {
-
-            x = rect.minX + distance
-            y = rect.minY
-
-        } else if distance < rect.width + rect.height {
-
-            x = rect.maxX
-            y = rect.minY + (distance - rect.width)
-
-        } else if distance < rect.width * 2 + rect.height {
-
-            x = rect.maxX - (distance - rect.width - rect.height)
-            y = rect.maxY
-
-        } else {
-
-            x = rect.minX
-            y = rect.maxY - (distance - rect.width * 2 - rect.height)
-        }
-
-        orb.center = CGPoint(x: x, y: y)
+        orb.layer.add(animation, forKey: "orbPath")
     }
+    
+    static func stopOrbAnimation(orb: UIView) {
+        orb.layer.removeAnimation(forKey: "orbPath")
+    }
+    
 }
