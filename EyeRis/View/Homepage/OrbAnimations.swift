@@ -1,11 +1,3 @@
-//
-//  OrbAnimations.swift
-//  EyeRis
-//
-//  Created by SDC-USER on 05/03/26.
-//
-
-
 import UIKit
 
 class OrbAnimations {
@@ -26,15 +18,17 @@ class OrbAnimations {
 
         return orb
     }
-    
+
     static func moveOrb(
         orb: UIView,
-        in view: UIView,
+        in container: UIView,
+        around card: UIView,
         progress: CGFloat
     ) {
 
-        let rect = view.bounds
-        print(rect.height,rect.width)
+        // Card frame inside the container (contentView)
+        let rect = card.frame
+
         let perimeter =
             (rect.width * 2) +
             (rect.height * 2)
@@ -46,26 +40,25 @@ class OrbAnimations {
 
         if distance < rect.width {
 
-            x = distance
-            y = 0
+            x = rect.minX + distance
+            y = rect.minY
 
         } else if distance < rect.width + rect.height {
 
-            x = rect.width
-            y = distance - rect.width
+            x = rect.maxX
+            y = rect.minY + (distance - rect.width)
 
         } else if distance < rect.width * 2 + rect.height {
 
-            x = rect.width - (distance - rect.width - rect.height)
-            y = rect.height
+            x = rect.maxX - (distance - rect.width - rect.height)
+            y = rect.maxY
 
         } else {
 
-            x = 0
-            y = rect.height - (distance - rect.width * 2 - rect.height)
+            x = rect.minX
+            y = rect.maxY - (distance - rect.width * 2 - rect.height)
         }
 
         orb.center = CGPoint(x: x, y: y)
     }
-
 }

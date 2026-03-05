@@ -9,7 +9,11 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
     private var orb: UIView?
     override func awakeFromNib() {
         super.awakeFromNib()
-        orb = OrbAnimations.attachOrb(to: mainView)
+        mainView.clipsToBounds = false
+        mainView.layer.masksToBounds = false
+        contentView.clipsToBounds = false
+        self.clipsToBounds = false
+        orb = OrbAnimations.attachOrb(to: contentView)
         mainView.applyCornerRadius()
         iconView.makeRounded()
         modeToggle.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
@@ -55,7 +59,8 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
         if let orb = orb {
             OrbAnimations.moveOrb(
                 orb: orb,
-                in: mainView,
+                in: contentView,
+                around: mainView,
                 progress: progress
             )
         }
