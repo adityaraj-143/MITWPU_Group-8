@@ -11,7 +11,6 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
         configureUI()
         configureOrb()
         trail = OrbAnimations.attachTrail(to: contentView, around: mainView)
@@ -50,35 +49,24 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
     // MARK: - Switch Action
 
     @IBAction func modeToggleChanged(_ sender: UISwitch) {
-
         guard let orb else { return }
 
         if sender.isOn {
-
             let minutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
             let duration = TimeInterval(minutes * 60)
 
-            OrbAnimations.resetOrb(orb: orb, around: mainView)
-            OrbAnimations.startOrbAnimation(orb: orb, around: mainView, duration: duration)
+            OrbAnimations.resetOrb(orb, around: mainView)
+            OrbAnimations.startOrbAnimation(orb, around: mainView, duration: duration)
+            trail.flatMap { OrbAnimations.startTrailAnimation($0, duration: duration) }
 
-            if let trail {
-                OrbAnimations.startTrailAnimation(trail: trail, duration: duration)
-            }
-
-            // 🚀 Rocket toast with blur backdrop
             OrbAnimations.showWorkModeEnabledToast(in: contentView, around: mainView)
-
             WorkModeTimerManager.shared.start()
 
         } else {
-
             WorkModeTimerManager.shared.stop()
-            OrbAnimations.stopOrbAnimation(orb: orb)
-            OrbAnimations.resetOrb(orb: orb, around: mainView)
-
-            if let trail {
-                OrbAnimations.stopTrailAnimation(trail: trail)
-            }
+            OrbAnimations.stopOrbAnimation(orb)
+            OrbAnimations.resetOrb(orb, around: mainView)
+            trail.flatMap { OrbAnimations.stopTrailAnimation($0) }
         }
     }
 
@@ -93,7 +81,6 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-
         modeToggle.isOn = WorkModeTimerManager.shared.isRunning
         orb?.isHidden = !WorkModeTimerManager.shared.isRunning
     }

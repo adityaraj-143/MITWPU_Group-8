@@ -2,8 +2,9 @@ import UIKit
 
 class OrbAnimations {
 
-    static func attachOrb(to view: UIView) -> UIView {
+    // MARK: - Orb
 
+    static func attachOrb(to view: UIView) -> UIView {
         let orb = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
         orb.backgroundColor = .systemGreen
         orb.layer.cornerRadius = 5
@@ -15,15 +16,15 @@ class OrbAnimations {
         return orb
     }
 
-    static func resetOrb(orb: UIView, around card: UIView) {
-        let rect = card.frame
+    static func resetOrb(_ orb: UIView, around card: UIView) {
         UIView.performWithoutAnimation {
-            orb.center = CGPoint(x: rect.minX, y: rect.minY)
+            orb.center = CGPoint(x: card.frame.minX, y: card.frame.minY)
         }
     }
 
-    static func startOrbAnimation(orb: UIView, around card: UIView, duration: TimeInterval) {
+    static func startOrbAnimation(_ orb: UIView, around card: UIView, duration: TimeInterval) {
         let path = UIBezierPath(roundedRect: card.frame, cornerRadius: card.layer.cornerRadius)
+
         let animation = CAKeyframeAnimation(keyPath: "position")
         animation.path = path.cgPath
         animation.duration = duration
@@ -34,12 +35,15 @@ class OrbAnimations {
         orb.layer.add(animation, forKey: "orbPath")
     }
 
-    static func stopOrbAnimation(orb: UIView) {
+    static func stopOrbAnimation(_ orb: UIView) {
         orb.layer.removeAnimation(forKey: "orbPath")
     }
 
+    // MARK: - Trail
+
     static func attachTrail(to view: UIView, around card: UIView) -> CAShapeLayer {
         let path = UIBezierPath(roundedRect: card.frame, cornerRadius: card.layer.cornerRadius)
+
         let trail = CAShapeLayer()
         trail.path = path.cgPath
         trail.fillColor = UIColor.clear.cgColor
@@ -51,11 +55,12 @@ class OrbAnimations {
         trail.shadowRadius = 6
         trail.shadowOpacity = 0.8
         trail.shadowOffset = .zero
+
         view.layer.addSublayer(trail)
         return trail
     }
 
-    static func startTrailAnimation(trail: CAShapeLayer, duration: TimeInterval) {
+    static func startTrailAnimation(_ trail: CAShapeLayer, duration: TimeInterval) {
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.fromValue = 0
         animation.toValue = 1
@@ -63,87 +68,80 @@ class OrbAnimations {
         animation.timingFunction = CAMediaTimingFunction(name: .linear)
         animation.fillMode = .forwards
         animation.isRemovedOnCompletion = false
- 
+
         trail.add(animation, forKey: "trailProgress")
     }
 
-    static func stopTrailAnimation(trail: CAShapeLayer) {
+    static func stopTrailAnimation(_ trail: CAShapeLayer) {
         trail.removeAnimation(forKey: "trailProgress")
         trail.strokeEnd = 0
     }
 
-    // MARK: - Rocket Toast
+    // MARK: - Work Mode Toast
 
     static func showWorkModeEnabledToast(in containerView: UIView, around card: UIView) {
-
         guard let window = containerView.window else { return }
 
-        let cardRectInWindow = containerView.convert(card.frame, to: window)
+        let cardFrame = containerView.convert(card.frame, to: window)
 
-        // MARK: Blur backdrop
+        // Blur backdrop
+        let backdrop = UIVisualEffectView(effect: nil)
+        backdrop.frame = window.bounds
+        backdrop.alpha = 0
+        window.addSubview(backdrop)
 
-        let blurEffect = UIBlurEffect(style: .systemThinMaterialDark)
-        let blurView = UIVisualEffectView(effect: nil)
-        blurView.frame = window.bounds
-        blurView.alpha = 0
-        window.addSubview(blurView)
+        // Icon
+        let iconConfig = UIImage.SymbolConfiguration(pointSize: 44, weight: .medium)
+        let iconImage = UIImage(systemName: "sparkles", withConfiguration: iconConfig)
+        let iconView = UIImageView(image: iconImage)
+        iconView.tintColor = .label
+        
+        iconView.layer.shadowColor = UIColor.systemGreen.cgColor
+        iconView.layer.shadowRadius = 12
+        iconView.layer.shadowOpacity = 0.9
+        iconView.layer.shadowOffset = .zero
+        
+        iconView.sizeToFit()
 
-        // MARK: SF Symbol rocket icon
+        // Label
+        let label = UILabel()
+        label.text = "Work Mode Enabled"
+        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        label.textColor = .label
+        label.layer.shadowColor = UIColor.systemGreen.cgColor
+        label.layer.shadowRadius = 8
+        label.layer.shadowOpacity = 0.8
+        label.layer.shadowOffset = .zero
+        
+        label.sizeToFit()
 
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 44, weight: .medium)
-        let rocketImage = UIImage(systemName: "sparkles", withConfiguration: symbolConfig)  // clean, professional
-
-        let rocketView = UIImageView(image: rocketImage)
-        rocketView.tintColor = .white
-        rocketView.layer.shadowColor = UIColor.systemGreen.cgColor
-        rocketView.layer.shadowRadius = 10
-        rocketView.layer.shadowOpacity = 0.9
-        rocketView.layer.shadowOffset = .zero
-        rocketView.sizeToFit()
-
-        // MARK: Text label
-
-        let textLabel = UILabel()
-        textLabel.text = "Work Mode Enabled"
-        textLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
-        textLabel.textColor = .white
-        textLabel.layer.shadowColor = UIColor.systemGreen.cgColor
-        textLabel.layer.shadowRadius = 6
-        textLabel.layer.shadowOpacity = 0.8
-        textLabel.layer.shadowOffset = .zero
-        textLabel.sizeToFit()
-
-        // MARK: Stack in transparent wrapper
-
+        // Wrapper
         let spacing: CGFloat = 8
-        let containerWidth = max(rocketView.bounds.width, textLabel.bounds.width)
-        let containerHeight = rocketView.bounds.height + spacing + textLabel.bounds.height
+        let wrapperWidth = max(iconView.bounds.width, label.bounds.width)
+        let wrapperHeight = iconView.bounds.height + spacing + label.bounds.height
 
-        let wrapper = UIView(frame: CGRect(x: 0, y: 0, width: containerWidth, height: containerHeight))
-        wrapper.backgroundColor = .clear
+        let toast = UIView(frame: CGRect(x: 0, y: 0, width: wrapperWidth, height: wrapperHeight))
+        toast.backgroundColor = .clear
 
-        rocketView.center = CGPoint(x: containerWidth / 2, y: rocketView.bounds.height / 2)
-        textLabel.center = CGPoint(x: containerWidth / 2, y: rocketView.bounds.height + spacing + textLabel.bounds.height / 2)
+        iconView.center = CGPoint(x: wrapperWidth / 2, y: iconView.bounds.height / 2)
+        label.center = CGPoint(x: wrapperWidth / 2, y: iconView.bounds.height + spacing + label.bounds.height / 2)
 
-        wrapper.addSubview(rocketView)
-        wrapper.addSubview(textLabel)
+        toast.addSubview(iconView)
+        toast.addSubview(label)
 
-        // MARK: Position
+        // Initial position — below card, scaled down
+        let startY = cardFrame.maxY + wrapperHeight
+        let landY  = window.bounds.midY
 
-        let startY = cardRectInWindow.maxY + containerHeight
-        let landY  = cardRectInWindow.minY - containerHeight * 0.8
+        toast.center = CGPoint(x: cardFrame.midX, y: startY)
+        toast.alpha = 0
+        toast.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        window.addSubview(toast)
 
-        wrapper.center = CGPoint(x: cardRectInWindow.midX, y: startY)
-        wrapper.alpha = 0
-        wrapper.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-
-        window.addSubview(wrapper)
-
-        // MARK: Phase 1 — blur in + launch
-
+        // Phase 1 — backdrop fades in, toast launches up
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut) {
-            blurView.effect = blurEffect
-            blurView.alpha = 0.55
+            backdrop.effect = UIBlurEffect(style: .systemUltraThinMaterial)
+            backdrop.alpha = 0.55
         }
 
         UIView.animate(
@@ -151,37 +149,29 @@ class OrbAnimations {
             delay: 0,
             usingSpringWithDamping: 0.52,
             initialSpringVelocity: 2.0,
-            options: .curveEaseOut,
-            animations: {
-                wrapper.center = CGPoint(x: cardRectInWindow.midX, y: landY)
-                wrapper.alpha = 1
-                wrapper.transform = .identity
-            }
-        )
+            options: .curveEaseOut
+        ) {
+            toast.center = CGPoint(x: window.bounds.midX, y: landY)
+            toast.alpha = 1
+            toast.transform = .identity
+        }
 
-        // MARK: Phase 2 — rocket off + blur clears
-
+        // Phase 2 — hold, then toast shoots off and backdrop clears
         let holdDuration: Double = 0.9
 
         UIView.animate(withDuration: 0.4, delay: holdDuration, options: .curveEaseIn) {
-            blurView.effect = nil
-            blurView.alpha = 0
+            backdrop.effect = nil
+            backdrop.alpha = 0
         } completion: { _ in
-            blurView.removeFromSuperview()
+            backdrop.removeFromSuperview()
         }
 
-        UIView.animate(
-            withDuration: 0.28,
-            delay: holdDuration,
-            options: .curveEaseIn,
-            animations: {
-                wrapper.center = CGPoint(x: cardRectInWindow.midX, y: -containerHeight * 4)
-                wrapper.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
-                wrapper.alpha = 0
-            },
-            completion: { _ in
-                wrapper.removeFromSuperview()
-            }
-        )
+        UIView.animate(withDuration: 0.28, delay: holdDuration, options: .curveEaseIn) {
+            toast.center = CGPoint(x: cardFrame.midX, y: -wrapperHeight * 4)
+            toast.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+            toast.alpha = 0
+        } completion: { _ in
+            toast.removeFromSuperview()
+        }
     }
 }
