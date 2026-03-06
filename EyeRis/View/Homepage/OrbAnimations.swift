@@ -39,6 +39,19 @@ class OrbAnimations {
         orb.layer.removeAnimation(forKey: "orbPath")
     }
 
+    static func resumeOrbAnimation(_ orb: UIView, around card: UIView, duration: TimeInterval, progress: Double) {
+        let path = UIBezierPath(roundedRect: card.frame, cornerRadius: card.layer.cornerRadius)
+
+        let animation = CAKeyframeAnimation(keyPath: "position")
+        animation.path = path.cgPath
+        animation.duration = duration
+        animation.calculationMode = .paced
+        animation.repeatCount = .infinity
+        animation.timeOffset = duration * progress
+
+        orb.layer.add(animation, forKey: "orbPath")
+    }
+
     // MARK: - Trail
 
     static func attachTrail(to view: UIView, around card: UIView) -> CAShapeLayer {
@@ -72,6 +85,24 @@ class OrbAnimations {
         trail.add(animation, forKey: "trailProgress")
     }
 
+    /// Resumes trail from `progress` using the same timeOffset trick as the orb,
+    /// so they stay in lockstep after switching screens.
+    static func resumeTrailAnimation(_ trail: CAShapeLayer, duration: TimeInterval, progress: Double) {
+        trail.removeAnimation(forKey: "trailProgress")
+
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.fromValue = 0
+        animation.toValue = 1
+        animation.duration = duration
+        animation.timingFunction = CAMediaTimingFunction(name: .linear)
+        animation.fillMode = .forwards
+        animation.isRemovedOnCompletion = false
+        animation.timeOffset = duration * progress
+
+        trail.strokeEnd = CGFloat(progress)
+        trail.add(animation, forKey: "trailProgress")
+    }
+
     static func stopTrailAnimation(_ trail: CAShapeLayer) {
         trail.removeAnimation(forKey: "trailProgress")
         trail.strokeEnd = 0
@@ -95,12 +126,10 @@ class OrbAnimations {
         let iconImage = UIImage(systemName: "sparkles", withConfiguration: iconConfig)
         let iconView = UIImageView(image: iconImage)
         iconView.tintColor = .label
-        
         iconView.layer.shadowColor = UIColor.systemGreen.cgColor
         iconView.layer.shadowRadius = 12
         iconView.layer.shadowOpacity = 0.9
         iconView.layer.shadowOffset = .zero
-        
         iconView.sizeToFit()
 
         // Label
@@ -112,7 +141,6 @@ class OrbAnimations {
         label.layer.shadowRadius = 8
         label.layer.shadowOpacity = 0.8
         label.layer.shadowOffset = .zero
-        
         label.sizeToFit()
 
         // Wrapper
@@ -129,7 +157,6 @@ class OrbAnimations {
         toast.addSubview(iconView)
         toast.addSubview(label)
 
-        // Initial position — below card, scaled down
         let startY = cardFrame.maxY + wrapperHeight
         let landY  = window.bounds.midY
 

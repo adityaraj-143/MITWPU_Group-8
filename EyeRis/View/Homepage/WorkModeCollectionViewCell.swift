@@ -15,6 +15,7 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
         configureOrb()
         trail = OrbAnimations.attachTrail(to: contentView, around: mainView)
         configureObservers()
+        syncAnimationsIfRunning()
     }
 
     // MARK: - Setup
@@ -44,6 +45,26 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
             name: .workModeStateChanged,
             object: nil
         )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleTick(_:)),
+            name: .workModeTick,
+            object: nil
+        )
+    }
+
+    // MARK: - Sync
+
+    /// Picks up wherever the global timer is — called on awake and reuse
+    private func syncAnimationsIfRunning() {
+        guard WorkModeTimerManager.shared.isRunning, let orb else { return }
+
+        let minutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
+        let duration = TimeInterval(minutes * 60)
+        let progress = WorkModeTimerManager.shared.progress()
+
+        OrbAnimations.resumeOrbAnimation(orb, around: mainView, duration: duration, progress: progress)
+        trail.flatMap { OrbAnimations.resumeTrailAnimation($0, duration: duration, progress: progress) }
     }
 
     // MARK: - Switch Action
@@ -70,12 +91,15 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    // MARK: - Notification
+    // MARK: - Notifications
 
     @objc private func handleStateChange(_ notification: Notification) {
         guard let isRunning = notification.object as? Bool else { return }
         orb?.isHidden = !isRunning
     }
+
+    /// Every tick from the global timer — keep trail in sync with real elapsed time
+    @objc private func handleTick(_ notification: Notification) {}
 
     // MARK: - Reuse
 
@@ -83,6 +107,7 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         modeToggle.isOn = WorkModeTimerManager.shared.isRunning
         orb?.isHidden = !WorkModeTimerManager.shared.isRunning
+        syncAnimationsIfRunning()
     }
 
     deinit {
