@@ -8,15 +8,13 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
 
     private var orb: UIView?
     private var trail: CAShapeLayer?
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
         configureUI()
         configureOrb()
-        trail = OrbAnimations.attachTrail(
-            to: contentView,
-            around: mainView
-        )
+        trail = OrbAnimations.attachTrail(to: contentView, around: mainView)
         configureObservers()
     }
 
@@ -56,31 +54,25 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
         guard let orb else { return }
 
         if sender.isOn {
-            
+
             let minutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
             let duration = TimeInterval(minutes * 60)
 
             OrbAnimations.resetOrb(orb: orb, around: mainView)
-
-            OrbAnimations.startOrbAnimation(
-                orb: orb,
-                around: mainView,
-                duration: duration
-            )
+            OrbAnimations.startOrbAnimation(orb: orb, around: mainView, duration: duration)
 
             if let trail {
-                OrbAnimations.startTrailAnimation(
-                    trail: trail,
-                    duration: duration
-                )
+                OrbAnimations.startTrailAnimation(trail: trail, duration: duration)
             }
 
+            // 🚀 Rocket toast with blur backdrop
+            OrbAnimations.showWorkModeEnabledToast(in: contentView, around: mainView)
+
             WorkModeTimerManager.shared.start()
-        }
-        else {
+
+        } else {
 
             WorkModeTimerManager.shared.stop()
-
             OrbAnimations.stopOrbAnimation(orb: orb)
             OrbAnimations.resetOrb(orb: orb, around: mainView)
 
