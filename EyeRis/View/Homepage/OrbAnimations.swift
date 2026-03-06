@@ -30,7 +30,7 @@ class OrbAnimations {
         animation.calculationMode = .paced
         animation.repeatCount = .infinity
         animation.rotationMode = .none
-     
+
         orb.layer.add(animation, forKey: "orbPath")
     }
 
@@ -63,7 +63,7 @@ class OrbAnimations {
         animation.timingFunction = CAMediaTimingFunction(name: .linear)
         animation.fillMode = .forwards
         animation.isRemovedOnCompletion = false
-
+ 
         trail.add(animation, forKey: "trailProgress")
     }
 
@@ -72,7 +72,7 @@ class OrbAnimations {
         trail.strokeEnd = 0
     }
 
-    // MARK: - Rocket Toast with Blur Backdrop
+    // MARK: - Rocket Toast
 
     static func showWorkModeEnabledToast(in containerView: UIView, around card: UIView) {
 
@@ -88,94 +88,58 @@ class OrbAnimations {
         blurView.alpha = 0
         window.addSubview(blurView)
 
-        // MARK: Toast — light, frosted glass feel
+        // MARK: SF Symbol rocket icon
 
-        let toast = UIView()
-        toast.backgroundColor = UIColor.white.withAlphaComponent(0.12)  // light + transparent
-        toast.layer.cornerRadius = 20
-        toast.layer.cornerCurve = .continuous
-        toast.clipsToBounds = false
-        toast.layer.borderColor = UIColor.white.withAlphaComponent(0.25).cgColor
-        toast.layer.borderWidth = 1
-        toast.layer.shadowColor = UIColor.systemGreen.cgColor
-        toast.layer.shadowRadius = 18
-        toast.layer.shadowOpacity = 0.5
-        toast.layer.shadowOffset = .zero
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 44, weight: .medium)
+        let rocketImage = UIImage(systemName: "sparkles", withConfiguration: symbolConfig)  // clean, professional
 
-        // Frosted glass inner blur
-        let toastBlur = UIVisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterial))
-        toastBlur.layer.cornerRadius = 20
-        toastBlur.layer.cornerCurve = .continuous
-        toastBlur.clipsToBounds = true
+        let rocketView = UIImageView(image: rocketImage)
+        rocketView.tintColor = .white
+        rocketView.layer.shadowColor = UIColor.systemGreen.cgColor
+        rocketView.layer.shadowRadius = 10
+        rocketView.layer.shadowOpacity = 0.9
+        rocketView.layer.shadowOffset = .zero
+        rocketView.sizeToFit()
 
-        // Icon container
-        let iconContainer = UIView()
-        iconContainer.backgroundColor = UIColor.systemGreen.withAlphaComponent(0.18)
-        iconContainer.layer.cornerRadius = 14
-        iconContainer.layer.cornerCurve = .continuous
+        // MARK: Text label
 
-        let iconLabel = UILabel()
-        iconLabel.text = "🚀"
-        iconLabel.font = UIFont.systemFont(ofSize: 26)
-        iconLabel.sizeToFit()
+        let textLabel = UILabel()
+        textLabel.text = "Work Mode Enabled"
+        textLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        textLabel.textColor = .white
+        textLabel.layer.shadowColor = UIColor.systemGreen.cgColor
+        textLabel.layer.shadowRadius = 6
+        textLabel.layer.shadowOpacity = 0.8
+        textLabel.layer.shadowOffset = .zero
+        textLabel.sizeToFit()
 
-        // Labels
-        let titleLabel = UILabel()
-        titleLabel.text = "Work Mode"
-        titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        titleLabel.textColor = UIColor.white
+        // MARK: Stack in transparent wrapper
 
-        let subtitleLabel = UILabel()
-        subtitleLabel.text = "Enabled"
-        subtitleLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        subtitleLabel.textColor = UIColor.systemGreen
+        let spacing: CGFloat = 8
+        let containerWidth = max(rocketView.bounds.width, textLabel.bounds.width)
+        let containerHeight = rocketView.bounds.height + spacing + textLabel.bounds.height
 
-        // Layout
-        let iconSize: CGFloat = 52
-        let padding: CGFloat = 16
-        let textSpacing: CGFloat = 3
-        let toastHeight: CGFloat = 76
+        let wrapper = UIView(frame: CGRect(x: 0, y: 0, width: containerWidth, height: containerHeight))
+        wrapper.backgroundColor = .clear
 
-        titleLabel.sizeToFit()
-        subtitleLabel.sizeToFit()
+        rocketView.center = CGPoint(x: containerWidth / 2, y: rocketView.bounds.height / 2)
+        textLabel.center = CGPoint(x: containerWidth / 2, y: rocketView.bounds.height + spacing + textLabel.bounds.height / 2)
 
-        let textWidth = max(titleLabel.bounds.width, subtitleLabel.bounds.width)
-        let toastWidth = padding + iconSize + padding * 0.75 + textWidth + padding
+        wrapper.addSubview(rocketView)
+        wrapper.addSubview(textLabel)
 
-        toast.frame = CGRect(x: 0, y: 0, width: toastWidth, height: toastHeight)
-        toastBlur.frame = toast.bounds
+        // MARK: Position
 
-        iconContainer.frame = CGRect(x: padding, y: (toastHeight - iconSize) / 2, width: iconSize, height: iconSize)
-        iconLabel.center = CGPoint(x: iconSize / 2, y: iconSize / 2)
-        iconContainer.addSubview(iconLabel)
+        let startY = cardRectInWindow.maxY + containerHeight
+        let landY  = cardRectInWindow.minY - containerHeight * 0.8
 
-        let textX = padding + iconSize + padding * 0.75
-        let totalTextHeight = titleLabel.bounds.height + textSpacing + subtitleLabel.bounds.height
-        let textStartY = (toastHeight - totalTextHeight) / 2
+        wrapper.center = CGPoint(x: cardRectInWindow.midX, y: startY)
+        wrapper.alpha = 0
+        wrapper.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
 
-        titleLabel.frame = CGRect(x: textX, y: textStartY, width: textWidth, height: titleLabel.bounds.height)
-        subtitleLabel.frame = CGRect(
-            x: textX,
-            y: textStartY + titleLabel.bounds.height + textSpacing,
-            width: textWidth,
-            height: subtitleLabel.bounds.height
-        )
+        window.addSubview(wrapper)
 
-        toast.addSubview(toastBlur)
-        toast.addSubview(iconContainer)
-        toast.addSubview(titleLabel)
-        toast.addSubview(subtitleLabel)
-
-        let startY = cardRectInWindow.maxY + toastHeight
-        let landY  = cardRectInWindow.minY - toastHeight * 0.7
-
-        toast.center = CGPoint(x: cardRectInWindow.midX, y: startY)
-        toast.alpha = 0
-        toast.transform = CGAffineTransform(scaleX: 0.85, y: 0.85)
-
-        window.addSubview(toast)
-
-        // MARK: Phase 1 — blur in + toast launches
+        // MARK: Phase 1 — blur in + launch
 
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut) {
             blurView.effect = blurEffect
@@ -189,15 +153,15 @@ class OrbAnimations {
             initialSpringVelocity: 2.0,
             options: .curveEaseOut,
             animations: {
-                toast.center = CGPoint(x: cardRectInWindow.midX, y: landY)
-                toast.alpha = 1
-                toast.transform = .identity
+                wrapper.center = CGPoint(x: cardRectInWindow.midX, y: landY)
+                wrapper.alpha = 1
+                wrapper.transform = .identity
             }
         )
 
-        // MARK: Phase 2 — hold shorter, then rocket off
+        // MARK: Phase 2 — rocket off + blur clears
 
-        let holdDuration: Double = 0.9   // down from 1.5
+        let holdDuration: Double = 0.9
 
         UIView.animate(withDuration: 0.4, delay: holdDuration, options: .curveEaseIn) {
             blurView.effect = nil
@@ -211,12 +175,12 @@ class OrbAnimations {
             delay: holdDuration,
             options: .curveEaseIn,
             animations: {
-                toast.center = CGPoint(x: cardRectInWindow.midX, y: -toastHeight * 4)
-                toast.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
-                toast.alpha = 0
+                wrapper.center = CGPoint(x: cardRectInWindow.midX, y: -containerHeight * 4)
+                wrapper.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+                wrapper.alpha = 0
             },
             completion: { _ in
-                toast.removeFromSuperview()
+                wrapper.removeFromSuperview()
             }
         )
     }
