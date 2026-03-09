@@ -10,6 +10,9 @@ import UIKit
 import AVFoundation
 
 final class ExerciseCompletionViewController: UIViewController {
+    
+    @IBOutlet weak var resultsButton: UIButton!
+    @IBOutlet weak var homeButton: UIButton!
 
     @IBOutlet weak var iconContainerView: UIView!
     @IBOutlet weak var successImageView: UIImageView!
@@ -29,6 +32,7 @@ final class ExerciseCompletionViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        styleButtons()
 
         playSuccessSound()
         playSuccessHaptic()
@@ -73,6 +77,22 @@ final class ExerciseCompletionViewController: UIViewController {
     private func goToHome() {
         navigationController?.popToRootViewController(animated: true)
     }
+    
+    
+    @IBAction func resultsButtonTapped(_ sender: Any) {
+
+        let storyboard = UIStoryboard(name: "ExerciseHistory", bundle: nil)
+
+        let vc = storyboard.instantiateViewController(
+            withIdentifier: "ExerciseHistoryViewController"
+        )
+
+        guard let nav = navigationController else { return }
+
+        nav.setViewControllers([nav.viewControllers.first!, vc], animated: true)
+    }
+
+    
 
     private func gotoTodaysSet() {
 
@@ -90,6 +110,7 @@ final class ExerciseCompletionViewController: UIViewController {
             animated: true
         )
     }
+    
 
     private func goToList() {
 
@@ -109,7 +130,28 @@ final class ExerciseCompletionViewController: UIViewController {
     }
 
     // animation helpers
+    
+    
+    private func styleButtons() {
 
+        // Results button (primary)
+        resultsButton.backgroundColor = UIColor(red: 0.42, green: 0.35, blue: 0.95, alpha: 1)
+        resultsButton.setTitleColor(.white, for: .normal)
+        resultsButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        resultsButton.layer.cornerRadius = 16
+        resultsButton.clipsToBounds = true
+
+        // Home button (secondary)
+        homeButton.backgroundColor = .white
+        homeButton.setTitleColor(UIColor(red: 0.45, green: 0.45, blue: 0.5, alpha: 1), for: .normal)
+        homeButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        homeButton.layer.cornerRadius = 16
+        homeButton.layer.borderWidth = 1
+        homeButton.layer.borderColor = UIColor(red: 0.88, green: 0.88, blue: 0.9, alpha: 1).cgColor
+    }
+    
+    
+    
     private func startPulse() {
 
         UIView.animate(

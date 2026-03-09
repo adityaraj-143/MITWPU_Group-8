@@ -28,13 +28,11 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="scZ-FS-jSV">
-                                <rect key="frame" x="59" y="731" width="110" height="35"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="110" id="HQg-yO-pH0"/>
-                                </constraints>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="scZ-FS-jSV">
+                                <rect key="frame" x="16" y="732" width="361" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="tinted" title="Home"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Go to Home"/>
                                 <connections>
                                     <action selector="homeButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="By6-bk-mxm"/>
                                 </connections>
@@ -60,23 +58,21 @@
                                     <constraint firstItem="HDT-56-icK" firstAttribute="centerY" secondItem="2Oa-n8-Jct" secondAttribute="centerY" id="vKF-Xs-htP"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NQq-8h-FV6">
-                                <rect key="frame" x="221" y="731" width="110" height="35"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="110" id="KEb-VO-9pq"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="tinted" title="Results"/>
-                                <connections>
-                                    <action selector="ResultsButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Orh-cj-6m5"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time Taken  •  2m 23s" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Biv-7a-ApG">
                                 <rect key="frame" x="116" y="526" width="161" height="20"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NQq-8h-FV6">
+                                <rect key="frame" x="16" y="663" width="361" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="See Results"/>
+                                <connections>
+                                    <action selector="resultsButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="oUV-p2-sNM"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
@@ -86,12 +82,8 @@
                             <constraint firstItem="Biv-7a-ApG" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="5Kl-gU-bh0"/>
                             <constraint firstItem="2Oa-n8-Jct" firstAttribute="centerX" secondItem="vDu-zF-Fre" secondAttribute="centerX" id="Cdc-yG-bwI"/>
                             <constraint firstItem="TRm-yH-V9a" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="107" id="DDJ-MF-MB5"/>
-                            <constraint firstItem="NQq-8h-FV6" firstAttribute="leading" secondItem="scZ-FS-jSV" secondAttribute="trailing" constant="52" id="Gkn-in-jUG"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="NQq-8h-FV6" secondAttribute="trailing" constant="62" id="HfO-bZ-Kvo"/>
                             <constraint firstItem="o3l-zG-kFK" firstAttribute="top" secondItem="2Oa-n8-Jct" secondAttribute="bottom" constant="9" id="LT6-eg-jeO"/>
                             <constraint firstItem="2Oa-n8-Jct" firstAttribute="top" secondItem="TRm-yH-V9a" secondAttribute="bottom" constant="32" id="LvI-wy-hWx"/>
-                            <constraint firstItem="scZ-FS-jSV" firstAttribute="top" secondItem="Biv-7a-ApG" secondAttribute="bottom" constant="185" id="N8M-cO-NiC"/>
-                            <constraint firstItem="NQq-8h-FV6" firstAttribute="top" secondItem="Biv-7a-ApG" secondAttribute="bottom" constant="185" id="ecc-na-5Cq"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="o3l-zG-kFK" secondAttribute="trailing" constant="86" id="tUD-ID-BSO"/>
                             <constraint firstItem="TRm-yH-V9a" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="50" id="zT2-QE-QF6"/>
                         </constraints>
@@ -107,7 +99,9 @@
                         <outlet property="ActualTimeTaken" destination="Biv-7a-ApG" id="iPW-bq-9yL"/>
                         <outlet property="TimeTakenLabel" destination="Biv-7a-ApG" id="LcV-mV-YrN"/>
                         <outlet property="completionLabel" destination="o3l-zG-kFK" id="nTK-L2-P80"/>
+                        <outlet property="homeButton" destination="scZ-FS-jSV" id="muZ-wY-gYb"/>
                         <outlet property="iconContainerView" destination="2Oa-n8-Jct" id="PMS-4F-QFy"/>
+                        <outlet property="resultsButton" destination="NQq-8h-FV6" id="E11-mf-7eU"/>
                         <outlet property="successImageView" destination="HDT-56-icK" id="jfQ-Fc-sHi"/>
                     </connections>
                 </viewController>
