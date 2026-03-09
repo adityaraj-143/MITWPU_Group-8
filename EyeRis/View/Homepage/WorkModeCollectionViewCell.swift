@@ -6,33 +6,111 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var iconView: UIView!
     @IBOutlet weak var modeToggle: UISwitch!
 
+    private var orb: UIView?
+    private var trail: CAShapeLayer?
+
     override func awakeFromNib() {
         super.awakeFromNib()
+        configureUI()
+        configureOrb()
+        trail = OrbAnimations.attachTrail(to: contentView, around: mainView)
+        configureObservers()
+        syncAnimationsIfRunning()
+    }
+
+    // MARK: - Setup
+
+    private func configureUI() {
+        mainView.clipsToBounds = false
+        mainView.layer.masksToBounds = false
+        contentView.clipsToBounds = false
+        clipsToBounds = false
 
         mainView.applyCornerRadius()
         iconView.makeRounded()
-        modeToggle.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
 
-        // Keep switch in sync with timer state
+        modeToggle.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
         modeToggle.isOn = WorkModeTimerManager.shared.isRunning
     }
 
+    private func configureOrb() {
+        orb = OrbAnimations.attachOrb(to: contentView)
+        orb?.isHidden = !WorkModeTimerManager.shared.isRunning
+    }
+
+    private func configureObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleStateChange(_:)),
+            name: .workModeStateChanged,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleTick(_:)),
+            name: .workModeTick,
+            object: nil
+        )
+    }
+
+    // MARK: - Sync
+
+    /// Picks up wherever the global timer is — called on awake and reuse
+    private func syncAnimationsIfRunning() {
+        guard WorkModeTimerManager.shared.isRunning, let orb else { return }
+
+        let minutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
+        let duration = TimeInterval(minutes * 60)
+        let progress = WorkModeTimerManager.shared.progress()
+
+        OrbAnimations.resumeOrbAnimation(orb, around: mainView, duration: duration, progress: progress)
+        trail.flatMap { OrbAnimations.resumeTrailAnimation($0, duration: duration, progress: progress) }
+    }
+
+    // MARK: - Switch Action
+
     @IBAction func modeToggleChanged(_ sender: UISwitch) {
-        print("Switch toggled:", sender.isOn)
+        guard let orb else { return }
 
         if sender.isOn {
-            print("Starting timer")
+            let minutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
+            let duration = TimeInterval(minutes * 60)
+
+            OrbAnimations.resetOrb(orb, around: mainView)
+            OrbAnimations.startOrbAnimation(orb, around: mainView, duration: duration)
+            trail.flatMap { OrbAnimations.startTrailAnimation($0, duration: duration) }
+
+            OrbAnimations.showWorkModeEnabledToast(in: contentView, around: mainView)
             WorkModeTimerManager.shared.start()
+
         } else {
-            print("Stopping timer")
             WorkModeTimerManager.shared.stop()
+            OrbAnimations.stopOrbAnimation(orb)
+            OrbAnimations.resetOrb(orb, around: mainView)
+            trail.flatMap { OrbAnimations.stopTrailAnimation($0) }
         }
     }
 
+    // MARK: - Notifications
+
+    @objc private func handleStateChange(_ notification: Notification) {
+        guard let isRunning = notification.object as? Bool else { return }
+        orb?.isHidden = !isRunning
+    }
+
+    /// Every tick from the global timer — keep trail in sync with real elapsed time
+    @objc private func handleTick(_ notification: Notification) {}
+
+    // MARK: - Reuse
+
     override func prepareForReuse() {
         super.prepareForReuse()
-
-        // Sync switch again when reused
         modeToggle.isOn = WorkModeTimerManager.shared.isRunning
+        orb?.isHidden = !WorkModeTimerManager.shared.isRunning
+        syncAnimationsIfRunning()
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
