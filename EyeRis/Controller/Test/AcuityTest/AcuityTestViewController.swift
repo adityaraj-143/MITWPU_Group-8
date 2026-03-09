@@ -53,8 +53,8 @@
                 nextNavId = "CompletionViewController"
             case .blinkRateTest:
                 break;
-            case nil:
-                assertionFailure("source was not set")
+            default:
+                assertionFailure("invalid source was set")
             }
         }
         

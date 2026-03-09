@@ -20,15 +20,12 @@ class BlinkRateViewController: UIViewController, ARSessionDelegate {
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var Passage: UILabel!
     
-    
     // Blink state variables
     var isBlinking = false
     var blinkCount = 0
     var timer: Timer?
     var timeRemaining: Int = 120
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -82,7 +79,7 @@ class BlinkRateViewController: UIViewController, ARSessionDelegate {
             BlinkRateTestResultDataStore.shared.save(result)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                self.navigate(to: "Completion", with: "CompletionViewController", source: .BlinkRateTest)
+                self.navigate(to: "Completion", with: "CompletionViewController", source: self.source == .blinkRateTest ? .BlinkRateTest : .TodaysSet)
             }
         }
         

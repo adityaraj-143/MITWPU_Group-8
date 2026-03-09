@@ -46,6 +46,25 @@ class TodaysExerciseSetViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    private func navigateToBlinkRateTest() {
+        let storyboard = UIStoryboard(
+            name: "TestInstructions",
+            bundle: nil
+        )
+        
+        let identifier = "TestInstructionsViewController"
+        
+        let vc = storyboard.instantiateViewController(withIdentifier: identifier)
+        
+        guard let instructionVC = vc as? TestInstructionsViewController else {
+            assertionFailure("Instruction VC does not conform to ExerciseFlowHandling")
+            return
+        }
+        
+        instructionVC.source = .todaysSet
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     private func navigateToInstructionForSingleExercise(_ exercise: Exercise) {
         
         let storyboard = UIStoryboard(
@@ -96,7 +115,7 @@ extension TodaysExerciseSetViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        exercises.count
+        5
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -107,11 +126,29 @@ extension TodaysExerciseSetViewController: UICollectionViewDataSource {
             for: indexPath
         ) as! TodaysExerciseSetCollectionViewCell
         
-        cell.configure(with: exercises[indexPath.item])
-        
-        cell.onTapNavigation = { [weak self] in
-            guard let self = self else { return }
-            self.navigateToInstructionForSingleExercise(exercises[indexPath.item].exercise)
+        // First 4 → normal exercises
+        if indexPath.item < exercises.count {
+            
+            let item = exercises[indexPath.item]
+            cell.configure(with: item)
+            
+            cell.onTapNavigation = { [weak self] in
+                guard let self = self else { return }
+                self.navigateToInstructionForSingleExercise(item.exercise)
+            }
+            
+        } else {
+            cell.exerciseName.text = "Blink Rate Test"
+            cell.durationLabel.text = "120 sec"
+            cell.exerciseImpact.text = "Monitor you blinking rate"
+            
+            cell.exerciseImage.image = UIImage(systemName: "plus.circle")
+            cell.checkmark.isHidden = true
+            
+            cell.onTapNavigation = { [weak self] in
+                guard let self = self else { return }
+                self.navigateToBlinkRateTest()
+            }
         }
         
         return cell
