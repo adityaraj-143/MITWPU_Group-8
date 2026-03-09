@@ -16,32 +16,33 @@ class BlinkRateHistoryViewController: UIViewController, UICollectionViewDelegate
     @IBOutlet weak var todayDataView: UIView!
     
     private var weeks: [BlinkWeek] = []
-    private let blinkStore = BlinkRateDataStore.shared
+    private var todayResult: BlinkRateTestResult?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        todayDataView.applyCornerRadius()
-        
-        prepareTodayData()
-        prepareWeeklyData()
-        
-        
-        // Do any additional setup after loading the view.
-        CollectionView.register(UINib(nibName: "BlinkRateGraphCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "graph_cell")
-        
-        CollectionView.dataSource = self
-        CollectionView.delegate = self
-        CollectionView.showsHorizontalScrollIndicator = false
-        CollectionView.decelerationRate = .fast
-        
-        CollectionView.collectionViewLayout = makeWeekLayout()
+            
+            todayDataView.applyCornerRadius()
+            
+            todayResult = BlinkRateTestResultManager.shared.getTodayResult()
+            weeks = BlinkRateTestResultManager.shared.makeLast4Weeks()
+            
+            prepareTodayData()
+            
+            CollectionView.register(
+                UINib(nibName: "BlinkRateGraphCollectionViewCell", bundle: nil),
+                forCellWithReuseIdentifier: "graph_cell"
+            )
+            
+            CollectionView.dataSource = self
+            CollectionView.delegate = self
+            CollectionView.showsHorizontalScrollIndicator = false
+            CollectionView.decelerationRate = .fast
+            
+            CollectionView.collectionViewLayout = makeWeekLayout()
     }
     
     
     private func prepareTodayData() {
-        let todayResult = blinkStore.todayResult()
-        
         let value = todayResult?.bpm ?? 0
         if value <= 10 {
             todayDataComment.text = "That is concerning. You need to blink significantly more"
@@ -73,14 +74,6 @@ class BlinkRateHistoryViewController: UIViewController, UICollectionViewDelegate
         attributed.append(bpmText)
         todayDataBPM.attributedText = attributed
     }
-    
-    
-    
-    private func prepareWeeklyData() {
-        weeks = blinkStore.makeLast4Weeks()
-    }
-    
-    
     
     private func makeWeekLayout() -> UICollectionViewLayout {
         

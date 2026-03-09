@@ -65,7 +65,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="9ds-Xy-4DZ"/>
                     <connections>
-                        <outlet property="CollectionView" destination="0mW-8B-dfu" id="4CO-lG-cCM"/>
+                        <outlet property="collectionView" destination="0mW-8B-dfu" id="4CO-lG-cCM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="odl-U3-FPk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -94,7 +94,7 @@
     <resources>
         <image name="chatbotIcon" width="150" height="150"/>
         <systemColor name="systemGray6Color">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

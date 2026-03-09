@@ -49,7 +49,7 @@ class TestHistoryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        groupedResultsByDate = AcuityTestResultResponse.shared.groupTestsByDate()
+        groupedResultsByDate = AcuityTestResultManager.shared.groupTestsByDate()
         
         if !groupedResultsByDate.isEmpty {
             currentIndex = groupedResultsByDate.count - 1
@@ -89,12 +89,12 @@ class TestHistoryViewController: UIViewController {
         The user completed a visual acuity test on \(dateString).
 
         Distant Vision (DVA):
-        - Healthy Benchmark: \(testsForDate.distant.heathyScore)
+        - Healthy Benchmark: \(testsForDate.distant.healthyScore)
         - Left Eye Score: \(testsForDate.distant.leftEyeScore)
         - Right Eye Score: \(testsForDate.distant.rightEyeScore)
 
         Near Vision (NVA):
-        - Healthy Benchmark: \(testsForDate.near.heathyScore)
+        - Healthy Benchmark: \(testsForDate.near.healthyScore)
         - Left Eye Score: \(testsForDate.near.leftEyeScore)
         - Right Eye Score: \(testsForDate.near.rightEyeScore)
 
@@ -112,64 +112,99 @@ class TestHistoryViewController: UIViewController {
 extension TestHistoryViewController{
     
     func updateUIForCurrentDate() {
-        // 1. Safety check – if no data, do nothing
-        guard !groupedResultsByDate.isEmpty else { return }
-        
-        // 2. Get the tests for the current index (current date)
+
+        guard !groupedResultsByDate.isEmpty else {
+            
+            testDate.text = "--"
+            
+            NVAHealthyScore.text = "Healthy Score --"
+            NVALeftEyeScore.text = "--"
+            NVARightEyeScore.text = "--"
+            
+            DVAHealthyScore.text = "Healthy Score --"
+            DVALeftEyeScore.text = "--"
+            DVARightEyeScore.text = "--"
+            
+            prevTest.isEnabled = false
+            nextTest.isEnabled = false
+            
+            prevTest.alpha = 0.3
+            nextTest.alpha = 0.3
+            
+            return
+        }
+
         let testsForDate = groupedResultsByDate[currentIndex]
-        
-        // 3. Update the date label at the top
+
         testDate.text = dateFormatter.string(from: testsForDate.date)
-        
-        // 4. Update Distant Vision (DVA) card
-        DVAHealthyScore.text  = "Healthy Score \(testsForDate.distant.heathyScore)"
+
+        DVAHealthyScore.text  = "Healthy Score \(testsForDate.distant.healthyScore)"
         DVALeftEyeScore.text  = testsForDate.distant.leftEyeScore
         DVARightEyeScore.text = testsForDate.distant.rightEyeScore
-        
-        // 5. Update Near Vision (NVA) card
-        NVAHealthyScore.text  = "Healthy Score \(testsForDate.near.heathyScore)"
+
+        NVAHealthyScore.text  = "Healthy Score \(testsForDate.near.healthyScore)"
         NVALeftEyeScore.text  = testsForDate.near.leftEyeScore
         NVARightEyeScore.text = testsForDate.near.rightEyeScore
-        
-        // 6. Enable/disable prev & next buttons based on position
+
         let isFirst = currentIndex == 0
         let isLast  = currentIndex == groupedResultsByDate.count - 1
-        
+
         prevTest.isEnabled = !isFirst
         nextTest.isEnabled = !isLast
-        
-        // Optional: fade buttons when disabled
+
         prevTest.alpha = prevTest.isEnabled ? 1.0 : 0.3
         nextTest.alpha = nextTest.isEnabled ? 1.0 : 0.3
     }
-    
     @IBAction func prevTestTapped(_ sender: UIButton) {
-        // Move to previous date if possible
         guard currentIndex > 0 else { return }
+        
+        animateButtonTap(sender)
+        
         currentIndex -= 1
-        //        updateUIForCurrentDate() // without animation
-        UIView.transition(with: view,
-                          duration: 0.25,
-                          options: .transitionCrossDissolve,
-                          animations: {
-            self.updateUIForCurrentDate()
-        }, completion: nil)
+        animateTransition(direction: .fromLeft)
     }
     
     @IBAction func nextTestTapped(_ sender: UIButton) {
-        // Move to next date if possible
         guard currentIndex < groupedResultsByDate.count - 1 else { return }
-        currentIndex += 1
-        //        updateUIForCurrentDate() //without animation
-        UIView.transition(with: view,
-                          duration: 0.25,
-                          options: .transitionCrossDissolve,
-                          animations: {
-            self.updateUIForCurrentDate()
-        }, completion: nil)
+           
+           animateButtonTap(sender)
+           
+           currentIndex += 1
+           animateTransition(direction: .fromRight)
     }
     
+    private func animateTransition(direction: CATransitionSubtype) {
+        
+        let transition = CATransition()
+        transition.type = .push
+        transition.subtype = direction
+        transition.duration = 0.28
+        transition.timingFunction = CAMediaTimingFunction(controlPoints: 0.4, 0.0, 0.2, 1.0)
+        mainView.layer.add(transition, forKey: kCATransition)
+        
+        updateUIForCurrentDate()
+    }
     
+    private func animateButtonTap(_ button: UIButton) {
+        
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        
+        UIView.animate(withDuration: 0.08,
+                       animations: {
+            button.transform = CGAffineTransform(scaleX: 0.94, y: 0.94)
+            button.alpha = 0.8
+        }) { _ in
+            
+            UIView.animate(withDuration: 0.25,
+                           delay: 0,
+                           usingSpringWithDamping: 0.5,
+                           initialSpringVelocity: 3,
+                           options: [.curveEaseOut]) {
+                button.transform = .identity
+                button.alpha = 1.0
+            }
+        }
+    }
 }
 
 

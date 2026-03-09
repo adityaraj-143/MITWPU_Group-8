@@ -11,7 +11,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Palming",
             description: "Rub hands to warm them, close eyes and gently cup palms over them without pressure for 1–3 minutes while breathing slowly.",
-            video: "palming"
+            video: "figure8"
         ),
         targetedConditions: [.eyeStrain, .dryEyeSyndrome, .lightSensitivity],
         type: .offScreen
@@ -24,7 +24,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Near-Far Focus",
             description: "Hold a finger 10–12 inches away, focus for 5 seconds, then shift focus to a distant object for 5 seconds. Repeat 10 times.",
-            video: "focusShifting"
+            video: "FocusShifting"
         ),
         targetedConditions: [.accommodativeDysfunction, .digitalEyeStrain],
         type: .offScreen
@@ -37,7 +37,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Blinking",
             description: "Blink slowly and fully 10–15 times, then close eyes for 10 seconds.",
-            video: "blinking"
+            video: "figure8" //placeholder
         ),
         targetedConditions: [.dryEyeSyndrome],
         type: .offScreen
@@ -50,7 +50,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Eye Rolling",
             description: "Slowly roll eyes clockwise 5 times and counterclockwise 5 times.",
-            video: "eyeRolling"
+            video: "figure8" //placeholder
         ),
         targetedConditions: [.eyeMuscleTension, .eyeFatigue],
         type: .offScreen
@@ -76,7 +76,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Zooming",
             description: "Hold thumb at arm’s length, focus on it, slowly bring it closer to the nose while maintaining focus. Repeat 10 times.",
-            video: "zooming"
+            video: "figure8" //placeholder
         ),
         targetedConditions: [.accommodativeDysfunction],
         type: .offScreen
@@ -89,7 +89,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Eye Squeeze",
             description: "Close eyes tightly for 3–5 seconds then relax. Repeat 5–7 times.",
-            video: "eyeSqueeze"
+            video: "figure8" //placehoder
         ),
         targetedConditions: [.dryEyeSyndrome, .eyeFatigue],
         type: .offScreen
@@ -102,7 +102,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Distance Gazing",
             description: "Look at a distant object (trees or skyline) for 1–2 minutes without focusing on details.",
-            video: "distanceGazing"
+            video: "figure8" //placeholder
         ),
         targetedConditions: [.digitalEyeStrain, .eyeFatigue],
         type: .offScreen
@@ -115,63 +115,63 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Warm Compress",
             description: "Place a warm cloth over closed eyes for 3–5 minutes.",
-            video: "warmCompress"
+            video: "figure8"
         ),
         targetedConditions: [.dryEyeSyndrome],
         type: .offScreen
     ),
     
-    Exercise(
-        id: 10,
-        name: "Saccadic Target Chase",
-        duration: 60,
-        instructions: ExerciseInstruction(
-            title: "Saccadic Target Chase",
-            description: "Watch for shapes that appear randomly on the screen and quickly shift your gaze to each one, holding focus briefly.",
-            video: "saccadicChase"
-        ),
-        targetedConditions: [.eyeFatigue, .accommodativeDysfunction],
-        type: .onScreen
-    ),
-
-    Exercise(
-        id: 11,
-        name: "Smooth Pursuit Tracking",
-        duration: 120,
-        instructions: ExerciseInstruction(
-            title: "Smooth Pursuit Tracking",
-            description: "Follow a moving dot or ball on the screen with your eyes in all directions for 30 seconds each direction.",
-            video: "smoothPursuit"
-        ),
-        targetedConditions: [.eyeMuscleTension, .smoothPursuitDysfunction],
-        type: .onScreen
-    ),
-
-    Exercise(
-        id: 12,
-        name: "Hidden Object Search",
-        duration: 90,
-        instructions: ExerciseInstruction(
-            title: "Hidden Object Search",
-            description: "Identify and tap the designated letter or object hidden among other shapes on the screen.",
-            video: "hiddenObject"
-        ),
-        targetedConditions: [.digitalEyeStrain, .eyeFatigue],
-        type: .onScreen
-    ),
-
-    Exercise(
-        id: 13,
-        name: "Color Adaptation",
-        duration: 60,
-        instructions: ExerciseInstruction(
-            title: "Color Adaptation",
-            description: "Identify and tap the odd color among similar colored objects displayed on the screen.",
-            video: "colorAdaptation"
-        ),
-        targetedConditions: [.visualStress, .digitalEyeStrain],
-        type: .onScreen
-    )
+//    Exercise(
+//        id: 10,
+//        name: "Saccadic Target Chase",
+//        duration: 60,
+//        instructions: ExerciseInstruction(
+//            title: "Saccadic Target Chase",
+//            description: "Watch for shapes that appear randomly on the screen and quickly shift your gaze to each one, holding focus briefly.",
+//            video: "figure8"
+//        ),
+//        targetedConditions: [.eyeFatigue, .accommodativeDysfunction],
+//        type: .onScreen
+//    ),
+//
+//    Exercise(
+//        id: 11,
+//        name: "Smooth Pursuit Tracking",
+//        duration: 120,
+//        instructions: ExerciseInstruction(
+//            title: "Smooth Pursuit Tracking",
+//            description: "Follow a moving dot or ball on the screen with your eyes in all directions for 30 seconds each direction.",
+//            video: "figure8"
+//        ),
+//        targetedConditions: [.eyeMuscleTension, .smoothPursuitDysfunction],
+//        type: .onScreen
+//    ),
+//
+//    Exercise(
+//        id: 12,
+//        name: "Hidden Object Search",
+//        duration: 90,
+//        instructions: ExerciseInstruction(
+//            title: "Hidden Object Search",
+//            description: "Identify and tap the designated letter or object hidden among other shapes on the screen.",
+//            video: "figure8"
+//        ),
+//        targetedConditions: [.digitalEyeStrain, .eyeFatigue],
+//        type: .onScreen
+//    ),
+//
+//    Exercise(
+//        id: 13,
+//        name: "Color Adaptation",
+//        duration: 60,
+//        instructions: ExerciseInstruction(
+//            title: "Color Adaptation",
+//            description: "Identify and tap the odd color among similar colored objects displayed on the screen.",
+//            video: "figure8"
+//        ),
+//        targetedConditions: [.visualStress, .digitalEyeStrain],
+//        type: .onScreen
+//    )
 ]
 
 struct ExerciseInfoType {
@@ -181,25 +181,26 @@ struct ExerciseInfoType {
     let storyboardName: String
     let storyboardID: String
     let exerciseData: [ExerciseStage]
+    let impact: String
 }
 
 let defaultStoryboardName = "Figure8"
 let defaultStoryboardID = "Figure8ViewController"
-//let defaultVCType = Figure8ViewController
 
 let ExerciseInfo: [Int: ExerciseInfoType] = [
 
     1: ExerciseInfoType(
-        icon: "placeholder", // TODO: add Palming icon
+        icon: "Brock", // TODO: add Palming icon
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "5BC8A8"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
         exerciseData: [
-            ExerciseStage(instruction: "Rub hands together to warm them.", duration: 15),
-            ExerciseStage(instruction: "Close eyes and gently cup palms over them without pressure.", duration: 90),
-            ExerciseStage(instruction: "Relax and breathe slowly.", duration: 15)
-        ]
+            ExerciseStage(instruction: "Rub hands together to warm them.", duration: 5),//15
+            ExerciseStage(instruction: "Close eyes and gently cup palms over them without pressure.", duration: 5),//90
+            ExerciseStage(instruction: "Relax and breathe slowly.", duration: 5)//15
+        ],
+        impact: "Relaxes eye muscles and reduces fatigue"
     ),
 
     2: ExerciseInfoType(
@@ -211,7 +212,8 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         exerciseData: [
             ExerciseStage(instruction: "Focus on finger 10–12 inches away.", duration: 5),
             ExerciseStage(instruction: "Shift focus to distant object.", duration: 5)
-        ]
+        ],
+        impact: "Improves focusing flexibility and reduces stiffness"
     ),
 
     3: ExerciseInfoType(
@@ -223,7 +225,8 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         exerciseData: [
             ExerciseStage(instruction: "Blink slowly and fully 15 times.", duration: 20),
             ExerciseStage(instruction: "Close eyes and relax.", duration: 10)
-        ]
+        ],
+        impact: "Improves tear distribution and prevents dryness"
     ),
 
     4: ExerciseInfoType(
@@ -235,7 +238,8 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         exerciseData: [
             ExerciseStage(instruction: "Roll eyes clockwise 5 times.", duration: 15),
             ExerciseStage(instruction: "Roll eyes counterclockwise 5 times.", duration: 15)
-        ]
+        ],
+        impact: "Relaxes extraocular muscles and improves mobility"
     ),
 
     5: ExerciseInfoType(
@@ -245,9 +249,10 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
         exerciseData: [
-            ExerciseStage(instruction: "Trace sideways 8 clockwise.", duration: 30),
-            ExerciseStage(instruction: "Trace sideways 8 counterclockwise.", duration: 30)
-        ]
+            ExerciseStage(instruction: "Trace sideways 8 clockwise.", duration: 5), //30
+            ExerciseStage(instruction: "Trace sideways 8 counterclockwise.", duration: 5) //30
+        ],
+        impact: "Improves eye coordination and control"
     ),
 
     6: ExerciseInfoType(
@@ -260,11 +265,12 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
             ExerciseStage(instruction: "Focus on thumb at arm’s length.", duration: 5),
             ExerciseStage(instruction: "Slowly bring thumb closer while maintaining focus.", duration: 10),
             ExerciseStage(instruction: "Move thumb back to arm’s length.", duration: 5)
-        ]
+        ],
+        impact: "Strengthens focusing ability"
     ),
 
     7: ExerciseInfoType(
-        icon: "placeholder", // TODO: add Eye Squeeze icon
+        icon: "Brock", // TODO: add Eye Squeeze icon
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "4DB6C6"),
         storyboardName: defaultStoryboardName,
@@ -272,7 +278,8 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         exerciseData: [
             ExerciseStage(instruction: "Close eyes tightly.", duration: 5),
             ExerciseStage(instruction: "Relax eyes.", duration: 5)
-        ]
+        ],
+        impact: "Stimulates tear glands and relaxes muscles"
     ),
 
     8: ExerciseInfoType(
@@ -282,19 +289,21 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
         exerciseData: [
-            ExerciseStage(instruction: "Look at a distant object without focusing on details.", duration: 120)
-        ]
+            ExerciseStage(instruction: "Look at a distant object without focusing on details.", duration: 5) //120
+        ],
+        impact: "Relaxes focusing muscles"
     ),
 
     9: ExerciseInfoType(
-        icon: "placeholder", // TODO: add Warm Compress icon
+        icon: "Brock", // TODO: add Warm Compress icon
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "7FD16A"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
         exerciseData: [
-            ExerciseStage(instruction: "Place warm cloth over closed eyes and relax.", duration: 180)
-        ]
+            ExerciseStage(instruction: "Place warm cloth over closed eyes and relax.", duration: 5) //180
+        ],
+        impact: "Improves oil gland function and tear stability"
     ),
 
     10: ExerciseInfoType(
@@ -303,7 +312,8 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         iconBGColor: UIColor(hex: "FF7DB0"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
-        exerciseData: []
+        exerciseData: [],
+        impact: "Improves saccadic speed and eye movement accuracy, enhances visual scanning"
     ),
 
     11: ExerciseInfoType(
@@ -312,7 +322,8 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         iconBGColor: UIColor(hex: "9BC53D"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
-        exerciseData: []
+        exerciseData: [],
+        impact: "Strengthens continuous eye tracking and coordination"
     ),
 
     12: ExerciseInfoType(
@@ -321,7 +332,8 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         iconBGColor: UIColor(hex: "D1495B"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
-        exerciseData: []
+        exerciseData: [],
+        impact: "Exercises visual search and attention, disperses focus to reduce fixation strain"
     ),
 
     13: ExerciseInfoType(
@@ -330,6 +342,7 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         iconBGColor: UIColor(hex: "2E4057"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
-        exerciseData: []
+        exerciseData: [],
+        impact: "Improves color discrimination and visual processing flexibility"
     )
 ]

@@ -51,11 +51,11 @@ class CalibrationViewController: UIViewController {
             print("Calibration for DVA left eye Test")
         case .DVARight:
             print("Calibration for DVA right eye Test")
-        case .blinkRateTest:
+        case .blinkRateTest, .todaysSet:
             print("Calibration for Blink Rate Test")
             
-        case .none:
-            print("nothing")
+        default:
+            print("i was here")
             break
         }
     }
@@ -75,9 +75,12 @@ class CalibrationViewController: UIViewController {
             eyeInstruction.isHidden = false
             eyeInstruction.text = "This is a test for your right eye.\nPlease close your left eye."
             
-        case .blinkRateTest:
+        case .blinkRateTest, .todaysSet:
             eyeInstruction.isHidden = true
+        
         }
+        
+         
     }
 
     
@@ -288,7 +291,7 @@ extension CalibrationViewController {
             navigate(to: "AcuityTest", with: "AcuityTestViewController", source: source)
         case .DVARight:
             navigate(to: "AcuityTest", with: "AcuityTestViewController", source: source)
-        case .blinkRateTest:
+        case .blinkRateTest ,.todaysSet:
             navigate(to: "BlinkRateTest", with: "BlinkRateTestViewController", source: source)
         }
     }

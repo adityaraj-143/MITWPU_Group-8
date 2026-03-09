@@ -20,11 +20,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FVz-TE-4sD">
-                                <rect key="frame" x="4" y="4" width="24" height="24"/>
+                                <rect key="frame" x="5" y="5" width="22" height="22"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="24" id="AKn-oV-ATE"/>
-                                    <constraint firstAttribute="height" constant="24" id="iGf-E4-3pO"/>
+                                    <constraint firstAttribute="width" constant="22" id="AKn-oV-ATE"/>
+                                    <constraint firstAttribute="height" constant="22" id="iGf-E4-3pO"/>
                                 </constraints>
                             </imageView>
                         </subviews>

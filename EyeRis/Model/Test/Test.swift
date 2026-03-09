@@ -2,21 +2,15 @@
 //  Test.swift
 //  EyeRis
 //
-//  Created by SDC-USER on 12/12/25.
-//
 
 import Foundation
 
-struct AcuityScore{ // need to change this (research needed)
-    var temp: String
-    func calcScore () {
-        // should return the score of the test
-    }
-}
 
-enum AcuityTestType{
-    case NearVision
-    case DistantVision
+// Tests
+
+enum AcuityTestType {
+    case nearVision
+    case distantVision
 }
 
 struct SnellenStep {
@@ -28,30 +22,92 @@ struct SnellenChart {
     let sequence: [SnellenStep]
 }
 
-struct TestInstruction{
-//  var title: String
-    var description: [String]
-    var images: [String]
+struct TestInstruction {
+    let description: [String]
+    let images: [String]
 }
 
 struct AcuityTest {
-    var testType: AcuityTestType
-    var instruction: TestInstruction
-    var snellenChart: SnellenChart
+    let testType: AcuityTestType
+    let instruction: TestInstruction
+    let snellenChart: SnellenChart
 }
 
-struct AcuityTestResult{
-//  put the details for the snellen chart, and respective score details in the score struct
-    var id: Int
-    var testType: AcuityTestType
-    var testDate: Date
-    var heathyScore: String
-    var leftEyeScore: String // the format of scores would later change, kept it string for dummy data
-    var rightEyeScore: String
-    var comment: String = "Overall, your vision is fairly good, but a routine eye check-up or corrective lens may help improve clarity, especially for distance vision."
+struct BlinkRateTest {
+    let instructions: TestInstruction
+    let passages: String
+    let duration: Int
 }
 
+
+// Results
+
+struct AcuityScore {
+    var value: String
+    
+    func calculate() -> String {
+        value
+    }
+}
+
+struct AcuityTestResult {
+    
+    let id: Int
+    let testType: AcuityTestType
+    let testDate: Date
+    
+    let healthyScore: String
+    let leftEyeScore: String
+    let rightEyeScore: String
+    
+    let comment: String
+    
+    init(
+        id: Int,
+        testType: AcuityTestType,
+        testDate: Date,
+        healthyScore: String,
+        leftEyeScore: String,
+        rightEyeScore: String,
+        comment: String = "Overall, your vision is fairly good, but a routine eye check-up or corrective lens may help improve clarity, especially for distance vision."
+    ) {
+        self.id = id
+        self.testType = testType
+        self.testDate = testDate
+        self.healthyScore = healthyScore
+        self.leftEyeScore = leftEyeScore
+        self.rightEyeScore = rightEyeScore
+        self.comment = comment
+    }
+}
+
+struct BlinkRateTestResult {
+    
+    let id: Int
+    let blinks: Int
+    let duration: Int
+    let performedOn: Date
+    
+    var bpm: Int {
+        Int(Double(blinks) * (60.0 / Double(duration)))
+    }
+}
+
+struct AcuityTestsForADate {
+    let date: Date
+    let distant: AcuityTestResult
+    let near: AcuityTestResult
+}
+
+struct BlinkWeek {
+    let startDate: Date
+    let days: [BlinkRateTestResult?]
+}
+
+
+// Helpers
 func calcAcuityScore(level: Int) -> String {
+    
     let snellenMap = [
         "20/200",
         "20/100",
@@ -71,61 +127,67 @@ func calcAcuityScore(level: Int) -> String {
     return snellenMap[level]
 }
 
-struct AcuityTestsForADate {
-    let date: Date
-    let distant: AcuityTestResult
-    let near: AcuityTestResult
-}
 
-final class AcuityTestResultResponse {
-    static let shared = AcuityTestResultResponse()
-    var results : [AcuityTestResult]
+// Managers
+
+final class AcuityTestResultManager {
     
-    init() {
-        results = dummyAcuityResults
+    static let shared = AcuityTestResultManager()
+    
+    var results: [AcuityTestResult] {
+        AcuityTestResultDataStore.shared.fetchAll()
     }
     
     func groupTestsByDate() -> [AcuityTestsForADate] {
-        // 1. Group every test result by its testDate
+        
         let grouped = Dictionary(grouping: results) {
             Calendar.current.startOfDay(for: $0.testDate)
         }
-
-        // 2. Sort dates in ascending order
+        
         let sortedDates = grouped.keys.sorted()
         
         var dailyTests: [AcuityTestsForADate] = []
         
-        // 3. Build a DailyAcuityTests object for each date
         for date in sortedDates {
+            
             guard let items = grouped[date] else { continue }
             
-            // Must have BOTH tests for that date
             guard
-                let distant = items.first(where: { $0.testType == .DistantVision }),
-                let near    = items.first(where: { $0.testType == .NearVision })
-            else {
-                continue
-            }
+                let distant = items.first(where: { $0.testType == .distantVision }),
+                let near = items.first(where: { $0.testType == .nearVision })
+            else { continue }
             
             dailyTests.append(
-                AcuityTestsForADate(date: date, distant: distant, near: near)
+                AcuityTestsForADate(
+                    date: date,
+                    distant: distant,
+                    near: near
+                )
             )
         }
+        
         return dailyTests
     }
-    
 }
 
-extension AcuityTestResultResponse {
-
+extension AcuityTestResultManager {
+    
     private func latestTest(of type: AcuityTestType) -> AcuityTestResult? {
         results
             .filter { $0.testType == type }
             .max { $0.testDate < $1.testDate }
     }
     
+    func getLastTestDVA() -> AcuityTestResult? {
+        latestTest(of: .distantVision)
+    }
+    
+    func getLastTestNVA() -> AcuityTestResult? {
+        latestTest(of: .nearVision)
+    }
+    
     func getDueDate() -> String {
+        
         let groupedResults = groupTestsByDate()
         
         guard let lastDate = groupedResults.last?.date else {
@@ -134,66 +196,141 @@ extension AcuityTestResultResponse {
         
         let calendar = Calendar.current
         
-        // Add 20 days to the last test date
-        guard let dueDate = calendar.date(byAdding: .day, value: 20, to: lastDate) else {
+        guard let dueDate = calendar.date(
+            byAdding: .day,
+            value: 20,
+            to: lastDate
+        ) else {
+            return "Due: Today"
+        }
+        
+        if calendar.isDateInToday(dueDate) || dueDate < Date() {
             return "Due: Today"
         }
         
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
-        formatter.timeStyle = .none
-        
-        // If due date is today or past, show "Due: Today"
-        if calendar.isDateInToday(dueDate) || dueDate < Date() {
-            return "Due: Today"
-        }
         
         return "Due: \(formatter.string(from: dueDate))"
     }
-
-
-    func getLastTestDVA() -> AcuityTestResult? {
-        latestTest(of: .DistantVision)
-    }
-
-    func getLastTestNVA() -> AcuityTestResult? {
-        latestTest(of: .NearVision)
-    }
     
     func getLastTestComment() -> String? {
-        let nva = getLastTestNVA()
-        let dva = getLastTestDVA()
+        guard
+            let nva = getLastTestNVA(),
+            let dva = getLastTestDVA()
+        else { return nil }
         
-        return ""
+        return nva.comment.isEmpty ? dva.comment : nva.comment
+    }
+}
+
+final class BlinkRateTestResultManager {
+
+    static let shared = BlinkRateTestResultManager()
+
+    var results: [BlinkRateTestResult] {
+        BlinkRateTestResultDataStore.shared.fetchAll()
+    }
+    
+    func getTodayResult() -> BlinkRateTestResult? {
+        results
+            .filter { Calendar.current.isDateInToday($0.performedOn) }
+            .max { $0.performedOn < $1.performedOn }
+    }
+    
+    func getLastTestResult() -> BlinkRateTestResult? {
+        results.max { $0.performedOn < $1.performedOn }
+    }
+
+    func makeLast4Weeks() -> [BlinkWeek] {
+
+        var calendar = Calendar.current
+        calendar.firstWeekday = 2
+
+        let today = calendar.startOfDay(for: Date())
+
+        let byDate = Dictionary(grouping: results) {
+            calendar.startOfDay(for: $0.performedOn)
+        }.mapValues {
+            $0.max { $0.performedOn < $1.performedOn }!
+        }
+
+        var weeks: [BlinkWeek] = []
+
+        for offset in (0..<4).reversed() {
+
+            guard let weekStart = calendar.date(
+                byAdding: .weekOfYear,
+                value: -offset,
+                to: today
+            )?.startOfWeek(calendar: calendar)
+            else { continue }
+
+            let days = (0..<7).map { day -> BlinkRateTestResult? in
+                let date = calendar.date(
+                    byAdding: .day,
+                    value: day,
+                    to: weekStart
+                )!
+                return byDate[date]
+            }
+
+            weeks.append(
+                BlinkWeek(startDate: weekStart, days: days)
+            )
+        }
+
+        return weeks
     }
 }
 
 
-struct BlinkRateTest{
-    var instructions: TestInstruction
-    var passages: String
-    var duration: Int = 30
-}
+// DataStores
 
-struct BlinkRateTestResult {
-    var id: Int
-    var blinks: Int
-    var duration: Int         
-    var performedOn: Date
+final class AcuityTestResultDataStore {
 
-    var bpm: Int {
-        Int(Double(blinks) * (60.0 / Double(duration)))
+    static let shared = AcuityTestResultDataStore()
+
+    func save(_ result: AcuityTestResult) {
+        AcuityTestResultStore().save(result)
+    }
+
+    func fetchAll() -> [AcuityTestResult] {
+        AcuityTestResultStore().fetchAll()
     }
 }
 
-struct BlinkWeek {
-    let startDate: Date
-    let days: [BlinkRateTestResult?] // count = 7
+final class BlinkRateTestResultDataStore {
+
+    static let shared = BlinkRateTestResultDataStore()
+
+    func save(_ result: BlinkRateTestResult) {
+        BlinkRateTestResultStore().save(result)
+    }
+
+    func fetchAll() -> [BlinkRateTestResult] {
+        BlinkRateTestResultStore().fetchAll()
+    }
 }
 
-struct BlinkRateTestResultResponse {
-    private let results: [BlinkRateTestResult]
+
+// Test definitions
+
+final class AcuityTestStore {
+
+    static let shared = AcuityTestStore()
+
+    private init() {}
+
+    var nearVisionTest: AcuityTest = mockTestNVA
+    var distantVisionTest: AcuityTest = mockTestDVA
 }
 
-
-
+final class BlinkRateTestStore {
+    
+    static let shared = BlinkRateTestStore()
+    
+    private init() {}
+    
+    var test: BlinkRateTest = mockTestBlink
+}

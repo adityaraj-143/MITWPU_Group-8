@@ -22,47 +22,74 @@ class TodaysExerciseSetViewController: UIViewController {
         }
         
         let storyboard = UIStoryboard(
-            name: "ExerciseInstruction",
+            name: firstTodayExercise.type == .onScreen
+            ? "ExerciseInstruction"
+            : "OffScreenExerciseInstruction",
             bundle: nil
         )
         
-        let identifier = "ExerciseInstructionViewController"
+        let identifier = firstTodayExercise.type == .onScreen
+        ? "ExerciseInstructionViewController"
+        : "OffScreenExerciseInstructionViewController"
+        
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
         
-        guard let instructionVC = vc as? (ExerciseInstructionViewController & ExerciseFlowHandling) else {
+        guard var instructionVC = vc as? ExerciseFlowHandling else {
             assertionFailure("Instruction VC does not conform to ExerciseFlowHandling")
             return
         }
         
         instructionVC.exercise = firstTodayExercise
-        instructionVC.inTodaySet = 1   // Started as Today’s Set
-        instructionVC.source = .todaySet
+        instructionVC.source = .todaysSet
         
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func navigateToBlinkRateTest() {
+        let storyboard = UIStoryboard(
+            name: "TestInstructions",
+            bundle: nil
+        )
+        
+        let identifier = "TestInstructionsViewController"
+        
+        let vc = storyboard.instantiateViewController(withIdentifier: identifier)
+        
+        guard let instructionVC = vc as? TestInstructionsViewController else {
+            assertionFailure("Instruction VC does not conform to ExerciseFlowHandling")
+            return
+        }
+        
+        instructionVC.source = .todaysSet
         navigationController?.pushViewController(vc, animated: true)
     }
     
     private func navigateToInstructionForSingleExercise(_ exercise: Exercise) {
         
         let storyboard = UIStoryboard(
-            name: "ExerciseInstruction",
+            name: exercise.type == .onScreen
+            ? "ExerciseInstruction"
+            : "OffScreenExerciseInstruction",
             bundle: nil
         )
-
-        let identifier = "ExerciseInstructionViewController"
+        
+        let identifier = exercise.type == .onScreen
+        ? "ExerciseInstructionViewController"
+        : "OffScreenExerciseInstructionViewController"
+        
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
-
-        guard let instructionVC = vc as? (ExerciseInstructionViewController & ExerciseFlowHandling) else {
+        
+        guard var instructionVC = vc as? ExerciseFlowHandling else {
             assertionFailure("Instruction VC does not conform to ExerciseFlowHandling")
             return
         }
-
+        
         instructionVC.exercise = exercise
-        instructionVC.inTodaySet = 0
-        instructionVC.source = .todaySet
-
+        instructionVC.source = .todaysSet
+        
         navigationController?.pushViewController(vc, animated: true)
     }
-
+    
 }
 
 // MARK: - Setup
@@ -86,7 +113,7 @@ extension TodaysExerciseSetViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        exercises.count
+        exercises.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -97,11 +124,29 @@ extension TodaysExerciseSetViewController: UICollectionViewDataSource {
             for: indexPath
         ) as! TodaysExerciseSetCollectionViewCell
         
-        cell.configure(with: exercises[indexPath.item])
-        
-        cell.onTapNavigation = { [weak self] in
-            guard let self = self else { return }
-            self.navigateToInstructionForSingleExercise(exercises[indexPath.item].exercise)
+        // First 4 → normal exercises
+        if indexPath.item < exercises.count {
+            
+            let item = exercises[indexPath.item]
+            cell.configure(with: item)
+            
+            cell.onTapNavigation = { [weak self] in
+                guard let self = self else { return }
+                self.navigateToInstructionForSingleExercise(item.exercise)
+            }
+            
+        } else {
+            cell.exerciseName.text = "Blink Rate Test"
+            cell.durationLabel.text = "120 sec"
+            cell.exerciseImpact.text = "Monitor you blinking rate"
+            
+            cell.exerciseImage.image = UIImage(systemName: "plus.circle")
+            cell.checkmark.isHidden = BlinkRateTestResultManager().getTodayResult() == nil
+            
+            cell.onTapNavigation = { [weak self] in
+                guard let self = self else { return }
+                self.navigateToBlinkRateTest()
+            }
         }
         
         return cell

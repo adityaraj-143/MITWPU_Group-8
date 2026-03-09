@@ -120,7 +120,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="hfK-Ig-x97" secondAttribute="trailing" constant="5" id="Dkw-Vr-XBs"/>
                             <constraint firstItem="wjP-6R-MmY" firstAttribute="leading" secondItem="YxL-gS-rXN" secondAttribute="leading" constant="15" id="HbY-G5-48B"/>
@@ -158,7 +158,7 @@
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
-        <systemColor name="systemBackgroundColor">
+        <systemColor name="tertiarySystemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>

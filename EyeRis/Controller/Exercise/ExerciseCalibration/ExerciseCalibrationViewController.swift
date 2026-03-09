@@ -17,8 +17,9 @@ class ExerciseCalibrationViewController: UIViewController {
 
     // Passed from previous screen
     var exercise: Exercise?
-    var inTodaySet: Int? = 0
-
+    var source: ExerciseSource?
+    
+    
     private var updateTimer: Timer?
     private let minDistance = 37
     private let maxDistance = 45
@@ -130,11 +131,10 @@ class ExerciseCalibrationViewController: UIViewController {
 
         let identifier = exercise.getStoryboardID()
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
-        print("HERE", identifier)
-        print("AAA", vc.storyboard?.description ?? "NO STORYBOARD")
-        if let exerciseVC = vc as? ExerciseFlowHandling {
+
+        if var exerciseVC = vc as? OnScreenExerciseFlow {
             exerciseVC.exercise = exercise
-            exerciseVC.inTodaySet = inTodaySet
+            exerciseVC.source = source
             exerciseVC.referenceDistance = CameraManager.shared.currentDistance
         } else {
             assertionFailure("ViewController does not conform to ExerciseFlowHandling")
