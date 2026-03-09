@@ -141,7 +141,7 @@ extension TodaysExerciseSetViewController: UICollectionViewDataSource {
             cell.exerciseImpact.text = "Monitor you blinking rate"
             
             cell.exerciseImage.image = UIImage(systemName: "plus.circle")
-            cell.checkmark.isHidden = true
+            cell.checkmark.isHidden = BlinkRateTestResultManager().getTodayResult() == nil
             
             cell.onTapNavigation = { [weak self] in
                 guard let self = self else { return }
