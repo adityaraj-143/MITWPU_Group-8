@@ -9,47 +9,134 @@ import UIKit
 
 protocol ExerciseFlowHandling: AnyObject {
     var exercise: Exercise? { get set }
-    var inTodaySet: Int? { get set }
-    var referenceDistance: Int { get set }
+        var source: ExerciseSource? { get set }
+        var referenceDistance: Int { get set }
 
-    func navigate(to storyboard: String,
-                  id identifier: String,
-                  nextExercise: Exercise?)
+        func exerciseCompleted()
 }
 
 extension ExerciseFlowHandling where Self: UIViewController {
 
-    func handleExerciseCompletion() {
-        print("Exercise finished – global flow handler")
+    func exerciseCompleted() {
+        guard let exercise else { return }
 
-        guard let currentExercise = exercise else { return }
+        ExerciseFlowCoordinator.handleCompletion(
+            from: self,
+            exercise: exercise,
+            source: source
+        )
+    }
 
-        ExerciseList.shared?.markCompleted(exercise: currentExercise)
+}
 
-        if inTodaySet == 0 {
-            navigate(
-                to: "Completion",
-                id: "CompletionViewController",
-                nextExercise: nil
-            )
-            return
+class ExerciseFlowCoordinator {
+
+    static func handleCompletion(
+        from vc: UIViewController,
+        exercise: Exercise,
+        source: ExerciseSource?
+    ) {
+
+        ExerciseList.shared?.markCompleted(exercise: exercise)
+
+        switch source {
+
+        case .todaysSet:
+
+            guard let list = ExerciseList.shared else { return }
+
+            if let next = list.nextExercise(after: exercise) {
+
+                pushExercise(
+                    from: vc,
+                    exercise: next,
+                    source: .todaysSet
+                )
+
+            } else {
+
+                pushTestInstructions(from: vc)
+
+            }
+
+        case .recommended, .list:
+
+            pushCompletion(from: vc, source: source)
+
+        case .none:
+            pushCompletion(from: vc, source: nil)
+        }
+    }
+
+}
+
+
+extension ExerciseFlowCoordinator {
+
+    static func pushExercise(
+        from vc: UIViewController,
+        exercise: Exercise,
+        source: ExerciseSource
+    ) {
+
+        let storyboardName = exercise.type == .onScreen
+            ? "ExerciseInstruction"
+            : "OffScreenExerciseInstruction"
+
+        let identifier = exercise.type == .onScreen
+            ? "ExerciseInstructionViewController"
+            : "OffScreenExerciseInstructionViewController"
+
+        let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
+        let nextVC = storyboard.instantiateViewController(withIdentifier: identifier)
+
+        if var flowVC = nextVC as? ExerciseFlowHandling {
+            flowVC.exercise = exercise
+            flowVC.source = source
         }
 
-        guard let list = ExerciseList.shared else { return }
+        vc.navigationController?.pushViewController(nextVC, animated: true)
+    }
 
-        if let next = list.nextExercise(after: currentExercise) {
-            navigate(
-                to: next.type == .onScreen ? "ExerciseInstruction" : "OffScreenExerciseInstruction",
-                id: next.type == .onScreen ? "ExerciseInstructionViewController" : "OffScreenExerciseInstructionViewController",
-                nextExercise: next
-            )
-        } else {
-            navigate(
-                to: "Completion",
-                id: "CompletionViewController",
-                nextExercise: nil
-            )
+
+    static func pushTestInstructions(from vc: UIViewController) {
+
+        let storyboard = UIStoryboard(name: "TestInstructions", bundle: nil)
+        let nextVC = storyboard.instantiateViewController(
+            withIdentifier: "TestInstructionsViewController"
+        )
+
+        if let testVC = nextVC as? TestInstructionsViewController {
+            testVC.source = .todaysSet
         }
+
+        vc.navigationController?.pushViewController(nextVC, animated: true)
+    }
+
+
+    static func pushCompletion(
+        from vc: UIViewController,
+        source: ExerciseSource?
+    ) {
+
+        let storyboard = UIStoryboard(name: "Completion", bundle: nil)
+        let nextVC = storyboard.instantiateViewController(
+            withIdentifier: "CompletionViewController"
+        )
+
+        if let completionVC = nextVC as? CompletionViewController {
+
+            switch source {
+            case .todaysSet:
+                completionVC.source = .TodaysSet
+            case .recommended, .list:
+                completionVC.source = .Recommended
+            case .none:
+                completionVC.source = .Recommended
+            }
+        }
+
+        vc.navigationController?.pushViewController(nextVC, animated: true)
     }
 
 }
