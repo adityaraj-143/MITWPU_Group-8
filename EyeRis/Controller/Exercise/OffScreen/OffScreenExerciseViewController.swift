@@ -5,43 +5,23 @@
 //  Created by SDC-USER on 27/02/26.
 //
 
+enum ExerciseSource {
+    case todaysSet
+    case recommended
+    case list
+}
+
 import UIKit
 
 class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
-    var exercise: Exercise? = allExercises[1]
     
-    var inTodaySet: Int?
-    
-    var referenceDistance: Int = 0
+    var exercise: Exercise?
+    var source: ExerciseSource?
     
     private var stages: [ExerciseStage] = []
     private var currentStageIndex = 0
     private var countdownTimer: Timer?
     private var remainingTime = 0
-    
-    func navigate(to storyboard: String, id identifier: String, nextExercise: Exercise?) {
-        let storyboard = UIStoryboard(name: storyboard, bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: identifier)
-
-        // If this is another exercise screen
-        if let nextExercise,
-           let exerciseVC = vc as? ExerciseFlowHandling {
-            exerciseVC.exercise = nextExercise
-            exerciseVC.inTodaySet = 1
-        }
-
-        // If this is the completion screen
-        if let completionVC = vc as? CompletionViewController {
-
-            if inTodaySet == 1 {
-                completionVC.source = .TodaysSet
-            } else {
-                completionVC.source = .Recommended
-            }
-        }
-
-        navigationController?.pushViewController(vc, animated: true)
-    }
     
 
     @IBOutlet weak var instructionLabel: UILabel!
@@ -88,6 +68,6 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
     }
     
     private func finishExercise() {
-        handleExerciseCompletion()
+        exerciseCompleted()
     }
 }

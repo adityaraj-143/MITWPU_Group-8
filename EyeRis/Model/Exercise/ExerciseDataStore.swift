@@ -121,57 +121,57 @@ let allExercises: [Exercise] = [
         type: .offScreen
     ),
     
-    Exercise(
-        id: 10,
-        name: "Saccadic Target Chase",
-        duration: 60,
-        instructions: ExerciseInstruction(
-            title: "Saccadic Target Chase",
-            description: "Watch for shapes that appear randomly on the screen and quickly shift your gaze to each one, holding focus briefly.",
-            video: "figure8"
-        ),
-        targetedConditions: [.eyeFatigue, .accommodativeDysfunction],
-        type: .onScreen
-    ),
-
-    Exercise(
-        id: 11,
-        name: "Smooth Pursuit Tracking",
-        duration: 120,
-        instructions: ExerciseInstruction(
-            title: "Smooth Pursuit Tracking",
-            description: "Follow a moving dot or ball on the screen with your eyes in all directions for 30 seconds each direction.",
-            video: "figure8"
-        ),
-        targetedConditions: [.eyeMuscleTension, .smoothPursuitDysfunction],
-        type: .onScreen
-    ),
-
-    Exercise(
-        id: 12,
-        name: "Hidden Object Search",
-        duration: 90,
-        instructions: ExerciseInstruction(
-            title: "Hidden Object Search",
-            description: "Identify and tap the designated letter or object hidden among other shapes on the screen.",
-            video: "figure8"
-        ),
-        targetedConditions: [.digitalEyeStrain, .eyeFatigue],
-        type: .onScreen
-    ),
-
-    Exercise(
-        id: 13,
-        name: "Color Adaptation",
-        duration: 60,
-        instructions: ExerciseInstruction(
-            title: "Color Adaptation",
-            description: "Identify and tap the odd color among similar colored objects displayed on the screen.",
-            video: "figure8"
-        ),
-        targetedConditions: [.visualStress, .digitalEyeStrain],
-        type: .onScreen
-    )
+//    Exercise(
+//        id: 10,
+//        name: "Saccadic Target Chase",
+//        duration: 60,
+//        instructions: ExerciseInstruction(
+//            title: "Saccadic Target Chase",
+//            description: "Watch for shapes that appear randomly on the screen and quickly shift your gaze to each one, holding focus briefly.",
+//            video: "figure8"
+//        ),
+//        targetedConditions: [.eyeFatigue, .accommodativeDysfunction],
+//        type: .onScreen
+//    ),
+//
+//    Exercise(
+//        id: 11,
+//        name: "Smooth Pursuit Tracking",
+//        duration: 120,
+//        instructions: ExerciseInstruction(
+//            title: "Smooth Pursuit Tracking",
+//            description: "Follow a moving dot or ball on the screen with your eyes in all directions for 30 seconds each direction.",
+//            video: "figure8"
+//        ),
+//        targetedConditions: [.eyeMuscleTension, .smoothPursuitDysfunction],
+//        type: .onScreen
+//    ),
+//
+//    Exercise(
+//        id: 12,
+//        name: "Hidden Object Search",
+//        duration: 90,
+//        instructions: ExerciseInstruction(
+//            title: "Hidden Object Search",
+//            description: "Identify and tap the designated letter or object hidden among other shapes on the screen.",
+//            video: "figure8"
+//        ),
+//        targetedConditions: [.digitalEyeStrain, .eyeFatigue],
+//        type: .onScreen
+//    ),
+//
+//    Exercise(
+//        id: 13,
+//        name: "Color Adaptation",
+//        duration: 60,
+//        instructions: ExerciseInstruction(
+//            title: "Color Adaptation",
+//            description: "Identify and tap the odd color among similar colored objects displayed on the screen.",
+//            video: "figure8"
+//        ),
+//        targetedConditions: [.visualStress, .digitalEyeStrain],
+//        type: .onScreen
+//    )
 ]
 
 struct ExerciseInfoType {
@@ -249,8 +249,8 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
         exerciseData: [
-            ExerciseStage(instruction: "Trace sideways 8 clockwise.", duration: 30),
-            ExerciseStage(instruction: "Trace sideways 8 counterclockwise.", duration: 30)
+            ExerciseStage(instruction: "Trace sideways 8 clockwise.", duration: 5), //30
+            ExerciseStage(instruction: "Trace sideways 8 counterclockwise.", duration: 5) //30
         ],
         impact: "Improves eye coordination and control"
     ),
@@ -289,7 +289,7 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
         exerciseData: [
-            ExerciseStage(instruction: "Look at a distant object without focusing on details.", duration: 120)
+            ExerciseStage(instruction: "Look at a distant object without focusing on details.", duration: 5) //120
         ],
         impact: "Relaxes focusing muscles"
     ),
@@ -301,7 +301,7 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
         exerciseData: [
-            ExerciseStage(instruction: "Place warm cloth over closed eyes and relax.", duration: 180)
+            ExerciseStage(instruction: "Place warm cloth over closed eyes and relax.", duration: 5) //180
         ],
         impact: "Improves oil gland function and tear stability"
     ),

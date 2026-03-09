@@ -46,10 +46,15 @@ final class CompletionViewController: UIViewController {
             resultNav = "BlinkRateHistory"
             resultNavId = "BlinkRateHistoryViewController"
             
-        case .TodaysSet, .ExerciseList, .Recommended:
+        case .ExerciseList, .Recommended:
             completionLabel.text = "Exercise Completed!"
             resultNav = "ExerciseHistory"
             resultNavId = "ExerciseHistoryViewController"
+            
+        case .TodaysSet:
+            completionLabel.text = "Today's Set Completed!"
+            resultNav = "Main"
+            resultNavId = "MainViewController"
             
         case .none:
             assertionFailure("CompletionViewController.source was not set")

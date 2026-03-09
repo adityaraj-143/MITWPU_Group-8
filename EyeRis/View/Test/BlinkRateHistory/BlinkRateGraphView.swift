@@ -168,8 +168,8 @@ final class BlinkRateGraphView: UIView {
                 barFrames.append(.zero)
                 continue
             }
-
-            let barHeight = (CGFloat(value) / maxValue) * usableHeight
+            let clampedValue = min(CGFloat(value), maxValue)
+            let barHeight = (clampedValue / maxValue) * usableHeight
             let x = spacing + CGFloat(index) * (barWidth + spacing)
             let y = bounds.height - bottomPadding - barHeight
 

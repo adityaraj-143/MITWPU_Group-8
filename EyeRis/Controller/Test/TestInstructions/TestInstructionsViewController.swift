@@ -13,6 +13,7 @@ enum TestFlowSource {
     case DVALeft
     case DVARight
     case blinkRateTest
+    case todaysSet
 }
 
 class TestInstructionsViewController: UIViewController, UICollectionViewDelegate {
@@ -40,7 +41,7 @@ class TestInstructionsViewController: UIViewController, UICollectionViewDelegate
         case .DVALeft, .NVARight, .DVARight:
             test = mockTestDVA
             
-        case .blinkRateTest:
+        case .blinkRateTest, .todaysSet:
             blinkTest = BlinkRateTestStore.shared.test
             
         }
@@ -225,10 +226,10 @@ extension TestInstructionsViewController {
                 // Should never go back to instructions after this
                 calibrationVC.source = .DVARight
                 
-            case .blinkRateTest:
-                calibrationVC.source = .blinkRateTest
+            case .blinkRateTest, .todaysSet:
+                calibrationVC.source = source
                 
-            case nil:
+            default:
                 break
             }
         }
