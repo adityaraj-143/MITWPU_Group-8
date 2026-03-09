@@ -41,7 +41,6 @@ class ViewController: UIViewController {
         collectionView.register(UINib(nibName: "RecommendedExercisesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "exercises_cell")
         collectionView.register(UINib(nibName: "TestsCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "tests_cell")
         collectionView.register(UINib(nibName: "BlinkRateCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "blinkRate_cell")
-//        CollectionView.register(UINib(nibName: "LastExerciseCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "lastExercise_cell")
         collectionView.register(UINib(nibName: "LastTestCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "lastTest_cell")
         collectionView.register(
             UINib(nibName: "SectionHeaderCollectionReusableView", bundle: nil),
@@ -57,11 +56,6 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-//        if indexPath.section == 1 {
-//            navigate(to: "TodaysExerciseSet", with: "TodaysExerciseSetViewController")
-//            return
-//        }
         
         if(indexPath.section == 2){
             let storyboard = UIStoryboard(name: "WorkModeModal", bundle: nil)
@@ -224,22 +218,6 @@ extension ViewController: UICollectionViewDataSource {
                 self?.navigate(to: "BlinkRateHistory", with: "BlinkRateHistoryViewController")
             }
             return cell
-            
-//        case 6: // Last Exercise
-//            let cell = collectionView.dequeueReusableCell(
-//                withReuseIdentifier: "lastExercise_cell",
-//                for: indexPath
-//            ) as! LastExerciseCollectionViewCell
-//            
-//            cell.onTapNavigation = { [weak self] in
-//                self?.navigate(to: "ExerciseHistory", with: "ExerciseHistoryViewController")
-//            }
-//            
-//            cell.configure(
-//                acc: lastExercise.accuracy,
-//                speed: lastExercise.speed
-//            )
-//            return cell
             
         case 6: // Last Test
             let cell = collectionView.dequeueReusableCell(
