@@ -157,10 +157,10 @@ class OrbAnimations {
         toast.addSubview(iconView)
         toast.addSubview(label)
 
-        let startY = cardFrame.maxY + wrapperHeight
+        let startY = window.bounds.maxY + wrapperHeight
         let landY  = window.bounds.midY
 
-        toast.center = CGPoint(x: cardFrame.midX, y: startY)
+        toast.center = CGPoint(x: window.bounds.midX, y: startY)
         toast.alpha = 0
         toast.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         window.addSubview(toast)
@@ -194,7 +194,7 @@ class OrbAnimations {
         }
 
         UIView.animate(withDuration: 0.28, delay: holdDuration, options: .curveEaseIn) {
-            toast.center = CGPoint(x: cardFrame.midX, y: -wrapperHeight * 4)
+            toast.center = CGPoint(x: window.bounds.midX, y: -wrapperHeight * 4)
             toast.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
             toast.alpha = 0
         } completion: { _ in
