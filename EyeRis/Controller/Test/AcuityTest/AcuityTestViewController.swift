@@ -447,7 +447,7 @@
                 }
             case .DVARight:
                 if let tempVC = vc as? TestCompletionViewController {
-                    tempVC.source = .AcuityTest
+                    tempVC.source = .acuityTest
                 }
             default:
                 break

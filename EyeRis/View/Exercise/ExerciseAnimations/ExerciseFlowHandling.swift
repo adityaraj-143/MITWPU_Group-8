@@ -131,13 +131,13 @@ extension ExerciseFlowCoordinator {
             
             switch source {
             case .todaysSet:
-                completionVC.source = .TodaysSet
+                completionVC.source = .todaysSet
             case .recommended:
-                completionVC.source = .Recommended
+                completionVC.source = .recommended
             case .list:
-                completionVC.source = .ExerciseList
+                completionVC.source = .list
             case .none:
-                completionVC.source = .Recommended
+                completionVC.source = .recommended
             }
         }
         

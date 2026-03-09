@@ -22,7 +22,7 @@ final class ExerciseCompletionViewController: UIViewController {
 
     private var audioPlayer: AVAudioPlayer?
 
-    var source: CompletionSource?
+    var source: ExerciseSource?
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -54,13 +54,13 @@ final class ExerciseCompletionViewController: UIViewController {
 
         switch source {
 
-        case .Recommended:
+        case .recommended:
             goToHome()
 
-        case .ExerciseList:
+        case .list:
             goToList()
 
-        case .TodaysSet:
+        case .todaysSet:
             gotoTodaysSet()
 
         default:

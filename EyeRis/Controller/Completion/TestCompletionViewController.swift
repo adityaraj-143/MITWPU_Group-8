@@ -9,6 +9,11 @@
 import UIKit
 import AVFoundation
 
+enum TestSource {
+    case acuityTest
+    case blinkRateTest
+}
+
 final class TestCompletionViewController: UIViewController {
 
     @IBOutlet weak var iconContainerView: UIView!
@@ -19,7 +24,7 @@ final class TestCompletionViewController: UIViewController {
 
     private var audioPlayer: AVAudioPlayer?
 
-    var source: CompletionSource?
+    var source: TestSource?
 
     var resultNav = ""
     var resultNavId = ""
@@ -29,12 +34,12 @@ final class TestCompletionViewController: UIViewController {
 
         switch source {
 
-        case .AcuityTest:
+        case .acuityTest:
             completionLabel.text = "Acuity Test Completed!"
             resultNav = "TestHistory"
             resultNavId = "TestHistoryViewController"
 
-        case .BlinkRateTest:
+        case .blinkRateTest:
             completionLabel.text = "Blink Rate Test Completed!"
             resultNav = "BlinkRateHistory"
             resultNavId = "BlinkRateHistoryViewController"
