@@ -43,6 +43,23 @@ final class WorkModeTimerManager {
 
         NotificationCenter.default.post(name: .workModeStateChanged, object: false)
     }
+    
+    func progress() -> Double {
+
+        guard
+            let endTime,
+            let remaining = currentRemainingSeconds
+        else { return 0 }
+
+        let total = Double(UserDefaults.standard.integer(forKey: "workModeMinutes") * 60)
+
+        if total == 0 { return 0 }
+
+        let elapsed = total - Double(remaining)
+
+        return max(0, min(elapsed / total, 1))
+    }
+    
 
     private func scheduleTimer() {
         timer?.invalidate()

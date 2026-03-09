@@ -93,22 +93,24 @@ final class ExerciseList {
             !Set(exercise.targetedConditions).intersection(userConditions).isEmpty
         }
         
-        // IDs that must always be present
-        let mandatoryIDs: Set<Int> = [3, 8, 13]
+        // Exercises matching user's conditions (high priority)
+        let matching = exercises.filter { exercise in
+            !Set(exercise.targetedConditions).intersection(userConditions).isEmpty
+        }
         
-        // Get mandatory exercises
-        let mandatoryExercises = exercises.filter { mandatoryIDs.contains($0.id) }
+        // Exercises not matching conditions (fallback)
+        let nonMatching = exercises.filter { exercise in
+            Set(exercise.targetedConditions).intersection(userConditions).isEmpty
+        }
         
-        // Get remaining recommended exercises excluding mandatory ones
-        let remaining = recommended.filter { !mandatoryIDs.contains($0.id) }
+        // Shuffle to avoid same order every day
+        let prioritized = matching.shuffled()
+        let fallback = nonMatching.shuffled()
         
-        // Fill the rest of the set (total = 4)
-        let neededCount = max(0, 4 - mandatoryExercises.count)
-        let randomExtras = Array(remaining.shuffled().prefix(neededCount))
+        // Pick up to 4 exercises prioritizing matches
+        let selected = Array((prioritized + fallback).prefix(4))
         
-        let finalSet = mandatoryExercises + randomExtras
-        
-        todaysSet = finalSet.map {
+        todaysSet = selected.map {
             TodaysExercise(exercise: $0, isCompleted: false)
         }
     }

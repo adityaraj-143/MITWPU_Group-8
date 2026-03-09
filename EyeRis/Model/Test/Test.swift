@@ -237,6 +237,10 @@ final class BlinkRateTestResultManager {
             .filter { Calendar.current.isDateInToday($0.performedOn) }
             .max { $0.performedOn < $1.performedOn }
     }
+    
+    func getLastTestResult() -> BlinkRateTestResult? {
+        results.max { $0.performedOn < $1.performedOn }
+    }
 
     func makeLast4Weeks() -> [BlinkWeek] {
 

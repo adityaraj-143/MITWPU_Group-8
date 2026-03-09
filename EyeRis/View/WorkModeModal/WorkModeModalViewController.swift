@@ -7,7 +7,7 @@ class WorkModeModalViewController: UIViewController,
     @IBOutlet weak var picker: UIPickerView!
     @IBOutlet weak var timerLabel: UILabel!
     
-    private let minuteOptions = Array(stride(from: 20, through: 50, by: 5))
+    private let minuteOptions = Array(stride(from: 1, through: 10, by: 1))
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,7 +25,10 @@ class WorkModeModalViewController: UIViewController,
         picker.dataSource = self
 
         let savedMinutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
-        picker.selectRow(savedMinutes, inComponent: 0, animated: false)
+
+        if let index = minuteOptions.firstIndex(of: savedMinutes) {
+            picker.selectRow(index, inComponent: 0, animated: false)
+        }
 
         timerLabel.isHidden = true
 

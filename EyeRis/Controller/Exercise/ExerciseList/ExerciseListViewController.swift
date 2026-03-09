@@ -36,26 +36,27 @@ class ExerciseListViewController: UIViewController {
     }
     
     private func navigateToInstruction(exercise: Exercise) {
-                
-        let storyboard = UIStoryboard(
-            name: "ExerciseInstruction",
-            bundle: nil
-        )
-        
-        let identifier = "ExerciseInstructionViewController"
+
+        let storyboardName = exercise.type == .onScreen
+            ? "ExerciseInstruction"
+            : "OffScreenExerciseInstruction"
+
+        let identifier = exercise.type == .onScreen
+            ? "ExerciseInstructionViewController"
+            : "OffScreenExerciseInstructionViewController"
+
+        let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
-        
-        guard let instructionVC = vc as? (ExerciseInstructionViewController & ExerciseFlowHandling) else {
+
+        guard var instructionVC = vc as? ExerciseFlowHandling else {
             assertionFailure("Instruction VC does not conform to ExerciseFlowHandling")
             return
         }
-        
+
         instructionVC.exercise = exercise
-        instructionVC.inTodaySet = 0
         instructionVC.source = .list
-        
+
         navigationController?.pushViewController(vc, animated: true)
-        return
     }
 }
 

@@ -112,37 +112,49 @@ class TestHistoryViewController: UIViewController {
 extension TestHistoryViewController{
     
     func updateUIForCurrentDate() {
-        // 1. Safety check – if no data, do nothing
-        guard !groupedResultsByDate.isEmpty else { return }
-        
-        // 2. Get the tests for the current index (current date)
+
+        guard !groupedResultsByDate.isEmpty else {
+            
+            testDate.text = "--"
+            
+            NVAHealthyScore.text = "Healthy Score --"
+            NVALeftEyeScore.text = "--"
+            NVARightEyeScore.text = "--"
+            
+            DVAHealthyScore.text = "Healthy Score --"
+            DVALeftEyeScore.text = "--"
+            DVARightEyeScore.text = "--"
+            
+            prevTest.isEnabled = false
+            nextTest.isEnabled = false
+            
+            prevTest.alpha = 0.3
+            nextTest.alpha = 0.3
+            
+            return
+        }
+
         let testsForDate = groupedResultsByDate[currentIndex]
-        
-        // 3. Update the date label at the top
+
         testDate.text = dateFormatter.string(from: testsForDate.date)
-        
-        // 4. Update Distant Vision (DVA) card
+
         DVAHealthyScore.text  = "Healthy Score \(testsForDate.distant.healthyScore)"
         DVALeftEyeScore.text  = testsForDate.distant.leftEyeScore
         DVARightEyeScore.text = testsForDate.distant.rightEyeScore
-        
-        // 5. Update Near Vision (NVA) card
+
         NVAHealthyScore.text  = "Healthy Score \(testsForDate.near.healthyScore)"
         NVALeftEyeScore.text  = testsForDate.near.leftEyeScore
         NVARightEyeScore.text = testsForDate.near.rightEyeScore
-        
-        // 6. Enable/disable prev & next buttons based on position
+
         let isFirst = currentIndex == 0
         let isLast  = currentIndex == groupedResultsByDate.count - 1
-        
+
         prevTest.isEnabled = !isFirst
         nextTest.isEnabled = !isLast
-        
-        // Optional: fade buttons when disabled
+
         prevTest.alpha = prevTest.isEnabled ? 1.0 : 0.3
         nextTest.alpha = nextTest.isEnabled ? 1.0 : 0.3
     }
-    
     @IBAction func prevTestTapped(_ sender: UIButton) {
         guard currentIndex > 0 else { return }
         
