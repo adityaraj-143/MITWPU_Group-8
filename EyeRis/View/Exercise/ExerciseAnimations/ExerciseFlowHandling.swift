@@ -7,18 +7,18 @@
 
 import UIKit
 
-protocol OffScreenExerciseFlow {
+protocol ExerciseFlowHandling {
     var exercise: Exercise? { get set }
     var source: ExerciseSource? { get set }
     
     func exerciseCompleted()
 }
 
-protocol OnScreenExerciseFlow: OffScreenExerciseFlow {
+protocol OnScreenExerciseFlow: ExerciseFlowHandling {
     var referenceDistance: Int { get set }
 }
 
-extension OffScreenExerciseFlow where Self: UIViewController {
+extension ExerciseFlowHandling where Self: UIViewController {
     
     func exerciseCompleted() {
         guard let exercise else { return }
@@ -81,26 +81,26 @@ extension ExerciseFlowCoordinator {
         exercise: Exercise,
         source: ExerciseSource
     ) {
-        
+
         let storyboardName = exercise.type == .onScreen
-        ? "ExerciseInstruction"
-        : "OffScreenExerciseInstruction"
-        
+            ? "ExerciseInstruction"
+            : "OffScreenExerciseInstruction"
+
         let identifier = exercise.type == .onScreen
-        ? "ExerciseInstructionViewController"
-        : "OffScreenExerciseInstructionViewController"
-        
+            ? "ExerciseInstructionViewController"
+            : "OffScreenExerciseInstructionViewController"
+
         let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
         let nextVC = storyboard.instantiateViewController(withIdentifier: identifier)
-        
-        if var instructionVC = nextVC as? OffScreenExerciseFlow {
+
+        if var instructionVC = nextVC as? ExerciseFlowHandling {
             instructionVC.exercise = exercise
             instructionVC.source = source
         }
-        
-        vc.navigationController?.pushViewController(nextVC, animated: true)
+
+        guard let nav = vc.navigationController else { return }
+        nav.pushViewController(nextVC, animated: true)
     }
-    
     
     static func pushTestInstructions(from vc: UIViewController) {
         

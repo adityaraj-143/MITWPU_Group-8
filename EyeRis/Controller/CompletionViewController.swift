@@ -53,8 +53,8 @@ final class CompletionViewController: UIViewController {
             
         case .TodaysSet:
             completionLabel.text = "Today's Set Completed!"
-            resultNav = "ExerciseHistory"
-            resultNavId = "ExerciseHistoryViewController"
+            resultNav = "Main"
+            resultNavId = "MainViewController"
             
         case .none:
             assertionFailure("CompletionViewController.source was not set")

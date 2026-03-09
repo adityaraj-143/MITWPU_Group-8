@@ -7,7 +7,7 @@
 
 import UIKit
 
-class OffScreenExerciseInstructionViewController: UIViewController, OffScreenExerciseFlow {
+class OffScreenExerciseInstructionViewController: UIViewController, ExerciseFlowHandling {
     
     var exercise: Exercise?
     var source: ExerciseSource?
@@ -31,7 +31,7 @@ class OffScreenExerciseInstructionViewController: UIViewController, OffScreenExe
             withIdentifier: "OffScreenExerciseViewController"
         )
         
-        if var exerciseVC = vc as? OffScreenExerciseFlow {
+        if var exerciseVC = vc as? ExerciseFlowHandling {
             exerciseVC.exercise = exercise
             exerciseVC.source = source
         }

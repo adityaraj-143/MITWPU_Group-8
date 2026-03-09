@@ -48,7 +48,7 @@ class ExerciseListViewController: UIViewController {
         let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
 
-        guard var instructionVC = vc as? OffScreenExerciseFlow else {
+        guard var instructionVC = vc as? ExerciseFlowHandling else {
             assertionFailure("Instruction VC does not conform to ExerciseFlowHandling")
             return
         }

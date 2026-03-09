@@ -87,7 +87,7 @@ extension ViewController: UICollectionViewDelegate {
             let identifier = exercise.type == .onScreen ? "ExerciseInstructionViewController" : "OffScreenExerciseInstructionViewController"
             let vc = storyboard.instantiateViewController(withIdentifier: identifier)
             
-            guard var flowVC = vc as? OffScreenExerciseFlow else {
+            guard var flowVC = vc as? ExerciseFlowHandling else {
                 assertionFailure("Invalid instruction VC")
                 return
             }

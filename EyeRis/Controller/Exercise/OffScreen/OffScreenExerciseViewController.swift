@@ -13,7 +13,7 @@ enum ExerciseSource {
 
 import UIKit
 
-class OffScreenExerciseViewController: UIViewController, OffScreenExerciseFlow {
+class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
     
     var exercise: Exercise?
     var source: ExerciseSource?
