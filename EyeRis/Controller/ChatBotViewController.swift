@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ChatbotViewController: UIViewController, UITextFieldDelegate {
+class ChatbotViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
     @IBOutlet weak var GreetText: UILabel!
     
     @IBOutlet weak var ChatBotIcon: UIImageView!
@@ -25,7 +25,6 @@ class ChatbotViewController: UIViewController, UITextFieldDelegate {
     var messages = [
         Message(text: "Hello 👋", isIncoming: false),
         Message(text: "Hi, how can I help you?", isIncoming: true),
-        Message(text: "Tell me about EyeRis", isIncoming: false)
     ]
 
     override func viewDidLoad() {
@@ -33,6 +32,7 @@ class ChatbotViewController: UIViewController, UITextFieldDelegate {
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 0))
         textField.leftViewMode = .always
         
+//        collectionView.isUserInteractionEnabled = false
         
         collectionView.register(
             UINib(nibName: "ChatMessageCollectionViewCell", bundle: nil),
@@ -45,6 +45,7 @@ class ChatbotViewController: UIViewController, UITextFieldDelegate {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGesture.cancelsTouchesInView = false
+        tapGesture.delegate = self
         view.addGestureRecognizer(tapGesture)
         
         textField.delegate = self   // Imp
@@ -76,19 +77,21 @@ class ChatbotViewController: UIViewController, UITextFieldDelegate {
     
     @objc func keyboardWillShow(_ notification: Notification) {
         guard
-            let info = notification.userInfo,
-            let frame = info[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
-            let duration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double
-        else { return }
-        
-        let moveUp = frame.height - view.safeAreaInsets.bottom
-        
-        UIView.animate(withDuration: duration) {
-            self.inputContainerView.transform = CGAffineTransform(
-                translationX: 0,
-                y: -moveUp
-            )
-        }
+               let info = notification.userInfo,
+               let frame = info[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+               let duration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double
+           else { return }
+
+           view.bringSubviewToFront(inputContainerView)  // ADD THIS
+           
+           let moveUp = frame.height - view.safeAreaInsets.bottom
+           
+           UIView.animate(withDuration: duration) {
+               self.inputContainerView.transform = CGAffineTransform(
+                   translationX: 0,
+                   y: -moveUp
+               )
+           }
     }
     
     @objc func keyboardWillHide(_ notification: Notification) {
@@ -119,25 +122,26 @@ class ChatbotViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBAction func sendTapped(_ sender: Any) {
+        print("sendTapped called") // add this
         guard let text = textField.text, !text.isEmpty else { return }
-        
-        // Add outgoing message
-        messages.append(Message(text: text, isIncoming: false))
-        
-        let indexPath = IndexPath(item: messages.count - 1, section: 0)
-        collectionView.insertItems(at: [indexPath])
-        collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
-        
-        textField.text = ""
-        
-        // Fake bot reply after 1 sec
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.messages.append(Message(text: "Bot reply to: \(text)", isIncoming: true))
-            self.collectionView.reloadData()
-            
-            let botIndex = IndexPath(item: self.messages.count - 1, section: 0)
-            self.collectionView.scrollToItem(at: botIndex, at: .bottom, animated: true)
-        }
+           
+           view.endEditing(true) // dismiss keyboard immediately
+           
+           messages.append(Message(text: text, isIncoming: false))
+           
+           let indexPath = IndexPath(item: messages.count - 1, section: 0)
+           collectionView.insertItems(at: [indexPath])
+           collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
+           
+           textField.text = ""
+           
+           DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+               self.messages.append(Message(text: "Bot reply to: \(text)", isIncoming: true))
+               self.collectionView.reloadData()
+               
+               let botIndex = IndexPath(item: self.messages.count - 1, section: 0)
+               self.collectionView.scrollToItem(at: botIndex, at: .bottom, animated: true)
+           }
     }
     
     func sendPrompt(_ text: String) {
@@ -156,6 +160,15 @@ class ChatbotViewController: UIViewController, UITextFieldDelegate {
             let botIndex = IndexPath(item: self.messages.count - 1, section: 0)
             self.collectionView.scrollToItem(at: botIndex, at: .bottom, animated: true)
         }
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        print("👆 touch view: \(String(describing: touch.view))")
+
+        if touch.view is UIControl {
+            return false
+        }
+        return true
     }
 }
 
