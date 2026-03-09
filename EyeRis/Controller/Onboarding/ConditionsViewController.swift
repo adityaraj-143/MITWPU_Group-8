@@ -29,6 +29,8 @@ class ConditionsViewController: UIViewController, UITableViewDelegate, UITableVi
     
     let question = "Do you experience any of these eye discomforts?"
     
+    var onboardingTempData: OnboardingTempData!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         progressView.progress = 1.0
@@ -81,6 +83,62 @@ class ConditionsViewController: UIViewController, UITableViewDelegate, UITableVi
         }
 
         tableView.reloadRows(at: [indexPath], with: .none)
+    }
+    
+    func mapIndexToCondition(_ index: Int) -> Conditions? {
+
+        switch index {
+
+        case 0: return .digitalEyeStrain
+        case 1: return .dryEyeSyndrome
+        case 2: return .eyeFatigue
+        case 3: return .eyeMuscleTension
+        case 4: return .eyeStress
+        case 5: return .lightSensitivity
+        case 6: return .visualStress
+        case 7: return .accommodativeDysfunction
+        case 8: return .saccadicDysfunction
+        case 9: return .convergenceInsufficiency
+        case 10: return .smoothPursuitDysfunction
+        case 11: return .generalEyeCoordination
+        case 12: return .dryEyes
+        case 13: return .eyeStrain
+
+        default:
+            return nil   // "Other"
+        }
+    }
+    
+    @IBAction func nextTapped(_ sender: Any) {
+        let mappedConditions: [Conditions] = selectedConditions.compactMap {
+                    mapIndexToCondition($0)
+                }
+
+                onboardingTempData.conditions = mappedConditions
+
+                let store = UserDataStore.shared
+
+                if let firstName = onboardingTempData.firstName {
+                    store.updateFirstName(firstName)
+                }
+
+                if let lastName = onboardingTempData.lastName {
+                    store.updateLastName(lastName)
+                }
+
+                if let gender = onboardingTempData.gender {
+                    store.updateGender(gender)
+                }
+
+                if let dob = onboardingTempData.dob {
+                    store.updateDOB(dob)
+                }
+
+                store.updateEyeConditions(mappedConditions)
+
+                // onboarding finished → move to main app
+                navigationController?.popToRootViewController(animated: true)
+            }
     }
     
 }

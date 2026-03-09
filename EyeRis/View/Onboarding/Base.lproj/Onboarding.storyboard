@@ -145,6 +145,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Next"/>
                                 <connections>
+                                    <action selector="nextTapped:" destination="OzF-eO-eiR" eventType="touchUpInside" id="Wr2-8J-cIH"/>
                                     <segue destination="LfO-Xk-TRR" kind="show" id="xab-Cq-Cam"/>
                                 </connections>
                             </button>
@@ -242,6 +243,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Next"/>
                                 <connections>
+                                    <action selector="nextTapped:" destination="LfO-Xk-TRR" eventType="touchUpInside" id="hLE-yn-aYE"/>
                                     <segue destination="dac-DI-5Pm" kind="show" id="EKJ-dS-JPa"/>
                                 </connections>
                             </button>
@@ -327,6 +329,7 @@
                                 <buttonConfiguration key="configuration" style="filled" title="Next"/>
                                 <connections>
                                     <action selector="doneTapped:" destination="dac-DI-5Pm" eventType="touchUpInside" id="Ac6-GF-dQT"/>
+                                    <action selector="nextTapped:" destination="dac-DI-5Pm" eventType="touchUpInside" id="wfb-D8-iGj"/>
                                     <segue destination="veu-rD-kEI" kind="show" id="qyx-81-EaX"/>
                                 </connections>
                             </button>
