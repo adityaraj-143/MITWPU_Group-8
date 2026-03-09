@@ -122,7 +122,6 @@ class ChatbotViewController: UIViewController, UITextFieldDelegate, UIGestureRec
     
     
     @IBAction func sendTapped(_ sender: Any) {
-        print("sendTapped called") // add this
         guard let text = textField.text, !text.isEmpty else { return }
            
            view.endEditing(true) // dismiss keyboard immediately
@@ -163,7 +162,6 @@ class ChatbotViewController: UIViewController, UITextFieldDelegate, UIGestureRec
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        print("👆 touch view: \(String(describing: touch.view))")
 
         if touch.view is UIControl {
             return false
