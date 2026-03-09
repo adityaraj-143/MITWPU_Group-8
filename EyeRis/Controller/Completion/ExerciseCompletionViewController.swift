@@ -23,31 +23,30 @@ final class ExerciseCompletionViewController: UIViewController {
     private var audioPlayer: AVAudioPlayer?
 
     var source: ExerciseSource?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        styleButtons()
         completionLabel.text = "Exercise Completed!"
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        styleButtons()
 
         playSuccessSound()
         playSuccessHaptic()
-
         startPulse()
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.22) {
+ 
             self.burstParticles()
-        }
+        
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
-            self.animateBottomStats()
-        }
     }
-
     // same animation code as test controller
 
     @IBAction func backButtonTapped(_ sender: Any) {
@@ -133,21 +132,32 @@ final class ExerciseCompletionViewController: UIViewController {
     
     
     private func styleButtons() {
-
+        
+        // Primary
         // Results button (primary)
-        resultsButton.backgroundColor = UIColor(red: 0.42, green: 0.35, blue: 0.95, alpha: 1)
+        resultsButton.backgroundColor = .systemBlue
         resultsButton.setTitleColor(.white, for: .normal)
+        resultsButton.setTitleColor(.white, for: .highlighted)
+        resultsButton.tintColor = .white
         resultsButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        resultsButton.layer.cornerRadius = 16
+        resultsButton.layer.cornerRadius = 18
         resultsButton.clipsToBounds = true
-
-        // Home button (secondary)
-        homeButton.backgroundColor = .white
-        homeButton.setTitleColor(UIColor(red: 0.45, green: 0.45, blue: 0.5, alpha: 1), for: .normal)
+        
+        // Secondary
         homeButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        homeButton.layer.cornerRadius = 16
-        homeButton.layer.borderWidth = 1
-        homeButton.layer.borderColor = UIColor(red: 0.88, green: 0.88, blue: 0.9, alpha: 1).cgColor
+        homeButton.layer.cornerRadius = 18
+        homeButton.clipsToBounds = true
+        
+        
+        if traitCollection.userInterfaceStyle == .dark {
+            resultsButton.backgroundColor = UIColor(red: 0.1, green: 0.3, blue: 0.6, alpha: 1)
+            homeButton.backgroundColor = UIColor(white: 0.22, alpha: 1)
+            homeButton.setTitleColor(.systemGray2, for: .normal)
+        } else {
+            resultsButton.backgroundColor = UIColor(red: 0.1, green: 0.4, blue: 0.85, alpha: 1)
+            homeButton.backgroundColor = UIColor(white: 0.96, alpha: 1)
+            homeButton.setTitleColor(.systemGray3, for: .normal)
+        }
     }
     
     
@@ -164,48 +174,39 @@ final class ExerciseCompletionViewController: UIViewController {
         )
     }
 
-    private func animateBottomStats() {
-
-        UIView.animate(
-            withDuration: 0.45,
-            delay: 0.6,
-            options: [.curveEaseOut],
-            animations: {
-
-                self.TimeTakenLabel.alpha = 1
-                self.ActualTimeTaken.alpha = 1
-            }
-        )
-    }
+ 
 
     private func burstParticles() {
-
         let emitter = CAEmitterLayer()
+        emitter.zPosition = 1000
 
-        let center = view.convert(
-            successImageView.center,
-            from: successImageView.superview
-        )
-
+        let center = view.convert(successImageView.center, from: successImageView.superview)
         emitter.emitterPosition = center
 
-        let cell = CAEmitterCell()
+        let radius = max(successImageView.bounds.width, successImageView.bounds.height) * 0.55
+        emitter.emitterShape = .circle
+        emitter.emitterMode = .outline
+        emitter.emitterSize = CGSize(width: radius, height: radius)
 
+        let cell = CAEmitterCell()
         cell.birthRate = 22
         cell.lifetime = 1.8
+        cell.lifetimeRange = 0.3
+        cell.emissionLongitude = 0
+        cell.emissionRange = .pi / 12
         cell.velocity = 140
+        cell.velocityRange = 30
         cell.scale = 0.25
+        cell.scaleRange = 0.06
+        cell.scaleSpeed = -0.02
         cell.alphaSpeed = -0.12
-
         cell.contents = makeGreenDot(size: 20).cgImage
 
         emitter.emitterCells = [cell]
-
         view.layer.addSublayer(emitter)
 
         emitter.birthRate = 1
-
-        DispatchQueue.main.async {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {  // ← fixed, not instant
             emitter.birthRate = 0
         }
 
@@ -213,6 +214,10 @@ final class ExerciseCompletionViewController: UIViewController {
             emitter.removeFromSuperlayer()
         }
     }
+    
+    
+ 
+    
 
     private func makeGreenDot(size: CGFloat) -> UIImage {
 

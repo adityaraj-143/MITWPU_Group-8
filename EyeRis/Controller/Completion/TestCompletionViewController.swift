@@ -28,7 +28,11 @@ final class TestCompletionViewController: UIViewController {
 
     var resultNav = ""
     var resultNavId = ""
-
+    
+    override func viewDidLoad() {
+            super.viewDidLoad()
+        
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
