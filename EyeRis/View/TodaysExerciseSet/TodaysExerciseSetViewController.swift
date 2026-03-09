@@ -29,14 +29,14 @@ class TodaysExerciseSetViewController: UIViewController {
         let identifier = firstTodayExercise.type == .onScreen ? "ExerciseInstructionViewController" : "OffScreenExerciseInstructionViewController"
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
         
-        guard let instructionVC = vc as? ExerciseFlowHandling else {
+        guard let instructionVC = vc as? OffScreenExerciseFlow else {
             assertionFailure("Instruction VC does not conform to ExerciseFlowHandling")
             return
         }
         
         instructionVC.exercise = firstTodayExercise
         instructionVC.inTodaySet = 1   // Started as Today’s Set
-        if let vc = vc as? ExerciseInstructionViewController {
+        if let vc = vc as? OnScreenExerciseInstructionViewController {
             vc.source = .todaySet
         }
         else if let vc = vc as? OffScreenExerciseInstructionViewController {
@@ -75,14 +75,14 @@ class TodaysExerciseSetViewController: UIViewController {
         let identifier = exercise.type == .onScreen ? "ExerciseInstructionViewController" : "OffScreenExerciseInstructionViewController"
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
 
-        guard let instructionVC = vc as? ExerciseFlowHandling else {
+        guard let instructionVC = vc as? OffScreenExerciseFlow else {
             assertionFailure("Instruction VC does not conform to ExerciseFlowHandling")
             return
         }
 
         instructionVC.exercise = exercise
         instructionVC.inTodaySet = 0
-        if let vc = vc as? ExerciseInstructionViewController {
+        if let vc = vc as? OnScreenExerciseInstructionViewController {
             vc.source = .todaySet
         }
         else if let vc = vc as? OffScreenExerciseInstructionViewController {
