@@ -122,18 +122,20 @@ extension ExerciseFlowCoordinator {
         source: ExerciseSource?
     ) {
         
-        let storyboard = UIStoryboard(name: "Completion", bundle: nil)
+        let storyboard = UIStoryboard(name: "ExerciseCompletion", bundle: nil)
         let nextVC = storyboard.instantiateViewController(
-            withIdentifier: "CompletionViewController"
+            withIdentifier: "ExerciseCompletionViewController"
         )
         
-        if let completionVC = nextVC as? CompletionViewController {
+        if let completionVC = nextVC as? ExerciseCompletionViewController {
             
             switch source {
             case .todaysSet:
                 completionVC.source = .TodaysSet
-            case .recommended, .list:
+            case .recommended:
                 completionVC.source = .Recommended
+            case .list:
+                completionVC.source = .ExerciseList
             case .none:
                 completionVC.source = .Recommended
             }

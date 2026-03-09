@@ -79,7 +79,7 @@ class BlinkRateViewController: UIViewController, ARSessionDelegate {
             BlinkRateTestResultDataStore.shared.save(result)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                self.navigate(to: "Completion", with: "CompletionViewController", source: self.source == .blinkRateTest ? .BlinkRateTest : .TodaysSet)
+                self.navigate(to: "TestCompletion", with: "TestCompletionViewController", source: self.source == .blinkRateTest ? .BlinkRateTest : .TodaysSet)
             }
         }
         
@@ -228,7 +228,7 @@ class BlinkRateViewController: UIViewController, ARSessionDelegate {
             withIdentifier: identifier
         )
         
-        if let completionVC = vc as? CompletionViewController {
+        if let completionVC = vc as? TestCompletionViewController {
             completionVC.source = source
         }
         

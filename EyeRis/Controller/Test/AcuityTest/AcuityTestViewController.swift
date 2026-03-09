@@ -49,8 +49,8 @@
                 nextNav = "TestCalibration"
                 nextNavId = "CalibrationViewController"
             case .DVARight:
-                nextNav = "Completion"
-                nextNavId = "CompletionViewController"
+                nextNav = "TestCompletion"
+                nextNavId = "TestCompletionViewController"
             case .blinkRateTest:
                 break;
             default:
@@ -446,7 +446,7 @@
                     tempVC.source = .DVARight
                 }
             case .DVARight:
-                if let tempVC = vc as? CompletionViewController {
+                if let tempVC = vc as? TestCompletionViewController {
                     tempVC.source = .AcuityTest
                 }
             default:
