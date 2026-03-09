@@ -15,21 +15,24 @@ class ChatbotViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var collectionView: UICollectionView!
     
+    var prompt: String?
+    
     struct Message {
         let text: String
         let isIncoming: Bool
     }
     
     var messages = [
-        Message(text: "Hello 👋", isIncoming: true),
-        Message(text: "Hi, how can I help you?", isIncoming: false),
-        Message(text: "Tell me about EyeRis", isIncoming: true)
+        Message(text: "Hello 👋", isIncoming: false),
+        Message(text: "Hi, how can I help you?", isIncoming: true),
+        Message(text: "Tell me about EyeRis", isIncoming: false)
     ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 0))
         textField.leftViewMode = .always
+        
         
         collectionView.register(
             UINib(nibName: "ChatMessageCollectionViewCell", bundle: nil),
@@ -39,7 +42,6 @@ class ChatbotViewController: UIViewController, UITextFieldDelegate {
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.estimatedItemSize = CGSize(width: view.bounds.width, height: 44)
         }
-
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGesture.cancelsTouchesInView = false
@@ -50,6 +52,12 @@ class ChatbotViewController: UIViewController, UITextFieldDelegate {
         
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        if let prompt = prompt {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                self.sendPrompt(prompt)
+            }
+        }
         
         NotificationCenter.default.addObserver(
             self,
@@ -123,6 +131,24 @@ class ChatbotViewController: UIViewController, UITextFieldDelegate {
         textField.text = ""
         
         // Fake bot reply after 1 sec
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.messages.append(Message(text: "Bot reply to: \(text)", isIncoming: true))
+            self.collectionView.reloadData()
+            
+            let botIndex = IndexPath(item: self.messages.count - 1, section: 0)
+            self.collectionView.scrollToItem(at: botIndex, at: .bottom, animated: true)
+        }
+    }
+    
+    func sendPrompt(_ text: String) {
+        
+        messages.append(Message(text: text, isIncoming: false))
+        
+        let indexPath = IndexPath(item: messages.count - 1, section: 0)
+        collectionView.insertItems(at: [indexPath])
+        collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
+        
+        // fake bot reply
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.messages.append(Message(text: "Bot reply to: \(text)", isIncoming: true))
             self.collectionView.reloadData()
