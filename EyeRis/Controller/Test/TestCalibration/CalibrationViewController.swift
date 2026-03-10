@@ -260,7 +260,7 @@ extension CalibrationViewController {
             vc.source = source
         }
         
-        if let vc = vc as? BlinkRateViewController {
+        if let vc = vc as? BlinkRateTestViewController {
             vc.source = source
         }
         
