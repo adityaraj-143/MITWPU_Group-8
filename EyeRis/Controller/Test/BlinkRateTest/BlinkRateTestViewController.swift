@@ -85,7 +85,7 @@ class BlinkRateTestViewController: UIViewController, ARSessionDelegate {
                     self.navigateToTestCompletion(to: "TestCompletion", with: "TestCompletionViewController", source: .blinkRateTest)
                 }
                 else if (self.source == .todaysSet){
-                    self.navigateToTodaysSetCompletion(to: "TestCompletion", with: "TestCompletionViewController", source: .todaysSet)
+                    self.navigateToTodaysSetCompletion(to: "ExerciseCompletion", with: "ExerciseCompletionViewController", source: .todaysSet)
                 }
                 else {
                     print(self.source ?? "no source at all")
