@@ -15,7 +15,7 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         configureUI()
-        notificationsSent.text = "Notifications Sent: \(WorkModeTimerManager.shared.notificationsSent)"
+        notificationsSent.text = "Notifications Sent : \(WorkModeTimerManager.shared.notificationsSent)"
         configureOrb()
         trail = OrbAnimations.attachTrail(to: contentView, around: mainView)
         configureObservers()
@@ -67,7 +67,7 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
 
         guard let count = notification.object as? Int else { return }
 
-        notificationsSent.text = "Notifications Sent: \(count)"
+        notificationsSent.text = "Notifications Sent : \(count)"
     }
     
     
@@ -106,7 +106,9 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
             WorkModeTimerManager.shared.stop()
             OrbAnimations.stopOrbAnimation(orb)
             OrbAnimations.resetOrb(orb, around: mainView)
-            trail.flatMap { OrbAnimations.stopTrailAnimation($0) }
+            trail.flatMap { OrbAnimations.stopTrailAnimation($0)
+            notificationsSent.text = "Notifications Sent : 0"
+            }
         }
     }
 
