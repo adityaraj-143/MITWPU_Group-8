@@ -12,6 +12,7 @@ private let isSimulator = false
 class CalibrationViewController: UIViewController {
     
     var source: TestFlowSource?
+    var flowMode: TestFlowMode?
     private var currentDistance: Int = 0
     private var arSession: ARSession?
     private var arView: ARView?
@@ -262,7 +263,12 @@ extension CalibrationViewController {
         
         if let vc = vc as? BlinkRateTestViewController {
             vc.source = source
+            if let flowMode = flowMode {
+                vc.flowMode = flowMode
+            }
         }
+        
+        
         
         navigationController?.pushViewController(vc, animated: true)
     }

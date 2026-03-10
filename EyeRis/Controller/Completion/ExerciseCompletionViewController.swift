@@ -23,6 +23,7 @@ final class ExerciseCompletionViewController: UIViewController {
     private var audioPlayer: AVAudioPlayer?
 
     var source: ExerciseSource?
+    var flowMode: ExerciseFlowMode?
     
     override func viewDidLoad() {
         super.viewDidLoad()

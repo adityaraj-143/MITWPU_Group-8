@@ -167,8 +167,9 @@ final class TestCompletionViewController: UIViewController {
             withIdentifier: resultNavId
         )
 
-        navigationController?.pushViewController(vc, animated: true)
-    }
+        guard let nav = navigationController else { return }
+
+        nav.setViewControllers([nav.viewControllers.first!, vc], animated: true)    }
 
     @IBAction func backButtonTapped(_ sender: Any) {
         goToHome()

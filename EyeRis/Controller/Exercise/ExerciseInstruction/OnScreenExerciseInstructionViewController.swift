@@ -16,6 +16,7 @@ class OnScreenExerciseInstructionViewController: UIViewController, OnScreenExerc
     
     var exercise: Exercise?
     var source: ExerciseSource?
+    var flowMode: ExerciseFlowMode?
     var referenceDistance: Int = 40
     
     private var player: AVPlayer?

@@ -16,14 +16,19 @@ enum TestFlowSource {
     case todaysSet
 }
 
+enum TestFlowMode {
+    case single
+    case set
+}
+
 class TestInstructionsViewController: UIViewController, UICollectionViewDelegate {
-    
     
     @IBOutlet weak var pageControlOutlet: UIPageControl!
     @IBOutlet weak var instructionLabel: UILabel!
     @IBOutlet weak var CollectionView: UICollectionView!
-    var source: TestFlowSource?
     
+    var source: TestFlowSource?
+    var flowMode: TestFlowMode?
     var test: AcuityTest?
     var blinkTest: BlinkRateTest?
     
@@ -226,8 +231,12 @@ extension TestInstructionsViewController {
                 // Should never go back to instructions after this
                 calibrationVC.source = .DVARight
                 
-            case .blinkRateTest, .todaysSet:
+            case .blinkRateTest:
                 calibrationVC.source = source
+            
+            case .todaysSet:
+                calibrationVC.source = source
+                calibrationVC.flowMode = flowMode
                 
             default:
                 break
