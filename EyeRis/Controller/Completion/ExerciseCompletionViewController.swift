@@ -32,7 +32,15 @@ final class ExerciseCompletionViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         styleButtons()
-        completionLabel.text = "Exercise Completed!"
+        
+        switch flowMode {
+        case .set:
+            completionLabel.text = "Exercise Set Completed!"
+        case .single:
+            completionLabel.text = "Exercise Completed!"
+        case .none:
+            completionLabel.text = "Exercise Completed!"
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
