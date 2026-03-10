@@ -136,8 +136,13 @@ class ConditionsViewController: UIViewController, UITableViewDelegate, UITableVi
         
         store.updateEyeConditions(mappedConditions)
         
-        // onboarding finished → move to main app
-        navigationController?.popToRootViewController(animated: true)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let mainVC = storyboard.instantiateInitialViewController()!
+        
+        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+            sceneDelegate.window?.rootViewController = mainVC
+            sceneDelegate.window?.makeKeyAndVisible()
+        }
     }
 }
 

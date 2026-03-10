@@ -24,7 +24,7 @@ class UserDetailsViewController: UIViewController {
     
     var onboardingTempData = OnboardingTempData()
     
-    let genders = ["Male", "Female", "Other"]
+    let genders = ["Other", "Female", "Male"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +33,20 @@ class UserDetailsViewController: UIViewController {
         
         configureDatePicker()
         configureGenderMenu()
+        
+        styleTextField(firstNameField)
+        styleTextField(lastNameField)
+    }
+    
+    func styleTextField(_ textField: UITextField) {
+        
+        textField.layer.cornerRadius = 10
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor.systemGray5.cgColor
+        
+        textField.backgroundColor = .systemGray6
+        
+        textField.clipsToBounds = true
     }
     
     // MARK: - Date Picker Setup
