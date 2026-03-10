@@ -317,7 +317,10 @@ extension CalibrationViewController {
             if let tempVC = vc as? AcuityTestViewController {
                 tempVC.source = source
             }
-        default: break
+        case .blinkRateTest, .todaysSet:
+            if let tempVC = vc as? BlinkRateTestViewController {
+                tempVC.source = source
+            }
         }
         
         

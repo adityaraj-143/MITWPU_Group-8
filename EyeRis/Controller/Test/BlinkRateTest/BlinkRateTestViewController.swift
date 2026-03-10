@@ -10,7 +10,7 @@ import UIKit
 import ARKit
 import AVFoundation
 
-class BlinkRateViewController: UIViewController, ARSessionDelegate {
+class BlinkRateTestViewController: UIViewController, ARSessionDelegate {
     
     // Invisible AR session
     let session = ARSession()
@@ -45,7 +45,8 @@ class BlinkRateViewController: UIViewController, ARSessionDelegate {
     
     func startTimer() {
         let duration = blinkTest.duration
-        timeRemaining = duration
+        timeRemaining = 10
+        
         timerLabel.text = String(format: "%02d:%02d", duration / 60, duration % 60)
         
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
@@ -79,7 +80,17 @@ class BlinkRateViewController: UIViewController, ARSessionDelegate {
             BlinkRateTestResultDataStore.shared.save(result)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                self.navigate(to: "Completion", with: "CompletionViewController", source: self.source == .blinkRateTest ? .BlinkRateTest : .TodaysSet)
+                
+                if(self.source == .blinkRateTest) {
+                    self.navigateToTestCompletion(to: "TestCompletion", with: "TestCompletionViewController", source: .blinkRateTest)
+                }
+                else if (self.source == .todaysSet){
+                    self.navigateToTodaysSetCompletion(to: "TestCompletion", with: "TestCompletionViewController", source: .todaysSet)
+                }
+                else {
+                    print(self.source ?? "no source at all")
+                    assertionFailure("Wrong source sent to blink rate test")
+                }
             }
         }
         
@@ -217,10 +228,10 @@ class BlinkRateViewController: UIViewController, ARSessionDelegate {
         startTimer()
     }
     
-    func navigate(
+    func navigateToTestCompletion(
         to storyboardName: String,
         with identifier: String,
-        source: CompletionSource? = nil
+        source: TestSource? = nil
     ) {
         let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
         
@@ -228,7 +239,25 @@ class BlinkRateViewController: UIViewController, ARSessionDelegate {
             withIdentifier: identifier
         )
         
-        if let completionVC = vc as? CompletionViewController {
+        if let completionVC = vc as? TestCompletionViewController {
+            completionVC.source = source
+        }
+        
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func navigateToTodaysSetCompletion(
+        to storyboardName: String,
+        with identifier: String,
+        source: ExerciseSource? = nil
+    ) {
+        let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
+        
+        let vc = storyboard.instantiateViewController(
+            withIdentifier: identifier
+        )
+        
+        if let completionVC = vc as? ExerciseCompletionViewController {
             completionVC.source = source
         }
         
