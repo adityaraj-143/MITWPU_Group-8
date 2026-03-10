@@ -49,14 +49,20 @@ final class TestCompletionViewController: UIViewController {
 
         CompletionAnimations.playSuccessSound()
         CompletionAnimations.playSuccessHaptic()
+
+        iconContainerView.layer.removeAllAnimations()
+        iconContainerView.transform = .identity
         CompletionAnimations.startPulse(iconContainerView)
 
-        CompletionAnimations.burstParticles(
-            in: view,
-            around: successImageView
-        )
-    }
+        view.layoutIfNeeded()
 
+        DispatchQueue.main.async {
+            CompletionAnimations.burstParticles(
+                in: self.view,
+                around: self.successImageView
+            )
+        }
+    }
     // MARK: Buttons
 
     @IBAction func homeButtonTapped(_ sender: Any) {
