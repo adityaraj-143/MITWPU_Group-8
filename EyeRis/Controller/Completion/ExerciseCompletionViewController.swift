@@ -36,10 +36,13 @@ final class ExerciseCompletionViewController: UIViewController {
         switch flowMode {
         case .set:
             completionLabel.text = "Exercise Set Completed!"
+           
         case .single:
             completionLabel.text = "Exercise Completed!"
+
         case .none:
             completionLabel.text = "Exercise Completed!"
+
         }
     }
 

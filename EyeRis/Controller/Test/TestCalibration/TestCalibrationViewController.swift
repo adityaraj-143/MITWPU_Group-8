@@ -263,9 +263,7 @@ extension TestCalibrationViewController {
         
         if let vc = vc as? BlinkRateTestViewController {
             vc.source = source
-            if let flowMode = flowMode {
-                vc.flowMode = flowMode
-            }
+            vc.flowMode = flowMode
         }
         
         
