@@ -6,12 +6,16 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var iconView: UIView!
     @IBOutlet weak var modeToggle: UISwitch!
 
+    @IBOutlet weak var notificationsSent: UILabel!
+    
+    
     private var orb: UIView?
     private var trail: CAShapeLayer?
 
     override func awakeFromNib() {
         super.awakeFromNib()
         configureUI()
+        notificationsSent.text = "Notifications Sent: \(WorkModeTimerManager.shared.notificationsSent)"
         configureOrb()
         trail = OrbAnimations.attachTrail(to: contentView, around: mainView)
         configureObservers()
@@ -51,7 +55,22 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
             name: .workModeTick,
             object: nil
         )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleNotificationSent(_:)),
+            name: .workModeNotificationSent,
+            object: nil
+        )
     }
+    
+    @objc private func handleNotificationSent(_ notification: Notification) {
+
+        guard let count = notification.object as? Int else { return }
+
+        notificationsSent.text = "Notifications Sent: \(count)"
+    }
+    
+    
 
     // MARK: - Sync
 

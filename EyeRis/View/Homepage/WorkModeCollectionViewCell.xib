@@ -84,6 +84,7 @@
                 <outlet property="iconView" destination="QVy-JT-zpU" id="Cho-1A-CCE"/>
                 <outlet property="mainView" destination="f1V-Oi-inV" id="Bxg-vS-2Js"/>
                 <outlet property="modeToggle" destination="uvr-MC-PjH" id="15i-UN-30H"/>
+                <outlet property="notificationsSent" destination="xAn-lL-x7G" id="9Oe-QO-Vii"/>
             </connections>
             <point key="canvasLocation" x="138.93129770992365" y="153.52112676056339"/>
         </collectionViewCell>
