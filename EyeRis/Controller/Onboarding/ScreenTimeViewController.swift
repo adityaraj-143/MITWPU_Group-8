@@ -72,11 +72,14 @@ class ScreenTimeViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBAction func nextTapped(_ sender: UIButton) {
         onboardingTempData.phoneScreenTime = selectedAnswers[0]
         onboardingTempData.largeScreenTime = selectedAnswers[1]
-        
+
+        guard let storyboard = self.storyboard else { return }
+
         let vc = storyboard.instantiateViewController(withIdentifier: "ConditionsViewController") as! ConditionsViewController
+
         vc.onboardingTempData = onboardingTempData
+
         navigationController?.pushViewController(vc, animated: true)
-        
     }
     
 }

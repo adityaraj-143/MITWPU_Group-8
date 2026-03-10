@@ -3,7 +3,7 @@ import UIKit
 
 
 class ConditionsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
     @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var tableView: UITableView!
     
@@ -52,43 +52,43 @@ class ConditionsViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return question
     }
-
+    
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "optionCell", for: indexPath)
-
+        
         cell.textLabel?.text = options[indexPath.row]
         cell.textLabel?.font = UIFont.systemFont(ofSize: 16)
-
+        
         if selectedConditions.contains(indexPath.row) {
             cell.imageView?.image = UIImage(systemName: "checkmark.circle.fill")
         } else {
             cell.imageView?.image = UIImage(systemName: "circle")
         }
-
+        
         cell.tintColor = .systemBlue
-
+        
         return cell
     }
-
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        
         if selectedConditions.contains(indexPath.row) {
             selectedConditions.removeAll { $0 == indexPath.row }
         } else {
             selectedConditions.append(indexPath.row)
         }
-
+        
         tableView.reloadRows(at: [indexPath], with: .none)
     }
     
     func mapIndexToCondition(_ index: Int) -> Conditions? {
-
+        
         switch index {
-
+            
         case 0: return .digitalEyeStrain
         case 1: return .dryEyeSyndrome
         case 2: return .eyeFatigue
@@ -103,7 +103,7 @@ class ConditionsViewController: UIViewController, UITableViewDelegate, UITableVi
         case 11: return .generalEyeCoordination
         case 12: return .dryEyes
         case 13: return .eyeStrain
-
+            
         default:
             return nil   // "Other"
         }
@@ -111,34 +111,34 @@ class ConditionsViewController: UIViewController, UITableViewDelegate, UITableVi
     
     @IBAction func nextTapped(_ sender: Any) {
         let mappedConditions: [Conditions] = selectedConditions.compactMap {
-                    mapIndexToCondition($0)
-                }
-
-                onboardingTempData.conditions = mappedConditions
-
-                let store = UserDataStore.shared
-
-                if let firstName = onboardingTempData.firstName {
-                    store.updateFirstName(firstName)
-                }
-
-                if let lastName = onboardingTempData.lastName {
-                    store.updateLastName(lastName)
-                }
-
-                if let gender = onboardingTempData.gender {
-                    store.updateGender(gender)
-                }
-
-                if let dob = onboardingTempData.dob {
-                    store.updateDOB(dob)
-                }
-
-                store.updateEyeConditions(mappedConditions)
-
-                // onboarding finished → move to main app
-                navigationController?.popToRootViewController(animated: true)
-            }
+            mapIndexToCondition($0)
+        }
+        
+        onboardingTempData.conditions = mappedConditions
+        
+        let store = UserDataStore.shared
+        
+        if let firstName = onboardingTempData.firstName {
+            store.updateFirstName(firstName)
+        }
+        
+        if let lastName = onboardingTempData.lastName {
+            store.updateLastName(lastName)
+        }
+        
+        if let gender = onboardingTempData.gender {
+            store.updateGender(gender)
+        }
+        
+        if let dob = onboardingTempData.dob {
+            store.updateDOB(dob)
+        }
+        
+        store.updateEyeConditions(mappedConditions)
+        
+        // onboarding finished → move to main app
+        navigationController?.popToRootViewController(animated: true)
     }
-    
 }
+
+
