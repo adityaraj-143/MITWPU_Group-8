@@ -68,7 +68,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="tinted" title="Results"/>
                                 <connections>
-                                    <action selector="ResultsButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Orh-cj-6m5"/>
+                                    <action selector="resultsButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="05g-OS-Fg6"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time Taken  •  2m 23s" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Biv-7a-ApG">

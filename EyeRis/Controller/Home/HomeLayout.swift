@@ -56,7 +56,7 @@ extension ViewController {
                     top: 0,
                     bottom: 15
                 )
-
+                
                 
             case 3: // Recommended
                 let section = Self.makeHorizontalSection(
@@ -79,9 +79,6 @@ extension ViewController {
                 let section = Self.makeFullWidthSection(height: 165, top: 5, bottom: 15)
                 section.boundarySupplementaryItems = [sectionHeaderItem]
                 return section
-                
-//            case 6: // Last Exercise
-//                return Self.makeFullWidthSection(height: 165, top: 0, bottom: 15)
                 
             case 6: // Last Test
                 return Self.makeFullWidthSection(height: 216, top: 0, bottom: 40)

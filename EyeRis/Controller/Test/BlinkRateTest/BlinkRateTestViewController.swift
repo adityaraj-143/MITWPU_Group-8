@@ -15,6 +15,7 @@ class BlinkRateTestViewController: UIViewController, ARSessionDelegate {
     // Invisible AR session
     let session = ARSession()
     var source: TestFlowSource?
+    var flowMode: TestFlowMode?
     let blinkTest = BlinkRateTestStore.shared.test
     
     @IBOutlet weak var timerLabel: UILabel!
@@ -25,7 +26,7 @@ class BlinkRateTestViewController: UIViewController, ARSessionDelegate {
     var blinkCount = 0
     var timer: Timer?
     var timeRemaining: Int = 120
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -85,7 +86,11 @@ class BlinkRateTestViewController: UIViewController, ARSessionDelegate {
                     self.navigateToTestCompletion(to: "TestCompletion", with: "TestCompletionViewController", source: .blinkRateTest)
                 }
                 else if (self.source == .todaysSet){
-                    self.navigateToTodaysSetCompletion(to: "TestCompletion", with: "TestCompletionViewController", source: .todaysSet)
+                    if(self.flowMode == .single) {
+                        self.navigateToTestCompletion(to: "TestCompletion", with: "TestCompletionViewController", source: .blinkRateTest)
+                    } else {
+                        self.navigateToTodaysSetCompletion(to: "ExerciseCompletion", with: "ExerciseCompletionViewController", source: .todaysSet)
+                    }
                 }
                 else {
                     print(self.source ?? "no source at all")

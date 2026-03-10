@@ -26,6 +26,7 @@ struct AcuityTestResultStore {
     // MARK: - Fetch All
     
     func fetchAll() -> [AcuityTestResult] {
+        return dummyAcuityResults
         let request = NSFetchRequest<AcuityTestResultEntity>(entityName: "AcuityTestResultEntity")
         request.sortDescriptors = [NSSortDescriptor(key: "testDate", ascending: true)]
         

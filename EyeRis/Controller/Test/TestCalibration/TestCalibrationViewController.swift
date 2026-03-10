@@ -3,23 +3,16 @@ import ARKit
 import RealityKit
 
 #if targetEnvironment(simulator)
-let isSimulator = true
+private let isSimulator = true
 #else
-let isSimulator = false
+private let isSimulator = false
 #endif
 
 
-class CalibrationViewController: UIViewController {
+class TestCalibrationViewController: UIViewController {
     
     var source: TestFlowSource?
-    
-    @IBOutlet weak var distanceLabel: UILabel!
-    @IBOutlet weak var statusLabel: UILabel!
-    @IBOutlet weak var cameraFeedBorderView: UIView!
-    @IBOutlet weak var proceedButton: UIButton!
-    @IBOutlet weak var cameraContainer: UIView!
-    @IBOutlet weak var eyeInstruction: UILabel!
-    
+    var flowMode: TestFlowMode?
     private var currentDistance: Int = 0
     private var arSession: ARSession?
     private var arView: ARView?
@@ -28,7 +21,13 @@ class CalibrationViewController: UIViewController {
     private let maxDistance: Int = 45
     var exercise: Exercise?
     
-    
+    @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var cameraFeedBorderView: UIView!
+    @IBOutlet weak var proceedButton: UIButton!
+    @IBOutlet weak var cameraContainer: UIView!
+    @IBOutlet weak var eyeInstruction: UILabel!
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,70 +40,17 @@ class CalibrationViewController: UIViewController {
         }
         
         configureEyeInstruction()
-
-        switch source {
-        case .NVALeft:
-            print("Calibration for NVA left eye Test")
-        case .NVARight:
-            print("Calibration for NVA right eye Test")
-        case .DVALeft:
-            print("Calibration for DVA left eye Test")
-        case .DVARight:
-            print("Calibration for DVA right eye Test")
-        case .blinkRateTest, .todaysSet:
-            print("Calibration for Blink Rate Test")
-            
-        default:
-            print("i was here")
-            break
-        }
     }
-    
-    private func configureEyeInstruction() {
-        guard let source else {
-            eyeInstruction.isHidden = true
-            return
-        }
-        
-        switch source {
-        case .NVALeft, .DVALeft:
-            eyeInstruction.isHidden = false
-            eyeInstruction.text = "This is a test for your left eye.\nPlease close your right eye."
-            
-        case .NVARight, .DVARight:
-            eyeInstruction.isHidden = false
-            eyeInstruction.text = "This is a test for your right eye.\nPlease close your left eye."
-            
-        case .blinkRateTest, .todaysSet:
-            eyeInstruction.isHidden = true
-        
-        }
-        
-         
-    }
-
-    
-    private func simulateDistance() {
-        currentDistance = 40   // perfect distance
-        distanceLabel.text = "\(currentDistance)cm"
-        statusLabel.text = "Simulator Mode"
-        statusLabel.textColor = .systemGreen
-        cameraFeedBorderView.layer.borderColor = UIColor.systemGreen.cgColor
-        proceedButton.isEnabled = true
-        proceedButton.alpha = 1.0
-    }
-
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if isSimulator { return }
-
+        
         guard ARFaceTrackingConfiguration.isSupported else { return }
         let config = ARFaceTrackingConfiguration()
         config.isLightEstimationEnabled = false
         arSession?.run(config)
     }
-
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -116,7 +62,6 @@ class CalibrationViewController: UIViewController {
     }
     
     // MARK: Setup
-    
     private func setupBorderView() {
         cameraFeedBorderView.layer.cornerRadius = 17
         cameraFeedBorderView.layer.borderWidth = 5
@@ -143,26 +88,46 @@ class CalibrationViewController: UIViewController {
     
     private func setupARKit() {
         if isSimulator { return }
-
+        
         guard ARFaceTrackingConfiguration.isSupported else {
             showARNotSupportedAlert()
             return
         }
-
+        
         arSession = ARSession()
         arSession?.delegate = self
         arView?.session = arSession!
-
+        
         let config = ARFaceTrackingConfiguration()
         config.isLightEstimationEnabled = false
         arSession?.run(config)
-
+        
         startDistanceUpdates()
     }
-
+    
+    // MARK: - UI / Configuration
+    private func configureEyeInstruction() {
+        guard let source else {
+            eyeInstruction.isHidden = true
+            return
+        }
+        
+        switch source {
+        case .NVALeft, .DVALeft:
+            eyeInstruction.isHidden = false
+            eyeInstruction.text = "This is a test for your left eye.\nPlease close your right eye."
+            
+        case .NVARight, .DVARight:
+            eyeInstruction.isHidden = false
+            eyeInstruction.text = "This is a test for your right eye.\nPlease close your left eye."
+            
+        case .blinkRateTest, .todaysSet:
+            eyeInstruction.isHidden = true
+        }
+    }
+    
     
     // MARK: Distance Detection
-    
     private func startDistanceUpdates() {
         updateTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
             self?.updateDistanceMeasurement()
@@ -171,7 +136,7 @@ class CalibrationViewController: UIViewController {
     
     private func updateDistanceMeasurement() {
         if isSimulator { return }
-
+        
         guard let frame = arSession?.currentFrame else { return }
         
         let faceAnchors = frame.anchors.compactMap { $0 as? ARFaceAnchor }
@@ -215,36 +180,28 @@ class CalibrationViewController: UIViewController {
         UIView.animate(withDuration: 0.3) {
             self.cameraFeedBorderView.layer.borderColor = borderColor.cgColor
         }
-        
-        //        proceedButton.isEnabled = isInRange
-        //        proceedButton.alpha = isInRange ? 1.0 : 0.5
-        
-        //delete later
         proceedButton.isEnabled = true
         proceedButton.alpha = 1.0
         
     }
     
-    // MARK: Actions
-    
-    @IBAction func proceedButtonTapped(_ sender: UIButton) {
-        let alert = UIAlertController(
-            title: "Ready?",
-            message: "Start the test?",
-            preferredStyle: .alert
-        )
-        
-        alert.addAction(UIAlertAction(title: "Start", style: .default) { [weak self] _ in
-            print("CALLED")
-            self?.navigateBasedOnSource()
-        })
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        
-        present(alert, animated: true)
+    // MARK: - Simulator
+    private func simulateDistance() {
+        currentDistance = 40   // perfect distance
+        distanceLabel.text = "\(currentDistance)cm"
+        statusLabel.text = "Simulator Mode"
+        statusLabel.textColor = .systemGreen
+        cameraFeedBorderView.layer.borderColor = UIColor.systemGreen.cgColor
+        proceedButton.isEnabled = true
+        proceedButton.alpha = 1.0
     }
     
+    // MARK: Actions
+    @IBAction func proceedButtonTapped(_ sender: UIButton) {
+        navigateBasedOnSource()
+    }
     
+    // MARK: - Alerts
     private func showARNotSupportedAlert() {
         let alert = UIAlertController(
             title: "AR Not Supported",
@@ -262,7 +219,7 @@ class CalibrationViewController: UIViewController {
 
 // MARK: AR Session Delegate
 
-extension CalibrationViewController: ARSessionDelegate {
+extension TestCalibrationViewController: ARSessionDelegate {
     
     func session(_ session: ARSession, didFailWithError error: Error) {
         print("AR error: \(error)")
@@ -277,7 +234,7 @@ extension CalibrationViewController: ARSessionDelegate {
     }
 }
 
-extension CalibrationViewController {
+extension TestCalibrationViewController {
     
     func navigateBasedOnSource() {
         guard let source else { return }
@@ -300,28 +257,17 @@ extension CalibrationViewController {
         let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
         
-        switch source {
-        case .NVALeft:
-            if let tempVC = vc as? AcuityTestViewController {
-                tempVC.source = source
-            }
-        case .NVARight:
-            if let tempVC = vc as? AcuityTestViewController {
-                tempVC.source = source
-            }
-        case .DVALeft:
-            if let tempVC = vc as? AcuityTestViewController {
-                tempVC.source = source
-            }
-        case .DVARight:
-            if let tempVC = vc as? AcuityTestViewController {
-                tempVC.source = source
-            }
-        case .blinkRateTest, .todaysSet:
-            if let tempVC = vc as? BlinkRateTestViewController {
-                tempVC.source = source
+        if let vc = vc as? AcuityTestViewController {
+            vc.source = source
+        }
+        
+        if let vc = vc as? BlinkRateTestViewController {
+            vc.source = source
+            if let flowMode = flowMode {
+                vc.flowMode = flowMode
             }
         }
+        
         
         
         navigationController?.pushViewController(vc, animated: true)

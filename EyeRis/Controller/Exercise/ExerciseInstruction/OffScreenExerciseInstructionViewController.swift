@@ -9,6 +9,7 @@ import UIKit
 
 class OffScreenExerciseInstructionViewController: UIViewController, ExerciseFlowHandling {
     
+    var flowMode: ExerciseFlowMode?
     var exercise: Exercise?
     var source: ExerciseSource?
     var referenceDistance: Int = 0
@@ -34,6 +35,7 @@ class OffScreenExerciseInstructionViewController: UIViewController, ExerciseFlow
         if var exerciseVC = vc as? ExerciseFlowHandling {
             exerciseVC.exercise = exercise
             exerciseVC.source = source
+            exerciseVC.flowMode = flowMode
         }
         
         navigationController?.pushViewController(vc, animated: true)
