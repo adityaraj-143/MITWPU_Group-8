@@ -61,16 +61,15 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
             name: .workModeNotificationSent,
             object: nil
         )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleBreakStarted),
+            name: .workModeBreakStarted,
+            object: nil
+        )
     }
     
-    @objc private func handleNotificationSent(_ notification: Notification) {
 
-        guard let count = notification.object as? Int else { return }
-
-        notificationsSent.text = "Notifications Sent : \(count)"
-    }
-    
-    
 
     // MARK: - Sync
 
@@ -106,21 +105,53 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
             WorkModeTimerManager.shared.stop()
             OrbAnimations.stopOrbAnimation(orb)
             OrbAnimations.resetOrb(orb, around: mainView)
-            trail.flatMap { OrbAnimations.stopTrailAnimation($0)
+            trail.flatMap { OrbAnimations.stopTrailAnimation($0) }
             notificationsSent.text = "Notifications Sent : 0"
-            }
         }
     }
 
     // MARK: - Notifications
+    
+    @objc private func handleNotificationSent(_ notification: Notification) {
+
+        guard let count = notification.object as? Int else { return }
+
+        notificationsSent.text = "Notifications Sent : \(count)"
+    }
+    
+    @objc private func handleBreakStarted() {
+
+        guard let orb else { return }
+
+        OrbAnimations.stopOrbAnimation(orb)
+        trail.flatMap { OrbAnimations.stopTrailAnimation($0) }
+    }
+    
 
     @objc private func handleStateChange(_ notification: Notification) {
         guard let isRunning = notification.object as? Bool else { return }
         orb?.isHidden = !isRunning
+
+        if isRunning {
+            // Break just ended and work session restarted — kick animations back on
+            guard let orb else { return }
+            let minutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
+            let duration = TimeInterval(minutes * 60)
+            OrbAnimations.resetOrb(orb, around: mainView)
+            OrbAnimations.startOrbAnimation(orb, around: mainView, duration: duration)
+            trail.flatMap { OrbAnimations.startTrailAnimation($0, duration: duration) }
+            modeToggle.setOn(true, animated: true)
+        }
     }
 
     /// Every tick from the global timer — keep trail in sync with real elapsed time
-    @objc private func handleTick(_ notification: Notification) {}
+    @objc private func handleTick(_ notification: Notification) {
+        guard WorkModeTimerManager.shared.isRunning else { return }
+        let minutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
+        let duration = TimeInterval(minutes * 60)
+        let progress = WorkModeTimerManager.shared.progress()
+        trail.flatMap { OrbAnimations.resumeTrailAnimation($0, duration: duration, progress: progress) }
+    }
 
     // MARK: - Reuse
 

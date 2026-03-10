@@ -4,6 +4,7 @@ extension Notification.Name {
     static let workModeTick = Notification.Name("workModeTick")
     static let workModeStateChanged = Notification.Name("workModeStateChanged")
     static let workModeNotificationSent = Notification.Name("workModeNotificationSent")
+    static let workModeBreakStarted = Notification.Name("workModeBreakStarted")
 }
 
 
@@ -13,7 +14,7 @@ final class WorkModeTimerManager {
     private(set) var notificationsSent = 0
     private var timer: Timer?
     private var endTime: Date?
-    private var isBreak = false
+    private(set) var isBreak = false
     var currentRemainingSeconds: Int? {
         guard let endTime else { return nil }
         return Int(ceil(endTime.timeIntervalSinceNow))
@@ -104,6 +105,11 @@ final class WorkModeTimerManager {
                 start()
             } else {
                 startBreak()
+
+                NotificationCenter.default.post(
+                    name: .workModeBreakStarted,
+                    object: nil
+                )
             }
 
             return
