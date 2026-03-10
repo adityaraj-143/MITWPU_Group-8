@@ -58,12 +58,6 @@
                                     <constraint firstItem="HDT-56-icK" firstAttribute="centerY" secondItem="2Oa-n8-Jct" secondAttribute="centerY" id="vKF-Xs-htP"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time Taken  •  2m 23s" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Biv-7a-ApG">
-                                <rect key="frame" x="116" y="526" width="161" height="20"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NQq-8h-FV6">
                                 <rect key="frame" x="16" y="663" width="361" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -77,9 +71,7 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
-                            <constraint firstItem="Biv-7a-ApG" firstAttribute="top" secondItem="o3l-zG-kFK" secondAttribute="bottom" constant="28" id="490-4j-pox"/>
                             <constraint firstItem="o3l-zG-kFK" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="86" id="5EX-ia-fdQ"/>
-                            <constraint firstItem="Biv-7a-ApG" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="5Kl-gU-bh0"/>
                             <constraint firstItem="2Oa-n8-Jct" firstAttribute="centerX" secondItem="vDu-zF-Fre" secondAttribute="centerX" id="Cdc-yG-bwI"/>
                             <constraint firstItem="TRm-yH-V9a" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="107" id="DDJ-MF-MB5"/>
                             <constraint firstItem="o3l-zG-kFK" firstAttribute="top" secondItem="2Oa-n8-Jct" secondAttribute="bottom" constant="9" id="LT6-eg-jeO"/>
@@ -96,8 +88,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="ActualTimeTaken" destination="Biv-7a-ApG" id="iPW-bq-9yL"/>
-                        <outlet property="TimeTakenLabel" destination="Biv-7a-ApG" id="LcV-mV-YrN"/>
                         <outlet property="completionLabel" destination="o3l-zG-kFK" id="nTK-L2-P80"/>
                         <outlet property="homeButton" destination="scZ-FS-jSV" id="muZ-wY-gYb"/>
                         <outlet property="iconContainerView" destination="2Oa-n8-Jct" id="PMS-4F-QFy"/>

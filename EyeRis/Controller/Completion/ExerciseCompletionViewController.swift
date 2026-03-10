@@ -16,11 +16,10 @@ final class ExerciseCompletionViewController: UIViewController {
 
     @IBOutlet weak var iconContainerView: UIView!
     @IBOutlet weak var successImageView: UIImageView!
-    @IBOutlet weak var TimeTakenLabel: UILabel!
-    @IBOutlet weak var ActualTimeTaken: UILabel!
+
+
     @IBOutlet weak var completionLabel: UILabel!
 
-    private var audioPlayer: AVAudioPlayer?
 
     var source: ExerciseSource?
     var flowMode: ExerciseFlowMode?
