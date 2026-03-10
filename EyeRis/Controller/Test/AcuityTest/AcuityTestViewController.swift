@@ -41,7 +41,7 @@
             switch source {
             case .NVALeft:
                 nextNav = "TestCalibration"
-                nextNavId = "CalibrationViewController"
+                nextNavId = "TestCalibrationViewController"
             case .NVARight:
                 nextNav = "TestInstructions"
                 nextNavId = "TestInstructionsViewController"
