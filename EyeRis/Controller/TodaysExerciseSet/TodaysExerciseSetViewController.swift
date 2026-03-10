@@ -41,6 +41,7 @@ class TodaysExerciseSetViewController: UIViewController {
         
         instructionVC.exercise = firstTodayExercise
         instructionVC.source = .todaysSet
+        instructionVC.flowMode = .set
         
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -61,6 +62,7 @@ class TodaysExerciseSetViewController: UIViewController {
         }
         
         instructionVC.source = .todaysSet
+        instructionVC.flowMode = .single
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -86,6 +88,7 @@ class TodaysExerciseSetViewController: UIViewController {
         
         instructionVC.exercise = exercise
         instructionVC.source = .todaysSet
+        instructionVC.flowMode = .single
         
         navigationController?.pushViewController(vc, animated: true)
     }

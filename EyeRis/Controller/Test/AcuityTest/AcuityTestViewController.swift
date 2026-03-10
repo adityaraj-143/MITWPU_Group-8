@@ -41,16 +41,16 @@
             switch source {
             case .NVALeft:
                 nextNav = "TestCalibration"
-                nextNavId = "CalibrationViewController"
+                nextNavId = "TestCalibrationViewController"
             case .NVARight:
                 nextNav = "TestInstructions"
                 nextNavId = "TestInstructionsViewController"
             case .DVALeft:
                 nextNav = "TestCalibration"
-                nextNavId = "CalibrationViewController"
+                nextNavId = "TestCalibrationViewController"
             case .DVARight:
-                nextNav = "Completion"
-                nextNavId = "CompletionViewController"
+                nextNav = "TestCompletion"
+                nextNavId = "TestCompletionViewController"
             case .blinkRateTest:
                 break;
             default:
@@ -434,7 +434,7 @@
             
             switch source {
             case .NVALeft:
-                if let tempVC = vc as? CalibrationViewController {
+                if let tempVC = vc as? TestCalibrationViewController {
                     tempVC.source = .NVARight
                 }
             case .NVARight:
@@ -442,12 +442,12 @@
                     tempVC.source = .DVALeft
                 }
             case .DVALeft:
-                if let tempVC = vc as? CalibrationViewController {
+                if let tempVC = vc as? TestCalibrationViewController {
                     tempVC.source = .DVARight
                 }
             case .DVARight:
-                if let tempVC = vc as? CompletionViewController {
-                    tempVC.source = .AcuityTest
+                if let tempVC = vc as? TestCompletionViewController {
+                    tempVC.source = .acuityTest
                 }
             default:
                 break

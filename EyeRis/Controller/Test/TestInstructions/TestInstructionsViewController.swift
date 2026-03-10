@@ -7,23 +7,14 @@
 
 import UIKit
 
-enum TestFlowSource {
-    case NVALeft
-    case NVARight
-    case DVALeft
-    case DVARight
-    case blinkRateTest
-    case todaysSet
-}
-
 class TestInstructionsViewController: UIViewController, UICollectionViewDelegate {
-    
     
     @IBOutlet weak var pageControlOutlet: UIPageControl!
     @IBOutlet weak var instructionLabel: UILabel!
     @IBOutlet weak var CollectionView: UICollectionView!
-    var source: TestFlowSource?
     
+    var source: TestFlowSource?
+    var flowMode: TestFlowMode?
     var test: AcuityTest?
     var blinkTest: BlinkRateTest?
     
@@ -75,7 +66,7 @@ class TestInstructionsViewController: UIViewController, UICollectionViewDelegate
     @IBAction func navToCalibrate(_ sender: Any) {
         navigate(
             to: "TestCalibration",
-            with: "CalibrationViewController",
+            with: "TestCalibrationViewController",
             source: source
         )
     }
@@ -208,7 +199,7 @@ extension TestInstructionsViewController {
         let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
         
-        if let calibrationVC = vc as? CalibrationViewController {
+        if let calibrationVC = vc as? TestCalibrationViewController {
             switch source {
             case .NVALeft:
                 // NVA instructions → first calibration → NVA Left eye
@@ -226,8 +217,12 @@ extension TestInstructionsViewController {
                 // Should never go back to instructions after this
                 calibrationVC.source = .DVARight
                 
-            case .blinkRateTest, .todaysSet:
+            case .blinkRateTest:
                 calibrationVC.source = source
+            
+            case .todaysSet:
+                calibrationVC.source = source
+                calibrationVC.flowMode = flowMode
                 
             default:
                 break

@@ -70,9 +70,16 @@ class TestHistoryViewController: UIViewController {
     }
     
     @IBAction func explainWithEyeris(_ sender: Any) {
+        guard !groupedResultsByDate.isEmpty else { return }
+        
         let prompt = generateCurrentTestSummaryForAI()
-         
-        print(prompt)
+        
+        let storyboard = UIStoryboard(name: "ChatBot", bundle: nil)
+        if let vc = storyboard.instantiateViewController(withIdentifier: "ChatbotViewController") as? ChatbotViewController {
+            vc.prompt = prompt
+            navigationController?.pushViewController(vc, animated: true)
+            
+        }
     }
     
     func generateCurrentTestSummaryForAI() -> String {
@@ -87,32 +94,32 @@ class TestHistoryViewController: UIViewController {
         
         let summary = """
         The user completed a visual acuity test on \(dateString).
-
+        
         Distant Vision (DVA):
         - Healthy Benchmark: \(testsForDate.distant.healthyScore)
         - Left Eye Score: \(testsForDate.distant.leftEyeScore)
         - Right Eye Score: \(testsForDate.distant.rightEyeScore)
-
+        
         Near Vision (NVA):
         - Healthy Benchmark: \(testsForDate.near.healthyScore)
         - Left Eye Score: \(testsForDate.near.leftEyeScore)
         - Right Eye Score: \(testsForDate.near.rightEyeScore)
-
+        
         Clinician Comment:
         \(testsForDate.distant.comment)
-
+        
         Please explain these results in simple language and suggest if improvement or professional consultation is recommended.
         """
         
         return summary
     }
-
+    
 }
 
 extension TestHistoryViewController{
     
     func updateUIForCurrentDate() {
-
+        
         guard !groupedResultsByDate.isEmpty else {
             
             testDate.text = "--"
@@ -133,25 +140,25 @@ extension TestHistoryViewController{
             
             return
         }
-
+        
         let testsForDate = groupedResultsByDate[currentIndex]
-
+        
         testDate.text = dateFormatter.string(from: testsForDate.date)
-
+        
         DVAHealthyScore.text  = "Healthy Score \(testsForDate.distant.healthyScore)"
         DVALeftEyeScore.text  = testsForDate.distant.leftEyeScore
         DVARightEyeScore.text = testsForDate.distant.rightEyeScore
-
+        
         NVAHealthyScore.text  = "Healthy Score \(testsForDate.near.healthyScore)"
         NVALeftEyeScore.text  = testsForDate.near.leftEyeScore
         NVARightEyeScore.text = testsForDate.near.rightEyeScore
-
+        
         let isFirst = currentIndex == 0
         let isLast  = currentIndex == groupedResultsByDate.count - 1
-
+        
         prevTest.isEnabled = !isFirst
         nextTest.isEnabled = !isLast
-
+        
         prevTest.alpha = prevTest.isEnabled ? 1.0 : 0.3
         nextTest.alpha = nextTest.isEnabled ? 1.0 : 0.3
     }
@@ -166,11 +173,11 @@ extension TestHistoryViewController{
     
     @IBAction func nextTestTapped(_ sender: UIButton) {
         guard currentIndex < groupedResultsByDate.count - 1 else { return }
-           
-           animateButtonTap(sender)
-           
-           currentIndex += 1
-           animateTransition(direction: .fromRight)
+        
+        animateButtonTap(sender)
+        
+        currentIndex += 1
+        animateTransition(direction: .fromRight)
     }
     
     private func animateTransition(direction: CATransitionSubtype) {

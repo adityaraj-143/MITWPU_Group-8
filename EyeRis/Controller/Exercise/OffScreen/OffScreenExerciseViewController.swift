@@ -15,6 +15,7 @@ import UIKit
 
 class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
     
+    var flowMode: ExerciseFlowMode?
     var exercise: Exercise?
     var source: ExerciseSource?
     

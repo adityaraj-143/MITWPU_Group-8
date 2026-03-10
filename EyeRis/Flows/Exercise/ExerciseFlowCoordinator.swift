@@ -1,43 +1,20 @@
 //
-//  ExerciseFlowHandling.swift
+//  ExerciseFlowCoordinator.swift
 //  EyeRis
 //
-//  Created by SDC-USER on 27/01/26.
+//  Created by SDC-USER on 10/03/26.
 //
 
 import UIKit
 
-protocol ExerciseFlowHandling {
-    var exercise: Exercise? { get set }
-    var source: ExerciseSource? { get set }
-    
-    func exerciseCompleted()
-}
-
-protocol OnScreenExerciseFlow: ExerciseFlowHandling {
-    var referenceDistance: Int { get set }
-}
-
-extension ExerciseFlowHandling where Self: UIViewController {
-    
-    func exerciseCompleted() {
-        guard let exercise else { return }
-        
-        ExerciseFlowCoordinator.handleCompletion(
-            from: self,
-            exercise: exercise,
-            source: source
-        )
-    }
-    
-}
 
 class ExerciseFlowCoordinator {
     
     static func handleCompletion(
         from vc: UIViewController,
         exercise: Exercise,
-        source: ExerciseSource?
+        source: ExerciseSource?,
+        flowMode: ExerciseFlowMode?
     ) {
         
         ExerciseList.shared?.markCompleted(exercise: exercise)
@@ -45,21 +22,27 @@ class ExerciseFlowCoordinator {
         switch source {
             
         case .todaysSet:
-            
+
+            if flowMode == .single {
+                pushCompletion(from: vc, source: .todaysSet)
+                return
+            }
+
             guard let list = ExerciseList.shared else { return }
-            
+
             if let next = list.nextExercise(after: exercise) {
-                
+
                 pushExercise(
                     from: vc,
                     exercise: next,
-                    source: .todaysSet
+                    source: .todaysSet,
+                    flowMode: .set
                 )
-                
+
             } else {
-                
+
                 pushTestInstructions(from: vc)
-                
+
             }
             
         case .recommended, .list:
@@ -79,7 +62,8 @@ extension ExerciseFlowCoordinator {
     static func pushExercise(
         from vc: UIViewController,
         exercise: Exercise,
-        source: ExerciseSource
+        source: ExerciseSource,
+        flowMode: ExerciseFlowMode
     ) {
 
         let storyboardName = exercise.type == .onScreen
@@ -96,6 +80,7 @@ extension ExerciseFlowCoordinator {
         if var instructionVC = nextVC as? ExerciseFlowHandling {
             instructionVC.exercise = exercise
             instructionVC.source = source
+            instructionVC.flowMode = flowMode
         }
 
         guard let nav = vc.navigationController else { return }
@@ -111,6 +96,7 @@ extension ExerciseFlowCoordinator {
         
         if let testVC = nextVC as? TestInstructionsViewController {
             testVC.source = .todaysSet
+            testVC.flowMode = .set
         }
         
         vc.navigationController?.pushViewController(nextVC, animated: true)
@@ -122,20 +108,22 @@ extension ExerciseFlowCoordinator {
         source: ExerciseSource?
     ) {
         
-        let storyboard = UIStoryboard(name: "Completion", bundle: nil)
+        let storyboard = UIStoryboard(name: "ExerciseCompletion", bundle: nil)
         let nextVC = storyboard.instantiateViewController(
-            withIdentifier: "CompletionViewController"
+            withIdentifier: "ExerciseCompletionViewController"
         )
         
-        if let completionVC = nextVC as? CompletionViewController {
+        if let completionVC = nextVC as? ExerciseCompletionViewController {
             
             switch source {
             case .todaysSet:
-                completionVC.source = .TodaysSet
-            case .recommended, .list:
-                completionVC.source = .Recommended
+                completionVC.source = .todaysSet
+            case .recommended:
+                completionVC.source = .recommended
+            case .list:
+                completionVC.source = .list
             case .none:
-                completionVC.source = .Recommended
+                completionVC.source = .recommended
             }
         }
         
