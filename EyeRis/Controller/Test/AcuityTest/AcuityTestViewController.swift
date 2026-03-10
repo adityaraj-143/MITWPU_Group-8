@@ -47,7 +47,7 @@
                 nextNavId = "TestInstructionsViewController"
             case .DVALeft:
                 nextNav = "TestCalibration"
-                nextNavId = "CalibrationViewController"
+                nextNavId = "TestCalibrationViewController"
             case .DVARight:
                 nextNav = "TestCompletion"
                 nextNavId = "TestCompletionViewController"
@@ -434,7 +434,7 @@
             
             switch source {
             case .NVALeft:
-                if let tempVC = vc as? CalibrationViewController {
+                if let tempVC = vc as? TestCalibrationViewController {
                     tempVC.source = .NVARight
                 }
             case .NVARight:
@@ -442,7 +442,7 @@
                     tempVC.source = .DVALeft
                 }
             case .DVALeft:
-                if let tempVC = vc as? CalibrationViewController {
+                if let tempVC = vc as? TestCalibrationViewController {
                     tempVC.source = .DVARight
                 }
             case .DVARight:

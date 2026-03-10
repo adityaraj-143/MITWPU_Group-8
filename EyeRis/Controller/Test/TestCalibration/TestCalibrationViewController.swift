@@ -9,7 +9,7 @@ private let isSimulator = false
 #endif
 
 
-class CalibrationViewController: UIViewController {
+class TestCalibrationViewController: UIViewController {
     
     var source: TestFlowSource?
     var flowMode: TestFlowMode?
@@ -219,7 +219,7 @@ class CalibrationViewController: UIViewController {
 
 // MARK: AR Session Delegate
 
-extension CalibrationViewController: ARSessionDelegate {
+extension TestCalibrationViewController: ARSessionDelegate {
     
     func session(_ session: ARSession, didFailWithError error: Error) {
         print("AR error: \(error)")
@@ -234,7 +234,7 @@ extension CalibrationViewController: ARSessionDelegate {
     }
 }
 
-extension CalibrationViewController {
+extension TestCalibrationViewController {
     
     func navigateBasedOnSource() {
         guard let source else { return }
