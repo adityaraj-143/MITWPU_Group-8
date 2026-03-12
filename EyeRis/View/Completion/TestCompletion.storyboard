@@ -46,9 +46,12 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cQQ-V0-j6G">
-                                <rect key="frame" x="16" y="727" width="361" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cQQ-V0-j6G">
+                                <rect key="frame" x="48" y="738" width="300" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="HBr-le-3KH"/>
+                                    <constraint firstAttribute="height" constant="45" id="xOy-B5-MKv"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="tinted" title="Go to Home"/>
                                 <connections>
@@ -76,9 +79,12 @@
                                     <constraint firstAttribute="height" constant="175" id="RsE-wj-eBj"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qFR-B9-ZBJ">
-                                <rect key="frame" x="16" y="663" width="361" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qFR-B9-ZBJ">
+                                <rect key="frame" x="48" y="673" width="300" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="Zfb-62-Ypb"/>
+                                    <constraint firstAttribute="height" constant="45" id="d5L-yj-IWu"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="tinted" title="See Results"/>
                                 <connections>
@@ -93,6 +99,10 @@
                             <constraint firstItem="h2H-xv-NNt" firstAttribute="top" secondItem="AK5-xj-Tfn" secondAttribute="top" constant="50" id="3qA-a9-Idb"/>
                             <constraint firstItem="h2H-xv-NNt" firstAttribute="leading" secondItem="AK5-xj-Tfn" secondAttribute="leading" constant="107" id="8Vx-rA-k7n"/>
                             <constraint firstItem="nlA-LD-w88" firstAttribute="leading" secondItem="AK5-xj-Tfn" secondAttribute="leading" constant="86" id="AZB-zY-fpL"/>
+                            <constraint firstItem="cQQ-V0-j6G" firstAttribute="leading" secondItem="AK5-xj-Tfn" secondAttribute="leading" constant="48" id="Cby-Mi-g9b"/>
+                            <constraint firstItem="qFR-B9-ZBJ" firstAttribute="top" secondItem="nlA-LD-w88" secondAttribute="bottom" constant="175" id="TRZ-7s-hZb"/>
+                            <constraint firstItem="qFR-B9-ZBJ" firstAttribute="leading" secondItem="AK5-xj-Tfn" secondAttribute="leading" constant="48" id="aNP-Cv-0T0"/>
+                            <constraint firstItem="cQQ-V0-j6G" firstAttribute="top" secondItem="qFR-B9-ZBJ" secondAttribute="bottom" constant="20" id="caG-Hu-Tu3"/>
                             <constraint firstItem="nlA-LD-w88" firstAttribute="top" secondItem="vXL-4s-04w" secondAttribute="bottom" constant="9" id="kY7-HT-0bx"/>
                             <constraint firstItem="vXL-4s-04w" firstAttribute="centerX" secondItem="AK5-xj-Tfn" secondAttribute="centerX" id="oj5-wD-sFd"/>
                             <constraint firstItem="vXL-4s-04w" firstAttribute="top" secondItem="h2H-xv-NNt" secondAttribute="bottom" constant="32" id="wug-QP-Y0A"/>
@@ -115,7 +125,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="isG-EN-Dfk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2073" y="11"/>
+            <point key="canvasLocation" x="2072.5190839694656" y="10.563380281690142"/>
         </scene>
     </scenes>
     <resources>

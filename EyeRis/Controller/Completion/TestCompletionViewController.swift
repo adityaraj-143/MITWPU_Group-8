@@ -25,7 +25,7 @@ final class TestCompletionViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        styleButtons()
+
 
         switch source {
 
@@ -90,32 +90,5 @@ final class TestCompletionViewController: UIViewController {
         navigationController?.popToRootViewController(animated: true)
     }
 
-    // MARK: Button Styling
 
-    private func styleButtons() {
-
-        // Primary button
-        resultsButton.backgroundColor = .systemBlue
-        resultsButton.setTitleColor(.white, for: .normal)
-        resultsButton.setTitleColor(.white, for: .highlighted)
-        resultsButton.tintColor = .white
-        resultsButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        resultsButton.layer.cornerRadius = 18
-        resultsButton.clipsToBounds = true
-
-        // Secondary button
-        homeButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        homeButton.layer.cornerRadius = 18
-        homeButton.clipsToBounds = true
-
-        if traitCollection.userInterfaceStyle == .dark {
-            resultsButton.backgroundColor = UIColor(red: 0.1, green: 0.3, blue: 0.6, alpha: 1)
-            homeButton.backgroundColor = UIColor(white: 0.22, alpha: 1)
-            homeButton.setTitleColor(.systemGray2, for: .normal)
-        } else {
-            resultsButton.backgroundColor = UIColor(red: 0.1, green: 0.4, blue: 0.85, alpha: 1)
-            homeButton.backgroundColor = UIColor(white: 0.96, alpha: 1)
-            homeButton.setTitleColor(.systemGray3, for: .normal)
-        }
-    }
 }

@@ -49,18 +49,24 @@
                                     <constraint firstItem="HDT-56-icK" firstAttribute="centerY" secondItem="2Oa-n8-Jct" secondAttribute="centerY" id="vKF-Xs-htP"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xvq-zA-x3a">
-                                <rect key="frame" x="48" y="657" width="297" height="45"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xvq-zA-x3a">
+                                <rect key="frame" x="48" y="654" width="300" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="1rf-Kv-1Lt"/>
+                                    <constraint firstAttribute="height" constant="45" id="wY5-9n-8N6"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="tinted" title="Home"/>
                                 <connections>
                                     <action selector="homeButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="0hM-YK-1v2"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4BX-Op-6Ml">
-                                <rect key="frame" x="48" y="722" width="297" height="45"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4BX-Op-6Ml">
+                                <rect key="frame" x="48" y="719" width="300" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="ZY6-Iu-2qI"/>
+                                    <constraint firstAttribute="width" constant="300" id="lRK-nY-D7E"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="tinted" title="All Exercises"/>
                                 <connections>
@@ -72,12 +78,16 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
-                            <constraint firstItem="o3l-zG-kFK" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="86" id="5EX-ia-fdQ"/>
                             <constraint firstItem="2Oa-n8-Jct" firstAttribute="centerX" secondItem="vDu-zF-Fre" secondAttribute="centerX" id="Cdc-yG-bwI"/>
                             <constraint firstItem="TRm-yH-V9a" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="107" id="DDJ-MF-MB5"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="4BX-Op-6Ml" secondAttribute="bottom" constant="20" id="K6X-RO-ro7"/>
                             <constraint firstItem="o3l-zG-kFK" firstAttribute="top" secondItem="2Oa-n8-Jct" secondAttribute="bottom" constant="9" id="LT6-eg-jeO"/>
                             <constraint firstItem="2Oa-n8-Jct" firstAttribute="top" secondItem="TRm-yH-V9a" secondAttribute="bottom" constant="32" id="LvI-wy-hWx"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="o3l-zG-kFK" secondAttribute="trailing" constant="86" id="tUD-ID-BSO"/>
+                            <constraint firstItem="o3l-zG-kFK" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="86" id="OPk-gc-FIR"/>
+                            <constraint firstItem="4BX-Op-6Ml" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="48" id="ZAl-a5-gRx"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="o3l-zG-kFK" secondAttribute="trailing" constant="86" id="bfa-yg-3Ks"/>
+                            <constraint firstItem="4BX-Op-6Ml" firstAttribute="top" secondItem="xvq-zA-x3a" secondAttribute="bottom" constant="20" id="egs-uK-PM7"/>
+                            <constraint firstItem="xvq-zA-x3a" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="48" id="rs2-Z0-eGN"/>
                             <constraint firstItem="TRm-yH-V9a" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="50" id="zT2-QE-QF6"/>
                         </constraints>
                     </view>
