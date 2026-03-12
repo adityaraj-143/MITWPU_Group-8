@@ -89,23 +89,24 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
 
     @IBAction func modeToggleChanged(_ sender: UISwitch) {
         guard let orb else { return }
-
+        
         if sender.isOn {
             let minutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
             let duration = TimeInterval(minutes * 60)
-
+            
             OrbAnimations.resetOrb(orb, around: mainView)
             OrbAnimations.startOrbAnimation(orb, around: mainView, duration: duration)
             trail.flatMap { OrbAnimations.startTrailAnimation($0, duration: duration) }
-
+            
             OrbAnimations.showWorkModeEnabledToast(in: contentView, around: mainView)
             WorkModeTimerManager.shared.start()
-
+            
         } else {
             WorkModeTimerManager.shared.stop()
             OrbAnimations.stopOrbAnimation(orb)
             OrbAnimations.resetOrb(orb, around: mainView)
             trail.flatMap { OrbAnimations.stopTrailAnimation($0) }
+            trail?.isHidden = true  // Also hide on manual stop
             notificationsSent.text = "Notifications Sent : 0"
         }
     }
@@ -120,24 +121,25 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
     }
     
     @objc private func handleBreakStarted() {
-
         guard let orb else { return }
 
         OrbAnimations.stopOrbAnimation(orb)
         trail.flatMap { OrbAnimations.stopTrailAnimation($0) }
+        trail?.isHidden = true  // Hide trail during break
     }
-    
 
     @objc private func handleStateChange(_ notification: Notification) {
         guard let isRunning = notification.object as? Bool else { return }
         orb?.isHidden = !isRunning
 
         if isRunning {
-            // Break just ended and work session restarted — kick animations back on
             guard let orb else { return }
             let minutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
             let duration = TimeInterval(minutes * 60)
             OrbAnimations.resetOrb(orb, around: mainView)
+            trail?.isHidden = false  // Unhide trail when work session resumes
+            trail.flatMap { OrbAnimations.stopTrailAnimation($0) }
+            trail.flatMap { OrbAnimations.resetTrailAnimation($0) }
             OrbAnimations.startOrbAnimation(orb, around: mainView, duration: duration)
             trail.flatMap { OrbAnimations.startTrailAnimation($0, duration: duration) }
             modeToggle.setOn(true, animated: true)
