@@ -124,6 +124,7 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
         guard let orb else { return }
 
         OrbAnimations.stopOrbAnimation(orb)
+        orb.isHidden = true
         trail.flatMap { OrbAnimations.stopTrailAnimation($0) }
         trail?.isHidden = true  // Hide trail during break
     }
