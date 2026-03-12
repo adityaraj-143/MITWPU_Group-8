@@ -7,22 +7,19 @@
 
 import UIKit
 
-class SmoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring, ExerciseFlowHandling {
+class SmoothPursuitViewController: UIViewController, ExerciseFlowHandling {
     
     var source: ExerciseSource?
-    
     var flowMode: ExerciseFlowMode?
-    
     
     @IBOutlet weak var timer_label: UILabel!
     
     var exercise: Exercise?
     var inTodaySet: Int? = 0
     private let exerciseDuration = 10
-    var referenceDistance: Int = 40   // default fallback
+    var referenceDistance: Int = 40
     private var coordinateTimer: Timer?
     
-    private var monitorTimer: Timer?
     private var hasNavigatedToCompletion = false
     private var didExitManually = false
     
@@ -65,7 +62,6 @@ class SmoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
                 self.exerciseCompleted()
             }
             
-            
             // Start timed session
             guard let exercise = self.exercise else {
                 assertionFailure("Exercise not set in SmoothPursuitViewController")
@@ -77,14 +73,11 @@ class SmoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
                 referenceDistance: ExerciseSessionManager.shared.referenceDistance,
                 time: self.exerciseDuration
             )
-            self.startAlignmentMonitoring(timer: &self.monitorTimer)
         }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        monitorTimer?.invalidate()
-        monitorTimer = nil
     }
     
     @IBAction func backTapped(_ sender: UIBarButtonItem) {
@@ -100,9 +93,6 @@ class SmoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
         
         coordinateTimer?.invalidate()
         coordinateTimer = nil
-        
-        monitorTimer?.invalidate()
-        monitorTimer = nil
     }
     
     private func popToExerciseList() {
@@ -117,40 +107,6 @@ class SmoothPursuitViewController: UIViewController, ExerciseAlignmentMonitoring
         
         // fallback (should not happen)
         navController.popToRootViewController(animated: true)
-    }
-    
-    func showPause(reason: CameraAlignmentState) {
-        
-        // Prevent multiple pushes
-        guard navigationController?.topViewController === self else { return }
-        
-        guard let exercise = ExerciseSessionManager.shared.exercise else { return }
-        
-        let storyboard = UIStoryboard(name: "ExercisePauseScreen", bundle: nil)
-        
-        guard let vc = storyboard.instantiateViewController(
-            withIdentifier: "PauseModalViewController"
-        ) as? PauseModalViewController else {
-            return
-        }
-        
-        vc.pauseReason = mapReason(reason)
-        vc.exercise = exercise
-        
-        vc.onResume = { [weak self] in
-            self?.startAlignmentMonitoring(timer: &self!.monitorTimer)
-        }
-        
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    private func mapReason(_ state: CameraAlignmentState) -> PauseReason {
-        switch state {
-        case .tooClose: return .tooClose
-        case .tooFar: return .tooFar
-        case .noFace: return .noFace
-        case .manual: return .manual // fallback
-        }
     }
     
     // MARK: Setup
