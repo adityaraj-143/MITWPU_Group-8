@@ -20,10 +20,6 @@ protocol ExerciseFlowHandling {
     func exerciseCompleted()
 }
 
-protocol OnScreenExerciseFlow: ExerciseFlowHandling {
-    var referenceDistance: Int { get set }
-}
-
 extension ExerciseFlowHandling where Self: UIViewController {
     
     func exerciseCompleted() {

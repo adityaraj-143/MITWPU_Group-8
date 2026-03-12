@@ -134,18 +134,18 @@ let allExercises: [Exercise] = [
 //        type: .onScreen
 //    ),
 //
-//    Exercise(
-//        id: 11,
-//        name: "Smooth Pursuit Tracking",
-//        duration: 120,
-//        instructions: ExerciseInstruction(
-//            title: "Smooth Pursuit Tracking",
-//            description: "Follow a moving dot or ball on the screen with your eyes in all directions for 30 seconds each direction.",
-//            video: "figure8"
-//        ),
-//        targetedConditions: [.eyeMuscleTension, .smoothPursuitDysfunction],
-//        type: .onScreen
-//    ),
+    Exercise(
+        id: 11,
+        name: "Smooth Pursuit Tracking",
+        duration: 120,
+        instructions: ExerciseInstruction(
+            title: "Smooth Pursuit Tracking",
+            description: "Follow a moving dot or ball on the screen with your eyes in all directions for 30 seconds each direction.",
+            video: "figure8"
+        ),
+        targetedConditions: [.eyeMuscleTension, .smoothPursuitDysfunction],
+        type: .onScreen
+    ),
 //
 //    Exercise(
 //        id: 12,
@@ -320,8 +320,8 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         icon: "Smooth Pursuit",
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "9BC53D"),
-        storyboardName: defaultStoryboardName,
-        storyboardID: defaultStoryboardID,
+        storyboardName: "SmoothPursuit",
+        storyboardID: "SmoothPursuitViewController",
         exerciseData: [],
         impact: "Strengthens continuous eye tracking and coordination"
     ),
