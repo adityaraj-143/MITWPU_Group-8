@@ -187,10 +187,10 @@ class OrbAnimations {
         }
 
         UIView.animate(
-            withDuration: 0.42,
+            withDuration: 0.6,
             delay: 0,
-            usingSpringWithDamping: 0.52,
-            initialSpringVelocity: 2.0,
+            usingSpringWithDamping: 0.7,
+            initialSpringVelocity: 1.6,
             options: .curveEaseOut
         ) {
             toast.center = CGPoint(x: window.bounds.midX, y: landY)
