@@ -1,10 +1,3 @@
-//
-//  OffScreenViewViewController.swift
-//  EyeRis
-//
-//  Created by SDC-USER on 27/02/26.
-//
-
 enum ExerciseSource {
     case todaysSet
     case recommended
@@ -12,6 +5,7 @@ enum ExerciseSource {
 }
 
 import UIKit
+import AVFoundation
 
 class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
     
@@ -24,12 +18,18 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
     private var countdownTimer: Timer?
     private var remainingTime = 0
     
+    private let speechSynth = AVSpeechSynthesizer()
+    private var tickPlayer: AVAudioPlayer?
+    private var finalPlayer: AVAudioPlayer?
+    
 
     @IBOutlet weak var instructionLabel: UILabel!
     @IBOutlet weak var timerLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupSounds()
         
         stages = exercise?.getPerformanceInstruction() ?? []
         startNextStage()
@@ -45,10 +45,17 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
         let stage = stages[currentStageIndex]
 
         instructionLabel.text = stage.instruction
+        speakInstruction(stage.instruction)
+
         remainingTime = stage.duration
         timerLabel.text = "\(remainingTime)"
 
         startTimer()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        countdownTimer?.invalidate()
     }
     
     private func startTimer() {
@@ -60,6 +67,14 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
             self.remainingTime -= 1
             self.timerLabel.text = "\(self.remainingTime)"
 
+            if self.remainingTime == 3 || self.remainingTime == 2 || self.remainingTime == 1 {
+                self.tickPlayer?.play()
+            }
+
+            if self.remainingTime == 0 {
+                self.finalPlayer?.play()
+            }
+
             if self.remainingTime <= 0 {
                 timer.invalidate()
                 self.currentStageIndex += 1
@@ -70,5 +85,37 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
     
     private func finishExercise() {
         exerciseCompleted()
+    }
+    
+    private func speakInstruction(_ text: String) {
+        
+        if speechSynth.isSpeaking {
+            speechSynth.stopSpeaking(at: .immediate)
+        }
+
+        let utterance = AVSpeechUtterance(string: text)
+        utterance.rate = 0.5
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+
+        speechSynth.speak(utterance)
+    }
+    
+    private func setupSounds() {
+        
+        let tickURL = Bundle.main.url(forResource: "tick", withExtension: "wav")
+        let finalURL = Bundle.main.url(forResource: "final", withExtension: "wav")
+
+        print("Tick URL:", tickURL)
+        print("Final URL:", finalURL)
+
+        if let tickURL = tickURL {
+            tickPlayer = try? AVAudioPlayer(contentsOf: tickURL)
+            tickPlayer?.prepareToPlay()
+        }
+
+        if let finalURL = finalURL {
+            finalPlayer = try? AVAudioPlayer(contentsOf: finalURL)
+            finalPlayer?.prepareToPlay()
+        }
     }
 }
