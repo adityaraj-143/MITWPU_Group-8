@@ -7,6 +7,12 @@
 
 import UIKit
 
+#if targetEnvironment(simulator)
+private let isSimulator = true
+#else
+private let isSimulator = false
+#endif
+
 class ExerciseCalibrationViewController: UIViewController {
 
     @IBOutlet weak var distanceLabel: UILabel!
@@ -38,36 +44,35 @@ class ExerciseCalibrationViewController: UIViewController {
         proceedButton.isEnabled = false
         proceedButton.alpha = 0.5
 
-        CameraManager.shared.configure()
-        CameraManager.shared.attachPreview(to: cameraContainer)
-        CameraManager.shared.start()
+        if isSimulator {
+            simulateDistance()
+        } else {
+            CameraManager.shared.configure()
+            CameraManager.shared.attachPreview(to: cameraContainer)
+            CameraManager.shared.start()
 
-        updateTimer = Timer.scheduledTimer(
-            withTimeInterval: 0.1,
-            repeats: true
-        ) { [weak self] _ in
-            self?.updateUI()
+            updateTimer = Timer.scheduledTimer(
+                withTimeInterval: 0.1,
+                repeats: true
+            ) { [weak self] _ in
+                self?.updateUI()
+            }
         }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        if isMovingFromParent {
+        if isMovingFromParent && !isSimulator {
             CameraManager.shared.stop()
         }
     }
 
     @IBAction func proceedButtonTapped(_ sender: UIButton) {
-
-        let referenceDistance = CameraManager.shared.currentDistance
-
-        guard let exercise else {
+        guard exercise != nil else {
             assertionFailure("Exercise missing during calibration")
             return
         }
-
-
 
         navigateToExercise()
     }
@@ -132,15 +137,29 @@ class ExerciseCalibrationViewController: UIViewController {
         let identifier = exercise.getStoryboardID()
         let vc = storyboard.instantiateViewController(withIdentifier: identifier)
 
-        if var exerciseVC = vc as? OnScreenExerciseFlow {
+        if var exerciseVC = vc as? ExerciseFlowHandling {
             exerciseVC.exercise = exercise
             exerciseVC.source = source
-            exerciseVC.referenceDistance = CameraManager.shared.currentDistance
+            
         } else {
             assertionFailure("ViewController does not conform to ExerciseFlowHandling")
         }
 
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func simulateDistance() {
+
+        let simulatedDistance = 40
+
+        distanceLabel.text = "\(simulatedDistance) cm"
+        statusLabel.text = "Simulator Mode"
+        statusLabel.textColor = .systemGreen
+
+        cameraFeedBorderView.layer.borderColor = UIColor.systemGreen.cgColor
+
+        proceedButton.isEnabled = true
+        proceedButton.alpha = 1.0
     }
 
 }

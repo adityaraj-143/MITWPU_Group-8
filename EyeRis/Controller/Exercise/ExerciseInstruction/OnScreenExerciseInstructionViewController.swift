@@ -8,7 +8,7 @@
 import UIKit
 import AVKit
 
-class OnScreenExerciseInstructionViewController: UIViewController, OnScreenExerciseFlow {
+class OnScreenExerciseInstructionViewController: UIViewController, ExerciseFlowHandling {
     
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var videoContainerView: UIView!
