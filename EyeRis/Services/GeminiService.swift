@@ -166,7 +166,7 @@ final class GeminiService {
     private let baseURL = "https://generativelanguage.googleapis.com/v1beta/models"
     
     /// Model to use - gemini-1.5-flash is free tier
-    private let modelName = "gemini-1.5-flash"
+    private let modelName = "gemini-2.5-flash"
     
     /// System prompt for eye health assistant context
     private let systemPrompt = """
@@ -180,12 +180,12 @@ final class GeminiService {
     
     Important guidelines:
     - Always recommend consulting an eye care professional for serious concerns
-    - Be concise but thorough in your responses
+    - Be concise, and on point in your response, without any extras
     - Use simple, easy-to-understand language
     - If asked about specific medical diagnoses or treatments, remind users to consult a healthcare provider
     - Be warm and approachable in your tone
     
-    Keep responses focused and under 200 words unless more detail is specifically requested.
+    Keep responses focused and under 30 words unless more detail is specifically requested.
     """
     
     /// Default generation configuration
