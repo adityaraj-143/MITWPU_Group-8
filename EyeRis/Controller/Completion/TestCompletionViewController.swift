@@ -1,13 +1,7 @@
-//
-//  TestCompletionViewController.swift
-//  EyeRis
-//
-//  Created by SDC-USER on 09/03/26.
-//
+
 
 
 import UIKit
-import AVFoundation
 
 enum TestSource {
     case acuityTest
@@ -16,25 +10,22 @@ enum TestSource {
 
 final class TestCompletionViewController: UIViewController {
 
+    @IBOutlet weak var resultsButton: UIButton!
+    @IBOutlet weak var homeButton: UIButton!
+
     @IBOutlet weak var iconContainerView: UIView!
     @IBOutlet weak var successImageView: UIImageView!
-    @IBOutlet weak var TimeTakenLabel: UILabel!
-    @IBOutlet weak var ActualTimeTaken: UILabel!
     @IBOutlet weak var completionLabel: UILabel!
-
-    private var audioPlayer: AVAudioPlayer?
 
     var source: TestSource?
 
     var resultNav = ""
     var resultNavId = ""
-    
-    override func viewDidLoad() {
-            super.viewDidLoad()
-        
-    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+
 
         switch source {
 
@@ -48,7 +39,7 @@ final class TestCompletionViewController: UIViewController {
             resultNav = "BlinkRateHistory"
             resultNavId = "BlinkRateHistoryViewController"
 
-        default:
+        case .none:
             assertionFailure("Invalid source for TestCompletionViewController")
         }
     }
@@ -56,105 +47,26 @@ final class TestCompletionViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        playSuccessSound()
-        playSuccessHaptic()
+        CompletionAnimations.playSuccessSound()
+        CompletionAnimations.playSuccessHaptic()
 
-        startPulse()
+        iconContainerView.layer.removeAllAnimations()
+        iconContainerView.transform = .identity
+        CompletionAnimations.startPulse(iconContainerView)
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.22) {
-            self.burstParticles()
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
-            self.animateBottomStats()
-        }
-    }
-
-    // MARK: Pulse
-
-    private func startPulse() {
-        UIView.animate(
-            withDuration: 1.6,
-            delay: 0,
-            options: [.autoreverse,.repeat,.curveEaseInOut,.allowUserInteraction],
-            animations: {
-                self.iconContainerView.transform = CGAffineTransform(scaleX: 1.06, y: 1.06)
-            }
-        )
-    }
-
-    // MARK: Particles
-
-    private func burstParticles() {
-
-        let emitter = CAEmitterLayer()
-
-        let center = view.convert(
-            successImageView.center,
-            from: successImageView.superview
-        )
-
-        emitter.emitterPosition = center
-
-        let radius = max(
-            successImageView.bounds.width,
-            successImageView.bounds.height
-        ) * 0.55
-
-        emitter.emitterShape = .circle
-        emitter.emitterMode = .outline
-        emitter.emitterSize = CGSize(width: radius, height: radius)
-
-        let cell = CAEmitterCell()
-
-        cell.birthRate = 22
-        cell.lifetime = 1.8
-        cell.velocity = 140
-        cell.scale = 0.25
-        cell.alphaSpeed = -0.12
-
-        cell.contents = makeGreenDot(size: 20).cgImage
-
-        emitter.emitterCells = [cell]
-
-        view.layer.addSublayer(emitter)
-
-        emitter.birthRate = 1
+        view.layoutIfNeeded()
 
         DispatchQueue.main.async {
-            emitter.birthRate = 0
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-            emitter.removeFromSuperlayer()
-        }
-    }
-
-    private func makeGreenDot(size: CGFloat) -> UIImage {
-
-        let renderer = UIGraphicsImageRenderer(
-            size: CGSize(width: size, height: size)
-        )
-
-        return renderer.image { ctx in
-
-            UIColor(
-                red: 0.22,
-                green: 0.75,
-                blue: 0.45,
-                alpha: 1
-            ).setFill()
-
-            ctx.cgContext.fillEllipse(
-                in: CGRect(x: 0, y: 0, width: size, height: size)
+            CompletionAnimations.burstParticles(
+                in: self.view,
+                around: self.successImageView
             )
         }
     }
-
     // MARK: Buttons
 
     @IBAction func homeButtonTapped(_ sender: Any) {
-        navigationController?.popToRootViewController(animated: true)
+        goToHome()
     }
 
     @IBAction func resultsButtonTapped(_ sender: Any) {
@@ -162,14 +74,11 @@ final class TestCompletionViewController: UIViewController {
         guard !resultNav.isEmpty else { return }
 
         let storyboard = UIStoryboard(name: resultNav, bundle: nil)
-
-        let vc = storyboard.instantiateViewController(
-            withIdentifier: resultNavId
-        )
+        let vc = storyboard.instantiateViewController(withIdentifier: resultNavId)
 
         guard let nav = navigationController else { return }
-
-        nav.setViewControllers([nav.viewControllers.first!, vc], animated: true)    }
+        nav.setViewControllers([nav.viewControllers.first!, vc], animated: true)
+    }
 
     @IBAction func backButtonTapped(_ sender: Any) {
         goToHome()
@@ -178,64 +87,8 @@ final class TestCompletionViewController: UIViewController {
     // MARK: Navigation
 
     private func goToHome() {
-
-        guard let nav = navigationController else { return }
-
-        for vc in nav.viewControllers {
-            if vc is ViewController {
-                nav.popToViewController(vc, animated: true)
-                return
-            }
-        }
-
-        nav.popToRootViewController(animated: true)
+        navigationController?.popToRootViewController(animated: true)
     }
 
-    private func animateBottomStats() {
 
-        let groups: [[UIView]] = [
-            [TimeTakenLabel, ActualTimeTaken],
-        ]
-
-        for (index, group) in groups.enumerated() {
-
-            UIView.animate(
-                withDuration: 0.45,
-                delay: Double(index) * 0.68,
-                options: [.curveEaseOut],
-                animations: {
-
-                    group.forEach {
-                        $0.alpha = 1
-                        $0.transform = .identity
-                    }
-                }
-            )
-        }
-    }
-
-    private func playSuccessSound() {
-
-        guard let url = Bundle.main.url(
-            forResource: "Success",
-            withExtension: "mp3"
-        ) else { return }
-
-        do {
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
-            audioPlayer?.volume = 0.6
-            audioPlayer?.prepareToPlay()
-            audioPlayer?.play()
-
-        } catch {
-            print(error)
-        }
-    }
-
-    private func playSuccessHaptic() {
-
-        let generator = UINotificationFeedbackGenerator()
-        generator.prepare()
-        generator.notificationOccurred(.success)
-    }
 }

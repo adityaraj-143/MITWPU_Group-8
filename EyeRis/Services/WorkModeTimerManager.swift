@@ -3,15 +3,18 @@ import UIKit
 extension Notification.Name {
     static let workModeTick = Notification.Name("workModeTick")
     static let workModeStateChanged = Notification.Name("workModeStateChanged")
+    static let workModeNotificationSent = Notification.Name("workModeNotificationSent")
+    static let workModeBreakStarted = Notification.Name("workModeBreakStarted")
 }
+
 
 final class WorkModeTimerManager {
 
     static let shared = WorkModeTimerManager()
-
+    private(set) var notificationsSent = 0
     private var timer: Timer?
     private var endTime: Date?
-    private var isBreak = false
+    private(set) var isBreak = false
     var currentRemainingSeconds: Int? {
         guard let endTime else { return nil }
         return Int(ceil(endTime.timeIntervalSinceNow))
@@ -24,7 +27,6 @@ final class WorkModeTimerManager {
 
     func start() {
         let minutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
-        print("Saved minutes:", minutes)
 
         guard minutes > 0 else { return }
         
@@ -34,12 +36,19 @@ final class WorkModeTimerManager {
         scheduleTimer()
 
         NotificationCenter.default.post(name: .workModeStateChanged, object: true)
+
+        NotificationCenter.default.post(
+            name: .workModeNotificationSent,
+            object: notificationsSent
+        )
     }
 
     func stop() {
         timer?.invalidate()
         timer = nil
         endTime = nil
+
+        notificationsSent = 0
 
         NotificationCenter.default.post(name: .workModeStateChanged, object: false)
     }
@@ -80,13 +89,29 @@ final class WorkModeTimerManager {
         let secondsLeft = Int(ceil(endTime.timeIntervalSinceNow))
 
         if secondsLeft <= 0 {
+
             fireHaptics()
+
+            if !isBreak {
+                notificationsSent += 1
+
+                NotificationCenter.default.post(
+                    name: .workModeNotificationSent,
+                    object: notificationsSent
+                )
+            }
 
             if isBreak {
                 start()
             } else {
                 startBreak()
+
+                NotificationCenter.default.post(
+                    name: .workModeBreakStarted,
+                    object: nil
+                )
             }
+
             return
         }
 

@@ -24,9 +24,10 @@ class ExerciseFlowCoordinator {
         case .todaysSet:
 
             if flowMode == .single {
-                pushCompletion(from: vc, source: .todaysSet)
+                pushCompletion(from: vc, source: .todaysSet, flowMode: .single)
                 return
             }
+
 
             guard let list = ExerciseList.shared else { return }
 
@@ -42,15 +43,15 @@ class ExerciseFlowCoordinator {
             } else {
 
                 pushTestInstructions(from: vc)
-
+                
             }
             
         case .recommended, .list:
             
-            pushCompletion(from: vc, source: source)
+            pushCompletion(from: vc, source: source, flowMode: .single)
             
         case .none:
-            pushCompletion(from: vc, source: nil)
+            pushCompletion(from: vc, source: nil, flowMode: .set)
         }
     }
     
@@ -105,7 +106,8 @@ extension ExerciseFlowCoordinator {
     
     static func pushCompletion(
         from vc: UIViewController,
-        source: ExerciseSource?
+        source: ExerciseSource?,
+        flowMode: ExerciseFlowMode?
     ) {
         
         let storyboard = UIStoryboard(name: "ExerciseCompletion", bundle: nil)
@@ -125,6 +127,8 @@ extension ExerciseFlowCoordinator {
             case .none:
                 completionVC.source = .recommended
             }
+            
+            completionVC.flowMode = flowMode
         }
         
         vc.navigationController?.pushViewController(nextVC, animated: true)

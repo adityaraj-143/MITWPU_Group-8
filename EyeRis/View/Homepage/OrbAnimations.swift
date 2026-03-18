@@ -74,41 +74,51 @@ class OrbAnimations {
     }
 
     static func startTrailAnimation(_ trail: CAShapeLayer, duration: TimeInterval) {
+        trail.removeAllAnimations()
+        trail.strokeEnd = 0
+
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.fromValue = 0
         animation.toValue = 1
         animation.duration = duration
         animation.timingFunction = CAMediaTimingFunction(name: .linear)
-        animation.repeatCount = .infinity    // ← this is the key change
+        animation.repeatCount = .infinity
         animation.isRemovedOnCompletion = false
 
         trail.add(animation, forKey: "trailProgress")
     }
 
     static func resumeTrailAnimation(_ trail: CAShapeLayer, duration: TimeInterval, progress: Double) {
-        trail.removeAnimation(forKey: "trailProgress")
+        trail.removeAllAnimations()
 
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.fromValue = 0
         animation.toValue = 1
         animation.duration = duration
         animation.timingFunction = CAMediaTimingFunction(name: .linear)
-        animation.repeatCount = .infinity    // ← same here
+        animation.repeatCount = .infinity
         animation.isRemovedOnCompletion = false
-        animation.timeOffset = duration * progress
+
+        // Wind the animation clock back by how much has already elapsed,
+        // so the visual position matches real elapsed time.
+        // timeOffset alone doesn't work because the model value (strokeEnd)
+        // and the presentation layer fight each other.
+        let elapsed = duration * progress
+        animation.beginTime = CACurrentMediaTime() - elapsed
 
         trail.strokeEnd = CGFloat(progress)
         trail.add(animation, forKey: "trailProgress")
     }
 
-
-    /// Resumes trail from `progress` using the same timeOffset trick as the orb,
-    /// so they stay in lockstep after switching screens.
-
+    /// Wipes all trail state — call this before startTrailAnimation on a new cycle
+    static func resetTrailAnimation(_ trail: CAShapeLayer) {
+        trail.removeAllAnimations()
+        trail.strokeEnd = 0
+        trail.strokeStart = 0
+    }
 
     static func stopTrailAnimation(_ trail: CAShapeLayer) {
-        trail.removeAnimation(forKey: "trailProgress")
-        trail.removeAnimation(forKey: "trailWipe")
+        trail.removeAllAnimations()
         trail.strokeEnd = 0
         trail.strokeStart = 0
     }
@@ -177,10 +187,10 @@ class OrbAnimations {
         }
 
         UIView.animate(
-            withDuration: 0.42,
+            withDuration: 0.6,
             delay: 0,
-            usingSpringWithDamping: 0.52,
-            initialSpringVelocity: 2.0,
+            usingSpringWithDamping: 0.7,
+            initialSpringVelocity: 1.6,
             options: .curveEaseOut
         ) {
             toast.center = CGPoint(x: window.bounds.midX, y: landY)

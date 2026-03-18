@@ -45,6 +45,13 @@ final class CompletionAnimations {
         around imageView: UIImageView
     ) {
 
+        rootView.layoutIfNeeded()
+
+        // Remove old emitters (prevents stacking bugs)
+        rootView.layer.sublayers?
+            .filter { $0 is CAEmitterLayer }
+            .forEach { $0.removeFromSuperlayer() }
+
         let emitter = CAEmitterLayer()
 
         let center = rootView.convert(
@@ -55,10 +62,11 @@ final class CompletionAnimations {
         emitter.emitterPosition = center
         emitter.zPosition = 1000
 
-        let radius = max(
-            imageView.bounds.width,
-            imageView.bounds.height
-        ) * 0.55
+        // Use a sensible fallback if imageView hasn't laid out yet
+        let imageSize = imageView.bounds.size
+        let radius = max(imageSize.width, imageSize.height) > 0
+            ? max(imageSize.width, imageSize.height) * 0.55
+            : 40.0
 
         emitter.emitterShape = .circle
         emitter.emitterMode = .outline
@@ -69,7 +77,11 @@ final class CompletionAnimations {
         cell.birthRate = 22
         cell.lifetime = 1.8
         cell.velocity = 140
+        cell.velocityRange = 30
+
         cell.scale = 0.25
+        cell.scaleRange = 0.06
+
         cell.alphaSpeed = -0.12
 
         cell.contents = makeGreenDot(size: 20).cgImage
@@ -80,7 +92,9 @@ final class CompletionAnimations {
 
         emitter.birthRate = 1
 
-        DispatchQueue.main.async {
+        // async{} is too fast — Core Animation hasn't rendered a single frame yet
+        // so particles get killed before they're ever visible. Use a real delay.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
             emitter.birthRate = 0
         }
 
@@ -88,7 +102,8 @@ final class CompletionAnimations {
             emitter.removeFromSuperlayer()
         }
     }
-
+    
+    
     // MARK: Particle Image
 
     private static func makeGreenDot(size: CGFloat) -> UIImage {

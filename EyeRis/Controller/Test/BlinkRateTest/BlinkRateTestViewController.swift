@@ -89,7 +89,7 @@ class BlinkRateTestViewController: UIViewController, ARSessionDelegate {
                     if(self.flowMode == .single) {
                         self.navigateToTestCompletion(to: "TestCompletion", with: "TestCompletionViewController", source: .blinkRateTest)
                     } else {
-                        self.navigateToTodaysSetCompletion(to: "ExerciseCompletion", with: "ExerciseCompletionViewController", source: .todaysSet)
+                        self.navigateToTodaysSetCompletion(to: "ExerciseCompletion", with: "ExerciseCompletionViewController", source: .todaysSet, flowMode: .set)
                     }
                 }
                 else {
@@ -254,7 +254,8 @@ class BlinkRateTestViewController: UIViewController, ARSessionDelegate {
     func navigateToTodaysSetCompletion(
         to storyboardName: String,
         with identifier: String,
-        source: ExerciseSource? = nil
+        source: ExerciseSource? ,
+        flowMode: ExerciseFlowMode?
     ) {
         let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
         
@@ -264,6 +265,7 @@ class BlinkRateTestViewController: UIViewController, ARSessionDelegate {
         
         if let completionVC = vc as? ExerciseCompletionViewController {
             completionVC.source = source
+            completionVC.flowMode = flowMode
         }
         
         navigationController?.pushViewController(vc, animated: true)

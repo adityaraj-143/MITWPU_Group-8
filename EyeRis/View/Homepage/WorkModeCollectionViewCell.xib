@@ -54,8 +54,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="204 people did this today" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xAn-lL-x7G">
-                                <rect key="frame" x="56" y="47" width="136" height="13.333333333333314"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Notification Sent : 0" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xAn-lL-x7G">
+                                <rect key="frame" x="56" y="47" width="136" height="14"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" systemColor="secondaryLabelColor"/>
@@ -84,6 +84,7 @@
                 <outlet property="iconView" destination="QVy-JT-zpU" id="Cho-1A-CCE"/>
                 <outlet property="mainView" destination="f1V-Oi-inV" id="Bxg-vS-2Js"/>
                 <outlet property="modeToggle" destination="uvr-MC-PjH" id="15i-UN-30H"/>
+                <outlet property="notificationsSent" destination="xAn-lL-x7G" id="9Oe-QO-Vii"/>
             </connections>
             <point key="canvasLocation" x="138.93129770992365" y="153.52112676056339"/>
         </collectionViewCell>

@@ -1,10 +1,3 @@
-//
-//  UserDataStore.swift
-//  EyeRis
-//
-//  Created by SDC-USER on 17/12/25.
-//
-
 import Foundation
 
 
