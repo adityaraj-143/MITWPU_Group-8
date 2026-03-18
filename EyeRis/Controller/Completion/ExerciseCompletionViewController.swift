@@ -11,17 +11,16 @@ import AVFoundation
 
 final class ExerciseCompletionViewController: UIViewController {
     
-    @IBOutlet weak var resultsButton: UIButton!
-    @IBOutlet weak var homeButton: UIButton!
+
 
     @IBOutlet weak var iconContainerView: UIView!
     @IBOutlet weak var successImageView: UIImageView!
-    @IBOutlet weak var TimeTakenLabel: UILabel!
-    @IBOutlet weak var ActualTimeTaken: UILabel!
+
+
     @IBOutlet weak var completionLabel: UILabel!
 
-    private var audioPlayer: AVAudioPlayer?
-
+    @IBOutlet weak var homeButton: UIButton!
+    
     var source: ExerciseSource?
     var flowMode: ExerciseFlowMode?
     
@@ -32,8 +31,19 @@ final class ExerciseCompletionViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        styleButtons()
-        completionLabel.text = "Exercise Completed!"
+
+        
+        switch flowMode {
+        case .set:
+            completionLabel.text = "Exercise Set Completed!"
+           
+        case .single:
+            completionLabel.text = "Exercise Completed!"
+
+        case .none:
+            completionLabel.text = "Exercise Completed!"
+
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -41,14 +51,19 @@ final class ExerciseCompletionViewController: UIViewController {
 
         CompletionAnimations.playSuccessSound()
         CompletionAnimations.playSuccessHaptic()
+
+        iconContainerView.layer.removeAllAnimations()
+        iconContainerView.transform = .identity
         CompletionAnimations.startPulse(iconContainerView)
 
-        CompletionAnimations.burstParticles(
-            in: view,
-            around: successImageView
-        )
-        
+        view.layoutIfNeeded()
 
+        DispatchQueue.main.async {
+            CompletionAnimations.burstParticles(
+                in: self.view,
+                around: self.successImageView
+            )
+        }
     }
     // same animation code as test controller
 
@@ -69,10 +84,15 @@ final class ExerciseCompletionViewController: UIViewController {
             assertionFailure("Source not defined")
         }
     }
-
+    
     @IBAction func homeButtonTapped(_ sender: Any) {
         goToHome()
     }
+    
+    @IBAction func exerciseButtonTapped(_ sender: Any) {
+        goToList()
+    }
+    
 
     // navigation helpers
 
@@ -80,20 +100,6 @@ final class ExerciseCompletionViewController: UIViewController {
         navigationController?.popToRootViewController(animated: true)
     }
     
-    
-    @IBAction func resultsButtonTapped(_ sender: Any) {
-
-        let storyboard = UIStoryboard(name: "ExerciseHistory", bundle: nil)
-
-        let vc = storyboard.instantiateViewController(
-            withIdentifier: "ExerciseHistoryViewController"
-        )
-
-        guard let nav = navigationController else { return }
-
-        nav.setViewControllers([nav.viewControllers.first!, vc], animated: true)
-    }
-
     
 
     private func gotoTodaysSet() {
@@ -133,35 +139,6 @@ final class ExerciseCompletionViewController: UIViewController {
 
     // animation helpers
     
-    
-    private func styleButtons() {
-        
-        // Primary
-        // Results button (primary)
-        resultsButton.backgroundColor = .systemBlue
-        resultsButton.setTitleColor(.white, for: .normal)
-        resultsButton.setTitleColor(.white, for: .highlighted)
-        resultsButton.tintColor = .white
-        resultsButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        resultsButton.layer.cornerRadius = 18
-        resultsButton.clipsToBounds = true
-        
-        // Secondary
-        homeButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        homeButton.layer.cornerRadius = 18
-        homeButton.clipsToBounds = true
-        
-        
-        if traitCollection.userInterfaceStyle == .dark {
-            resultsButton.backgroundColor = UIColor(red: 0.1, green: 0.3, blue: 0.6, alpha: 1)
-            homeButton.backgroundColor = UIColor(white: 0.22, alpha: 1)
-            homeButton.setTitleColor(.systemGray2, for: .normal)
-        } else {
-            resultsButton.backgroundColor = UIColor(red: 0.1, green: 0.4, blue: 0.85, alpha: 1)
-            homeButton.backgroundColor = UIColor(white: 0.96, alpha: 1)
-            homeButton.setTitleColor(.systemGray3, for: .normal)
-        }
-    }
     
     
     
