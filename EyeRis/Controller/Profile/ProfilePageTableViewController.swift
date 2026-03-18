@@ -48,6 +48,8 @@ class ProfilePageTableViewController: UITableViewController {
     private func setupInitialFieldState() {
         firstNameField.isUserInteractionEnabled = false
         lastNameField.isUserInteractionEnabled = false
+        
+        DOBButton.isUserInteractionEnabled = false
 
         firstNameField.borderStyle = .none
         lastNameField.borderStyle = .none
@@ -124,6 +126,8 @@ class ProfilePageTableViewController: UITableViewController {
                 action: #selector(didTapEditButton)
             )
 
+            DOBButton.isUserInteractionEnabled = true
+
             firstNameField.isUserInteractionEnabled = true
             lastNameField.isUserInteractionEnabled = true
             genderButton.isEnabled = true
@@ -133,6 +137,7 @@ class ProfilePageTableViewController: UITableViewController {
             lastNameField.borderStyle = .roundedRect
 
             firstNameField.becomeFirstResponder()
+
         } else {
             navigationItem.rightBarButtonItem = UIBarButtonItem(
                 title: "Edit",
@@ -140,6 +145,8 @@ class ProfilePageTableViewController: UITableViewController {
                 target: self,
                 action: #selector(didTapEditButton)
             )
+
+            DOBButton.isUserInteractionEnabled = false
 
             firstNameField.isUserInteractionEnabled = false
             lastNameField.isUserInteractionEnabled = false
