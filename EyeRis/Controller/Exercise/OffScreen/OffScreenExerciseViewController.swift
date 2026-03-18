@@ -22,6 +22,12 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
     private var tickPlayer: AVAudioPlayer?
     private var finalPlayer: AVAudioPlayer?
     
+    private var isPaused = false
+    private var totalStages = 0
+
+    private let lightHaptic = UIImpactFeedbackGenerator(style: .light)
+    private let mediumHaptic = UIImpactFeedbackGenerator(style: .medium)
+    
     @IBOutlet weak var instructionLabel: UILabel!
     @IBOutlet weak var timerLabel: UILabel!
     
@@ -33,6 +39,11 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
         
         stages = exercise?.getPerformanceInstruction() ?? []
         startNextStage()
+        
+        totalStages = stages.count
+
+        lightHaptic.prepare()
+        mediumHaptic.prepare()
     }
     
     // Configure audio session for playback and mixing
@@ -83,13 +94,20 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
         
         let stage = stages[currentStageIndex]
         
-        instructionLabel.text = stage.instruction
+        let progressText = "Step \(currentStageIndex + 1) of \(totalStages)"
+        print(progressText) // replace with label if needed
+        
+        UIView.transition(with: instructionLabel, duration: 0.3, options: .transitionCrossDissolve) {
+            self.instructionLabel.text = stage.instruction
+        }
         speakInstruction(stage.instruction)
         
         remainingTime = stage.duration
         timerLabel.text = "\(remainingTime)"
         
-        startTimer()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.startTimer()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -102,17 +120,27 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
         countdownTimer?.invalidate()
         
         countdownTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
-            guard let self = self else { return }
+            guard let self = self, !self.isPaused else { return }
             
             self.remainingTime -= 1
             self.timerLabel.text = "\(self.remainingTime)"
             
+            UIView.animate(withDuration: 0.2) {
+                self.timerLabel.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+            } completion: { _ in
+                UIView.animate(withDuration: 0.2) {
+                    self.timerLabel.transform = .identity
+                }
+            }
+            
             if (1...3).contains(self.remainingTime) && !self.speechSynth.isSpeaking {
                 self.playTick()
+                self.lightHaptic.impactOccurred()
             }
             
             if self.remainingTime == 0 {
                 self.playFinal()
+                self.mediumHaptic.impactOccurred()
             }
             
             if self.remainingTime <= 0 {
@@ -164,5 +192,17 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
     // Handle completion
     private func finishExercise() {
         exerciseCompleted()
+    }
+    
+    func pauseExercise() {
+        countdownTimer?.invalidate()
+        isPaused = true
+    }
+
+    func resumeExercise() {
+        if isPaused {
+            isPaused = false
+            startTimer()
+        }
     }
 }
