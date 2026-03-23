@@ -95,15 +95,15 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
             
             self.remainingTime -= 1
             self.timerLabel.text = "\(self.remainingTime)"
-            
-//            if self.remainingTime == 0 {
-//                self.playFinal()
-//            }
-            
+
             if self.remainingTime <= 0 {
                 timer.invalidate()
                 
                 self.playFinal()
+                
+                // Single haptic feedback
+                let generator = UINotificationFeedbackGenerator()
+                generator.notificationOccurred(.success)
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     self.currentStageIndex += 1
