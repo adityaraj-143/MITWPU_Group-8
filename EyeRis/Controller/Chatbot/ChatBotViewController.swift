@@ -3,21 +3,32 @@
 //  EyeRis
 //
 //  Created by SDC-USER on 28/11/25.
+//  Refactored to use MessageKit on 23/03/26.
 //
 
 import UIKit
+import MessageKit
+import InputBarAccessoryView
 
-// MARK: - Chat Message Model
+// MARK: - MessageKit Models
 
-/// Represents a single chat message in the conversation
-struct ChatBubbleMessage {
-    let id: UUID
-    let text: String
-    let isIncoming: Bool
-    let timestamp: Date
-    let status: MessageStatus
+/// Represents a sender in the conversation
+struct ChatSender: SenderType {
+    var senderId: String
+    var displayName: String
+}
+
+/// Represents a chat message conforming to MessageKit's MessageType
+struct ChatBubbleMessage: MessageType {
+    var sender: SenderType
+    var messageId: String
+    var sentDate: Date
+    var kind: MessageKind
     
-    enum MessageStatus {
+    /// Message status for UI feedback
+    var status: BubbleMessageStatus
+    
+    enum BubbleMessageStatus {
         case sending
         case sent
         case failed
@@ -25,49 +36,51 @@ struct ChatBubbleMessage {
     }
     
     init(
-        id: UUID = UUID(),
-        text: String,
-        isIncoming: Bool,
-        timestamp: Date = Date(),
-        status: MessageStatus = .sent
+        sender: SenderType,
+        messageId: String = UUID().uuidString,
+        sentDate: Date = Date(),
+        kind: MessageKind,
+        status: BubbleMessageStatus = .sent
     ) {
-        self.id = id
-        self.text = text
-        self.isIncoming = isIncoming
-        self.timestamp = timestamp
+        self.sender = sender
+        self.messageId = messageId
+        self.sentDate = sentDate
+        self.kind = kind
+        self.status = status
+    }
+    
+    /// Convenience initializer for text messages
+    init(text: String, sender: SenderType, status: BubbleMessageStatus = .sent) {
+        self.sender = sender
+        self.messageId = UUID().uuidString
+        self.sentDate = Date()
+        self.kind = .text(text)
         self.status = status
     }
 }
 
 // MARK: - Chatbot View Controller
 
-final class ChatbotViewController: UIViewController {
+final class ChatbotViewController: MessagesViewController {
     
-    // MARK: - IBOutlets
+    // MARK: - Senders
     
-    @IBOutlet weak var GreetText: UILabel!
-    @IBOutlet weak var ChatBotIcon: UIImageView!
-    @IBOutlet weak var inputContainerView: UIView!
-    @IBOutlet weak var textField: UITextField!
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var sendButton: UIButton!
+    private let currentUser = ChatSender(senderId: "user", displayName: "You")
+    private let botSender = ChatSender(senderId: "eyeris", displayName: "EyeRis")
     
     // MARK: - Properties
     
     /// Initial prompt passed from previous screen (e.g., FAQ question)
     var prompt: String?
     
-    /// All messages in the conversation
-    private var messages: [ChatBubbleMessage] = []
+    /// Reference to chat store for in-memory persistence
+    private let chatStore = ChatStore.shared
     
     /// Reference to Gemini service
     private let geminiService = GeminiService.shared
     
     /// Flag to track if we're waiting for a response
     private var isWaitingForResponse = false
-    
-    /// Flag to track if typing indicator is shown
-    private var isShowingTypingIndicator = false
     
     /// Welcome message shown at start
     private let welcomeMessage = "Hi! I'm EyeRis, your eye health assistant. How can I help you today?"
@@ -77,10 +90,10 @@ final class ChatbotViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupTextField()
-        setupCollectionView()
-        setupKeyboardHandling()
-        setupTapGesture()
+        title = "EyeRis"
+        
+        configureMessageCollectionView()
+        configureMessageInputBar()
         setupInitialMessages()
         
         // Handle initial prompt if provided
@@ -91,143 +104,80 @@ final class ChatbotViewController: UIViewController {
         }
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        textField.layer.cornerRadius = textField.frame.height / 2
-        textField.layer.masksToBounds = true
-    }
+    // MARK: - Configuration
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    // MARK: - Setup Methods
-    
-    private func setupTextField() {
-        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
-        textField.leftViewMode = .always
-        textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 0))
-        textField.rightViewMode = .always
-        textField.delegate = self
-        textField.returnKeyType = .send
-        textField.placeholder = "Ask about eye health..."
-        textField.autocorrectionType = .yes
-        textField.spellCheckingType = .yes
-    }
-    
-    private func setupCollectionView() {
-        // Register message cell
-        collectionView.register(
-            UINib(nibName: "ChatMessageCollectionViewCell", bundle: nil),
-            forCellWithReuseIdentifier: "ChatMessageCollectionViewCell"
-        )
+    private func configureMessageCollectionView() {
+        messagesCollectionView.messagesDataSource = self
+        messagesCollectionView.messagesLayoutDelegate = self
+        messagesCollectionView.messagesDisplayDelegate = self
+        messagesCollectionView.messageCellDelegate = self
         
-        // Register typing indicator cell (programmatic)
-        collectionView.register(
-            TypingIndicatorCell.self,
-            forCellWithReuseIdentifier: TypingIndicatorCell.reuseIdentifier
-        )
+        // Customize appearance
+        messagesCollectionView.backgroundColor = .systemGray6
         
-        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.estimatedItemSize = CGSize(width: view.bounds.width, height: 44)
-            layout.minimumLineSpacing = 8
-            layout.sectionInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+        // Scroll to bottom on new messages
+        scrollsToLastItemOnKeyboardBeginsEditing = true
+        maintainPositionOnInputBarHeightChanged = true
+        showMessageTimestampOnSwipeLeft = true
+        
+        // Remove avatars for both user and bot
+        if let layout = messagesCollectionView.collectionViewLayout as? MessagesCollectionViewFlowLayout {
+            layout.textMessageSizeCalculator.outgoingAvatarSize = .zero
+            layout.textMessageSizeCalculator.incomingAvatarSize = .zero
+            layout.setMessageIncomingAvatarSize(.zero)
+            layout.setMessageOutgoingAvatarSize(.zero)
+            layout.setMessageIncomingMessageTopLabelAlignment(LabelAlignment(textAlignment: .left, textInsets: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0)))
+            layout.setMessageOutgoingMessageTopLabelAlignment(LabelAlignment(textAlignment: .right, textInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 16)))
         }
-        
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.keyboardDismissMode = .interactive
-        collectionView.alwaysBounceVertical = true
     }
     
-    private func setupKeyboardHandling() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShow),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
+    private func configureMessageInputBar() {
+        messageInputBar.delegate = self
         
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillHide),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
-    }
-    
-    private func setupTapGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        tapGesture.cancelsTouchesInView = false
-        tapGesture.delegate = self
-        view.addGestureRecognizer(tapGesture)
+        // Customize input bar appearance
+        messageInputBar.inputTextView.placeholder = "Ask about eye health..."
+        messageInputBar.inputTextView.placeholderTextColor = .placeholderText
+        messageInputBar.inputTextView.backgroundColor = .tertiarySystemBackground
+        messageInputBar.inputTextView.layer.cornerRadius = 18
+        messageInputBar.inputTextView.layer.masksToBounds = true
+        messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 10, left: 12, bottom: 10, right: 12)
+        messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
+        
+        // Configure send button
+        messageInputBar.sendButton.setImage(UIImage(systemName: "paperplane.fill"), for: .normal)
+        messageInputBar.sendButton.setTitle("", for: .normal)
+        messageInputBar.sendButton.tintColor = .systemBlue
+        messageInputBar.sendButton.setSize(CGSize(width: 42, height: 42), animated: false)
+        
+        // Input bar background
+        messageInputBar.backgroundView.backgroundColor = .systemGray6
+        messageInputBar.separatorLine.isHidden = true
+        
+        // Padding
+        messageInputBar.padding = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        messageInputBar.middleContentViewPadding = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)
     }
     
     private func setupInitialMessages() {
-        // Add welcome message from bot
-        let welcomeMsg = ChatBubbleMessage(
-            text: welcomeMessage,
-            isIncoming: true,
-            status: .received
-        )
-        messages.append(welcomeMsg)
-        collectionView.reloadData()
-    }
-    
-    // MARK: - Keyboard Handling
-    
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        guard
-            let info = notification.userInfo,
-            let frame = info[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
-            let duration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double
-        else { return }
-        
-        view.bringSubviewToFront(inputContainerView)
-        
-        let moveUp = frame.height - view.safeAreaInsets.bottom
-        
-        UIView.animate(withDuration: duration) {
-            self.inputContainerView.transform = CGAffineTransform(translationX: 0, y: -moveUp)
+        // Check if we already have messages from a previous visit
+        if chatStore.hasMessages {
+            // Restore existing messages
+            messagesCollectionView.reloadData()
+            messagesCollectionView.scrollToLastItem(animated: false)
+        } else {
+            // First time - add welcome message
+            let welcomeMsg = ChatBubbleMessage(
+                text: welcomeMessage,
+                sender: botSender,
+                status: .received
+            )
+            chatStore.addMessage(welcomeMsg)
+            messagesCollectionView.reloadData()
+            messagesCollectionView.scrollToLastItem(animated: false)
         }
-        
-        // Scroll to bottom when keyboard appears
-        scrollToBottom(animated: true)
-    }
-    
-    @objc private func keyboardWillHide(_ notification: Notification) {
-        guard
-            let info = notification.userInfo,
-            let duration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double
-        else { return }
-        
-        UIView.animate(withDuration: duration) {
-            self.inputContainerView.transform = .identity
-        }
-    }
-    
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
-    }
-    
-    // MARK: - IBActions
-    
-    @IBAction func sendTapped(_ sender: Any) {
-        sendCurrentMessage()
     }
     
     // MARK: - Message Handling
-    
-    /// Sends the current text field content as a message
-    private func sendCurrentMessage() {
-        guard let text = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
-              !text.isEmpty else { return }
-        
-        view.endEditing(true)
-        textField.text = ""
-        
-        sendMessage(text)
-    }
     
     /// Sends a message and gets AI response
     /// - Parameter text: The message text to send
@@ -240,28 +190,28 @@ final class ChatbotViewController: UIViewController {
         // Add user message
         let userMessage = ChatBubbleMessage(
             text: text,
-            isIncoming: false,
+            sender: currentUser,
             status: .sent
         )
         appendMessage(userMessage)
         
         // Show typing indicator
-        showTypingIndicator()
+        setTypingIndicatorViewHidden(false, animated: true)
         
         // Set waiting state
         isWaitingForResponse = true
-        updateSendButtonState()
+        updateSendButtonState(enabled: false)
         
         // Make API call
         geminiService.sendMessage(text, includeHistory: true) { [weak self] result in
             guard let self = self else { return }
             
             // Remove typing indicator
-            self.hideTypingIndicator()
+            self.setTypingIndicatorViewHidden(true, animated: true)
             
             // Reset waiting state
             self.isWaitingForResponse = false
-            self.updateSendButtonState()
+            self.updateSendButtonState(enabled: true)
             
             switch result {
             case .success(let response):
@@ -277,7 +227,7 @@ final class ChatbotViewController: UIViewController {
     private func handleSuccessResponse(_ response: String) {
         let botMessage = ChatBubbleMessage(
             text: response,
-            isIncoming: true,
+            sender: botSender,
             status: .received
         )
         appendMessage(botMessage)
@@ -292,7 +242,7 @@ final class ChatbotViewController: UIViewController {
         // Show error message in chat
         let errorMessage = ChatBubbleMessage(
             text: "Sorry, I couldn't process your request. \(error.localizedDescription)",
-            isIncoming: true,
+            sender: botSender,
             status: .received
         )
         appendMessage(errorMessage)
@@ -317,62 +267,25 @@ final class ChatbotViewController: UIViewController {
         }
     }
     
-    // MARK: - Typing Indicator
-    
-    private func showTypingIndicator() {
-        guard !isShowingTypingIndicator else { return }
-        isShowingTypingIndicator = true
-        
-        let indexPath = IndexPath(item: messages.count, section: 0)
-        
-        collectionView.performBatchUpdates({
-            collectionView.insertItems(at: [indexPath])
-        }, completion: { [weak self] _ in
-            self?.scrollToBottom(animated: true)
-        })
-    }
-    
-    private func hideTypingIndicator() {
-        guard isShowingTypingIndicator else { return }
-        isShowingTypingIndicator = false
-        
-        let indexPath = IndexPath(item: messages.count, section: 0)
-        
-        collectionView.performBatchUpdates({
-            collectionView.deleteItems(at: [indexPath])
-        }, completion: nil)
-    }
-    
     // MARK: - Collection View Helpers
     
     /// Appends a message and updates the collection view
     private func appendMessage(_ message: ChatBubbleMessage) {
-        messages.append(message)
+        chatStore.addMessage(message)
         
-        let indexPath = IndexPath(item: messages.count - 1, section: 0)
-        
-        collectionView.performBatchUpdates({
-            collectionView.insertItems(at: [indexPath])
+        messagesCollectionView.performBatchUpdates({
+            messagesCollectionView.insertSections([chatStore.messages.count - 1])
         }, completion: { [weak self] _ in
-            self?.scrollToBottom(animated: true)
+            self?.messagesCollectionView.scrollToLastItem(animated: true)
         })
-    }
-    
-    /// Scrolls to the bottom of the conversation
-    private func scrollToBottom(animated: Bool) {
-        guard messages.count > 0 else { return }
-        
-        let lastIndexPath = IndexPath(item: messages.count - 1, section: 0)
-        collectionView.scrollToItem(at: lastIndexPath, at: .bottom, animated: animated)
     }
     
     // MARK: - UI State Updates
     
     /// Updates the send button enabled state
-    private func updateSendButtonState() {
-        let hasText = !(textField.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true)
-        sendButton?.isEnabled = hasText && !isWaitingForResponse
-        sendButton?.alpha = (hasText && !isWaitingForResponse) ? 1.0 : 0.5
+    private func updateSendButtonState(enabled: Bool) {
+        messageInputBar.sendButton.isEnabled = enabled
+        messageInputBar.sendButton.alpha = enabled ? 1.0 : 0.5
     }
     
     // MARK: - Alerts
@@ -409,10 +322,10 @@ final class ChatbotViewController: UIViewController {
     
     /// Clears the conversation and starts fresh
     func clearConversation() {
-        messages.removeAll()
+        chatStore.clearAll()
         geminiService.clearConversationHistory()
         setupInitialMessages()
-        collectionView.reloadData()
+        messagesCollectionView.reloadData()
     }
     
     /// Sends a pre-defined prompt (e.g., from FAQ)
@@ -421,119 +334,160 @@ final class ChatbotViewController: UIViewController {
     }
 }
 
-// MARK: - UITextFieldDelegate
+// MARK: - MessagesDataSource
 
-extension ChatbotViewController: UITextFieldDelegate {
+extension ChatbotViewController: MessagesDataSource {
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        sendCurrentMessage()
-        return true
+    var currentSender: SenderType {
+        return currentUser
     }
     
-    func textField(
-        _ textField: UITextField,
-        shouldChangeCharactersIn range: NSRange,
-        replacementString string: String
-    ) -> Bool {
-        // Update send button state after text changes
-        DispatchQueue.main.async { [weak self] in
-            self?.updateSendButtonState()
-        }
-        return true
-    }
-}
-
-// MARK: - UIGestureRecognizerDelegate
-
-extension ChatbotViewController: UIGestureRecognizerDelegate {
-    
-    func gestureRecognizer(
-        _ gestureRecognizer: UIGestureRecognizer,
-        shouldReceive touch: UITouch
-    ) -> Bool {
-        // Don't dismiss keyboard when tapping on controls
-        if touch.view is UIControl {
-            return false
-        }
-        return true
-    }
-}
-
-// MARK: - UICollectionViewDataSource
-
-extension ChatbotViewController: UICollectionViewDataSource {
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
-        // Add 1 for typing indicator if it's showing
-        return messages.count + (isShowingTypingIndicator ? 1 : 0)
+    func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
+        return chatStore.messages.count
     }
     
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        
-        // Check if this is the typing indicator cell
-        if isShowingTypingIndicator && indexPath.item == messages.count {
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: TypingIndicatorCell.reuseIdentifier,
-                for: indexPath
-            ) as? TypingIndicatorCell else {
-                return UICollectionViewCell()
-            }
-            cell.startAnimating()
-            return cell
+    func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
+        return chatStore.messages[indexPath.section]
+    }
+    
+    func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+        // Show sender name for bot messages
+        if message.sender.senderId == botSender.senderId {
+            return NSAttributedString(
+                string: message.sender.displayName,
+                attributes: [
+                    .font: UIFont.systemFont(ofSize: 12, weight: .medium),
+                    .foregroundColor: UIColor.secondaryLabel
+                ]
+            )
         }
+        return nil
+    }
+    
+    func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+        // Show timestamp
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        let dateString = formatter.string(from: message.sentDate)
         
-        // Regular message cell
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: "ChatMessageCollectionViewCell",
-            for: indexPath
-        ) as? ChatMessageCollectionViewCell else {
-            return UICollectionViewCell()
-        }
-        
-        let message = messages[indexPath.item]
-        cell.configure(text: message.text, isIncoming: message.isIncoming)
-        
-        return cell
+        return NSAttributedString(
+            string: dateString,
+            attributes: [
+                .font: UIFont.systemFont(ofSize: 10),
+                .foregroundColor: UIColor.tertiaryLabel
+            ]
+        )
     }
 }
 
-// MARK: - UICollectionViewDelegate
+// MARK: - MessagesLayoutDelegate
 
-extension ChatbotViewController: UICollectionViewDelegate {
+extension ChatbotViewController: MessagesLayoutDelegate {
     
-    func collectionView(
-        _ collectionView: UICollectionView,
-        didSelectItemAt indexPath: IndexPath
-    ) {
-        // Dismiss keyboard when tapping on a message
-        view.endEditing(true)
-        
-        // Ignore taps on typing indicator
-        if isShowingTypingIndicator && indexPath.item == messages.count {
-            return
+    func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        return 0
+    }
+    
+    func messageTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        // Show label for bot messages
+        if message.sender.senderId == botSender.senderId {
+            return 20
         }
+        return 0
+    }
+    
+    func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        return 16
+    }
+}
+
+// MARK: - MessagesDisplayDelegate
+
+extension ChatbotViewController: MessagesDisplayDelegate {
+    
+    func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        if isFromCurrentSender(message: message) {
+            return .systemBlue
+        } else {
+            return .tertiarySystemBackground
+        }
+    }
+    
+    func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        if isFromCurrentSender(message: message) {
+            return .white
+        } else {
+            return .label
+        }
+    }
+    
+    func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
+        let corner: MessageStyle.TailCorner = isFromCurrentSender(message: message) ? .bottomRight : .bottomLeft
+        return .bubbleTail(corner, .curved)
+    }
+    
+    func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        // Hide all avatars
+        avatarView.isHidden = true
+    }
+    
+    func detectorAttributes(for detector: DetectorType, and message: MessageType, at indexPath: IndexPath) -> [NSAttributedString.Key: Any] {
+        // Style for detected links, phone numbers, etc.
+        return [
+            .foregroundColor: isFromCurrentSender(message: message) ? UIColor.white : UIColor.systemBlue,
+            .underlineStyle: NSUnderlineStyle.single.rawValue
+        ]
+    }
+    
+    func enabledDetectors(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> [DetectorType] {
+        return [.url, .phoneNumber]
+    }
+}
+
+// MARK: - InputBarAccessoryViewDelegate
+
+extension ChatbotViewController: InputBarAccessoryViewDelegate {
+    
+    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
+        // Clear input
+        inputBar.inputTextView.text = ""
+        inputBar.invalidatePlugins()
         
-        // Guard against out of bounds
-        guard indexPath.item < messages.count else { return }
+        // Send message
+        let trimmedText = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedText.isEmpty else { return }
         
-        let message = messages[indexPath.item]
+        sendMessage(trimmedText)
+    }
+    
+    func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
+        // Enable/disable send button based on text
+        let hasText = !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        inputBar.sendButton.isEnabled = hasText && !isWaitingForResponse
+        inputBar.sendButton.alpha = (hasText && !isWaitingForResponse) ? 1.0 : 0.5
+    }
+}
+
+// MARK: - MessageCellDelegate (Optional - for tap handling)
+
+extension ChatbotViewController: MessageCellDelegate {
+    
+    func didTapMessage(in cell: MessageCollectionViewCell) {
+        guard let indexPath = messagesCollectionView.indexPath(for: cell) else { return }
+        let message = chatStore.messages[indexPath.section]
         
         // Show action sheet for message options
-        showMessageOptions(for: message, at: indexPath)
+        showMessageOptions(for: message)
     }
     
     /// Shows action sheet with message options
-    private func showMessageOptions(for message: ChatBubbleMessage, at indexPath: IndexPath) {
+    private func showMessageOptions(for message: ChatBubbleMessage) {
+        guard case .text(let text) = message.kind else { return }
+        
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         alert.addAction(UIAlertAction(title: "Copy", style: .default) { _ in
-            UIPasteboard.general.string = message.text
+            UIPasteboard.general.string = text
             
             // Show feedback
             let generator = UINotificationFeedbackGenerator()
@@ -544,26 +498,11 @@ extension ChatbotViewController: UICollectionViewDelegate {
         
         // For iPad
         if let popover = alert.popoverPresentationController {
-            if let cell = collectionView.cellForItem(at: indexPath) {
-                popover.sourceView = cell
-                popover.sourceRect = cell.bounds
-            }
+            popover.sourceView = view
+            popover.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
+            popover.permittedArrowDirections = []
         }
         
         present(alert, animated: true)
-    }
-}
-
-// MARK: - UICollectionViewDelegateFlowLayout
-
-extension ChatbotViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
-        // Return estimated size - actual size handled by preferredLayoutAttributesFitting in cell
-        return CGSize(width: collectionView.bounds.width, height: 44)
     }
 }
