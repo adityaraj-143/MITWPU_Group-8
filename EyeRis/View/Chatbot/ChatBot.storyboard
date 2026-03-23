@@ -29,20 +29,22 @@
                                 <rect key="frame" x="8" y="716" width="374" height="60"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Ask EyeRis" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lrr-pw-RSF">
-                                        <rect key="frame" x="8" y="10" width="309.66666666666669" height="40"/>
+                                        <rect key="frame" x="8" y="10" width="304" height="40"/>
                                         <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pkr-y9-qNu">
-                                        <rect key="frame" x="329.66666666666669" y="13" width="34.333333333333314" height="34.333333333333336"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <rect key="frame" x="322" y="9.3333333333333712" width="42" height="42"/>
+                                        <color key="backgroundColor" systemColor="linkColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="34.329999999999998" id="qnw-Re-R9I"/>
+                                            <constraint firstAttribute="height" constant="42" id="5Zq-Je-hFR"/>
+                                            <constraint firstAttribute="width" constant="42" id="qnw-Re-R9I"/>
                                         </constraints>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" cornerStyle="capsule">
                                             <imageReference key="image" image="paperplane.fill" catalog="system" symbolScale="large"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="large"/>
                                         </buttonConfiguration>
                                         <connections>
                                             <action selector="sendTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="cIg-sN-bfB"/>
@@ -57,7 +59,7 @@
                                     <constraint firstAttribute="bottom" secondItem="lrr-pw-RSF" secondAttribute="bottom" constant="10" id="iZ4-FK-YSq"/>
                                     <constraint firstItem="pkr-y9-qNu" firstAttribute="centerY" secondItem="DKD-Lb-qQU" secondAttribute="centerY" constant="0.16666666666668561" id="lwZ-3r-azV"/>
                                     <constraint firstItem="lrr-pw-RSF" firstAttribute="centerY" secondItem="DKD-Lb-qQU" secondAttribute="centerY" id="nwL-JE-d5B"/>
-                                    <constraint firstItem="pkr-y9-qNu" firstAttribute="leading" secondItem="lrr-pw-RSF" secondAttribute="trailing" constant="12" id="nwh-VY-Zid"/>
+                                    <constraint firstItem="pkr-y9-qNu" firstAttribute="leading" secondItem="lrr-pw-RSF" secondAttribute="trailing" constant="10" id="nwh-VY-Zid"/>
                                     <constraint firstAttribute="trailing" secondItem="pkr-y9-qNu" secondAttribute="trailing" constant="10" id="tyo-aY-xXh"/>
                                 </constraints>
                             </view>
@@ -98,6 +100,7 @@
                     <connections>
                         <outlet property="collectionView" destination="A89-oY-l2Q" id="A1i-57-Y72"/>
                         <outlet property="inputContainerView" destination="DKD-Lb-qQU" id="eWL-sQ-y0x"/>
+                        <outlet property="sendButton" destination="pkr-y9-qNu" id="5bi-0E-DhK"/>
                         <outlet property="textField" destination="lrr-pw-RSF" id="7f7-YF-nSo"/>
                     </connections>
                 </viewController>
@@ -126,6 +129,9 @@
     </scenes>
     <resources>
         <image name="paperplane.fill" catalog="system" width="128" height="119"/>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemGray6Color">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

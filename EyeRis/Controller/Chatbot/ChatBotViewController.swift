@@ -66,8 +66,8 @@ final class ChatbotViewController: UIViewController {
     /// Flag to track if we're waiting for a response
     private var isWaitingForResponse = false
     
-    /// Typing indicator message ID (used to remove it when response arrives)
-    private var typingIndicatorId: UUID?
+    /// Flag to track if typing indicator is shown
+    private var isShowingTypingIndicator = false
     
     /// Welcome message shown at start
     private let welcomeMessage = "Hi! I'm EyeRis, your eye health assistant. How can I help you today?"
@@ -116,9 +116,16 @@ final class ChatbotViewController: UIViewController {
     }
     
     private func setupCollectionView() {
+        // Register message cell
         collectionView.register(
             UINib(nibName: "ChatMessageCollectionViewCell", bundle: nil),
             forCellWithReuseIdentifier: "ChatMessageCollectionViewCell"
+        )
+        
+        // Register typing indicator cell (programmatic)
+        collectionView.register(
+            TypingIndicatorCell.self,
+            forCellWithReuseIdentifier: TypingIndicatorCell.reuseIdentifier
         )
         
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
@@ -313,24 +320,27 @@ final class ChatbotViewController: UIViewController {
     // MARK: - Typing Indicator
     
     private func showTypingIndicator() {
-        let typingMessage = ChatBubbleMessage(
-            text: "Typing...",
-            isIncoming: true,
-            status: .sending
-        )
-        typingIndicatorId = typingMessage.id
-        appendMessage(typingMessage)
+        guard !isShowingTypingIndicator else { return }
+        isShowingTypingIndicator = true
+        
+        let indexPath = IndexPath(item: messages.count, section: 0)
+        
+        collectionView.performBatchUpdates({
+            collectionView.insertItems(at: [indexPath])
+        }, completion: { [weak self] _ in
+            self?.scrollToBottom(animated: true)
+        })
     }
     
     private func hideTypingIndicator() {
-        guard let typingId = typingIndicatorId else { return }
+        guard isShowingTypingIndicator else { return }
+        isShowingTypingIndicator = false
         
-        if let index = messages.firstIndex(where: { $0.id == typingId }) {
-            messages.remove(at: index)
-            collectionView.deleteItems(at: [IndexPath(item: index, section: 0)])
-        }
+        let indexPath = IndexPath(item: messages.count, section: 0)
         
-        typingIndicatorId = nil
+        collectionView.performBatchUpdates({
+            collectionView.deleteItems(at: [indexPath])
+        }, completion: nil)
     }
     
     // MARK: - Collection View Helpers
@@ -457,13 +467,28 @@ extension ChatbotViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return messages.count
+        // Add 1 for typing indicator if it's showing
+        return messages.count + (isShowingTypingIndicator ? 1 : 0)
     }
     
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
+        
+        // Check if this is the typing indicator cell
+        if isShowingTypingIndicator && indexPath.item == messages.count {
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: TypingIndicatorCell.reuseIdentifier,
+                for: indexPath
+            ) as? TypingIndicatorCell else {
+                return UICollectionViewCell()
+            }
+            cell.startAnimating()
+            return cell
+        }
+        
+        // Regular message cell
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: "ChatMessageCollectionViewCell",
             for: indexPath
@@ -474,24 +499,7 @@ extension ChatbotViewController: UICollectionViewDataSource {
         let message = messages[indexPath.item]
         cell.configure(text: message.text, isIncoming: message.isIncoming)
         
-        // Apply typing animation for typing indicator
-        if message.id == typingIndicatorId {
-            applyTypingAnimation(to: cell)
-        }
-        
         return cell
-    }
-    
-    /// Applies a pulsing animation to the typing indicator cell
-    private func applyTypingAnimation(to cell: ChatMessageCollectionViewCell) {
-        UIView.animate(
-            withDuration: 0.6,
-            delay: 0,
-            options: [.repeat, .autoreverse, .allowUserInteraction],
-            animations: {
-                cell.alpha = 0.5
-            }
-        )
     }
 }
 
@@ -506,7 +514,14 @@ extension ChatbotViewController: UICollectionViewDelegate {
         // Dismiss keyboard when tapping on a message
         view.endEditing(true)
         
-        // Optional: Copy message to clipboard on long press could be added here
+        // Ignore taps on typing indicator
+        if isShowingTypingIndicator && indexPath.item == messages.count {
+            return
+        }
+        
+        // Guard against out of bounds
+        guard indexPath.item < messages.count else { return }
+        
         let message = messages[indexPath.item]
         
         // Show action sheet for message options
