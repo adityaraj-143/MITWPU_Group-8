@@ -68,13 +68,23 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
         
         let stage = stages[currentStageIndex]
         
-        instructionLabel.text = stage.instruction
-        speakInstruction(stage.instruction)
+        UIView.transition(with: instructionLabel, duration: 0.25, options: .transitionCrossDissolve) {
+            self.instructionLabel.text = stage.instruction
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.speakInstruction(stage.instruction)
+        }
         
         remainingTime = stage.duration
         timerLabel.text = "\(remainingTime)"
         
         startTimer()
+        
+        timerLabel.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        UIView.animate(withDuration: 0.3) {
+            self.timerLabel.transform = .identity
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -91,6 +101,15 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
             // Tick for last 5 seconds
             if (1...5).contains(self.remainingTime) {
                 self.playTick()
+                
+                // Slight scale bump for urgency
+                UIView.animate(withDuration: 0.1) {
+                    self.timerLabel.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                } completion: { _ in
+                    UIView.animate(withDuration: 0.2) {
+                        self.timerLabel.transform = .identity
+                    }
+                }
             }
             
             self.remainingTime -= 1
