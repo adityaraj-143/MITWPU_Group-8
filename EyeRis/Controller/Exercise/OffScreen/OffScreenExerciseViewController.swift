@@ -38,15 +38,15 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
         setupSounds()
         
         stages = exercise?.getPerformanceInstruction() ?? []
-        startNextStage()
-        
         totalStages = stages.count
-
+        
         lightHaptic.prepare()
         mediumHaptic.prepare()
+        
+        startNextStage()
     }
     
-    // Configure audio session for playback and mixing
+    // Configure audio session
     private func setupAudioSession() {
         do {
             let session = AVAudioSession.sharedInstance()
@@ -61,10 +61,10 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
         }
     }
     
-    // Load audio files and initialize players
+    // Load sounds
     private func setupSounds() {
-        guard let tickURL = Bundle.main.url(forResource: "tickkk", withExtension: "mp3"),
-              let finalURL = Bundle.main.url(forResource: "finalll", withExtension: "mp3") else {
+        guard let tickURL = Bundle.main.url(forResource: "Tick", withExtension: "mp3"),
+              let finalURL = Bundle.main.url(forResource: "Final", withExtension: "mp3") else {
             return
         }
         
@@ -85,7 +85,7 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
         }
     }
     
-    // Start next stage in sequence
+    // Start next stage
     private func startNextStage() {
         if currentStageIndex >= stages.count {
             finishExercise()
@@ -94,12 +94,10 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
         
         let stage = stages[currentStageIndex]
         
-        let progressText = "Step \(currentStageIndex + 1) of \(totalStages)"
-        print(progressText) // replace with label if needed
-        
         UIView.transition(with: instructionLabel, duration: 0.3, options: .transitionCrossDissolve) {
             self.instructionLabel.text = stage.instruction
         }
+        
         speakInstruction(stage.instruction)
         
         remainingTime = stage.duration
@@ -115,12 +113,18 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
         countdownTimer?.invalidate()
     }
     
-    // Start countdown timer
+    // Timer logic
     private func startTimer() {
         countdownTimer?.invalidate()
         
         countdownTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
             guard let self = self, !self.isPaused else { return }
+            
+            // Tick for last 5 seconds (5 → 1)
+            if (1...5).contains(self.remainingTime) && !self.speechSynth.isSpeaking {
+                self.playTick()
+                self.lightHaptic.impactOccurred()
+            }
             
             self.remainingTime -= 1
             self.timerLabel.text = "\(self.remainingTime)"
@@ -133,20 +137,18 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
                 }
             }
             
-            if (1...3).contains(self.remainingTime) && !self.speechSynth.isSpeaking {
-                self.playTick()
-                self.lightHaptic.impactOccurred()
-            }
-            
-            if self.remainingTime == 0 {
-                self.playFinal()
-                self.mediumHaptic.impactOccurred()
-            }
-            
             if self.remainingTime <= 0 {
                 timer.invalidate()
-                self.currentStageIndex += 1
-                self.startNextStage()
+                
+                self.playFinal()
+                self.mediumHaptic.impactOccurred()
+                
+                let delay = self.finalPlayer?.duration ?? 1.0
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                    self.currentStageIndex += 1
+                    self.startNextStage()
+                }
             }
         }
         
@@ -173,7 +175,7 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
         player.play()
     }
     
-    // Speak instruction using speech synthesizer
+    // Speech
     private func speakInstruction(_ text: String) {
         if speechSynth.isSpeaking {
             speechSynth.stopSpeaking(at: .immediate)
@@ -189,11 +191,12 @@ class OffScreenExerciseViewController: UIViewController, ExerciseFlowHandling {
         speechSynth.speak(utterance)
     }
     
-    // Handle completion
+    // Completion
     private func finishExercise() {
         exerciseCompleted()
     }
     
+    // Pause / Resume
     func pauseExercise() {
         countdownTimer?.invalidate()
         isPaused = true
