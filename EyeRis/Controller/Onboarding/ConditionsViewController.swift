@@ -136,6 +136,9 @@ class ConditionsViewController: UIViewController, UITableViewDelegate, UITableVi
         
         store.updateEyeConditions(mappedConditions)
         
+        // Save user to CoreData so onboarding is skipped on next launch
+        UserStore().save(store.currentUser)
+        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let mainVC = storyboard.instantiateInitialViewController()!
         
