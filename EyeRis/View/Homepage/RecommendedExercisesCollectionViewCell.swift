@@ -21,9 +21,9 @@ class RecommendedExercisesCollectionViewCell: UICollectionViewCell {
         mainView.applyCornerRadius()
     }
     
-    func configure(title: String, subtitle: String, icon: String, iconBG: UIColor) {
+    func configure(title: String, conditions: [Conditions], icon: String, iconBG: UIColor) {
         titleLabel.text = title
-        subtitleLabel.text = subtitle
+        subtitleLabel.text = conditions.prefix(2).map { $0.displayText }.joined(separator: " · ")
         iconImage.image = UIImage(named: icon)
         self.iconBG.backgroundColor = iconBG
     }
