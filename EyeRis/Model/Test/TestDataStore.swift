@@ -1,10 +1,3 @@
-//
-//  TestMockDataStore.swift
-//  EyeRis
-//
-//  Created by SDC-USER on 12/12/25.
-//
-
 import Foundation
 
 //MARK: TEST RESULTS
@@ -129,10 +122,8 @@ let mockTestBlink = BlinkRateTest(
                 "BlinkTestInstruction2",
                 "BlinkTestInstruction3",
                 "NVATestInstruction4"]),
-    passages: """
-        Arjun always took his eyesight for granted. He spent hours scrolling on his phone, studying on his laptop, and gaming late into the night. Slowly, his eyes began to ache, and everything started to look slightly hazy. He ignored it at first, brushing it off as simple tiredness. But one day, while driving, he realized he couldn’t clearly read a road sign until he was dangerously close. That moment scared him enough to finally visit an eye specialist.
-        
-        The doctor explained that his vision had weakened and warned him about the long-term effects of screen strain. Determined to change, Arjun began following the 20-20-20 rule—every 20 minutes, he looked 20 feet away for 20 seconds. He reduced his screen brightness, took regular breaks, ate more greens, and even started wearing protective glasses. Within weeks, his eyes felt lighter and healthier. He learned an important lesson: caring for your eyes isn’t optional—it’s essential.
-        """, duration: 30
+    passages: passages.randomElement() ?? "passage not loaded",
+    duration: 30
 )
+
 
