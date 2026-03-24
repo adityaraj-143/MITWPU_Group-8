@@ -121,23 +121,29 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
     }
     
     @objc private func handleBreakStarted() {
-        guard let orb else { return }
+        guard let orb, let trail else { return }
 
-        // Recolor orb to orange for break
+        // Recolor orb to orange
         orb.backgroundColor = .systemOrange
         orb.layer.shadowColor = UIColor.systemOrange.cgColor
 
-        // Restart orbit animation for break duration (20 secs)
+        // Recolor trail to orange
+        trail.strokeColor = UIColor.systemOrange.cgColor
+        trail.shadowColor = UIColor.systemOrange.cgColor
+
+        // Restart both for 20 second break duration
         OrbAnimations.stopOrbAnimation(orb)
         OrbAnimations.resetOrb(orb, around: mainView)
+        OrbAnimations.resetTrailAnimation(trail)
+
         orb.isHidden = false
+        trail.isHidden = false
 
         OrbAnimations.startOrbAnimation(orb, around: mainView, duration: 20)
-
-        // Hide trail during break (optional, or recolor it too)
-        trail?.isHidden = true
+        OrbAnimations.startTrailAnimation(trail, duration: 20)
     }
-
+    
+    
     @objc private func handleStateChange(_ notification: Notification) {
         guard let isRunning = notification.object as? Bool else { return }
         orb?.isHidden = !isRunning
@@ -145,9 +151,13 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
         if isRunning {
             guard let orb else { return }
 
-            // Restore original orb color
-            orb.backgroundColor = .systemPurple  // or whatever your default color is
-            orb.layer.shadowColor = UIColor.systemPurple.cgColor  // match default
+            // Restore orb to green
+            orb.backgroundColor = .systemGreen
+            orb.layer.shadowColor = UIColor.systemGreen.cgColor
+
+            // Restore trail to green
+            trail?.strokeColor = UIColor.systemGreen.cgColor
+            trail?.shadowColor = UIColor.systemGreen.cgColor
 
             let minutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
             let duration = TimeInterval(minutes * 60)
@@ -161,6 +171,7 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
             modeToggle.setOn(true, animated: true)
         }
     }
+    
 
     /// Every tick from the global timer — keep trail in sync with real elapsed time
     @objc private func handleTick(_ notification: Notification) {
