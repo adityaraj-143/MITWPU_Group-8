@@ -16,25 +16,14 @@ class OnboardingViewController: UIViewController {
     }
     
     @IBAction func addUser(_ sender: Any) {
-        let placeholderUser = User(
+        // Update user via UserManager (auto-persists to CoreData)
+        UserManager.shared.updateUser(
             firstName: "Test",
             lastName: "User",
             gender: "Male",
             dob: Date(),
-            eyeHealthData: UserEyeHealthData(
-                condition: [.digitalEyeStrain]
-            )
+            conditions: [.digitalEyeStrain]
         )
-        
-        // Save to CoreData
-        UserStore().save(placeholderUser)
-        
-        // Update runtime store
-        UserDataStore.shared.updateFirstName(placeholderUser.firstName)
-        UserDataStore.shared.updateLastName(placeholderUser.lastName)
-        UserDataStore.shared.updateGender(placeholderUser.gender)
-        UserDataStore.shared.updateDOB(placeholderUser.dob)
-        UserDataStore.shared.updateEyeConditions(placeholderUser.eyeHealthData.condition)
         
         // Navigate to Main storyboard as root
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

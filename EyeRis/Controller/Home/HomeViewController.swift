@@ -9,7 +9,7 @@ class ViewController: UIViewController {
     var lastDVA: AcuityTestResult?
     var todayBlinkResult: BlinkRateTestResult?
     
-    let recommendedExercises = ExerciseList(user: UserDataStore.shared.currentUser).recommended
+    let recommendedExercises = ExerciseList(user: UserManager.shared.currentUser).recommended
     
     let todaysExercise = ExerciseList.shared?.todaysSet
     
