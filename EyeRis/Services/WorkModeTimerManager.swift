@@ -54,13 +54,13 @@ final class WorkModeTimerManager {
     }
     
     func progress() -> Double {
-
         guard
             let endTime,
             let remaining = currentRemainingSeconds
         else { return 0 }
 
-        let total = Double(UserDefaults.standard.integer(forKey: "workModeMinutes") * 60)
+        // Use correct duration based on current phase
+        let total: Double = isBreak ? 20 : Double(UserDefaults.standard.integer(forKey: "workModeMinutes") * 60)
 
         if total == 0 { return 0 }
 
