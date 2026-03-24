@@ -136,6 +136,7 @@ extension ViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as! GreetingCollectionViewCell
             
+            cell.configure(firstName: UserManager.shared.currentUser.firstName)
             cell.onTapNavigation = { [weak self] in
                 self?.presentProfilePage()
             }
