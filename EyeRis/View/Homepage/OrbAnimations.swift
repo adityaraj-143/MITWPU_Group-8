@@ -67,6 +67,12 @@ final class OrbAnimations {
         trail.shadowOffset = .zero
     }
     
+    /// Update trail path when card frame changes (rotation, different device)
+    static func updateTrailPath(_ trail: CAShapeLayer, around card: UIView) {
+        let path = UIBezierPath(roundedRect: card.frame, cornerRadius: card.layer.cornerRadius)
+        trail.path = path.cgPath
+    }
+    
     // MARK: - Orb Animation
     
     static func resetOrb(_ orb: UIView, around card: UIView) {

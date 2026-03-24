@@ -9,6 +9,7 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
     
     private var orb: UIView?
     private var trail: CAShapeLayer?
+    private var lastMainViewFrame: CGRect = .zero
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -162,6 +163,26 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
         modeToggle.isOn = WorkModeTimerManager.shared.isRunning
         orb?.isHidden = !WorkModeTimerManager.shared.isRunning
         syncAnimationsIfRunning()
+    }
+
+    // MARK: - Layout
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        // Check if mainView frame changed (rotation, different device size)
+        guard mainView.frame != lastMainViewFrame else { return }
+        lastMainViewFrame = mainView.frame
+        
+        // Update trail path to match new card frame
+        if let trail {
+            OrbAnimations.updateTrailPath(trail, around: mainView)
+        }
+        
+        // Restart animations with new path if running
+        if WorkModeTimerManager.shared.isRunning {
+            syncAnimationsIfRunning()
+        }
     }
 
     deinit {
