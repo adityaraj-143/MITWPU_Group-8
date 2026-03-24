@@ -187,7 +187,7 @@ final class OrbAnimations {
         startTrailAnimation(trail, duration: duration)
     }
     
-    /// Resume animations at a specific progress point (used for syncing)
+    /// Resume animations at a specific progress point (used for syncing and layout changes)
     static func resumeAnimations(
         orb: UIView,
         trail: CAShapeLayer,
@@ -203,6 +203,9 @@ final class OrbAnimations {
         // Stop existing animations
         stopOrbAnimation(orb)
         trail.removeAllAnimations()
+        
+        // Update trail path to current card frame (handles rotation/resize)
+        updateTrailPath(trail, around: card)
         
         orb.isHidden = false
         trail.isHidden = false

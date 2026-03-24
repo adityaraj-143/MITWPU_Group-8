@@ -174,12 +174,8 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
         guard mainView.frame != lastMainViewFrame else { return }
         lastMainViewFrame = mainView.frame
         
-        // Update trail path to match new card frame
-        if let trail {
-            OrbAnimations.updateTrailPath(trail, around: mainView)
-        }
-        
         // Restart animations with new path if running
+        // resumeAnimations handles updating both orb and trail paths
         if WorkModeTimerManager.shared.isRunning {
             syncAnimationsIfRunning()
         }
