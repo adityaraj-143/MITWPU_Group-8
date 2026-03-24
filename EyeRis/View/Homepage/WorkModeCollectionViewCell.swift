@@ -15,7 +15,7 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         configureUI()
-        notificationsSent.text = "Notifications Sent : \(WorkModeTimerManager.shared.notificationsSent)"
+        notificationsSent.text = "Breaks until now: \(WorkModeTimerManager.shared.notificationsSent)"
         configureOrb()
         trail = OrbAnimations.attachTrail(to: contentView, around: mainView)
         configureObservers()
@@ -107,7 +107,7 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
             OrbAnimations.resetOrb(orb, around: mainView)
             trail.flatMap { OrbAnimations.stopTrailAnimation($0) }
             trail?.isHidden = true  // Also hide on manual stop
-            notificationsSent.text = "Notifications Sent : 0"
+            notificationsSent.text = "Breaks until now: 0"
         }
     }
 
@@ -117,7 +117,7 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
 
         guard let count = notification.object as? Int else { return }
 
-        notificationsSent.text = "Notifications Sent : \(count)"
+        notificationsSent.text = "Breaks until now: \(count)"
     }
     
     @objc private func handleBreakStarted() {
