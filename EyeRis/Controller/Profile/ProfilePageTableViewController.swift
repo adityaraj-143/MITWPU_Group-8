@@ -9,7 +9,7 @@ import UIKit
 
 class ProfilePageTableViewController: UITableViewController {
     
-    private let userStore = UserDataStore.shared
+    private let userManager = UserManager.shared
     
     @IBOutlet weak var profileImage: UIImageView!
     
@@ -44,6 +44,7 @@ class ProfilePageTableViewController: UITableViewController {
     @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
         dismiss(animated: true)
     }
+    
     // MARK: - Initial UI State
     private func setupInitialFieldState() {
         firstNameField.isUserInteractionEnabled = false
@@ -62,17 +63,17 @@ class ProfilePageTableViewController: UITableViewController {
         // Gender menu
         let male = UIAction(title: "Male") { _ in
             self.genderButton.setTitle("Male", for: .normal)
-            self.userStore.updateGender("Male")
+            self.userManager.updateGender("Male")
         }
 
         let female = UIAction(title: "Female") { _ in
             self.genderButton.setTitle("Female", for: .normal)
-            self.userStore.updateGender("Female")
+            self.userManager.updateGender("Female")
         }
 
         let other = UIAction(title: "Other") { _ in
             self.genderButton.setTitle("Other", for: .normal)
-            self.userStore.updateGender("Other")
+            self.userManager.updateGender("Other")
         }
 
         genderButton.menu = UIMenu(
@@ -85,20 +86,20 @@ class ProfilePageTableViewController: UITableViewController {
         // Eye sight / conditions menu
         let nearSighted = UIAction(title: "Near-Sighted") { _ in
             self.eyeSightButton.setTitle("Near-Sighted", for: .normal)
-            self.userStore.updateEyeConditions([.dryEyes])
-            self.conditionsLabel.text = self.userStore.primaryEyeCondition
+            self.userManager.updateEyeConditions([.dryEyes])
+            self.conditionsLabel.text = self.userManager.primaryEyeCondition
         }
 
         let farSighted = UIAction(title: "Far-Sighted") { _ in
             self.eyeSightButton.setTitle("Far-Sighted", for: .normal)
-            self.userStore.updateEyeConditions([.dryEyes])
-            self.conditionsLabel.text = self.userStore.primaryEyeCondition
+            self.userManager.updateEyeConditions([.dryEyes])
+            self.conditionsLabel.text = self.userManager.primaryEyeCondition
         }
 
         let healthy = UIAction(title: "Healthy") { _ in
             self.eyeSightButton.setTitle("Healthy", for: .normal)
-            self.userStore.updateEyeConditions([])
-            self.conditionsLabel.text = self.userStore.primaryEyeCondition
+            self.userManager.updateEyeConditions([])
+            self.conditionsLabel.text = self.userManager.primaryEyeCondition
         }
 
         eyeSightButton.menu = UIMenu(
@@ -156,7 +157,7 @@ class ProfilePageTableViewController: UITableViewController {
 
     // MARK: - Populate UI
     private func populateUI() {
-        let user = userStore.currentUser
+        let user = userManager.currentUser
 
         firstNameField.text = user.firstName
         lastNameField.text = user.lastName
@@ -168,12 +169,14 @@ class ProfilePageTableViewController: UITableViewController {
 
     // MARK: - Save
     private func saveProfileData() {
-        userStore.updateFirstName(firstNameField.text ?? "")
-        userStore.updateLastName(lastNameField.text ?? "")
+        userManager.updateUser(
+            firstName: firstNameField.text ?? "",
+            lastName: lastNameField.text ?? ""
+        )
     }
     
     @IBAction func didTapDateButton(_ sender: UIDatePicker) {
-        userStore.updateDOB(sender.date)
+        userManager.updateDOB(sender.date)
     }
     
     // MARK: - Notifications
@@ -181,4 +184,3 @@ class ProfilePageTableViewController: UITableViewController {
         print(sender.isOn ? "Notifications ON" : "Notifications OFF")
     }
 }
-

@@ -13,9 +13,11 @@ class BlinkRateView: UIView {
     var minValue: CGFloat = 0
     var maxValue: CGFloat = 22
     
+    private var displayValue: CGFloat = 9
+    
     var value: CGFloat = 9 {
         didSet {
-            value = max(minValue, min(value, maxValue))
+            displayValue = value
             updatePointer()
         }
     }
@@ -118,7 +120,8 @@ class BlinkRateView: UIView {
     private func updatePointer() {
         
         let bar = gradientLayer.frame
-        let pos = (value - minValue) / (maxValue - minValue)
+        let clampedValue = max(minValue, min(displayValue, maxValue))
+        let pos = (clampedValue - minValue) / (maxValue - minValue)
         let x = bar.minX + pos * bar.width
         
         let triW: CGFloat = 16
@@ -135,7 +138,7 @@ class BlinkRateView: UIView {
         let color = gradientColor(at: pos)
         pointerImageView.tintColor = color
         
-        let number = "\(Int(value))"
+        let number = "\(Int(displayValue))"
         let unit = " bpm"
         
         let attributed = NSMutableAttributedString(
