@@ -89,8 +89,15 @@ final class ExerciseList {
         
         let userConditions = Set(user.eyeHealthData.condition)
         
-        recommended = exercises.filter { exercise in
+        let filtered = exercises.filter { exercise in
             !Set(exercise.targetedConditions).intersection(userConditions).isEmpty
+        }
+        
+        // Default to Palming (1), Blinking (3), Figure 8 (5) if no matches
+        if filtered.isEmpty {
+            recommended = exercises.filter { [1, 3, 5].contains($0.id) }
+        } else {
+            recommended = filtered
         }
         
         // Exercises matching user's conditions (high priority)
