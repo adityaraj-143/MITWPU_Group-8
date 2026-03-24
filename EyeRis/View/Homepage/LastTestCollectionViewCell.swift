@@ -14,7 +14,7 @@ class LastTestCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var commentView: UIView!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var resultView1: UIView!
-
+    @IBOutlet weak var comment: UILabel!
     @IBOutlet weak var nvaLeftEye: UILabel!
     @IBOutlet weak var nvaRightEye: UILabel!
     

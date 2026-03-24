@@ -29,7 +29,7 @@ class TestHistoryViewController: UIViewController {
     @IBOutlet weak var DVAHealthyScore: UILabel!
     @IBOutlet weak var DVALeftEyeScore: UILabel!
     @IBOutlet weak var DVARightEyeScore: UILabel!
-    
+    @IBOutlet weak var comment: UILabel!
     
     // MARK: - Data for this screen
     

@@ -1,12 +1,4 @@
-//
-//  Test.swift
-//  EyeRis
-//
-
 import Foundation
-
-
-// Tests
 
 enum AcuityTestType {
     case nearVision
@@ -104,32 +96,7 @@ struct BlinkWeek {
     let days: [BlinkRateTestResult?]
 }
 
-
-// Helpers
-func calcAcuityScore(level: Int) -> String {
-    
-    let snellenMap = [
-        "20/200",
-        "20/100",
-        "20/80",
-        "20/60",
-        "20/40",
-        "20/30",
-        "20/25",
-        "20/20",
-        "20/15"
-    ]
-    
-    guard level >= 0 && level < snellenMap.count else {
-        return "N/A"
-    }
-    
-    return snellenMap[level]
-}
-
-
 // Managers
-
 final class AcuityTestResultManager {
     
     static let shared = AcuityTestResultManager()

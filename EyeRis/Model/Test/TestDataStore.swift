@@ -3,7 +3,6 @@ import Foundation
 //MARK: TEST RESULTS
 // Dummy data for Test Results
 let dummyAcuityResults: [AcuityTestResult] = [
-    
     // Jan 10
     AcuityTestResult(
         id: 1001,
