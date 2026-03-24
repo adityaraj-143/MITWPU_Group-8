@@ -123,10 +123,19 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
     @objc private func handleBreakStarted() {
         guard let orb else { return }
 
+        // Recolor orb to orange for break
+        orb.backgroundColor = .systemOrange
+        orb.layer.shadowColor = UIColor.systemOrange.cgColor
+
+        // Restart orbit animation for break duration (20 secs)
         OrbAnimations.stopOrbAnimation(orb)
-        orb.isHidden = true
-        trail.flatMap { OrbAnimations.stopTrailAnimation($0) }
-        trail?.isHidden = true  // Hide trail during break
+        OrbAnimations.resetOrb(orb, around: mainView)
+        orb.isHidden = false
+
+        OrbAnimations.startOrbAnimation(orb, around: mainView, duration: 20)
+
+        // Hide trail during break (optional, or recolor it too)
+        trail?.isHidden = true
     }
 
     @objc private func handleStateChange(_ notification: Notification) {
@@ -135,10 +144,16 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
 
         if isRunning {
             guard let orb else { return }
+
+            // Restore original orb color
+            orb.backgroundColor = .systemPurple  // or whatever your default color is
+            orb.layer.shadowColor = UIColor.systemPurple.cgColor  // match default
+
             let minutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
             let duration = TimeInterval(minutes * 60)
+
             OrbAnimations.resetOrb(orb, around: mainView)
-            trail?.isHidden = false  // Unhide trail when work session resumes
+            trail?.isHidden = false
             trail.flatMap { OrbAnimations.stopTrailAnimation($0) }
             trail.flatMap { OrbAnimations.resetTrailAnimation($0) }
             OrbAnimations.startOrbAnimation(orb, around: mainView, duration: duration)
