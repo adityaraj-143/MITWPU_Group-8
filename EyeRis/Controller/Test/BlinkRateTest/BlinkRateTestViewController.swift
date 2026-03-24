@@ -1,11 +1,3 @@
-//
-//  BlinkRateViewController.swift
-//  EyeRis
-//
-//  Created by SDC-USER on 26/11/25.
-//
-
-
 import UIKit
 import ARKit
 import AVFoundation
