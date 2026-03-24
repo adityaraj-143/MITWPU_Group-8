@@ -7,23 +7,22 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var modeToggle: UISwitch!
     @IBOutlet weak var notificationsSent: UILabel!
     
-    private var orb: UIView?
-    private var trail: CAShapeLayer?
-    private var lastMainViewFrame: CGRect = .zero
+    private var orb: UIView!
+    private var trail: CAShapeLayer!
+    private var lastCardFrame: CGRect = .zero
+
+    // MARK: - Lifecycle
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        configureUI()
-        notificationsSent.text = "Breaks until now: \(WorkModeTimerManager.shared.notificationsSent)"
-        configureOrb()
-        trail = OrbAnimations.attachTrail(to: contentView, around: mainView)
-        configureObservers()
-        syncAnimationsIfRunning()
+        setupUI()
+        setupOrbAndTrail()
+        setupObservers()
     }
 
     // MARK: - Setup
 
-    private func configureUI() {
+    private func setupUI() {
         mainView.clipsToBounds = false
         mainView.layer.masksToBounds = false
         contentView.clipsToBounds = false
@@ -34,47 +33,68 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
 
         modeToggle.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
         modeToggle.isOn = WorkModeTimerManager.shared.isRunning
+        
+        notificationsSent.text = "Breaks until now: \(WorkModeTimerManager.shared.notificationsSent)"
     }
 
-    private func configureOrb() {
-        orb = OrbAnimations.attachOrb(to: contentView)
-        orb?.isHidden = !WorkModeTimerManager.shared.isRunning
+    private func setupOrbAndTrail() {
+        orb = OrbAnimations.createOrb(in: contentView)
+        trail = OrbAnimations.createTrail(in: contentView)
     }
 
-    private func configureObservers() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleStateChange(_:)),
-            name: .workModeStateChanged,
-            object: nil
-        )
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleNotificationSent(_:)),
-            name: .workModeNotificationSent,
-            object: nil
-        )
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleBreakStarted),
-            name: .workModeBreakStarted,
-            object: nil
+    private func setupObservers() {
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(onStateChanged(_:)), name: .workModeStateChanged, object: nil)
+        nc.addObserver(self, selector: #selector(onBreakStarted), name: .workModeBreakStarted, object: nil)
+        nc.addObserver(self, selector: #selector(onNotificationSent(_:)), name: .workModeNotificationSent, object: nil)
+    }
+
+    // MARK: - Layout Changes (Rotation / Different Device)
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        // Only act if card frame actually changed
+        guard mainView.frame != lastCardFrame else { return }
+        lastCardFrame = mainView.frame
+        
+        // If animation is running, restart with new path at current progress
+        if WorkModeTimerManager.shared.isRunning {
+            resumeAnimation()
+        }
+    }
+
+    // MARK: - Animation Control
+
+    private func currentPhase() -> OrbPhase {
+        WorkModeTimerManager.shared.isBreak ? .rest : .work
+    }
+
+    private func currentDuration() -> TimeInterval {
+        if WorkModeTimerManager.shared.isBreak {
+            return 20
+        } else {
+            let minutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
+            return TimeInterval(minutes * 60)
+        }
+    }
+
+    private func startAnimation(phase: OrbPhase, duration: TimeInterval) {
+        OrbAnimations.start(
+            orb: orb,
+            trail: trail,
+            around: mainView,
+            duration: duration,
+            phase: phase
         )
     }
 
-    // MARK: - Sync
-
-    /// Picks up wherever the global timer is — called on awake and reuse
-    private func syncAnimationsIfRunning() {
-        guard WorkModeTimerManager.shared.isRunning,
-              let orb,
-              let trail else { return }
-
-        let phase: OrbPhase = WorkModeTimerManager.shared.isBreak ? .rest : .work
-        let duration = currentPhaseDuration(for: phase)
+    private func resumeAnimation() {
+        let phase = currentPhase()
+        let duration = currentDuration()
         let progress = WorkModeTimerManager.shared.progress()
-
-        OrbAnimations.resumeAnimations(
+        
+        OrbAnimations.resume(
             orb: orb,
             trail: trail,
             around: mainView,
@@ -84,76 +104,47 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
         )
     }
 
-    // MARK: - Helpers
-
-    private func workDuration() -> TimeInterval {
-        let minutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
-        return TimeInterval(minutes * 60)
+    private func stopAnimation() {
+        OrbAnimations.stop(orb: orb, trail: trail)
     }
 
-    private func currentPhaseDuration(for phase: OrbPhase) -> TimeInterval {
-        phase == .work ? workDuration() : 20
-    }
-
-    // MARK: - Switch Action
+    // MARK: - Toggle Action
 
     @IBAction func modeToggleChanged(_ sender: UISwitch) {
-        guard let orb, let trail else { return }
-        
         if sender.isOn {
-            OrbAnimations.startAnimations(
-                orb: orb,
-                trail: trail,
-                around: mainView,
-                duration: workDuration(),
-                phase: .work
-            )
-            OrbAnimations.showWorkModeEnabledToast(in: contentView, around: mainView)
+            let duration = currentDuration()
+            startAnimation(phase: .work, duration: duration)
+            OrbAnimations.showWorkModeEnabledToast(in: contentView)
             WorkModeTimerManager.shared.start()
         } else {
             WorkModeTimerManager.shared.stop()
-            OrbAnimations.stopAnimations(orb: orb, trail: trail, around: mainView)
+            stopAnimation()
             notificationsSent.text = "Breaks until now: 0"
         }
     }
 
-    // MARK: - Notifications
-    
-    @objc private func handleNotificationSent(_ notification: Notification) {
+    // MARK: - Notification Handlers
+
+    @objc private func onStateChanged(_ notification: Notification) {
+        guard let isRunning = notification.object as? Bool else { return }
+        
+        if isRunning {
+            let duration = currentDuration()
+            startAnimation(phase: .work, duration: duration)
+            modeToggle.setOn(true, animated: true)
+        } else {
+            stopAnimation()
+        }
+    }
+
+    @objc private func onBreakStarted() {
+        // Start fresh 20-second break animation
+        startAnimation(phase: .rest, duration: 20)
+    }
+
+    @objc private func onNotificationSent(_ notification: Notification) {
         guard let count = notification.object as? Int else { return }
         notificationsSent.text = "Breaks until now: \(count)"
-    }
-    
-    @objc private func handleBreakStarted() {
-        guard let orb, let trail else { return }
-
-        // Start fresh 20-second break animation
-        OrbAnimations.startAnimations(
-            orb: orb,
-            trail: trail,
-            around: mainView,
-            duration: 20,
-            phase: .rest
-        )
-    }
-    
-    @objc private func handleStateChange(_ notification: Notification) {
-        guard let isRunning = notification.object as? Bool else { return }
-        orb?.isHidden = !isRunning
-
-        if isRunning {
-            guard let orb, let trail else { return }
-
-            // Start fresh work phase animation
-            OrbAnimations.startAnimations(
-                orb: orb,
-                trail: trail,
-                around: mainView,
-                duration: workDuration(),
-                phase: .work
-            )
-            modeToggle.setOn(true, animated: true)
-        }
     }
 
     // MARK: - Reuse
@@ -161,23 +152,11 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         modeToggle.isOn = WorkModeTimerManager.shared.isRunning
-        orb?.isHidden = !WorkModeTimerManager.shared.isRunning
-        syncAnimationsIfRunning()
-    }
-
-    // MARK: - Layout
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
         
-        // Check if mainView frame changed (rotation, different device size)
-        guard mainView.frame != lastMainViewFrame else { return }
-        lastMainViewFrame = mainView.frame
-        
-        // Restart animations with new path if running
-        // resumeAnimations handles updating both orb and trail paths
         if WorkModeTimerManager.shared.isRunning {
-            syncAnimationsIfRunning()
+            resumeAnimation()
+        } else {
+            stopAnimation()
         }
     }
 
