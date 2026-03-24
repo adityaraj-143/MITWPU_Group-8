@@ -11,7 +11,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Palming",
             description: "Rub hands to warm them, close eyes and gently cup palms over them without pressure for 1–3 minutes while breathing slowly.",
-            video: "figure8"
+            video: "farjadPalming"
         ),
         targetedConditions: [.eyeStrain, .dryEyeSyndrome, .lightSensitivity],
         type: .offScreen
@@ -24,7 +24,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Near-Far Focus",
             description: "Hold a finger 10–12 inches away, focus for 5 seconds, then shift focus to a distant object for 5 seconds. Repeat 10 times.",
-            video: "FocusShifting"
+            video: "farjadFocusShift"
         ),
         targetedConditions: [.accommodativeDysfunction, .digitalEyeStrain],
         type: .offScreen
@@ -50,7 +50,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Eye Rolling",
             description: "Slowly roll eyes clockwise 5 times and counterclockwise 5 times.",
-            video: "figure8" //placeholder
+            video: "farjadEyeRolling" //placeholder
         ),
         targetedConditions: [.eyeMuscleTension, .eyeFatigue],
         type: .offScreen
@@ -63,7 +63,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Figure 8 Exercise",
             description: "Imagine a large sideways 8 about 10 feet away and trace it slowly with your eyes for 30 seconds each direction.",
-            video: "figure8"
+            video: "farjadFig8"
         ),
         targetedConditions: [.generalEyeCoordination, .eyeFatigue],
         type: .offScreen
