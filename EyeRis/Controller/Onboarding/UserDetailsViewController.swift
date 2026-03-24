@@ -35,9 +35,20 @@ class UserDetailsViewController: UIViewController {
         
         configureDatePicker()
         configureGenderMenu()
+        setupDismissKeyboardGesture()
         
         styleTextField(firstNameField)
         styleTextField(lastNameField)
+    }
+    
+    private func setupDismissKeyboardGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     func styleTextField(_ textField: UITextField) {
