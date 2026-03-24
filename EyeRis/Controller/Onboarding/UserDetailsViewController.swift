@@ -26,6 +26,8 @@ class UserDetailsViewController: UIViewController {
     
     let genders = ["Other", "Female", "Male"]
     
+    private var dobSelected = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -57,6 +59,12 @@ class UserDetailsViewController: UIViewController {
         
         let calendar = Calendar.current
         dobPicker.minimumDate = calendar.date(byAdding: .year, value: -100, to: Date())
+        
+        dobPicker.addTarget(self, action: #selector(dobChanged), for: .valueChanged)
+    }
+    
+    @objc private func dobChanged() {
+        dobSelected = true
     }
     
     
@@ -82,8 +90,31 @@ class UserDetailsViewController: UIViewController {
     
     
     @IBAction func nextTapped(_ sender: UIButton) {
-        onboardingTempData.firstName = firstNameField.text
-        onboardingTempData.lastName = lastNameField.text
+        // Validate required fields
+        guard let firstName = firstNameField.text?.trimmingCharacters(in: .whitespaces),
+              !firstName.isEmpty else {
+            showAlert(message: "Please enter your first name")
+            return
+        }
+        
+        guard let lastName = lastNameField.text?.trimmingCharacters(in: .whitespaces),
+              !lastName.isEmpty else {
+            showAlert(message: "Please enter your last name")
+            return
+        }
+        
+        guard let gender = onboardingTempData.gender, !gender.isEmpty else {
+            showAlert(message: "Please select your gender")
+            return
+        }
+        
+        guard dobSelected else {
+            showAlert(message: "Please select your date of birth")
+            return
+        }
+        
+        onboardingTempData.firstName = firstName
+        onboardingTempData.lastName = lastName
         onboardingTempData.dob = dobPicker.date
         
         let storyboard = UIStoryboard(name: "Onboarding", bundle: nil)
@@ -93,6 +124,16 @@ class UserDetailsViewController: UIViewController {
         vc.onboardingTempData = onboardingTempData
         
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func showAlert(message: String) {
+        let alert = UIAlertController(
+            title: "Required Field",
+            message: message,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
     
 }
