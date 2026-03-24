@@ -20,9 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         
-        let userExists = UserStore().userExists()
+        let userExists = UserManager.shared.userExists
         
-        let storyboard = UIStoryboard(name: userExists ? "Main" : "Onboarding", bundle: nil)
+        let storyboard = UIStoryboard(name: userExists ? "Main" : "Main", bundle: nil)
         window.rootViewController = storyboard.instantiateInitialViewController()
         
         self.window = window

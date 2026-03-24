@@ -7,20 +7,7 @@
 
 import Foundation
 
-
-enum Role {
-    case user
-    case bot
-}
-
-struct Message {
-    var role: Role
-    var text: String
-    var time: Date
-    var isBookmarked: Bool
-}
-
-// MARK: - Models
+// MARK: - FAQ Models
 
 struct FAQCategory: Identifiable, Codable {
     let id: UUID

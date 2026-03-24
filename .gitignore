@@ -34,3 +34,6 @@ fastlane/test_output/
 *.dSYM
 
 .DS_Store
+
+# API Keys - NEVER commit
+**/APIKeys.swift

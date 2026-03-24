@@ -20,6 +20,10 @@ class GreetingCollectionViewCell: UICollectionViewCell {
     
     var onTapNavigation: (() -> Void)?
     
+    func configure(firstName: String) {
+        greetLabel.text = "Hello, \(firstName)"
+    }
+    
     @IBAction func profileNav(_ sender: Any) {
         onTapNavigation?()
     }
