@@ -23,9 +23,8 @@ class RecommendedExercisesCollectionViewCell: UICollectionViewCell {
     
     func configure(title: String, conditions: [Conditions], icon: String, iconBG: UIColor) {
         titleLabel.text = title
-        subtitleLabel.text = conditions.prefix(1).map { $0.displayText }.joined(separator: " · ")
-        iconImage.image = UIImage(named: icon)
+        subtitleLabel.text = "Targets: " + conditions.prefix(1).map { $0.displayText }.joined(separator: " · ")
         self.iconBG.backgroundColor = iconBG
-    }
+        iconImage.image = UIImage(named: icon)    }
 
 }
