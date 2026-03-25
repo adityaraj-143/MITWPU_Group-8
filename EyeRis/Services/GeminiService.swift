@@ -159,14 +159,8 @@ final class GeminiService {
     
     // MARK: - Configuration
     
-    /// API key for Gemini - loaded from APIKeys.swift
-    private var apiKey: String = APIKeys.geminiAPIKey
-    
-    /// Base URL for Gemini API
-    private let baseURL = "https://generativelanguage.googleapis.com/v1beta/models"
-    
-    /// Model to use - gemini-1.5-flash is free tier
-    private let modelName = "gemini-2.5-flash"
+    /// Cloudflare Worker proxy URL (API key is stored securely on the server)
+    private let proxyURL = "https://tight-bread-9a30.aditzerr.workers.dev"
     
     /// System prompt for eye health assistant context
     private let systemPrompt = """
@@ -217,11 +211,7 @@ final class GeminiService {
     
     // MARK: - Public Methods
     
-    /// Updates the API key
-    /// - Parameter key: The new API key
-    func setAPIKey(_ key: String) {
-        apiKey = key
-    }
+
     
     /// Clears the conversation history
     func clearConversationHistory() {
@@ -336,8 +326,8 @@ final class GeminiService {
         request: GeminiRequest,
         completion: @escaping (Result<String, GeminiServiceError>) -> Void
     ) {
-        // Build URL
-        let urlString = "\(baseURL)/\(modelName):generateContent?key=\(apiKey)"
+        // Build URL - use Cloudflare Worker proxy
+        let urlString = proxyURL
         
         guard let url = URL(string: urlString) else {
             DispatchQueue.main.async {
