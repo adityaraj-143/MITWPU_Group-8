@@ -143,7 +143,7 @@ final class WorkModeTimerManager {
         content.sound = .default
 
         let request = UNNotificationRequest(
-            identifier: "workMode-break-\(notificationsSent)",
+            identifier: "workMode-break",
             content: content,
             trigger: nil // nil = deliver immediately
         )
