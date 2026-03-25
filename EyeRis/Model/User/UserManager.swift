@@ -9,6 +9,10 @@
 import Foundation
 import CoreData
 
+extension Notification.Name {
+    static let userProfileDidUpdate = Notification.Name("userProfileDidUpdate")
+}
+
 final class UserManager {
     
     static let shared = UserManager()
@@ -128,6 +132,9 @@ final class UserManager {
         
         do {
             try context.save()
+            
+            // Notify observers that user profile was updated
+            NotificationCenter.default.post(name: .userProfileDidUpdate, object: nil)
         } catch {
             print("UserManager: Failed to persist user - \(error)")
         }

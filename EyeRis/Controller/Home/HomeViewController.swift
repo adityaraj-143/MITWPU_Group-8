@@ -21,6 +21,19 @@ class ViewController: UIViewController {
         collectionView.delegate = self
         
         registerCells()
+        
+        // Listen for profile updates to refresh greeting
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(onUserProfileUpdated),
+            name: .userProfileDidUpdate,
+            object: nil
+        )
+    }
+    
+    @objc private func onUserProfileUpdated() {
+        // Reload greeting cell (section 0)
+        collectionView.reloadSections(IndexSet(integer: 0))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,6 +64,10 @@ class ViewController: UIViewController {
     
     @IBAction func chatbotIconTapped(_ sender: Any) {
         self.navigate(to: "ChatBot", with: "ChatbotViewController")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 

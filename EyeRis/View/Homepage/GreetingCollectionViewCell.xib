@@ -21,7 +21,10 @@
                         <rect key="frame" x="-0.66666666666665719" y="0.0" width="345.33333333333326" height="50"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4yb-aZ-Xru">
-                                <rect key="frame" x="309.33333333333337" y="0.0" width="36" height="50"/>
+                                <rect key="frame" x="295.33333333333337" y="0.0" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="gz9-zS-4K6"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" imagePadding="0.0">
                                     <imageReference key="image" image="person.crop.circle" catalog="system" symbolScale="large"/>
@@ -33,7 +36,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello, Christopher" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ctj-D7-m9s">
-                                <rect key="frame" x="0.0" y="0.0" width="226.66666666666666" height="50"/>
+                                <rect key="frame" x="0.0" y="0.0" width="287.33333333333331" height="50"/>
                                 <fontDescription key="fontDescription" name="SFPro-Bold" family="SF Pro" pointSize="28"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -47,6 +50,7 @@
                             <constraint firstItem="Ctj-D7-m9s" firstAttribute="top" secondItem="1NV-Hl-1g5" secondAttribute="top" id="kGM-bh-sn8"/>
                             <constraint firstAttribute="bottom" secondItem="Ctj-D7-m9s" secondAttribute="bottom" id="ti6-m8-iki"/>
                             <constraint firstItem="4yb-aZ-Xru" firstAttribute="top" secondItem="1NV-Hl-1g5" secondAttribute="top" id="z1M-4v-EIu"/>
+                            <constraint firstItem="4yb-aZ-Xru" firstAttribute="leading" secondItem="Ctj-D7-m9s" secondAttribute="trailing" constant="8" id="zDr-0r-hU6"/>
                         </constraints>
                     </view>
                 </subviews>
