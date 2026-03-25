@@ -1,5 +1,6 @@
 import Foundation
 
+// MARK: - Acuity
 func calcAcuityScore(level: Int) -> String {
     
     let snellenMap = [
@@ -125,39 +126,43 @@ func getTrimmedComment(nvaLE: String, nvaRE: String, dvaLE: String, dvaRE: Strin
     
     // Severe
     if worstCategory == 3 {
-        return "Your vision appears significantly reduced. Consult an ophthalmologist soon for a detailed evaluation."
+        return "Vision is significantly reduced. Consult an ophthalmologist soon for a detailed evaluation."
     }
     
     // Reduced + imbalance
     if worstCategory == 2 && eyeDiff {
-        return "Your vision shows reduced clarity with imbalance between eyes. A detailed eye check-up is recommended."
+        return "Reduced vision with imbalance between eyes. A detailed eye check-up is recommended soon."
     }
     
     // Reduced + near-distance mismatch
     if worstCategory == 2 && nearDistDiff {
-        return "Your vision shows reduced clarity with near-distance differences. A routine eye check-up may help."
+        return "Reduced clarity with near-distance variation. A routine eye check-up may help improve vision."
     }
     
     // Reduced overall
     if worstCategory == 2 {
-        return "Your vision shows reduced clarity overall. A routine eye check-up or correction may be beneficial."
+        return "Vision shows reduced clarity overall. A routine eye check-up or correction may be beneficial."
     }
     
     // Imbalance only
     if eyeDiff {
-        return "Your vision is generally good but shows imbalance between eyes. A routine eye check-up is advised."
+        return "Vision is generally good but uneven between eyes. A routine eye check-up is advised."
     }
     
     // Near vs distance mismatch
     if nearDistDiff {
-        return "Your vision is fairly good but varies between near and distance. Minor correction may help improve clarity."
+        return "Vision is fairly good but differs between near and distance. Minor correction may help."
     }
     
     // Good
     if worstCategory == 1 {
-        return "Your vision is fairly good overall. A routine eye check-up may help maintain clarity and eye health."
+        return "Vision is fairly good overall. A routine eye check-up may help maintain clarity."
     }
     
     // Excellent
-    return "Your vision is excellent overall. Maintain eye health with regular check-ups and good visual habits."
+    return "Vision is excellent overall. Maintain eye health with regular check-ups and good visual habits."
 }
+
+
+// MARK: - BlinkRate
+

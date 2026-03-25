@@ -253,7 +253,6 @@ final class BlinkRateTestResultManager {
 
 
 // DataStores
-
 final class AcuityTestResultDataStore {
 
     static let shared = AcuityTestResultDataStore()
@@ -282,7 +281,6 @@ final class BlinkRateTestResultDataStore {
 
 
 // Test definitions
-
 final class AcuityTestStore {
 
     static let shared = AcuityTestStore()

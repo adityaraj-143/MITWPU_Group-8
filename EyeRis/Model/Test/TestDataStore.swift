@@ -3,13 +3,13 @@ import Foundation
 //MARK: TEST RESULTS
 // Dummy data for Test Results
 let dummyAcuityResults: [AcuityTestResult] = [
-    // Jan 10
+    // Jan 10 (Reduced + imbalance)
     AcuityTestResult(
         id: 1001,
         testType: .nearVision,
         testDate: Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 10))!,
         healthyScore: "20/20",
-        leftEyeScore: "20/30",
+        leftEyeScore: "20/60",
         rightEyeScore: "20/25"
     ),
     
@@ -18,17 +18,17 @@ let dummyAcuityResults: [AcuityTestResult] = [
         testType: .distantVision,
         testDate: Calendar.current.date(from: DateComponents(year: 2024, month: 1, day: 10))!,
         healthyScore: "20/20",
-        leftEyeScore: "20/40",
+        leftEyeScore: "20/80",
         rightEyeScore: "20/30"
     ),
     
-    // Feb 3
+    // Feb 3 (Good + near-distance mismatch)
     AcuityTestResult(
         id: 2001,
         testType: .nearVision,
         testDate: Calendar.current.date(from: DateComponents(year: 2024, month: 2, day: 3))!,
         healthyScore: "20/20",
-        leftEyeScore: "20/25",
+        leftEyeScore: "20/20",
         rightEyeScore: "20/20"
     ),
     
@@ -37,18 +37,18 @@ let dummyAcuityResults: [AcuityTestResult] = [
         testType: .distantVision,
         testDate: Calendar.current.date(from: DateComponents(year: 2024, month: 2, day: 3))!,
         healthyScore: "20/20",
-        leftEyeScore: "20/30",
-        rightEyeScore: "20/25"
+        leftEyeScore: "20/40",
+        rightEyeScore: "20/40"
     ),
     
-    // March 15
+    // March 15 (Severe)
     AcuityTestResult(
         id: 3001,
         testType: .nearVision,
         testDate: Calendar.current.date(from: DateComponents(year: 2024, month: 3, day: 15))!,
         healthyScore: "20/20",
-        leftEyeScore: "20/20",
-        rightEyeScore: "20/20"
+        leftEyeScore: "20/100",
+        rightEyeScore: "20/80"
     ),
     
     AcuityTestResult(
@@ -56,8 +56,84 @@ let dummyAcuityResults: [AcuityTestResult] = [
         testType: .distantVision,
         testDate: Calendar.current.date(from: DateComponents(year: 2024, month: 3, day: 15))!,
         healthyScore: "20/20",
-        leftEyeScore: "20/25",
+        leftEyeScore: "20/200",
+        rightEyeScore: "20/100"
+    ),
+    
+    // April 5 (Excellent)
+    AcuityTestResult(
+        id: 4001,
+        testType: .nearVision,
+        testDate: Calendar.current.date(from: DateComponents(year: 2024, month: 4, day: 5))!,
+        healthyScore: "20/20",
+        leftEyeScore: "20/20",
+        rightEyeScore: "20/15"
+    ),
+    
+    AcuityTestResult(
+        id: 4002,
+        testType: .distantVision,
+        testDate: Calendar.current.date(from: DateComponents(year: 2024, month: 4, day: 5))!,
+        healthyScore: "20/20",
+        leftEyeScore: "20/20",
         rightEyeScore: "20/20"
+    ),
+    
+    // May 12 (Balanced reduced, no imbalance)
+    AcuityTestResult(
+        id: 5001,
+        testType: .nearVision,
+        testDate: Calendar.current.date(from: DateComponents(year: 2024, month: 5, day: 12))!,
+        healthyScore: "20/20",
+        leftEyeScore: "20/60",
+        rightEyeScore: "20/60"
+    ),
+    
+    AcuityTestResult(
+        id: 5002,
+        testType: .distantVision,
+        testDate: Calendar.current.date(from: DateComponents(year: 2024, month: 5, day: 12))!,
+        healthyScore: "20/20",
+        leftEyeScore: "20/60",
+        rightEyeScore: "20/60"
+    ),
+    
+    // June 8 (Imbalance only, otherwise good)
+    AcuityTestResult(
+        id: 6001,
+        testType: .nearVision,
+        testDate: Calendar.current.date(from: DateComponents(year: 2024, month: 6, day: 8))!,
+        healthyScore: "20/20",
+        leftEyeScore: "20/20",
+        rightEyeScore: "20/40"
+    ),
+    
+    AcuityTestResult(
+        id: 6002,
+        testType: .distantVision,
+        testDate: Calendar.current.date(from: DateComponents(year: 2024, month: 6, day: 8))!,
+        healthyScore: "20/20",
+        leftEyeScore: "20/25",
+        rightEyeScore: "20/40"
+    ),
+    
+    // July 1 (Mild good case)
+    AcuityTestResult(
+        id: 7001,
+        testType: .nearVision,
+        testDate: Calendar.current.date(from: DateComponents(year: 2024, month: 7, day: 1))!,
+        healthyScore: "20/20",
+        leftEyeScore: "20/25",
+        rightEyeScore: "20/30"
+    ),
+    
+    AcuityTestResult(
+        id: 7002,
+        testType: .distantVision,
+        testDate: Calendar.current.date(from: DateComponents(year: 2024, month: 7, day: 1))!,
+        healthyScore: "20/20",
+        leftEyeScore: "20/30",
+        rightEyeScore: "20/30"
     )
 ]
 
