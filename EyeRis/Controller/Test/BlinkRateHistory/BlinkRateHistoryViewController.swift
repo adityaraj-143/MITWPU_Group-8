@@ -43,8 +43,7 @@ class BlinkRateHistoryViewController: UIViewController, UICollectionViewDelegate
     
     
     private func prepareTodayData() {
-//        let value = todayResult?.bpm ?? 0
-        let value = 35
+        let value = todayResult?.bpm ?? 0
         
         todayDataComment.text = getBlinkRateComment(rate: value)
         
