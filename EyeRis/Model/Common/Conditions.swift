@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Conditions: String {
+enum Conditions: String, CaseIterable {
     case digitalEyeStrain = "digitalEyeStrain"
     case dryEyeSyndrome = "dryEyeSyndrome"
     case eyeFatigue = "eyeFatigue"
