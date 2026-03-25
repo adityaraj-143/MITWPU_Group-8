@@ -9,7 +9,7 @@ import UIKit
 
 class ExerciseListViewController: UIViewController {
     
-    let exercises = ExerciseList(user: UserDataStore.shared.currentUser).exercises
+    let exercises = ExerciseList(user: UserManager.shared.currentUser).exercises
     private var filteredExercises: [Exercise] = []
     @IBOutlet weak var exerciseSegmentController: UISegmentedControl!
     

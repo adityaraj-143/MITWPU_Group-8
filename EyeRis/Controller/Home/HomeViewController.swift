@@ -9,7 +9,7 @@ class ViewController: UIViewController {
     var lastDVA: AcuityTestResult?
     var todayBlinkResult: BlinkRateTestResult?
     
-    let recommendedExercises = ExerciseList(user: UserDataStore.shared.currentUser).recommended
+    let recommendedExercises = ExerciseList(user: UserManager.shared.currentUser).recommended
     
     let todaysExercise = ExerciseList.shared?.todaysSet
     
@@ -136,6 +136,7 @@ extension ViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as! GreetingCollectionViewCell
             
+            cell.configure(firstName: UserManager.shared.currentUser.firstName)
             cell.onTapNavigation = { [weak self] in
                 self?.presentProfilePage()
             }

@@ -22,3 +22,14 @@ extension Date {
         return calendar.date(from: components)!
     }
 }
+
+// MARK: - Date Helper
+
+/// Helper to create a Date like makeDate(year: 2025, month: 5, day: 8)
+func makeDate(year: Int, month: Int, day: Int) -> Date {
+    var components = DateComponents()
+    components.year = year
+    components.month = month
+    components.day = day
+    return Calendar.current.date(from: components) ?? Date()
+}

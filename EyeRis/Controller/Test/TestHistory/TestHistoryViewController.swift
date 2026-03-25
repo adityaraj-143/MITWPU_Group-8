@@ -13,6 +13,7 @@ class TestHistoryViewController: UIViewController {
     @IBOutlet weak var DVAView: UIView!
     @IBOutlet weak var commentView: UIView!
     @IBOutlet weak var mainView: UIView!
+    @IBOutlet weak var commentText: UILabel!
     
     // Outlets for this screen
     @IBOutlet weak var nextTest: UIButton!

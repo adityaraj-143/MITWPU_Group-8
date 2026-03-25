@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		196C4FD62F712DE500D6A335 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 196C4FD52F712DE500D6A335 /* MessageKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		195E1B972ED4525D00CB36C3 /* EyeRis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EyeRis.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				196C4FD62F712DE500D6A335 /* MessageKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 			);
 			name = EyeRis;
 			packageProductDependencies = (
+				196C4FD52F712DE500D6A335 /* MessageKit */,
 			);
 			productName = EyeRis;
 			productReference = 195E1B972ED4525D00CB36C3 /* EyeRis.app */;
@@ -107,6 +113,9 @@
 			);
 			mainGroup = 195E1B8E2ED4525D00CB36C3;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				196C4FD42F712DE500D6A335 /* XCRemoteSwiftPackageReference "MessageKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 195E1B982ED4525D00CB36C3 /* Products */;
 			projectDirPath = "";
@@ -349,6 +358,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		196C4FD42F712DE500D6A335 /* XCRemoteSwiftPackageReference "MessageKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MessageKit/MessageKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		196C4FD52F712DE500D6A335 /* MessageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 196C4FD42F712DE500D6A335 /* XCRemoteSwiftPackageReference "MessageKit" */;
+			productName = MessageKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 195E1B8F2ED4525D00CB36C3 /* Project object */;
 }
