@@ -4,6 +4,7 @@
 //
 //  Created by SDC-USER on 28/11/25.
 //  Refactored to use MessageKit on 23/03/26.
+//  Migrated to Apple Foundation Models on 25/03/26.
 //
 
 import UIKit
@@ -61,6 +62,7 @@ struct ChatBubbleMessage: MessageType {
 
 // MARK: - Chatbot View Controller
 
+@available(iOS 26.0, *)
 final class ChatbotViewController: MessagesViewController {
     
     // MARK: - Senders
@@ -76,14 +78,17 @@ final class ChatbotViewController: MessagesViewController {
     /// Reference to chat store for in-memory persistence
     private let chatStore = ChatStore.shared
     
-    /// Reference to Gemini service
-    private let geminiService = GeminiService.shared
+    /// Reference to Foundation Model service (on-device AI)
+    private let aiService = FoundationModelService.shared
     
     /// Flag to track if we're waiting for a response
     private var isWaitingForResponse = false
     
     /// Welcome message shown at start
     private let welcomeMessage = "Hi! I'm EyeRis, your eye health assistant. How can I help you today?"
+    
+    /// Message shown when AI is not available on this device
+    private let unavailableMessage = "On-device AI is not available on this device. Please ensure you're running iOS 26 or later on a supported device."
     
     // MARK: - Lifecycle
     
@@ -96,6 +101,9 @@ final class ChatbotViewController: MessagesViewController {
         configureMessageInputBar()
         setupInitialMessages()
         
+        // Check if AI is available
+        checkAIAvailability()
+        
         // Handle initial prompt if provided
         if let prompt = prompt, !prompt.isEmpty {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
@@ -105,6 +113,23 @@ final class ChatbotViewController: MessagesViewController {
     }
     
     // MARK: - Configuration
+    
+    private func checkAIAvailability() {
+        if !aiService.isAvailable {
+            // Show unavailable message
+            let unavailableMsg = ChatBubbleMessage(
+                text: unavailableMessage,
+                sender: botSender,
+                status: .received
+            )
+            appendMessage(unavailableMsg)
+            
+            // Disable input
+            messageInputBar.inputTextView.isEditable = false
+            messageInputBar.inputTextView.placeholder = "AI not available on this device"
+            updateSendButtonState(enabled: false)
+        }
+    }
     
     private func configureMessageCollectionView() {
         messagesCollectionView.messagesDataSource = self
@@ -182,6 +207,11 @@ final class ChatbotViewController: MessagesViewController {
     /// Sends a message and gets AI response
     /// - Parameter text: The message text to send
     private func sendMessage(_ text: String) {
+        guard aiService.isAvailable else {
+            showErrorAlert(message: "On-device AI is not available on this device.")
+            return
+        }
+        
         guard !isWaitingForResponse else {
             showErrorAlert(message: "Please wait for the current response.")
             return
@@ -202,8 +232,8 @@ final class ChatbotViewController: MessagesViewController {
         isWaitingForResponse = true
         updateSendButtonState(enabled: false)
         
-        // Make API call
-        geminiService.sendMessage(text, includeHistory: true) { [weak self] result in
+        // Make AI call using Foundation Models
+        aiService.sendMessage(text, includeHistory: true) { [weak self] result in
             guard let self = self else { return }
             
             // Remove typing indicator
@@ -223,7 +253,7 @@ final class ChatbotViewController: MessagesViewController {
         }
     }
     
-    /// Handles successful API response
+    /// Handles successful AI response
     private func handleSuccessResponse(_ response: String) {
         let botMessage = ChatBubbleMessage(
             text: response,
@@ -237,11 +267,11 @@ final class ChatbotViewController: MessagesViewController {
         generator.notificationOccurred(.success)
     }
     
-    /// Handles API error response
-    private func handleErrorResponse(_ error: GeminiServiceError, originalMessage: String) {
+    /// Handles AI error response
+    private func handleErrorResponse(_ error: FoundationModelServiceError, originalMessage: String) {
         // Show error message in chat
         let errorMessage = ChatBubbleMessage(
-            text: "Sorry, I couldn't process your request. \(error.localizedDescription)",
+            text: "Sorry, I couldn't process your request. \(error.localizedDescription ?? "Unknown error")",
             sender: botSender,
             status: .received
         )
@@ -258,9 +288,9 @@ final class ChatbotViewController: MessagesViewController {
     }
     
     /// Checks if an error is recoverable (can be retried)
-    private func isRecoverableError(_ error: GeminiServiceError) -> Bool {
+    private func isRecoverableError(_ error: FoundationModelServiceError) -> Bool {
         switch error {
-        case .networkError, .rateLimited, .serverError:
+        case .generationFailed, .noContent:
             return true
         default:
             return false
@@ -302,7 +332,7 @@ final class ChatbotViewController: MessagesViewController {
     }
     
     /// Shows retry alert for failed messages
-    private func showRetryAlert(for message: String, error: GeminiServiceError) {
+    private func showRetryAlert(for message: String, error: FoundationModelServiceError) {
         let alert = UIAlertController(
             title: "Message Failed",
             message: "Would you like to retry sending your message?",
@@ -323,7 +353,7 @@ final class ChatbotViewController: MessagesViewController {
     /// Clears the conversation and starts fresh
     func clearConversation() {
         chatStore.clearAll()
-        geminiService.clearConversationHistory()
+        aiService.clearConversationHistory()
         setupInitialMessages()
         messagesCollectionView.reloadData()
     }
@@ -336,6 +366,7 @@ final class ChatbotViewController: MessagesViewController {
 
 // MARK: - MessagesDataSource
 
+@available(iOS 26.0, *)
 extension ChatbotViewController: MessagesDataSource {
     
     var currentSender: SenderType {
@@ -382,6 +413,7 @@ extension ChatbotViewController: MessagesDataSource {
 
 // MARK: - MessagesLayoutDelegate
 
+@available(iOS 26.0, *)
 extension ChatbotViewController: MessagesLayoutDelegate {
     
     func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
@@ -403,6 +435,7 @@ extension ChatbotViewController: MessagesLayoutDelegate {
 
 // MARK: - MessagesDisplayDelegate
 
+@available(iOS 26.0, *)
 extension ChatbotViewController: MessagesDisplayDelegate {
     
     func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
@@ -446,6 +479,7 @@ extension ChatbotViewController: MessagesDisplayDelegate {
 
 // MARK: - InputBarAccessoryViewDelegate
 
+@available(iOS 26.0, *)
 extension ChatbotViewController: InputBarAccessoryViewDelegate {
     
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
@@ -470,6 +504,7 @@ extension ChatbotViewController: InputBarAccessoryViewDelegate {
 
 // MARK: - MessageCellDelegate (Optional - for tap handling)
 
+@available(iOS 26.0, *)
 extension ChatbotViewController: MessageCellDelegate {
     
     func didTapMessage(in cell: MessageCollectionViewCell) {
