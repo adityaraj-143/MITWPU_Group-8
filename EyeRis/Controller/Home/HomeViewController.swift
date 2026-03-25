@@ -180,18 +180,13 @@ extension ViewController: UICollectionViewDataSource {
             return cell
 
             
-        case 3: // Recommended Exercises (Horizontal)
+        case 3:
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "exercises_cell",
                 for: indexPath
             ) as! RecommendedExercisesCollectionViewCell
             let data = recommendedExercises[indexPath.row]
-            cell.configure(
-                title: data.name,
-                subtitle: "204 people did this today",
-                icon: data.getIcon(),
-                iconBG: data.getIconBGColor()
-            )
+            cell.configure(title: data.name, conditions: data.targetedConditions, icon: data.getIcon(), iconBG: data.getIconBGColor())
             return cell
             
         case 4: // Tests (Horizontal)
