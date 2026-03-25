@@ -1,4 +1,6 @@
 import UIKit
+import UserNotifications
+
 
 extension Notification.Name {
     static let workModeTick = Notification.Name("workModeTick")
@@ -91,10 +93,11 @@ final class WorkModeTimerManager {
         if secondsLeft <= 0 {
 
             fireHaptics()
-
+            
+            
             if !isBreak {
                 notificationsSent += 1
-
+                sendBreakNotification() // 👈 add this
                 NotificationCenter.default.post(
                     name: .workModeNotificationSent,
                     object: notificationsSent
@@ -125,9 +128,26 @@ final class WorkModeTimerManager {
         isBreak = true
         endTime = Date().addingTimeInterval(20)
     }
+    
 
     private func fireHaptics() {
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.success)
+    }
+    
+    
+    private func sendBreakNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "Time for a Break! 👀"
+        content.body = "You've been working hard. Rest your eyes for 20 seconds."
+        content.sound = .default
+
+        let request = UNNotificationRequest(
+            identifier: "workMode-break-\(notificationsSent)",
+            content: content,
+            trigger: nil // nil = deliver immediately
+        )
+
+        UNUserNotificationCenter.current().add(request)
     }
 }
