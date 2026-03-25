@@ -218,23 +218,39 @@ extension ViewController: UICollectionViewDataSource {
             
             return cell
             
+//        case 5: // Blink Rate
+//            let cell = collectionView.dequeueReusableCell(
+//                withReuseIdentifier: "blinkRate_cell",
+//                for: indexPath
+//            ) as! BlinkRateCollectionViewCell
+//            
+//            if let result = todayBlinkResult {
+//                cell.blinkRateSliderView.value = CGFloat(result.bpm)
+//                cell.blinkRateSliderView.maxValue = 22
+//            } else {
+//                cell.blinkRateSliderView.value = 0
+//                cell.blinkRateSliderView.maxValue = 22
+//            }
+//            
+//            cell.onTapNavigation = { [weak self] in
+//                self?.navigate(to: "BlinkRateHistory", with: "BlinkRateHistoryViewController")
+//            }
+//            return cell
+            
         case 5: // Blink Rate
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "blinkRate_cell",
                 for: indexPath
             ) as! BlinkRateCollectionViewCell
             
-            if let result = todayBlinkResult {
-                cell.blinkRateSliderView.value = CGFloat(result.bpm)
-                cell.blinkRateSliderView.maxValue = 22
-            } else {
-                cell.blinkRateSliderView.value = 0
-                cell.blinkRateSliderView.maxValue = 22
-            }
+            let rate = todayBlinkResult?.bpm ?? 0
+            cell.configure(rate: rate)
+            cell.blinkRateSliderView.maxValue = 22
             
             cell.onTapNavigation = { [weak self] in
                 self?.navigate(to: "BlinkRateHistory", with: "BlinkRateHistoryViewController")
             }
+            
             return cell
             
         case 6: // Last Test

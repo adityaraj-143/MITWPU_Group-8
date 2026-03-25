@@ -21,7 +21,6 @@ struct BlinkRateTestResultStore {
     }
     
     // MARK: - Fetch All
-    
     func fetchAll() -> [BlinkRateTestResult] {
         let request = NSFetchRequest<BlinkRateTestResultEntity>(entityName: "BlinkRateTestResultEntity")
         request.sortDescriptors = [NSSortDescriptor(key: "performedOn", ascending: true)]

@@ -43,10 +43,10 @@
                                 </cells>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YpN-gX-CNL">
-                                <rect key="frame" x="25" y="547" width="343" height="124"/>
+                                <rect key="frame" x="25" y="547" width="343" height="152"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cY5-ha-SuF">
-                                        <rect key="frame" x="42" y="83.666666666666629" width="259" height="20.333333333333329"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cY5-ha-SuF">
+                                        <rect key="frame" x="16" y="99.666666666666629" width="311" height="20.333333333333329"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -60,12 +60,12 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="124" id="5uK-Lw-LVI"/>
+                                    <constraint firstAttribute="height" constant="152" id="5uK-Lw-LVI"/>
                                     <constraint firstItem="8Za-4T-hU8" firstAttribute="centerX" secondItem="YpN-gX-CNL" secondAttribute="centerX" id="FwV-sK-He8"/>
-                                    <constraint firstAttribute="bottom" secondItem="cY5-ha-SuF" secondAttribute="bottom" constant="20" id="GVn-UM-wS6"/>
+                                    <constraint firstAttribute="bottom" secondItem="cY5-ha-SuF" secondAttribute="bottom" constant="32" id="GVn-UM-wS6"/>
                                     <constraint firstItem="cY5-ha-SuF" firstAttribute="centerX" secondItem="YpN-gX-CNL" secondAttribute="centerX" id="IHU-QT-Ayb"/>
-                                    <constraint firstAttribute="trailing" secondItem="cY5-ha-SuF" secondAttribute="trailing" constant="42" id="Pcl-Sk-BVg"/>
-                                    <constraint firstItem="cY5-ha-SuF" firstAttribute="leading" secondItem="YpN-gX-CNL" secondAttribute="leading" constant="42" id="Xzo-H1-osN"/>
+                                    <constraint firstAttribute="trailing" secondItem="cY5-ha-SuF" secondAttribute="trailing" constant="16" id="Pcl-Sk-BVg"/>
+                                    <constraint firstItem="cY5-ha-SuF" firstAttribute="leading" secondItem="YpN-gX-CNL" secondAttribute="leading" constant="16" id="Xzo-H1-osN"/>
                                     <constraint firstItem="8Za-4T-hU8" firstAttribute="top" secondItem="YpN-gX-CNL" secondAttribute="topMargin" constant="8" id="dvy-Jm-IlB"/>
                                 </constraints>
                             </view>
@@ -124,10 +124,10 @@
     </scenes>
     <resources>
         <systemColor name="systemGray6Color">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tertiarySystemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

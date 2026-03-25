@@ -190,6 +190,7 @@
                 <constraint firstItem="FxK-0l-GoN" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="j1P-wY-Zej"/>
             </constraints>
             <connections>
+                <outlet property="comment" destination="Lpl-Us-QBV" id="5VZ-32-2lk"/>
                 <outlet property="commentView" destination="hfp-Ce-5cG" id="og7-nm-bWU"/>
                 <outlet property="dvaLeftEye" destination="d1F-Ea-v6V" id="dGY-qW-Xkk"/>
                 <outlet property="dvaRightEye" destination="VVN-oy-tj2" id="c3s-uC-RTl"/>

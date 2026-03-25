@@ -1,10 +1,3 @@
-//
-//  TestResultViewController.swift
-//  EyeRis
-//
-//  Created by SDC-USER on 09/12/25.
-//
-
 import UIKit
 
 class TestHistoryViewController: UIViewController {
@@ -13,7 +6,6 @@ class TestHistoryViewController: UIViewController {
     @IBOutlet weak var DVAView: UIView!
     @IBOutlet weak var commentView: UIView!
     @IBOutlet weak var mainView: UIView!
-    @IBOutlet weak var commentText: UILabel!
     
     // Outlets for this screen
     @IBOutlet weak var nextTest: UIButton!
@@ -30,7 +22,7 @@ class TestHistoryViewController: UIViewController {
     @IBOutlet weak var DVAHealthyScore: UILabel!
     @IBOutlet weak var DVALeftEyeScore: UILabel!
     @IBOutlet weak var DVARightEyeScore: UILabel!
-    
+    @IBOutlet weak var comment: UILabel!
     
     // MARK: - Data for this screen
     
@@ -93,6 +85,13 @@ class TestHistoryViewController: UIViewController {
         
         let dateString = dateFormatter.string(from: testsForDate.date)
         
+        let detailedComment = getComment(
+            nvaLE: testsForDate.near.leftEyeScore,
+            nvaRE: testsForDate.near.rightEyeScore,
+            dvaLE: testsForDate.distant.leftEyeScore,
+            dvaRE: testsForDate.distant.rightEyeScore
+        )
+        
         let summary = """
         The user completed a visual acuity test on \(dateString).
         
@@ -107,7 +106,7 @@ class TestHistoryViewController: UIViewController {
         - Right Eye Score: \(testsForDate.near.rightEyeScore)
         
         Clinician Comment:
-        \(testsForDate.distant.comment)
+        \(detailedComment)
         
         Please explain these results in simple language and suggest if improvement or professional consultation is recommended.
         """
@@ -153,6 +152,15 @@ extension TestHistoryViewController{
         NVAHealthyScore.text  = "Healthy Score \(testsForDate.near.healthyScore)"
         NVALeftEyeScore.text  = testsForDate.near.leftEyeScore
         NVARightEyeScore.text = testsForDate.near.rightEyeScore
+        
+        let detailedComment = getComment(
+            nvaLE: testsForDate.near.leftEyeScore,
+            nvaRE: testsForDate.near.rightEyeScore,
+            dvaLE: testsForDate.distant.leftEyeScore,
+            dvaRE: testsForDate.distant.rightEyeScore
+        )
+
+        comment.text = detailedComment
         
         let isFirst = currentIndex == 0
         let isLast  = currentIndex == groupedResultsByDate.count - 1
