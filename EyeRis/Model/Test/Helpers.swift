@@ -166,3 +166,36 @@ func getTrimmedComment(nvaLE: String, nvaRE: String, dvaLE: String, dvaRE: Strin
 
 // MARK: - BlinkRate
 
+func getBlinkRateComment(rate: Int) -> String {
+    
+    switch rate {
+    case ..<10:
+        return "Blink rate is lower than normal. This may indicate eye strain or dryness. Consider regular breaks."
+        
+    case 10...20:
+        return "Blink rate is within a healthy range. Maintain good visual habits and regular screen breaks."
+        
+    case 21...30:
+        return "Blink rate is slightly higher than normal. This may indicate mild fatigue or temporary eye irritation."
+        
+    default:
+        return "Blink rate is significantly elevated. Consider reducing screen time and consulting a specialist if persistent."
+    }
+}
+
+func getTrimmedBlinkRateComment(rate: Int) -> String {
+    
+    switch rate {
+    case ..<10:
+        return "Blink rate is low. Possible eye strain. Focus on sleep and try to reduce screen time."
+        
+    case 10...20:
+        return "Blink rate is normal. Maintain healthy habits."
+        
+    case 21...30:
+        return "Blink rate is slightly high. Possiblity of mild fatigue."
+        
+    default:
+        return "Blink rate is high. Consider reducing screen exposure."
+    }
+}
