@@ -136,7 +136,7 @@ let allExercises: [Exercise] = [
 //
     Exercise(
         id: 11,
-        name: "Smooth Pursuit Tracking",
+        name: "Smooth Pursuit",
         duration: 120,
         instructions: ExerciseInstruction(
             title: "Smooth Pursuit Tracking",
