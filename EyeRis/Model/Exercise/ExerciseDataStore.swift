@@ -11,7 +11,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Palming",
             description: "Rub hands to warm them, close eyes and gently cup palms over them without pressure for 1–3 minutes while breathing slowly.",
-            video: "figure8"
+            video: "farjadPalming"
         ),
         targetedConditions: [.eyeStrain, .dryEyeSyndrome, .lightSensitivity],
         type: .offScreen
@@ -24,7 +24,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Near-Far Focus",
             description: "Hold a finger 10–12 inches away, focus for 5 seconds, then shift focus to a distant object for 5 seconds. Repeat 10 times.",
-            video: "FocusShifting"
+            video: "farjadFocusShift"
         ),
         targetedConditions: [.accommodativeDysfunction, .digitalEyeStrain],
         type: .offScreen
@@ -37,7 +37,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Blinking",
             description: "Blink slowly and fully 10–15 times, then close eyes for 10 seconds.",
-            video: "figure8" //placeholder
+            video: "farjadBlinking" //placeholder
         ),
         targetedConditions: [.dryEyeSyndrome],
         type: .offScreen
@@ -50,7 +50,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Eye Rolling",
             description: "Slowly roll eyes clockwise 5 times and counterclockwise 5 times.",
-            video: "figure8" //placeholder
+            video: "farjadEyeRolling" //placeholder
         ),
         targetedConditions: [.eyeMuscleTension, .eyeFatigue],
         type: .offScreen
@@ -63,7 +63,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Figure 8 Exercise",
             description: "Imagine a large sideways 8 about 10 feet away and trace it slowly with your eyes for 30 seconds each direction.",
-            video: "figure8"
+            video: "farjadFig8"
         ),
         targetedConditions: [.generalEyeCoordination, .eyeFatigue],
         type: .offScreen
@@ -76,7 +76,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Zooming",
             description: "Hold thumb at arm’s length, focus on it, slowly bring it closer to the nose while maintaining focus. Repeat 10 times.",
-            video: "figure8" //placeholder
+            video: "farjadZooming" //placeholder
         ),
         targetedConditions: [.accommodativeDysfunction],
         type: .offScreen
@@ -89,37 +89,37 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Eye Squeeze",
             description: "Close eyes tightly for 3–5 seconds then relax. Repeat 5–7 times.",
-            video: "figure8" //placehoder
+            video: "farjadEyeSqueeze" //placehoder
         ),
         targetedConditions: [.dryEyeSyndrome, .eyeFatigue],
         type: .offScreen
     ),
     
-    Exercise(
-        id: 8,
-        name: "Distance Gazing",
-        duration: 120,
-        instructions: ExerciseInstruction(
-            title: "Distance Gazing",
-            description: "Look at a distant object (trees or skyline) for 1–2 minutes without focusing on details.",
-            video: "figure8" //placeholder
-        ),
-        targetedConditions: [.digitalEyeStrain, .eyeFatigue],
-        type: .offScreen
-    ),
-    
-    Exercise(
-        id: 9,
-        name: "Warm Compress",
-        duration: 180,
-        instructions: ExerciseInstruction(
-            title: "Warm Compress",
-            description: "Place a warm cloth over closed eyes for 3–5 minutes.",
-            video: "figure8"
-        ),
-        targetedConditions: [.dryEyeSyndrome],
-        type: .offScreen
-    ),
+//    Exercise(
+//        id: 8,
+//        name: "Distance Gazing",
+//        duration: 120,
+//        instructions: ExerciseInstruction(
+//            title: "Distance Gazing",
+//            description: "Look at a distant object (trees or skyline) for 1–2 minutes without focusing on details.",
+//            video: "figure8" //placeholder
+//        ),
+//        targetedConditions: [.digitalEyeStrain, .eyeFatigue],
+//        type: .offScreen
+//    ),
+//    
+//    Exercise(
+//        id: 9,
+//        name: "Warm Compress",
+//        duration: 180,
+//        instructions: ExerciseInstruction(
+//            title: "Warm Compress",
+//            description: "Place a warm cloth over closed eyes for 3–5 minutes.",
+//            video: "figure8"
+//        ),
+//        targetedConditions: [.dryEyeSyndrome],
+//        type: .offScreen
+//    ),
     
 //    Exercise(
 //        id: 10,
