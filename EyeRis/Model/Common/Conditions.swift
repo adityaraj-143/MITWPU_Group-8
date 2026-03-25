@@ -1,5 +1,5 @@
 //
-//  Model.swift
+//  Conditions.swift
 //  EyeRis
 //
 //  Created by SDC-USER on 24/11/25.
@@ -44,16 +44,14 @@ enum Conditions: String {
     }
 }
 
+// MARK: - Comment & Tip
 
-
-//MARK: COMMENT & TIP
-// to get the comment for either test or exercise based on the details passed as params
+/// Get comment for either test or exercise based on the details passed as params
 struct Comment {
     var exerciseComments: [String]
     var testComments: [String]
     
-    func getComment(accuracy: Int, speed: Int) -> String{
-        
+    func getComment(accuracy: Int, speed: Int) -> String {
         return exerciseComments[Int.random(in: 0..<exerciseComments.count)]
     }
     
@@ -61,15 +59,3 @@ struct Comment {
         return testComments[Int.random(in: 0..<testComments.count)]
     }
 }
-
-//MARK: DATE HELPER
-// Helper to create a Date like makeDate(year: 2025, month: 5, day: 8)
-func makeDate(year: Int, month: Int, day: Int) -> Date {
-    var components = DateComponents()
-    components.year = year
-    components.month = month
-    components.day = day
-    return Calendar.current.date(from: components) ?? Date()
-}
-
-

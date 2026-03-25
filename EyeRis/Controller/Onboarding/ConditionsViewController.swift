@@ -116,25 +116,14 @@ class ConditionsViewController: UIViewController, UITableViewDelegate, UITableVi
         
         onboardingTempData.conditions = mappedConditions
         
-        let store = UserDataStore.shared
-        
-        if let firstName = onboardingTempData.firstName {
-            store.updateFirstName(firstName)
-        }
-        
-        if let lastName = onboardingTempData.lastName {
-            store.updateLastName(lastName)
-        }
-        
-        if let gender = onboardingTempData.gender {
-            store.updateGender(gender)
-        }
-        
-        if let dob = onboardingTempData.dob {
-            store.updateDOB(dob)
-        }
-        
-        store.updateEyeConditions(mappedConditions)
+        // Update user via UserManager (auto-persists to CoreData)
+        UserManager.shared.updateUser(
+            firstName: onboardingTempData.firstName,
+            lastName: onboardingTempData.lastName,
+            gender: onboardingTempData.gender,
+            dob: onboardingTempData.dob,
+            conditions: mappedConditions
+        )
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let mainVC = storyboard.instantiateInitialViewController()!
