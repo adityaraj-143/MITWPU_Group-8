@@ -21,6 +21,9 @@ final class OrbAnimations {
     private static let orbSize: CGFloat = 10
     private static let animationKey = "pathAnimation"
     
+    /// Minimum animation duration to prevent instant/glitchy animations
+    private static let minimumAnimationDuration: TimeInterval = 1.0
+    
     // MARK: - Create Orb
     
     static func createOrb(in view: UIView) -> UIView {
@@ -127,6 +130,10 @@ final class OrbAnimations {
         phase: OrbPhase,
         progress: Double
     ) {
+        // Safeguard: Ensure duration is valid to prevent instant/glitchy animations
+        let safeDuration = max(duration, minimumAnimationDuration)
+        let safeProgress = max(0, min(progress, 1))
+        
         // 1. Stop any existing animations
         orb.layer.removeAnimation(forKey: animationKey)
         trail.removeAnimation(forKey: animationKey)
@@ -146,12 +153,12 @@ final class OrbAnimations {
         trail.isHidden = false
         
         // 6. Calculate time offset from progress
-        let timeOffset = duration * progress
+        let timeOffset = safeDuration * safeProgress
         
         // 7. Animate orb position along path
         let orbAnimation = CAKeyframeAnimation(keyPath: "position")
         orbAnimation.path = path.cgPath
-        orbAnimation.duration = duration
+        orbAnimation.duration = safeDuration
         orbAnimation.calculationMode = .paced
         orbAnimation.repeatCount = .infinity
         orbAnimation.isRemovedOnCompletion = false
@@ -164,7 +171,7 @@ final class OrbAnimations {
         let trailAnimation = CABasicAnimation(keyPath: "strokeEnd")
         trailAnimation.fromValue = 0
         trailAnimation.toValue = 1
-        trailAnimation.duration = duration
+        trailAnimation.duration = safeDuration
         trailAnimation.timingFunction = CAMediaTimingFunction(name: .linear)
         trailAnimation.repeatCount = .infinity
         trailAnimation.isRemovedOnCompletion = false

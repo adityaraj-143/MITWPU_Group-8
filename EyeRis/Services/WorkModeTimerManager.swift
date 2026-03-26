@@ -13,6 +13,10 @@ extension Notification.Name {
 final class WorkModeTimerManager {
 
     static let shared = WorkModeTimerManager()
+    
+    /// Default work duration in minutes when user hasn't set a preference
+    static let defaultWorkMinutes = 20
+    
     private(set) var notificationsSent = 0
     private var timer: Timer?
     private var endTime: Date?
@@ -28,9 +32,8 @@ final class WorkModeTimerManager {
     }
 
     func start() {
-        let minutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
-
-        guard minutes > 0 else { return }
+        let storedMinutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
+        let minutes = storedMinutes > 0 ? storedMinutes : Self.defaultWorkMinutes
         
         isBreak = false
         endTime = Date().addingTimeInterval(TimeInterval(minutes * 60))
@@ -62,7 +65,9 @@ final class WorkModeTimerManager {
         else { return 0 }
 
         // Use correct duration based on current phase
-        let total: Double = isBreak ? 20 : Double(UserDefaults.standard.integer(forKey: "workModeMinutes") * 60)
+        let storedMinutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
+        let workMinutes = storedMinutes > 0 ? storedMinutes : Self.defaultWorkMinutes
+        let total: Double = isBreak ? 20 : Double(workMinutes * 60)
 
         if total == 0 { return 0 }
 

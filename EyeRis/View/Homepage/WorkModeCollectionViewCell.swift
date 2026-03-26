@@ -74,7 +74,8 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
         if WorkModeTimerManager.shared.isBreak {
             return 20
         } else {
-            let minutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
+            let storedMinutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
+            let minutes = storedMinutes > 0 ? storedMinutes : WorkModeTimerManager.defaultWorkMinutes
             return TimeInterval(minutes * 60)
         }
     }
