@@ -20,6 +20,7 @@ final class OrbAnimations {
     
     private static let orbSize: CGFloat = 10
     private static let animationKey = "pathAnimation"
+    private static let trailAnimationKey = "trailAnimation"
     
     /// Minimum animation duration to prevent instant/glitchy animations
     private static let minimumAnimationDuration: TimeInterval = 1.0
@@ -56,19 +57,32 @@ final class OrbAnimations {
     
     // MARK: - Apply Colors
     
-    private static func applyColors(orb: UIView, trail: CAShapeLayer, phase: OrbPhase) {
+    private static func applyColors(orb: UIView, trail: CAShapeLayer, phase: OrbPhase, animated: Bool = false) {
         let color = phase.color
         
-        // Orb
-        orb.backgroundColor = color
-        orb.layer.shadowColor = color.cgColor
+        if animated {
+            UIView.animate(withDuration: 0.25) {
+                orb.backgroundColor = color
+            }
+            
+            CATransaction.begin()
+            CATransaction.setAnimationDuration(0.25)
+            orb.layer.shadowColor = color.cgColor
+            trail.strokeColor = color.cgColor
+            trail.shadowColor = color.cgColor
+            CATransaction.commit()
+        } else {
+            orb.backgroundColor = color
+            orb.layer.shadowColor = color.cgColor
+            trail.strokeColor = color.cgColor
+            trail.shadowColor = color.cgColor
+        }
+        
+        // Non-animated properties
         orb.layer.shadowRadius = 8
         orb.layer.shadowOpacity = 1
         orb.layer.shadowOffset = .zero
         
-        // Trail
-        trail.strokeColor = color.cgColor
-        trail.shadowColor = color.cgColor
         trail.shadowRadius = 6
         trail.shadowOpacity = 0.8
         trail.shadowOffset = .zero
@@ -84,7 +98,21 @@ final class OrbAnimations {
         duration: TimeInterval,
         phase: OrbPhase
     ) {
-        animate(orb: orb, trail: trail, around: card, duration: duration, phase: phase, progress: 0)
+        animate(orb: orb, trail: trail, around: card, duration: duration, phase: phase, progress: 0, animateColor: false)
+    }
+    
+    // MARK: - Transition Animation
+    
+    /// Transitions to a new phase - the orb is assumed to be at the start point.
+    /// Changes color with animation and starts a fresh single-revolution animation.
+    static func transition(
+        orb: UIView,
+        trail: CAShapeLayer,
+        around card: UIView,
+        duration: TimeInterval,
+        toPhase phase: OrbPhase
+    ) {
+        animate(orb: orb, trail: trail, around: card, duration: duration, phase: phase, progress: 0, animateColor: true)
     }
     
     // MARK: - Resume Animation
@@ -99,7 +127,7 @@ final class OrbAnimations {
         phase: OrbPhase,
         progress: Double
     ) {
-        animate(orb: orb, trail: trail, around: card, duration: duration, phase: phase, progress: progress)
+        animate(orb: orb, trail: trail, around: card, duration: duration, phase: phase, progress: progress, animateColor: false)
     }
     
     // MARK: - Stop Animation
@@ -107,7 +135,7 @@ final class OrbAnimations {
     static func stop(orb: UIView, trail: CAShapeLayer) {
         // Remove all animations
         orb.layer.removeAnimation(forKey: animationKey)
-        trail.removeAnimation(forKey: animationKey)
+        trail.removeAnimation(forKey: trailAnimationKey)
         
         // Reset trail
         trail.strokeEnd = 0
@@ -121,30 +149,37 @@ final class OrbAnimations {
     // MARK: - Core Animation Logic
     
     /// The single source of truth for animating orb and trail.
-    /// Both use the same path, same duration, same progress.
+    /// Animation duration includes a small buffer to ensure the timer always fires
+    /// before the animation completes its loop, preventing the orb from overshooting.
     private static func animate(
         orb: UIView,
         trail: CAShapeLayer,
         around card: UIView,
         duration: TimeInterval,
         phase: OrbPhase,
-        progress: Double
+        progress: Double,
+        animateColor: Bool
     ) {
         // Safeguard: Ensure duration is valid to prevent instant/glitchy animations
         let safeDuration = max(duration, minimumAnimationDuration)
         let safeProgress = max(0, min(progress, 1))
         
+        // Add a small buffer (0.5 sec) to animation duration so the timer always fires
+        // before the animation completes. This prevents the orb from overshooting the
+        // start point when transitioning between phases.
+        let animationDuration = safeDuration + 0.5
+        
         // 1. Stop any existing animations
         orb.layer.removeAnimation(forKey: animationKey)
-        trail.removeAnimation(forKey: animationKey)
+        trail.removeAnimation(forKey: trailAnimationKey)
         
         // 2. Build fresh path from current card frame
         let path = buildPath(around: card)
         
         // 3. Apply colors
-        applyColors(orb: orb, trail: trail, phase: phase)
+        applyColors(orb: orb, trail: trail, phase: phase, animated: animateColor)
         
-        // 4. Update trail path
+        // 4. Update trail path and reset stroke
         trail.path = path.cgPath
         trail.strokeEnd = 0
         
@@ -153,12 +188,12 @@ final class OrbAnimations {
         trail.isHidden = false
         
         // 6. Calculate time offset from progress
-        let timeOffset = safeDuration * safeProgress
+        let timeOffset = animationDuration * safeProgress
         
         // 7. Animate orb position along path
         let orbAnimation = CAKeyframeAnimation(keyPath: "position")
         orbAnimation.path = path.cgPath
-        orbAnimation.duration = safeDuration
+        orbAnimation.duration = animationDuration
         orbAnimation.calculationMode = .paced
         orbAnimation.repeatCount = .infinity
         orbAnimation.isRemovedOnCompletion = false
@@ -171,14 +206,14 @@ final class OrbAnimations {
         let trailAnimation = CABasicAnimation(keyPath: "strokeEnd")
         trailAnimation.fromValue = 0
         trailAnimation.toValue = 1
-        trailAnimation.duration = safeDuration
+        trailAnimation.duration = animationDuration
         trailAnimation.timingFunction = CAMediaTimingFunction(name: .linear)
         trailAnimation.repeatCount = .infinity
         trailAnimation.isRemovedOnCompletion = false
         trailAnimation.fillMode = .forwards
         trailAnimation.timeOffset = timeOffset
         
-        trail.add(trailAnimation, forKey: animationKey)
+        trail.add(trailAnimation, forKey: trailAnimationKey)
     }
     
     // MARK: - Toast

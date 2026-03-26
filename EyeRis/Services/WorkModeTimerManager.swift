@@ -7,6 +7,7 @@ extension Notification.Name {
     static let workModeStateChanged = Notification.Name("workModeStateChanged")
     static let workModeNotificationSent = Notification.Name("workModeNotificationSent")
     static let workModeBreakStarted = Notification.Name("workModeBreakStarted")
+    static let workModeWorkResumed = Notification.Name("workModeWorkResumed")
 }
 
 
@@ -14,8 +15,13 @@ final class WorkModeTimerManager {
 
     static let shared = WorkModeTimerManager()
     
-    /// Default work duration in minutes when user hasn't set a preference
-    static let defaultWorkMinutes = 20
+    /// Available minute options for the work mode picker
+    static let minuteOptions = Array(stride(from: 1, through: 20, by: 5))
+    
+    /// Default work duration in minutes (smallest value in minuteOptions)
+    static var defaultWorkMinutes: Int {
+        minuteOptions.min() ?? 1
+    }
     
     private(set) var notificationsSent = 0
     private var timer: Timer?
@@ -102,7 +108,7 @@ final class WorkModeTimerManager {
             
             if !isBreak {
                 notificationsSent += 1
-                sendBreakNotification() // 👈 add this
+                sendBreakNotification()
                 NotificationCenter.default.post(
                     name: .workModeNotificationSent,
                     object: notificationsSent
@@ -110,7 +116,12 @@ final class WorkModeTimerManager {
             }
 
             if isBreak {
+                // Transitioning from break back to work
                 start()
+                NotificationCenter.default.post(
+                    name: .workModeWorkResumed,
+                    object: nil
+                )
             } else {
                 startBreak()
 

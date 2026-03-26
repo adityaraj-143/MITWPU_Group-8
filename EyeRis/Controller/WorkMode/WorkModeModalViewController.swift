@@ -7,7 +7,9 @@ class WorkModeModalViewController: UIViewController,
     @IBOutlet weak var picker: UIPickerView!
     @IBOutlet weak var timerLabel: UILabel!
     
-    private let minuteOptions = Array(stride(from: 20, through: 50, by: 5))
+    private var minuteOptions: [Int] {
+        WorkModeTimerManager.minuteOptions
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
