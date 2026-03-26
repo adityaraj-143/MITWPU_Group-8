@@ -46,6 +46,7 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(onStateChanged(_:)), name: .workModeStateChanged, object: nil)
         nc.addObserver(self, selector: #selector(onBreakStarted), name: .workModeBreakStarted, object: nil)
+        nc.addObserver(self, selector: #selector(onWorkResumed), name: .workModeWorkResumed, object: nil)
         nc.addObserver(self, selector: #selector(onNotificationSent(_:)), name: .workModeNotificationSent, object: nil)
     }
 
@@ -139,8 +140,26 @@ class WorkModeCollectionViewCell: UICollectionViewCell {
     }
 
     @objc private func onBreakStarted() {
-        // Start fresh 20-second break animation
-        startAnimation(phase: .rest, duration: 20)
+        // Smoothly transition to orange break animation
+        OrbAnimations.transition(
+            orb: orb,
+            trail: trail,
+            around: mainView,
+            duration: 20,
+            toPhase: .rest
+        )
+    }
+    
+    @objc private func onWorkResumed() {
+        // Smoothly transition back to green work animation
+        let duration = currentDuration()
+        OrbAnimations.transition(
+            orb: orb,
+            trail: trail,
+            around: mainView,
+            duration: duration,
+            toPhase: .work
+        )
     }
 
     @objc private func onNotificationSent(_ notification: Notification) {

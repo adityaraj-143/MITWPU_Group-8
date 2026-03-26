@@ -47,7 +47,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cQQ-V0-j6G">
-                                <rect key="frame" x="48" y="738" width="300" height="45"/>
+                                <rect key="frame" x="48" y="683" width="300" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="HBr-le-3KH"/>
                                     <constraint firstAttribute="height" constant="45" id="xOy-B5-MKv"/>
@@ -80,7 +80,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qFR-B9-ZBJ">
-                                <rect key="frame" x="48" y="673" width="300" height="45"/>
+                                <rect key="frame" x="48" y="618" width="300" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="Zfb-62-Ypb"/>
                                     <constraint firstAttribute="height" constant="45" id="d5L-yj-IWu"/>
@@ -100,7 +100,7 @@
                             <constraint firstItem="h2H-xv-NNt" firstAttribute="leading" secondItem="AK5-xj-Tfn" secondAttribute="leading" constant="107" id="8Vx-rA-k7n"/>
                             <constraint firstItem="nlA-LD-w88" firstAttribute="leading" secondItem="AK5-xj-Tfn" secondAttribute="leading" constant="86" id="AZB-zY-fpL"/>
                             <constraint firstItem="cQQ-V0-j6G" firstAttribute="leading" secondItem="AK5-xj-Tfn" secondAttribute="leading" constant="48" id="Cby-Mi-g9b"/>
-                            <constraint firstItem="qFR-B9-ZBJ" firstAttribute="top" secondItem="nlA-LD-w88" secondAttribute="bottom" constant="175" id="TRZ-7s-hZb"/>
+                            <constraint firstItem="qFR-B9-ZBJ" firstAttribute="top" secondItem="nlA-LD-w88" secondAttribute="bottom" constant="120" id="TRZ-7s-hZb"/>
                             <constraint firstItem="qFR-B9-ZBJ" firstAttribute="leading" secondItem="AK5-xj-Tfn" secondAttribute="leading" constant="48" id="aNP-Cv-0T0"/>
                             <constraint firstItem="cQQ-V0-j6G" firstAttribute="top" secondItem="qFR-B9-ZBJ" secondAttribute="bottom" constant="20" id="caG-Hu-Tu3"/>
                             <constraint firstItem="nlA-LD-w88" firstAttribute="top" secondItem="vXL-4s-04w" secondAttribute="bottom" constant="9" id="kY7-HT-0bx"/>
@@ -132,7 +132,7 @@
         <image name="checkmark.seal" catalog="system" width="128" height="124"/>
         <image name="chevron.left" catalog="system" width="97" height="128"/>
         <systemColor name="systemGray6Color">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
