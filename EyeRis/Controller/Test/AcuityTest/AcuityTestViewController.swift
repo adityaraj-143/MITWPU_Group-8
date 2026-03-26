@@ -222,6 +222,7 @@
             guard let recognitionRequest = recognitionRequest else { return }
             recognitionRequest.shouldReportPartialResults = true
             
+
             recognitionTask = speechRecognizer?.recognitionTask(
                 with: recognitionRequest
             ) { result, error in
@@ -235,6 +236,7 @@
                         .trimmingCharacters(in: .whitespacesAndNewlines)
                     
                     DispatchQueue.main.async {
+                        
                         print("Final text:", spokenText)
                         self.currentSpeechBuffer = spokenText
                         self.TextField.text = spokenText
@@ -253,15 +255,13 @@
             
             inputNode.removeTap(onBus: 0)
             
-            let recordingFormat = inputNode.outputFormat(forBus: 0)
-            inputNode.installTap(
-                onBus: 0,
-                bufferSize: 1024,
-                format: recordingFormat
-            ) {
-                buffer,
-                _ in
+
+            let recordingFormat = inputNode.outputFormat(forBus: 0)  // ← move this UP
+            inputNode.removeTap(onBus: 0)                             // ← remove first, then install once
+
+            inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { buffer, _ in
                 self.recognitionRequest?.append(buffer)
+                self.updateMicColor(from: buffer)  // ← now this actually runs
             }
             
             audioEngine.prepare()
@@ -273,6 +273,7 @@
             silenceTimer?.invalidate()
             audioEngine.stop()
             recognitionRequest?.endAudio()
+            micImage.tintColor = .systemBlue
             audioEngine.inputNode.removeTap(onBus: 0)
             
             isRecording = false
@@ -392,6 +393,26 @@
                 object: nil
             )
         }
+        
+        func updateMicColor(from buffer: AVAudioPCMBuffer) {
+            guard let channelData = buffer.floatChannelData?[0] else { return }
+            let frameLength = Int(buffer.frameLength)
+            
+            // Calculate RMS volume
+            var sum: Float = 0
+            for i in 0..<frameLength {
+                sum += channelData[i] * channelData[i]
+            }
+            let rms = sqrt(sum / Float(frameLength))
+            
+            DispatchQueue.main.async {
+                self.micImage.tintColor = rms > 0.01 ? .systemGreen : .systemBlue
+            }
+        }
+        
+
+        
+        
         
         @objc func keyboardWillShow(_ notification: Notification) {
             guard
