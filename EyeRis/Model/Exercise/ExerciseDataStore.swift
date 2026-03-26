@@ -123,7 +123,7 @@ let allExercises: [Exercise] = [
     
     Exercise(
         id: 10,
-        name: "Thumb Focus Rotation",
+        name: "Thumb Focus",
         duration: 60,
         instructions: ExerciseInstruction(
             title: "Head Rotation with Thumb Focus",
@@ -246,7 +246,7 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
     ),
     
     8: ExerciseInfoType(
-        icon: "Eye Squeeze"  ,        //"Vertical Movement",
+        icon:  "Vertical Movement",
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "4CAF50"),
         storyboardName: defaultStoryboardName,
@@ -261,7 +261,7 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
     ),
 
     9: ExerciseInfoType(
-        icon:  "Eye Squeeze" , //"Horizontal Movement",
+        icon:  "Horizontal Movement",
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "FF9800"),
         storyboardName: defaultStoryboardName,
@@ -276,7 +276,7 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
     ),
     
     10: ExerciseInfoType(
-        icon:  "Eye Squeeze" , //"Thumb Focus",
+        icon:  "Thumb Focus",
         bgColor: UIColor(hex: "FFFFFF"),
         iconBGColor: UIColor(hex: "8E44AD"),
         storyboardName: defaultStoryboardName,
