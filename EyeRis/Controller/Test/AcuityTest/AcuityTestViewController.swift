@@ -18,6 +18,11 @@
         let speechRecognizer = SFSpeechRecognizer(
             locale: Locale(identifier: "en-US")
         )
+        
+        var pendingWorkItem: DispatchWorkItem?
+        var currentMicState: Bool = false // true = speaking, false = silent
+        
+        
         var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
         var recognitionTask: SFSpeechRecognitionTask?
         let audioEngine = AVAudioEngine()
@@ -32,6 +37,9 @@
         @IBOutlet weak var micImage: UIImageView!
         @IBOutlet weak var inputContainerView: UIView!
         @IBOutlet weak var snellenLabel: UILabel!
+        
+        
+  
         
         override func viewDidAppear(_ animated: Bool) {
             super.viewDidAppear(animated)
@@ -222,6 +230,7 @@
             guard let recognitionRequest = recognitionRequest else { return }
             recognitionRequest.shouldReportPartialResults = true
             
+
             recognitionTask = speechRecognizer?.recognitionTask(
                 with: recognitionRequest
             ) { result, error in
@@ -235,6 +244,7 @@
                         .trimmingCharacters(in: .whitespacesAndNewlines)
                     
                     DispatchQueue.main.async {
+                        
                         print("Final text:", spokenText)
                         self.currentSpeechBuffer = spokenText
                         self.TextField.text = spokenText
@@ -253,15 +263,13 @@
             
             inputNode.removeTap(onBus: 0)
             
-            let recordingFormat = inputNode.outputFormat(forBus: 0)
-            inputNode.installTap(
-                onBus: 0,
-                bufferSize: 1024,
-                format: recordingFormat
-            ) {
-                buffer,
-                _ in
+
+            let recordingFormat = inputNode.outputFormat(forBus: 0)  // ← move this UP
+            inputNode.removeTap(onBus: 0)                             // ← remove first, then install once
+
+            inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { buffer, _ in
                 self.recognitionRequest?.append(buffer)
+                self.updateMicColor(from: buffer)  // ← now this actually runs
             }
             
             audioEngine.prepare()
@@ -271,13 +279,19 @@
         
         func stopListening() {
             silenceTimer?.invalidate()
+            pendingWorkItem?.cancel()
             audioEngine.stop()
             recognitionRequest?.endAudio()
             audioEngine.inputNode.removeTap(onBus: 0)
-            
             isRecording = false
+            currentMicState = false
             
+            DispatchQueue.main.async {
+                self.micImage.image = UIImage(systemName: "microphone.fill")
+                self.micImage.tintColor = .systemBlue
+            }
         }
+        
         
         func next() {
             print("next is called")
@@ -392,6 +406,45 @@
                 object: nil
             )
         }
+        
+        func updateMicColor(from buffer: AVAudioPCMBuffer) {
+            guard let channelData = buffer.floatChannelData?[0] else { return }
+            let frameLength = Int(buffer.frameLength)
+            
+            var sum: Float = 0
+            for i in 0..<frameLength {
+                sum += channelData[i] * channelData[i]
+            }
+            let rms = sqrt(sum / Float(frameLength))
+            let isLoud = rms > 0.01
+            
+            // Always cancel previous pending change
+            pendingWorkItem?.cancel()
+            
+            let workItem = DispatchWorkItem { [weak self] in
+                guard let self = self else { return }
+                
+                self.currentMicState = isLoud
+                
+                DispatchQueue.main.async {
+                    self.micImage.image = UIImage(
+                        systemName: isLoud
+                        ? "microphone.badge.ellipsis.fill"
+                        : "microphone.fill"
+                    )
+                    self.micImage.tintColor = isLoud ? .systemGreen : .systemBlue
+                }
+            }
+            
+            pendingWorkItem = workItem
+            
+            let hasText = !(TextField.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true)
+            let delay: TimeInterval = isLoud ? 0.05 : (hasText ? 0.6 : 0.25)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: workItem)
+        }
+        
+        
         
         @objc func keyboardWillShow(_ notification: Notification) {
             guard
