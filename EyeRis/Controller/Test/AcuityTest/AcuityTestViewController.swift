@@ -274,9 +274,12 @@
             audioEngine.stop()
             recognitionRequest?.endAudio()
             micImage.tintColor = .systemBlue
-            audioEngine.inputNode.removeTap(onBus: 0)
-            
+            audioEngine.inputNode.removeTap(onBus: 0)            
             isRecording = false
+            DispatchQueue.main.async {
+                self.micImage.image = UIImage(systemName: "microphone.fill")
+                self.micImage.tintColor = .systemBlue
+            }
             
         }
         
@@ -398,7 +401,6 @@
             guard let channelData = buffer.floatChannelData?[0] else { return }
             let frameLength = Int(buffer.frameLength)
             
-            // Calculate RMS volume
             var sum: Float = 0
             for i in 0..<frameLength {
                 sum += channelData[i] * channelData[i]
@@ -406,10 +408,15 @@
             let rms = sqrt(sum / Float(frameLength))
             
             DispatchQueue.main.async {
-                self.micImage.tintColor = rms > 0.01 ? .systemGreen : .systemBlue
+                if rms > 0.01 {
+                    self.micImage.image = UIImage(systemName: "microphone.badge.ellipsis.fill")
+                    self.micImage.tintColor = .systemGreen
+                } else {
+                    self.micImage.image = UIImage(systemName: "microphone.fill")
+                    self.micImage.tintColor = .systemBlue
+                }
             }
         }
-        
 
         
         
