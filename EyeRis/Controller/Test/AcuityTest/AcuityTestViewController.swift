@@ -1,543 +1,481 @@
-    //
-    //  Chart1ViewController.swift
-    //  EyeRis
-    //
-    //  Created by SDC-USER on 15/12/25.
-    //
+//
+//  AcuityTestViewController.swift
+//  EyeRis
+//
+//  Created by SDC-USER on 15/12/25.
+//
 
-    import Speech
-    import UIKit
+import Speech
+import UIKit
 
-    class AcuityTestViewController: UIViewController, UITextFieldDelegate, UIAdaptivePresentationControllerDelegate {
-        var source: TestFlowSource?
-        var nextNav = ""
-        var nextNavId = ""
+class AcuityTestViewController: UIViewController, UITextFieldDelegate {
+    
+    // MARK: - Properties
+    
+    var source: TestFlowSource?
+    
+    private var nextNav = ""
+    private var nextNavId = ""
+    private var expectedTexts: [String] = []
+    private var capturedTexts: [String] = []
+    private var currentSpeechBuffer = ""
+    private var currentLevel = 0
+    
+    // MARK: - Speech Recognition
+    
+    private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))
+    private let audioEngine = AVAudioEngine()
+    private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
+    private var recognitionTask: SFSpeechRecognitionTask?
+    private var isRecording = false
+    
+    // MARK: - Mic State Management
+    
+    private var pendingWorkItem: DispatchWorkItem?
+    private var currentMicState = false
+    private var lastLoudTime: Date = .distantPast
+    private let silenceThreshold: TimeInterval = 0.4
+    
+    // MARK: - Outlets
+    
+    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var micImage: UIImageView!
+    @IBOutlet weak var inputContainerView: UIView!
+    @IBOutlet weak var snellenLabel: UILabel!
+    
+    // MARK: - Lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        setupKeyboardObservers()
+        requestSpeechAuthorization()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        configureNavigation()
+        showBubble()
+        startListening()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        stopListening()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        textField.layer.cornerRadius = textField.frame.height / 2
+        textField.layer.masksToBounds = true
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    // MARK: - Setup
+    
+    private func setupUI() {
+        // Dismiss keyboard on tap
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
         
-        var expectedTexts: [String] = []
-        var silenceTimer: Timer?
-        let speechRecognizer = SFSpeechRecognizer(
-            locale: Locale(identifier: "en-US")
-        )
+        // TextField styling
+        textField.delegate = self
+        textField.borderStyle = .none
+        textField.backgroundColor = .white
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor.systemGray4.cgColor
+        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 0))
+        textField.leftViewMode = .always
         
-        var pendingWorkItem: DispatchWorkItem?
-        var currentMicState: Bool = false // true = speaking, false = silent
-        
-        
-        var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
-        var recognitionTask: SFSpeechRecognitionTask?
-        let audioEngine = AVAudioEngine()
-        var isRecording = false
-        
-        var capturedTexts: [String] = []
-        var currentSpeechBuffer = ""
-        
-        var currentLevel = 0
-        
-        @IBOutlet weak var TextField: UITextField!
-        @IBOutlet weak var micImage: UIImageView!
-        @IBOutlet weak var inputContainerView: UIView!
-        @IBOutlet weak var snellenLabel: UILabel!
-        
-        
-  
-        
-        override func viewDidAppear(_ animated: Bool) {
-            super.viewDidAppear(animated)
-            showBubble()
-            startListening()
-            
-            switch source {
-            case .NVALeft:
-                nextNav = "TestCalibration"
-                nextNavId = "TestCalibrationViewController"
-            case .NVARight:
-                nextNav = "TestInstructions"
-                nextNavId = "TestInstructionsViewController"
-            case .DVALeft:
-                nextNav = "TestCalibration"
-                nextNavId = "TestCalibrationViewController"
-            case .DVARight:
-                nextNav = "TestCompletion"
-                nextNavId = "TestCompletionViewController"
-            case .blinkRateTest:
-                break;
-            default:
-                assertionFailure("invalid source was set")
+        updateSnellenLabel()
+    }
+    
+    private func configureNavigation() {
+        switch source {
+        case .NVALeft:
+            nextNav = "TestCalibration"
+            nextNavId = "TestCalibrationViewController"
+        case .NVARight:
+            nextNav = "TestInstructions"
+            nextNavId = "TestInstructionsViewController"
+        case .DVALeft:
+            nextNav = "TestCalibration"
+            nextNavId = "TestCalibrationViewController"
+        case .DVARight:
+            nextNav = "TestCompletion"
+            nextNavId = "TestCompletionViewController"
+        case .blinkRateTest:
+            break
+        default:
+            assertionFailure("Invalid source was set")
+        }
+    }
+    
+    private func requestSpeechAuthorization() {
+        SFSpeechRecognizer.requestAuthorization { status in
+            if status != .authorized {
+                print("Speech recognition not authorized")
             }
         }
+    }
+    
+    // MARK: - Snellen Chart
+    
+    private func updateSnellenLabel() {
+        let letterCount = currentLevel + 1
+        let text = generateRandomLetters(count: letterCount)
         
-        override func viewDidLoad() {
-            super.viewDidLoad()
+        snellenLabel.text = text
+        snellenLabel.font = .systemFont(ofSize: fontSizes[currentLevel], weight: .bold)
+        expectedTexts.append(text)
+        
+        print("Level: \(currentLevel + 1), Text: \(text), Font: \(fontSizes[currentLevel])")
+    }
+    
+    // MARK: - Speech Bubble
+    
+    private func showBubble() {
+        let bubble = SpeechBubbleView(text: "Say the letters and then say NEXT")
+        let size = CGSize(width: 180, height: 65)
+        bubble.frame = CGRect(origin: .zero, size: size)
+        
+        let micFrame = micImage.convert(micImage.bounds, to: view)
+        bubble.center = CGPoint(x: micFrame.midX, y: micFrame.minY - size.height / 2 - 8)
+        
+        view.addSubview(bubble)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            bubble.removeFromSuperview()
+        }
+    }
+    
+    // MARK: - Speech Recognition
+    
+    private func startListening() {
+        view.endEditing(true)
+        
+        recognitionTask?.cancel()
+        recognitionTask = nil
+        isRecording = true
+        
+        print("Recording started")
+        
+        // Configure audio session
+        let audioSession = AVAudioSession.sharedInstance()
+        try? audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
+        try? audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+        
+        // Setup recognition request
+        recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
+        guard let recognitionRequest = recognitionRequest else { return }
+        recognitionRequest.shouldReportPartialResults = true
+        
+        // Start recognition task
+        recognitionTask = speechRecognizer?.recognitionTask(with: recognitionRequest) { [weak self] result, error in
+            guard let self = self else { return }
             
-            registerForKeyboardNotifications()
-            
-            let tapGesture = UITapGestureRecognizer(
-                target: self,
-                action: #selector(dismissKeyboard)
-            )
-            tapGesture.cancelsTouchesInView = false
-            view.addGestureRecognizer(tapGesture)
-            
-            TextField.borderStyle = .none
-            TextField.backgroundColor = .white
-            TextField.layer.borderWidth = 1
-            TextField.layer.borderColor = UIColor.systemGray4.cgColor
-            TextField.leftView = UIView(
-                frame: CGRect(x: 0, y: 0, width: 12, height: 0)
-            )
-            TextField.leftViewMode = .always
-            
-            SFSpeechRecognizer.requestAuthorization { status in
+            if let result = result {
+                let spokenText = result.bestTranscription.formattedString
+                
                 DispatchQueue.main.async {
-                    if status != .authorized {
-                        print("Speech recognition not authorized")
+                    print("Transcription: \(spokenText)")
+                    self.currentSpeechBuffer = spokenText
+                    self.textField.text = spokenText
+                    
+                    if spokenText.uppercased().contains("NEXT") {
+                        self.advanceToNextLevel()
                     }
                 }
             }
             
-            TextField.delegate = self
-            
-            currentLevel = 0
-            updateSnellenLabel()
-            
-        }
-        
-        func updateSnellenLabel() {
-            let letterCount = currentLevel + 1
-            let text = generateRandomLetters(count: letterCount)
-            
-            snellenLabel.text = text
-            snellenLabel.font = UIFont.systemFont(
-                ofSize: fontSizes[currentLevel],
-                weight: .bold
-            )
-            
-            expectedTexts.append(text)
-
-            
-            print("Level:", currentLevel + 1,
-                  "Text:", text,
-                  "Font:", fontSizes[currentLevel])
-        }
-        
-        @IBAction func backButtonTapped(_ sender: Any) {
-            if currentLevel >= fontSizes.count - 1 {
-                navigationController?.popViewController(animated: true)
-                return
-            }
-            
-            let alert = UIAlertController(
-                title: "Quit Test?",
-                message: "Your test is not completed yet. Do you want to stop?",
-                preferredStyle: .alert
-            )
-            
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-            
-            alert.addAction(UIAlertAction(title: "Restart", style: .default) { _ in
-                self.restartTest()
-            })
-            
-            alert.addAction(UIAlertAction(title: "Stop", style: .destructive) { _ in
-                self.navigationController?.popToRootViewController(animated: true)
-            })
-            
-            present(alert, animated: true)
-            
-        }
-        
-        func restartTest() {
-            stopListening()
-            
-            capturedTexts.removeAll()
-            expectedTexts.removeAll()
-            currentSpeechBuffer = ""
-            currentLevel = 0
-            
-            updateSnellenLabel()
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                self.startListening()
+            if error != nil || result?.isFinal == true {
+                self.stopListening()
             }
         }
         
-        override func viewDidLayoutSubviews() {
-            super.viewDidLayoutSubviews()
-            TextField.layer.cornerRadius = TextField.frame.height / 2
-            TextField.layer.masksToBounds = true
+        // Install audio tap
+        let inputNode = audioEngine.inputNode
+        let recordingFormat = inputNode.outputFormat(forBus: 0)
+        inputNode.removeTap(onBus: 0)
+        
+        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { [weak self] buffer, _ in
+            self?.recognitionRequest?.append(buffer)
+            self?.updateMicState(from: buffer)
         }
         
+        audioEngine.prepare()
+        try? audioEngine.start()
+    }
+    
+    private func stopListening() {
+        pendingWorkItem?.cancel()
+        pendingWorkItem = nil
         
-        func showBubble() {
-            let bubble = SpeechBubbleView(
-                text: "Say the letters and then say NEXT"
-            )
-            
-            let width: CGFloat = 180
-            let height: CGFloat = 65
-            bubble.frame = CGRect(x: 0, y: 0, width: width, height: height)
-            
-            // Get mic position in screen coords
-            let micFrame = micImage.convert(micImage.bounds, to: view)
-            
-            // Position bubble above mic
-            bubble.center = CGPoint(
-                x: micFrame.midX,
-                y: micFrame.minY - height/2 - 8
-            )
-            
-            view.addSubview(bubble)
-            
-            // Auto remove
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                bubble.removeFromSuperview()
-            }
+        audioEngine.stop()
+        audioEngine.inputNode.removeTap(onBus: 0)
+        recognitionRequest?.endAudio()
+        
+        isRecording = false
+        currentMicState = false
+        lastLoudTime = .distantPast
+        
+        DispatchQueue.main.async {
+            self.setMicIcon(active: false)
+        }
+    }
+    
+    // MARK: - Mic State
+    
+    private func updateMicState(from buffer: AVAudioPCMBuffer) {
+        guard let channelData = buffer.floatChannelData?[0] else { return }
+        
+        let frameLength = Int(buffer.frameLength)
+        var sum: Float = 0
+        for i in 0..<frameLength {
+            sum += channelData[i] * channelData[i]
         }
         
-        func adaptivePresentationStyle(
-            for controller: UIPresentationController
-        ) -> UIModalPresentationStyle {
-            return .none
-        }
+        let rms = sqrt(sum / Float(frameLength))
+        let isLoud = rms > 0.01
         
-        // ONLY CHANGE: stop audio when leaving page
-        override func viewWillDisappear(_ animated: Bool) {
-            super.viewWillDisappear(animated)
-            stopListening()
-        }
-        
-        func startListening() {
-            view.endEditing(true)
-            
-            recognitionTask?.cancel()
-            recognitionTask = nil
-            
-            isRecording = true
-            
-            print("recording started")
-            
-            let audioSession = AVAudioSession.sharedInstance()
-            try? audioSession.setCategory(
-                .record,
-                mode: .measurement,
-                options: .duckOthers
-            )
-            try? audioSession.setActive(true, options: .notifyOthersOnDeactivation)
-            
-            recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
-            let inputNode = audioEngine.inputNode
-            
-            guard let recognitionRequest = recognitionRequest else { return }
-            recognitionRequest.shouldReportPartialResults = true
-            
-
-            recognitionTask = speechRecognizer?.recognitionTask(
-                with: recognitionRequest
-            ) { result, error in
-                if let result = result {
-                    self.resetSilenceTimer()
-                    
-                    let spokenText = result.bestTranscription.formattedString
-                    let normalized =
-                    spokenText
-                        .uppercased()
-                        .trimmingCharacters(in: .whitespacesAndNewlines)
-                    
-                    DispatchQueue.main.async {
-                        
-                        print("Final text:", spokenText)
-                        self.currentSpeechBuffer = spokenText
-                        self.TextField.text = spokenText
-                        
-                        if normalized.contains("NEXT") {
-                            self.next()
-                            print("text detected")
-                        }
-                    }
-                }
-                
-                if error != nil || (result?.isFinal ?? false) {
-                    self.stopListening()
-                }
-            }
-            
-            inputNode.removeTap(onBus: 0)
-            
-
-            let recordingFormat = inputNode.outputFormat(forBus: 0)  // ← move this UP
-            inputNode.removeTap(onBus: 0)                             // ← remove first, then install once
-
-            inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { buffer, _ in
-                self.recognitionRequest?.append(buffer)
-                self.updateMicColor(from: buffer)  // ← now this actually runs
-            }
-            
-            audioEngine.prepare()
-            try? audioEngine.start()
-            //        startSilenceTimer()
-        }
-        
-        func stopListening() {
-            silenceTimer?.invalidate()
+        if isLoud {
+            lastLoudTime = Date()
             pendingWorkItem?.cancel()
-            audioEngine.stop()
-            recognitionRequest?.endAudio()
-            audioEngine.inputNode.removeTap(onBus: 0)
-            isRecording = false
-            currentMicState = false
+            pendingWorkItem = nil
             
-            DispatchQueue.main.async {
-                self.micImage.image = UIImage(systemName: "microphone.fill")
-                self.micImage.tintColor = .systemBlue
+            if !currentMicState {
+                currentMicState = true
+                DispatchQueue.main.async { self.setMicIcon(active: true) }
             }
-        }
-        
-        
-        func next() {
-            print("next is called")
-            
-            if !currentSpeechBuffer.isEmpty {
-                let cleaned =
-                currentSpeechBuffer
-                    .replacingOccurrences(
-                        of: "\\bnext\\b",
-                        with: "",
-                        options: [.regularExpression, .caseInsensitive]
-                    )
-                    .trimmingCharacters(in: .whitespacesAndNewlines)
-                
-                if !cleaned.isEmpty {
-                    capturedTexts.append(cleaned)
-                    print("Stored chunk:", cleaned)
-                }
-            }
-            
-            stopListening()
-            
-            recognitionTask?.cancel()
-            recognitionTask = nil
-            recognitionRequest = nil
-            
-            currentSpeechBuffer = ""
-            TextField.text = ""
-            currentLevel += 1
-            
-            if currentLevel >= fontSizes.count {
-                finishTestAndStoreResult()
-                navigate()
-                return
-            }
-            
-            updateSnellenLabel()
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
-                self.startListening()
-            }
-        }
-        
-        @objc func dismissKeyboard() {
-            view.endEditing(true)
-            if audioEngine.isRunning {
-                //            startSilenceTimer()
-            }
-        }
-        
-        @IBAction func NextBtn(_ sender: UIButton) {
-            // Dismiss keyboard if it's open
-            view.endEditing(true)
-            
-            // Capture the current text from the text field if it's not empty
-            let currentText =
-            TextField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
-            ?? ""
-            
-            if !currentText.isEmpty {
-                capturedTexts.append(currentText)
-                print("Stored text:", currentText)
-            }
-            TextField.text = ""
-            currentSpeechBuffer = ""
-            
-            currentLevel += 1
-            if currentLevel >= fontSizes.count {
-                // All images completed - you can show results or reset
-                
-                currentLevel = 1
-                
-                print("All captured texts:", capturedTexts)
-                finishTestAndStoreResult()
-                navigate()
-                return
-            }
-            
-            updateSnellenLabel()
-            
-            // Restart recording if it was active
-            if isRecording {
-                stopListening()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
-                    self.startListening()
-                }
-            }
-        }
-        
-        func resetSilenceTimer() {
-            silenceTimer?.invalidate()
-            //        startSilenceTimer()
-        }
-        
-        func textFieldDidBeginEditing(_ textField: UITextField) {
-            stopListening()
-            silenceTimer?.invalidate()
-        }
-        
-        func registerForKeyboardNotifications() {
-            NotificationCenter.default.addObserver(
-                self,
-                selector: #selector(keyboardWillShow),
-                name: UIResponder.keyboardWillShowNotification,
-                object: nil
-            )
-            
-            NotificationCenter.default.addObserver(
-                self,
-                selector: #selector(keyboardWillHide),
-                name: UIResponder.keyboardWillHideNotification,
-                object: nil
-            )
-        }
-        
-        func updateMicColor(from buffer: AVAudioPCMBuffer) {
-            guard let channelData = buffer.floatChannelData?[0] else { return }
-            let frameLength = Int(buffer.frameLength)
-            
-            var sum: Float = 0
-            for i in 0..<frameLength {
-                sum += channelData[i] * channelData[i]
-            }
-            let rms = sqrt(sum / Float(frameLength))
-            let isLoud = rms > 0.01
-            
-            // Always cancel previous pending change
-            pendingWorkItem?.cancel()
-            
+        } else if currentMicState && pendingWorkItem == nil {
             let workItem = DispatchWorkItem { [weak self] in
                 guard let self = self else { return }
                 
-                self.currentMicState = isLoud
-                
-                DispatchQueue.main.async {
-                    self.micImage.image = UIImage(
-                        systemName: isLoud
-                        ? "microphone.badge.ellipsis.fill"
-                        : "microphone.fill"
-                    )
-                    self.micImage.tintColor = isLoud ? .systemGreen : .systemBlue
+                if Date().timeIntervalSince(self.lastLoudTime) >= self.silenceThreshold {
+                    self.currentMicState = false
+                    self.pendingWorkItem = nil
+                    DispatchQueue.main.async { self.setMicIcon(active: false) }
+                } else {
+                    self.pendingWorkItem = nil
                 }
             }
             
             pendingWorkItem = workItem
-            
-            let hasText = !(TextField.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true)
-            let delay: TimeInterval = isLoud ? 0.05 : (hasText ? 0.6 : 0.25)
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: workItem)
+            DispatchQueue.main.asyncAfter(deadline: .now() + silenceThreshold, execute: workItem)
         }
-        
-        
-        
-        @objc func keyboardWillShow(_ notification: Notification) {
-            guard
-                let info = notification.userInfo,
-                let frame = info[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
-                let duration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double
-            else { return }
-            
-            let moveUp = frame.height - view.safeAreaInsets.bottom
-            
-            UIView.animate(withDuration: duration) {
-                self.inputContainerView.transform = CGAffineTransform(
-                    translationX: 0,
-                    y: -moveUp
-                )
-            }
-        }
-        
-        @objc func keyboardWillHide(_ notification: Notification) {
-            guard
-                let info = notification.userInfo,
-                let duration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double
-            else { return }
-            
-            UIView.animate(withDuration: duration) {
-                self.inputContainerView.transform = .identity
-            }
-        }
-        
-        deinit {
-            NotificationCenter.default.removeObserver(self)
-        }
-        
-        func navigate() {
-            let storyboard = UIStoryboard(name: nextNav, bundle: nil)
-            
-            let vc = storyboard.instantiateViewController(
-                withIdentifier: nextNavId
-            )
-            
-            switch source {
-            case .NVALeft:
-                if let tempVC = vc as? TestCalibrationViewController {
-                    tempVC.source = .NVARight
-                }
-            case .NVARight:
-                if let tempVC = vc as? TestInstructionsViewController {
-                    tempVC.source = .DVALeft
-                }
-            case .DVALeft:
-                if let tempVC = vc as? TestCalibrationViewController {
-                    tempVC.source = .DVARight
-                }
-            case .DVARight:
-                if let tempVC = vc as? TestCompletionViewController {
-                    tempVC.source = .acuityTest
-                }
-            default:
-                break
-            }
-            
-
-            if let testVC = vc as? TestInstructionsViewController {
-                testVC.source = source
-            }
-
-            navigationController?.pushViewController(vc, animated: true)
-        }
-        
-        func finishTestAndStoreResult() {
-            let bestLevel = getBestCorrectLevel(
-                expectedTexts: expectedTexts,
-                spokenTexts: capturedTexts
-            ) ?? 0
-
-            let score = calcAcuityScore(level: bestLevel)
-            let today = Calendar.current.startOfDay(for: Date())
-
-            let result = AcuityTestResult(
-                id: Int.random(in: 1000...9999),
-                testType: (source == .NVALeft || source == .NVARight) ? .nearVision : .distantVision,
-                testDate: today,
-                healthyScore: "20/20",
-                leftEyeScore: (source == .NVALeft || source == .DVALeft) ? score : "",
-                rightEyeScore: (source == .NVARight || source == .DVARight) ? score : "",
-                comment: "Auto generated"
-            )
-            print("acuity page result: ", result)
-
-            AcuityTestResultStore().save(result)
-
-            print("Stored result:", result)
-        }
-
-
     }
+    
+    private func setMicIcon(active: Bool) {
+        micImage.image = UIImage(systemName: active ? "microphone.fill" : "microphone")
+        micImage.tintColor = active ? .systemGreen : .systemBlue
+    }
+    
+    // MARK: - Test Flow
+    
+    private func advanceToNextLevel() {
+        print("Advancing to next level")
+        
+        // Store cleaned speech buffer
+        if !currentSpeechBuffer.isEmpty {
+            let cleaned = currentSpeechBuffer
+                .replacingOccurrences(of: "\\bnext\\b", with: "", options: [.regularExpression, .caseInsensitive])
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+            
+            if !cleaned.isEmpty {
+                capturedTexts.append(cleaned)
+                print("Stored chunk: \(cleaned)")
+            }
+        }
+        
+        stopListening()
+        recognitionTask?.cancel()
+        recognitionTask = nil
+        recognitionRequest = nil
+        
+        currentSpeechBuffer = ""
+        textField.text = ""
+        currentLevel += 1
+        
+        if currentLevel >= fontSizes.count {
+            finishTestAndStoreResult()
+            navigate()
+            return
+        }
+        
+        updateSnellenLabel()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+            self.startListening()
+        }
+    }
+    
+    private func restartTest() {
+        stopListening()
+        
+        capturedTexts.removeAll()
+        expectedTexts.removeAll()
+        currentSpeechBuffer = ""
+        currentLevel = 0
+        
+        updateSnellenLabel()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.startListening()
+        }
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction func backButtonTapped(_ sender: Any) {
+        if currentLevel >= fontSizes.count - 1 {
+            navigationController?.popViewController(animated: true)
+            return
+        }
+        
+        let alert = UIAlertController(
+            title: "Quit Test?",
+            message: "Your test is not completed yet. Do you want to stop?",
+            preferredStyle: .alert
+        )
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Restart", style: .default) { [weak self] _ in
+            self?.restartTest()
+        })
+        alert.addAction(UIAlertAction(title: "Stop", style: .destructive) { [weak self] _ in
+            self?.navigationController?.popToRootViewController(animated: true)
+        })
+        
+        present(alert, animated: true)
+    }
+    
+    @IBAction func nextButtonTapped(_ sender: UIButton) {
+        view.endEditing(true)
+        
+        let currentText = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        if !currentText.isEmpty {
+            capturedTexts.append(currentText)
+            print("Stored text: \(currentText)")
+        }
+        
+        textField.text = ""
+        currentSpeechBuffer = ""
+        currentLevel += 1
+        
+        if currentLevel >= fontSizes.count {
+            print("All captured texts: \(capturedTexts)")
+            finishTestAndStoreResult()
+            navigate()
+            return
+        }
+        
+        updateSnellenLabel()
+        
+        if isRecording {
+            stopListening()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                self.startListening()
+            }
+        }
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    // MARK: - UITextFieldDelegate
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        stopListening()
+    }
+    
+    // MARK: - Keyboard Handling
+    
+    private func setupKeyboardObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let info = notification.userInfo,
+              let frame = info[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+              let duration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double
+        else { return }
+        
+        let moveUp = frame.height - view.safeAreaInsets.bottom
+        
+        UIView.animate(withDuration: duration) {
+            self.inputContainerView.transform = CGAffineTransform(translationX: 0, y: -moveUp)
+        }
+    }
+    
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        guard let info = notification.userInfo,
+              let duration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double
+        else { return }
+        
+        UIView.animate(withDuration: duration) {
+            self.inputContainerView.transform = .identity
+        }
+    }
+    
+    // MARK: - Navigation
+    
+    private func navigate() {
+        let storyboard = UIStoryboard(name: nextNav, bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: nextNavId)
+        
+        switch source {
+        case .NVALeft:
+            (vc as? TestCalibrationViewController)?.source = .NVARight
+        case .NVARight:
+            (vc as? TestInstructionsViewController)?.source = .DVALeft
+        case .DVALeft:
+            (vc as? TestCalibrationViewController)?.source = .DVARight
+        case .DVARight:
+            (vc as? TestCompletionViewController)?.source = .acuityTest
+        default:
+            break
+        }
+        
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    // MARK: - Results
+    
+    private func finishTestAndStoreResult() {
+        let bestLevel = getBestCorrectLevel(expectedTexts: expectedTexts, spokenTexts: capturedTexts) ?? 0
+        let score = calcAcuityScore(level: bestLevel)
+        let today = Calendar.current.startOfDay(for: Date())
+        
+        let isNearVision = source == .NVALeft || source == .NVARight
+        let isLeftEye = source == .NVALeft || source == .DVALeft
+        
+        let result = AcuityTestResult(
+            id: Int.random(in: 1000...9999),
+            testType: isNearVision ? .nearVision : .distantVision,
+            testDate: today,
+            healthyScore: "20/20",
+            leftEyeScore: isLeftEye ? score : "",
+            rightEyeScore: isLeftEye ? "" : score,
+            comment: "Auto generated"
+        )
+        
+        AcuityTestResultStore().save(result)
+        print("Stored result: \(result)")
+    }
+}
