@@ -18,6 +18,11 @@
         let speechRecognizer = SFSpeechRecognizer(
             locale: Locale(identifier: "en-US")
         )
+        
+        var pendingWorkItem: DispatchWorkItem?
+        var currentMicState: Bool = false // true = speaking, false = silent
+        
+        
         var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
         var recognitionTask: SFSpeechRecognitionTask?
         let audioEngine = AVAudioEngine()
@@ -32,6 +37,9 @@
         @IBOutlet weak var micImage: UIImageView!
         @IBOutlet weak var inputContainerView: UIView!
         @IBOutlet weak var snellenLabel: UILabel!
+        
+        
+  
         
         override func viewDidAppear(_ animated: Bool) {
             super.viewDidAppear(animated)
@@ -271,17 +279,19 @@
         
         func stopListening() {
             silenceTimer?.invalidate()
+            pendingWorkItem?.cancel()
             audioEngine.stop()
             recognitionRequest?.endAudio()
-            micImage.tintColor = .systemBlue
-            audioEngine.inputNode.removeTap(onBus: 0)            
+            audioEngine.inputNode.removeTap(onBus: 0)
             isRecording = false
+            currentMicState = false
+            
             DispatchQueue.main.async {
                 self.micImage.image = UIImage(systemName: "microphone.fill")
                 self.micImage.tintColor = .systemBlue
             }
-            
         }
+        
         
         func next() {
             print("next is called")
@@ -406,18 +416,33 @@
                 sum += channelData[i] * channelData[i]
             }
             let rms = sqrt(sum / Float(frameLength))
+            let isLoud = rms > 0.01
             
-            DispatchQueue.main.async {
-                if rms > 0.01 {
-                    self.micImage.image = UIImage(systemName: "microphone.badge.ellipsis.fill")
-                    self.micImage.tintColor = .systemGreen
-                } else {
-                    self.micImage.image = UIImage(systemName: "microphone.fill")
-                    self.micImage.tintColor = .systemBlue
+            // Always cancel previous pending change
+            pendingWorkItem?.cancel()
+            
+            let workItem = DispatchWorkItem { [weak self] in
+                guard let self = self else { return }
+                
+                self.currentMicState = isLoud
+                
+                DispatchQueue.main.async {
+                    self.micImage.image = UIImage(
+                        systemName: isLoud
+                        ? "microphone.badge.ellipsis.fill"
+                        : "microphone.fill"
+                    )
+                    self.micImage.tintColor = isLoud ? .systemGreen : .systemBlue
                 }
             }
+            
+            pendingWorkItem = workItem
+            
+            let hasText = !(TextField.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true)
+            let delay: TimeInterval = isLoud ? 0.05 : (hasText ? 0.6 : 0.25)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: workItem)
         }
-
         
         
         
