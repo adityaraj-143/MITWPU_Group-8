@@ -21,6 +21,19 @@ class ViewController: UIViewController {
         collectionView.delegate = self
         
         registerCells()
+        
+        // Listen for profile updates to refresh greeting
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(onUserProfileUpdated),
+            name: .userProfileDidUpdate,
+            object: nil
+        )
+    }
+    
+    @objc private func onUserProfileUpdated() {
+        // Reload greeting cell (section 0)
+        collectionView.reloadSections(IndexSet(integer: 0))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,6 +64,10 @@ class ViewController: UIViewController {
     
     @IBAction func chatbotIconTapped(_ sender: Any) {
         self.navigate(to: "ChatBot", with: "ChatbotViewController")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -163,18 +180,13 @@ extension ViewController: UICollectionViewDataSource {
             return cell
 
             
-        case 3: // Recommended Exercises (Horizontal)
+        case 3:
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "exercises_cell",
                 for: indexPath
             ) as! RecommendedExercisesCollectionViewCell
             let data = recommendedExercises[indexPath.row]
-            cell.configure(
-                title: data.name,
-                subtitle: "204 people did this today",
-                icon: data.getIcon(),
-                iconBG: data.getIconBGColor()
-            )
+            cell.configure(title: data.name, conditions: data.targetedConditions, icon: data.getIcon(), iconBG: data.getIconBGColor())
             return cell
             
         case 4: // Tests (Horizontal)
@@ -201,23 +213,39 @@ extension ViewController: UICollectionViewDataSource {
             
             return cell
             
+//        case 5: // Blink Rate
+//            let cell = collectionView.dequeueReusableCell(
+//                withReuseIdentifier: "blinkRate_cell",
+//                for: indexPath
+//            ) as! BlinkRateCollectionViewCell
+//            
+//            if let result = todayBlinkResult {
+//                cell.blinkRateSliderView.value = CGFloat(result.bpm)
+//                cell.blinkRateSliderView.maxValue = 22
+//            } else {
+//                cell.blinkRateSliderView.value = 0
+//                cell.blinkRateSliderView.maxValue = 22
+//            }
+//            
+//            cell.onTapNavigation = { [weak self] in
+//                self?.navigate(to: "BlinkRateHistory", with: "BlinkRateHistoryViewController")
+//            }
+//            return cell
+            
         case 5: // Blink Rate
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "blinkRate_cell",
                 for: indexPath
             ) as! BlinkRateCollectionViewCell
             
-            if let result = todayBlinkResult {
-                cell.blinkRateSliderView.value = CGFloat(result.bpm)
-                cell.blinkRateSliderView.maxValue = 22
-            } else {
-                cell.blinkRateSliderView.value = 0
-                cell.blinkRateSliderView.maxValue = 22
-            }
+            let rate = todayBlinkResult?.bpm ?? 0
+            cell.configure(rate: rate)
+            cell.blinkRateSliderView.maxValue = 22
             
             cell.onTapNavigation = { [weak self] in
                 self?.navigate(to: "BlinkRateHistory", with: "BlinkRateHistoryViewController")
             }
+            
             return cell
             
         case 6: // Last Test

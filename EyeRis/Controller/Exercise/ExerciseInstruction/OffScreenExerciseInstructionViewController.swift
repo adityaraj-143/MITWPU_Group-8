@@ -23,6 +23,7 @@ class OffScreenExerciseInstructionViewController: UIViewController, ExerciseFlow
         
         videoContainerView.applyCornerRadius()
         videoContainerView.applyShadow()
+        videoContainerView.clipsToBounds = true
         
         setupUI()
         setupVideo()
@@ -86,7 +87,8 @@ class OffScreenExerciseInstructionViewController: UIViewController, ExerciseFlow
         
         // Create and attach AVPlayerLayer to container view
         let layer = AVPlayerLayer(player: player)
-        layer.videoGravity = .resizeAspect
+        layer.videoGravity = .resizeAspectFill
+        layer.masksToBounds = true
         videoContainerView.layer.addSublayer(layer)
         self.playerLayer = layer
         

@@ -1,142 +1,232 @@
 import UIKit
 
-class OrbAnimations {
+// MARK: - Orb Phase
 
-    // MARK: - Orb
+enum OrbPhase {
+    case work
+    case rest
+    
+    var color: UIColor {
+        switch self {
+        case .work: return .systemGreen
+        case .rest: return .systemOrange
+        }
+    }
+}
 
-    static func attachOrb(to view: UIView) -> UIView {
-        let orb = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
-        orb.backgroundColor = .systemGreen
-        orb.layer.cornerRadius = 5
-        orb.layer.shadowColor = UIColor.systemGreen.cgColor
-        orb.layer.shadowRadius = 8
-        orb.layer.shadowOpacity = 1
-        orb.layer.shadowOffset = .zero
+// MARK: - Orb Animations
+
+final class OrbAnimations {
+    
+    private static let orbSize: CGFloat = 10
+    private static let animationKey = "pathAnimation"
+    
+    /// Minimum animation duration to prevent instant/glitchy animations
+    private static let minimumAnimationDuration: TimeInterval = 1.0
+    
+    // MARK: - Create Orb
+    
+    static func createOrb(in view: UIView) -> UIView {
+        let orb = UIView(frame: CGRect(x: 0, y: 0, width: orbSize, height: orbSize))
+        orb.layer.cornerRadius = orbSize / 2
+        orb.isHidden = true
         view.addSubview(orb)
         return orb
     }
-
-    static func resetOrb(_ orb: UIView, around card: UIView) {
-        UIView.performWithoutAnimation {
-            orb.center = CGPoint(x: card.frame.minX, y: card.frame.minY)
-        }
-    }
-
-    static func startOrbAnimation(_ orb: UIView, around card: UIView, duration: TimeInterval) {
-        let path = UIBezierPath(roundedRect: card.frame, cornerRadius: card.layer.cornerRadius)
-
-        let animation = CAKeyframeAnimation(keyPath: "position")
-        animation.path = path.cgPath
-        animation.duration = duration
-        animation.calculationMode = .paced
-        animation.repeatCount = .infinity
-        animation.rotationMode = .none
-
-        orb.layer.add(animation, forKey: "orbPath")
-    }
-
-    static func stopOrbAnimation(_ orb: UIView) {
-        orb.layer.removeAnimation(forKey: "orbPath")
-    }
-
-    static func resumeOrbAnimation(_ orb: UIView, around card: UIView, duration: TimeInterval, progress: Double) {
-        let path = UIBezierPath(roundedRect: card.frame, cornerRadius: card.layer.cornerRadius)
-
-        let animation = CAKeyframeAnimation(keyPath: "position")
-        animation.path = path.cgPath
-        animation.duration = duration
-        animation.calculationMode = .paced
-        animation.repeatCount = .infinity
-        animation.timeOffset = duration * progress
-
-        orb.layer.add(animation, forKey: "orbPath")
-    }
-
-    // MARK: - Trail
-
-    static func attachTrail(to view: UIView, around card: UIView) -> CAShapeLayer {
-        let path = UIBezierPath(roundedRect: card.frame, cornerRadius: card.layer.cornerRadius)
-
+    
+    // MARK: - Create Trail
+    
+    static func createTrail(in view: UIView) -> CAShapeLayer {
         let trail = CAShapeLayer()
-        trail.path = path.cgPath
         trail.fillColor = UIColor.clear.cgColor
-        trail.strokeColor = UIColor.systemGreen.cgColor
         trail.lineWidth = 2
         trail.strokeStart = 0
         trail.strokeEnd = 0
-        trail.shadowColor = UIColor.systemGreen.cgColor
-        trail.shadowRadius = 6
-        trail.shadowOpacity = 0.8
-        trail.shadowOffset = .zero
-
+        trail.isHidden = true
         view.layer.addSublayer(trail)
         return trail
     }
-
-    static func startTrailAnimation(_ trail: CAShapeLayer, duration: TimeInterval) {
-        trail.removeAllAnimations()
-        trail.strokeEnd = 0
-
-        let animation = CABasicAnimation(keyPath: "strokeEnd")
-        animation.fromValue = 0
-        animation.toValue = 1
-        animation.duration = duration
-        animation.timingFunction = CAMediaTimingFunction(name: .linear)
-        animation.repeatCount = .infinity
-        animation.isRemovedOnCompletion = false
-
-        trail.add(animation, forKey: "trailProgress")
+    
+    // MARK: - Build Path
+    
+    /// Creates the path around the card. Both orb and trail use this exact same path.
+    private static func buildPath(around card: UIView) -> UIBezierPath {
+        return UIBezierPath(roundedRect: card.frame, cornerRadius: card.layer.cornerRadius)
     }
-
-    static func resumeTrailAnimation(_ trail: CAShapeLayer, duration: TimeInterval, progress: Double) {
-        trail.removeAllAnimations()
-
-        let animation = CABasicAnimation(keyPath: "strokeEnd")
-        animation.fromValue = 0
-        animation.toValue = 1
-        animation.duration = duration
-        animation.timingFunction = CAMediaTimingFunction(name: .linear)
-        animation.repeatCount = .infinity
-        animation.isRemovedOnCompletion = false
-
-        // Wind the animation clock back by how much has already elapsed,
-        // so the visual position matches real elapsed time.
-        // timeOffset alone doesn't work because the model value (strokeEnd)
-        // and the presentation layer fight each other.
-        let elapsed = duration * progress
-        animation.beginTime = CACurrentMediaTime() - elapsed
-
-        trail.strokeEnd = CGFloat(progress)
-        trail.add(animation, forKey: "trailProgress")
+    
+    // MARK: - Apply Colors
+    
+    private static func applyColors(orb: UIView, trail: CAShapeLayer, phase: OrbPhase) {
+        let color = phase.color
+        
+        // Orb
+        orb.backgroundColor = color
+        orb.layer.shadowColor = color.cgColor
+        orb.layer.shadowRadius = 8
+        orb.layer.shadowOpacity = 1
+        orb.layer.shadowOffset = .zero
+        
+        // Trail
+        trail.strokeColor = color.cgColor
+        trail.shadowColor = color.cgColor
+        trail.shadowRadius = 6
+        trail.shadowOpacity = 0.8
+        trail.shadowOffset = .zero
     }
-
-    /// Wipes all trail state — call this before startTrailAnimation on a new cycle
-    static func resetTrailAnimation(_ trail: CAShapeLayer) {
-        trail.removeAllAnimations()
+    
+    // MARK: - Start Animation
+    
+    /// Starts both orb and trail animations from the beginning (progress = 0).
+    static func start(
+        orb: UIView,
+        trail: CAShapeLayer,
+        around card: UIView,
+        duration: TimeInterval,
+        phase: OrbPhase
+    ) {
+        animate(orb: orb, trail: trail, around: card, duration: duration, phase: phase, progress: 0)
+    }
+    
+    // MARK: - Resume Animation
+    
+    /// Resumes both orb and trail animations at a given progress (0.0 to 1.0).
+    /// Also used when layout changes (rotation) to recalculate path and continue.
+    static func resume(
+        orb: UIView,
+        trail: CAShapeLayer,
+        around card: UIView,
+        duration: TimeInterval,
+        phase: OrbPhase,
+        progress: Double
+    ) {
+        animate(orb: orb, trail: trail, around: card, duration: duration, phase: phase, progress: progress)
+    }
+    
+    // MARK: - Stop Animation
+    
+    static func stop(orb: UIView, trail: CAShapeLayer) {
+        // Remove all animations
+        orb.layer.removeAnimation(forKey: animationKey)
+        trail.removeAnimation(forKey: animationKey)
+        
+        // Reset trail
         trail.strokeEnd = 0
         trail.strokeStart = 0
+        
+        // Hide
+        orb.isHidden = true
+        trail.isHidden = true
     }
-
-    static func stopTrailAnimation(_ trail: CAShapeLayer) {
-        trail.removeAllAnimations()
+    
+    // MARK: - Core Animation Logic
+    
+    /// The single source of truth for animating orb and trail.
+    /// Both use the same path, same duration, same progress.
+    private static func animate(
+        orb: UIView,
+        trail: CAShapeLayer,
+        around card: UIView,
+        duration: TimeInterval,
+        phase: OrbPhase,
+        progress: Double
+    ) {
+        // Safeguard: Ensure duration is valid to prevent instant/glitchy animations
+        let safeDuration = max(duration, minimumAnimationDuration)
+        let safeProgress = max(0, min(progress, 1))
+        
+        // 1. Stop any existing animations
+        orb.layer.removeAnimation(forKey: animationKey)
+        trail.removeAnimation(forKey: animationKey)
+        
+        // 2. Build fresh path from current card frame
+        let path = buildPath(around: card)
+        
+        // 3. Apply colors
+        applyColors(orb: orb, trail: trail, phase: phase)
+        
+        // 4. Update trail path
+        trail.path = path.cgPath
         trail.strokeEnd = 0
-        trail.strokeStart = 0
+        
+        // 5. Show both
+        orb.isHidden = false
+        trail.isHidden = false
+        
+        // 6. Calculate time offset from progress
+        let timeOffset = safeDuration * safeProgress
+        
+        // 7. Animate orb position along path
+        let orbAnimation = CAKeyframeAnimation(keyPath: "position")
+        orbAnimation.path = path.cgPath
+        orbAnimation.duration = safeDuration
+        orbAnimation.calculationMode = .paced
+        orbAnimation.repeatCount = .infinity
+        orbAnimation.isRemovedOnCompletion = false
+        orbAnimation.fillMode = .forwards
+        orbAnimation.timeOffset = timeOffset
+        
+        orb.layer.add(orbAnimation, forKey: animationKey)
+        
+        // 8. Animate trail strokeEnd from 0 to 1
+        let trailAnimation = CABasicAnimation(keyPath: "strokeEnd")
+        trailAnimation.fromValue = 0
+        trailAnimation.toValue = 1
+        trailAnimation.duration = safeDuration
+        trailAnimation.timingFunction = CAMediaTimingFunction(name: .linear)
+        trailAnimation.repeatCount = .infinity
+        trailAnimation.isRemovedOnCompletion = false
+        trailAnimation.fillMode = .forwards
+        trailAnimation.timeOffset = timeOffset
+        
+        trail.add(trailAnimation, forKey: animationKey)
     }
-
-    // MARK: - Work Mode Toast
-
-    static func showWorkModeEnabledToast(in containerView: UIView, around card: UIView) {
+    
+    // MARK: - Toast
+    
+    static func showWorkModeEnabledToast(in containerView: UIView) {
         guard let window = containerView.window else { return }
-
-        let cardFrame = containerView.convert(card.frame, to: window)
-
-        // Blur backdrop
+        
         let backdrop = UIVisualEffectView(effect: nil)
         backdrop.frame = window.bounds
         backdrop.alpha = 0
         window.addSubview(backdrop)
-
-        // Icon
+        
+        let toast = createToastView()
+        toast.center = CGPoint(x: window.bounds.midX, y: window.bounds.maxY + toast.bounds.height)
+        toast.alpha = 0
+        toast.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        window.addSubview(toast)
+        
+        // Animate in
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut) {
+            backdrop.effect = UIBlurEffect(style: .systemUltraThinMaterial)
+            backdrop.alpha = 0.55
+        }
+        
+        UIView.animate(withDuration: 0.6, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1.6, options: .curveEaseOut) {
+            toast.center = CGPoint(x: window.bounds.midX, y: window.bounds.midY)
+            toast.alpha = 1
+            toast.transform = .identity
+        }
+        
+        // Animate out
+        UIView.animate(withDuration: 0.4, delay: 0.9, options: .curveEaseIn) {
+            backdrop.effect = nil
+            backdrop.alpha = 0
+        } completion: { _ in
+            backdrop.removeFromSuperview()
+        }
+        
+        UIView.animate(withDuration: 0.28, delay: 0.9, options: .curveEaseIn) {
+            toast.center = CGPoint(x: window.bounds.midX, y: -toast.bounds.height * 4)
+            toast.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+            toast.alpha = 0
+        } completion: { _ in
+            toast.removeFromSuperview()
+        }
+    }
+    
+    private static func createToastView() -> UIView {
         let iconConfig = UIImage.SymbolConfiguration(pointSize: 44, weight: .medium)
         let iconImage = UIImage(systemName: "sparkles", withConfiguration: iconConfig)
         let iconView = UIImageView(image: iconImage)
@@ -146,8 +236,7 @@ class OrbAnimations {
         iconView.layer.shadowOpacity = 0.9
         iconView.layer.shadowOffset = .zero
         iconView.sizeToFit()
-
-        // Label
+        
         let label = UILabel()
         label.text = "Work Mode Enabled"
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
@@ -157,63 +246,20 @@ class OrbAnimations {
         label.layer.shadowOpacity = 0.8
         label.layer.shadowOffset = .zero
         label.sizeToFit()
-
-        // Wrapper
+        
         let spacing: CGFloat = 8
-        let wrapperWidth = max(iconView.bounds.width, label.bounds.width)
-        let wrapperHeight = iconView.bounds.height + spacing + label.bounds.height
-
-        let toast = UIView(frame: CGRect(x: 0, y: 0, width: wrapperWidth, height: wrapperHeight))
+        let width = max(iconView.bounds.width, label.bounds.width)
+        let height = iconView.bounds.height + spacing + label.bounds.height
+        
+        let toast = UIView(frame: CGRect(x: 0, y: 0, width: width, height: height))
         toast.backgroundColor = .clear
-
-        iconView.center = CGPoint(x: wrapperWidth / 2, y: iconView.bounds.height / 2)
-        label.center = CGPoint(x: wrapperWidth / 2, y: iconView.bounds.height + spacing + label.bounds.height / 2)
-
+        
+        iconView.center = CGPoint(x: width / 2, y: iconView.bounds.height / 2)
+        label.center = CGPoint(x: width / 2, y: iconView.bounds.height + spacing + label.bounds.height / 2)
+        
         toast.addSubview(iconView)
         toast.addSubview(label)
-
-        let startY = window.bounds.maxY + wrapperHeight
-        let landY  = window.bounds.midY
-
-        toast.center = CGPoint(x: window.bounds.midX, y: startY)
-        toast.alpha = 0
-        toast.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        window.addSubview(toast)
-
-        // Phase 1 — backdrop fades in, toast launches up
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut) {
-            backdrop.effect = UIBlurEffect(style: .systemUltraThinMaterial)
-            backdrop.alpha = 0.55
-        }
-
-        UIView.animate(
-            withDuration: 0.6,
-            delay: 0,
-            usingSpringWithDamping: 0.7,
-            initialSpringVelocity: 1.6,
-            options: .curveEaseOut
-        ) {
-            toast.center = CGPoint(x: window.bounds.midX, y: landY)
-            toast.alpha = 1
-            toast.transform = .identity
-        }
-
-        // Phase 2 — hold, then toast shoots off and backdrop clears
-        let holdDuration: Double = 0.9
-
-        UIView.animate(withDuration: 0.4, delay: holdDuration, options: .curveEaseIn) {
-            backdrop.effect = nil
-            backdrop.alpha = 0
-        } completion: { _ in
-            backdrop.removeFromSuperview()
-        }
-
-        UIView.animate(withDuration: 0.28, delay: holdDuration, options: .curveEaseIn) {
-            toast.center = CGPoint(x: window.bounds.midX, y: -wrapperHeight * 4)
-            toast.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
-            toast.alpha = 0
-        } completion: { _ in
-            toast.removeFromSuperview()
-        }
+        
+        return toast
     }
 }

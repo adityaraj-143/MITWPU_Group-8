@@ -1,10 +1,3 @@
-//
-//  LastTestCollectionViewCell.swift
-//  EyeRis
-//
-//  Created by SDC-USER on 27/11/25.
-//
-
 import UIKit
 
 class LastTestCollectionViewCell: UICollectionViewCell {
@@ -14,7 +7,7 @@ class LastTestCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var commentView: UIView!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var resultView1: UIView!
-
+    @IBOutlet weak var comment: UILabel!
     @IBOutlet weak var nvaLeftEye: UILabel!
     @IBOutlet weak var nvaRightEye: UILabel!
     
@@ -44,5 +37,14 @@ class LastTestCollectionViewCell: UICollectionViewCell {
         nvaRightEye.text = nvaRE
         dvaLeftEye.text = dvaLE
         dvaRightEye.text = dvaRE
+        
+        let trimmedComment = getTrimmedComment(
+            nvaLE: nvaLE,
+            nvaRE: nvaRE,
+            dvaLE: dvaLE,
+            dvaRE: dvaRE
+        )
+        
+        comment.text = trimmedComment
     }
 }

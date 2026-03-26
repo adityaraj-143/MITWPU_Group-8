@@ -1,4 +1,6 @@
 import UIKit
+import UserNotifications
+
 
 extension Notification.Name {
     static let workModeTick = Notification.Name("workModeTick")
@@ -11,6 +13,10 @@ extension Notification.Name {
 final class WorkModeTimerManager {
 
     static let shared = WorkModeTimerManager()
+    
+    /// Default work duration in minutes when user hasn't set a preference
+    static let defaultWorkMinutes = 20
+    
     private(set) var notificationsSent = 0
     private var timer: Timer?
     private var endTime: Date?
@@ -26,9 +32,8 @@ final class WorkModeTimerManager {
     }
 
     func start() {
-        let minutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
-
-        guard minutes > 0 else { return }
+        let storedMinutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
+        let minutes = storedMinutes > 0 ? storedMinutes : Self.defaultWorkMinutes
         
         isBreak = false
         endTime = Date().addingTimeInterval(TimeInterval(minutes * 60))
@@ -54,13 +59,15 @@ final class WorkModeTimerManager {
     }
     
     func progress() -> Double {
-
         guard
             let endTime,
             let remaining = currentRemainingSeconds
         else { return 0 }
 
-        let total = Double(UserDefaults.standard.integer(forKey: "workModeMinutes") * 60)
+        // Use correct duration based on current phase
+        let storedMinutes = UserDefaults.standard.integer(forKey: "workModeMinutes")
+        let workMinutes = storedMinutes > 0 ? storedMinutes : Self.defaultWorkMinutes
+        let total: Double = isBreak ? 20 : Double(workMinutes * 60)
 
         if total == 0 { return 0 }
 
@@ -91,10 +98,11 @@ final class WorkModeTimerManager {
         if secondsLeft <= 0 {
 
             fireHaptics()
-
+            
+            
             if !isBreak {
                 notificationsSent += 1
-
+                sendBreakNotification() // 👈 add this
                 NotificationCenter.default.post(
                     name: .workModeNotificationSent,
                     object: notificationsSent
@@ -125,9 +133,52 @@ final class WorkModeTimerManager {
         isBreak = true
         endTime = Date().addingTimeInterval(20)
     }
+    
 
     private func fireHaptics() {
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.success)
     }
+    
+    
+    private func sendBreakNotification() {
+        let content = UNMutableNotificationContent()
+        let title = breakTitles.randomElement() ?? "Time for a Break 👀"
+        let body = breakBodies.randomElement() ?? "Rest your eyes for a few seconds."
+        content.sound = .default
+
+        let request = UNNotificationRequest(
+            identifier: "workMode-break",
+            content: content,
+            trigger: nil // nil = deliver immediately
+        )
+
+        UNUserNotificationCenter.current().add(request)
+    }
 }
+
+let breakTitles = [
+    "Eyes need a breather 👀",
+    "Quick eye break time ⏳",
+    "Pause and reset your vision ✨",
+    "Give your eyes some love ❤️",
+    "Tiny break, big relief 🌿",
+    "Your eyes called for a break 📢",
+    "Relax your focus for a moment 🧘‍♂️",
+    "Time to blink and unwind 🌙",
+    "Let your eyes recharge ⚡️",
+    "A gentle reminder to pause 🌼"
+]
+
+let breakBodies = [
+    "Look away from the screen for 20 seconds and let your eyes relax.",
+    "Focus on something far away and give your eyes a quick reset.",
+    "Blink slowly and take a short pause to refresh your vision.",
+    "Shift your gaze and allow your eye muscles to loosen up.",
+    "Rest your eyes briefly to reduce strain and stay sharp.",
+    "Give your screen a break and let your eyes recover naturally.",
+    "Take a moment to relax your focus and ease the tension.",
+    "Look into the distance and let your eyes reset comfortably.",
+    "Pause for a few seconds and let your vision breathe.",
+    "Step away mentally and give your eyes a gentle rest."
+]

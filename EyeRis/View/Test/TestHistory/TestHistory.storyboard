@@ -179,7 +179,7 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9C4-qR-Ejk" userLabel="CommentView">
                                                         <rect key="frame" x="0.0" y="278" width="293" height="92"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MYy-rX-Rqe" userLabel="CommentLabel">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MYy-rX-Rqe" userLabel="comment">
                                                                 <rect key="frame" x="5" y="5" width="283" height="82"/>
                                                                 <string key="text">Overall, your vision is fairly good, but a routine eye check-up or corrective lens may help improve clarity, especially for distance vision.</string>
                                                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
@@ -259,7 +259,7 @@
                         <outlet property="NVALeftEyeScore" destination="zQZ-Lc-EWQ" id="66G-Il-hhr"/>
                         <outlet property="NVARightEyeScore" destination="hfn-tz-rtI" id="d8g-LW-VDf"/>
                         <outlet property="NVAView" destination="FW3-GR-XKk" id="xte-lI-CHR"/>
-                        <outlet property="commentText" destination="MYy-rX-Rqe" id="3ra-pe-81o"/>
+                        <outlet property="comment" destination="MYy-rX-Rqe" id="vwX-Cq-JHa"/>
                         <outlet property="commentView" destination="9C4-qR-Ejk" id="NGQ-aB-Q6b"/>
                         <outlet property="mainView" destination="KJZ-CP-JI3" id="mUW-SM-Hfx"/>
                         <outlet property="nextTest" destination="F0f-Gs-BAz" id="TTd-Oz-kNH"/>
