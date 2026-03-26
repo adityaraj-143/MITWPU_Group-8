@@ -138,8 +138,8 @@ final class WorkModeTimerManager {
     
     private func sendBreakNotification() {
         let content = UNMutableNotificationContent()
-        content.title = "Time for a Break! 👀"
-        content.body = "You've been working hard. Rest your eyes for 20 seconds."
+        let title = breakTitles.randomElement() ?? "Time for a Break 👀"
+        let body = breakBodies.randomElement() ?? "Rest your eyes for a few seconds."
         content.sound = .default
 
         let request = UNNotificationRequest(
@@ -151,3 +151,29 @@ final class WorkModeTimerManager {
         UNUserNotificationCenter.current().add(request)
     }
 }
+
+let breakTitles = [
+    "Eyes need a breather 👀",
+    "Quick eye break time ⏳",
+    "Pause and reset your vision ✨",
+    "Give your eyes some love ❤️",
+    "Tiny break, big relief 🌿",
+    "Your eyes called for a break 📢",
+    "Relax your focus for a moment 🧘‍♂️",
+    "Time to blink and unwind 🌙",
+    "Let your eyes recharge ⚡️",
+    "A gentle reminder to pause 🌼"
+]
+
+let breakBodies = [
+    "Look away from the screen for 20 seconds and let your eyes relax.",
+    "Focus on something far away and give your eyes a quick reset.",
+    "Blink slowly and take a short pause to refresh your vision.",
+    "Shift your gaze and allow your eye muscles to loosen up.",
+    "Rest your eyes briefly to reduce strain and stay sharp.",
+    "Give your screen a break and let your eyes recover naturally.",
+    "Take a moment to relax your focus and ease the tension.",
+    "Look into the distance and let your eyes reset comfortably.",
+    "Pause for a few seconds and let your vision breathe.",
+    "Step away mentally and give your eyes a gentle rest."
+]
