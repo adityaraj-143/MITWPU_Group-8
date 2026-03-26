@@ -102,7 +102,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Up–Down Eye Movement",
             description: "Keep your head still. Move your eyes quickly from top to bottom. Repeat continuously without straining.",
-            video: "farjadVerticalMovement"
+            video: "farjadEyeSqueeze"
         ),
         targetedConditions: [.eyeFatigue, .oculomotorDysfunction, .digitalEyeStrain],
         type: .offScreen
@@ -115,7 +115,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Left–Right Eye Movement",
             description: "Keep your head still. Move your eyes quickly from left to right. Repeat continuously without straining.",
-            video: "farjadHorizontalMovement"
+            video: "farjadEyeSqueeze"
         ),
         targetedConditions: [.eyeFatigue, .oculomotorDysfunction, .digitalEyeStrain],
         type: .offScreen
@@ -128,7 +128,7 @@ let allExercises: [Exercise] = [
         instructions: ExerciseInstruction(
             title: "Head Rotation with Thumb Focus",
             description: "Extend your arm and focus on your thumb. Slowly rotate your head left and right while keeping your eyes fixed on your thumb.",
-            video: "farjadThumbRotation"
+            video: "farjadEyeSqueeze"
         ),
         targetedConditions: [.eyeFatigue, .digitalEyeStrain],
         type: .offScreen
