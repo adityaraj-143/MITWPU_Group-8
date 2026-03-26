@@ -32,11 +32,11 @@ let allExercises: [Exercise] = [
     
     Exercise(
         id: 3,
-        name: "Blinking Exercise",
+        name: "Rapid Blinking",
         duration: 60,
         instructions: ExerciseInstruction(
             title: "Blinking",
-            description: "Blink slowly and fully 10–15 times, then close eyes for 10 seconds.",
+            description: "Blink fast 10–15 times, then close eyes for 10 seconds.",
             video: "farjadBlinking" //placeholder
         ),
         targetedConditions: [.dryEyeSyndrome],
@@ -84,59 +84,33 @@ let allExercises: [Exercise] = [
     
     Exercise(
         id: 7,
-        name: "Eye Squeeze",
+        name: "Slow Blinking",
         duration: 45,
         instructions: ExerciseInstruction(
             title: "Eye Squeeze",
-            description: "Close eyes tightly for 3–5 seconds then relax. Repeat 5–7 times.",
+            description: "Close eyes tightly then relax. Repeat 5–7 times.",
             video: "farjadEyeSqueeze" //placehoder
         ),
         targetedConditions: [.dryEyeSyndrome, .eyeFatigue],
         type: .offScreen
     ),
     
-//    Exercise(
-//        id: 8,
-//        name: "Distance Gazing",
-//        duration: 120,
-//        instructions: ExerciseInstruction(
-//            title: "Distance Gazing",
-//            description: "Look at a distant object (trees or skyline) for 1–2 minutes without focusing on details.",
-//            video: "figure8" //placeholder
-//        ),
-//        targetedConditions: [.digitalEyeStrain, .eyeFatigue],
-//        type: .offScreen
-//    ),
-//    
-//    Exercise(
-//        id: 9,
-//        name: "Warm Compress",
-//        duration: 180,
-//        instructions: ExerciseInstruction(
-//            title: "Warm Compress",
-//            description: "Place a warm cloth over closed eyes for 3–5 minutes.",
-//            video: "figure8"
-//        ),
-//        targetedConditions: [.dryEyeSyndrome],
-//        type: .offScreen
-//    ),
+    Exercise(
+        id: 8,
+        name: "Slow Blinking",
+        duration: 45,
+        instructions: ExerciseInstruction(
+            title: "Eye Squeeze",
+            description: "Close eyes tightly then relax. Repeat 5–7 times.",
+            video: "farjadEyeSqueeze" //placehoder
+        ),
+        targetedConditions: [.dryEyeSyndrome, .eyeFatigue],
+        type: .offScreen
+    ),
     
-//    Exercise(
-//        id: 10,
-//        name: "Saccadic Target Chase",
-//        duration: 60,
-//        instructions: ExerciseInstruction(
-//            title: "Saccadic Target Chase",
-//            description: "Watch for shapes that appear randomly on the screen and quickly shift your gaze to each one, holding focus briefly.",
-//            video: "figure8"
-//        ),
-//        targetedConditions: [.eyeFatigue, .accommodativeDysfunction],
-//        type: .onScreen
-//    ),
-//
     Exercise(
         id: 11,
-        name: "Smooth Pursuit Tracking",
+        name: "Smooth Pursuit",
         duration: 120,
         instructions: ExerciseInstruction(
             title: "Smooth Pursuit Tracking",
