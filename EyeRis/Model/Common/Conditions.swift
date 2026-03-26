@@ -22,6 +22,7 @@ enum Conditions: String {
     case generalEyeCoordination = "generalEyeCoordination"
     case dryEyes = "dryEyes"
     case eyeStrain = "eyeStrain"
+    case oculomotorDysfunction = "oculomotorDysfunction"
 
     /// Human-readable text for UI
     var displayText: String {
@@ -40,6 +41,7 @@ enum Conditions: String {
         case .generalEyeCoordination: return "General Eye Coordination"
         case .dryEyes: return "Dry eyes"
         case .eyeStrain: return "Eye Strain"
+        case .oculomotorDysfunction: return "Oculomotor Dysfunction"
         }
     }
 }

@@ -97,55 +97,44 @@ let allExercises: [Exercise] = [
     
     Exercise(
         id: 8,
-        name: "Slow Blinking",
-        duration: 45,
+        name: "Vertical Movement",
+        duration: 60,
         instructions: ExerciseInstruction(
-            title: "Eye Squeeze",
-            description: "Close eyes tightly then relax. Repeat 5–7 times.",
-            video: "farjadEyeSqueeze" //placehoder
+            title: "Up–Down Eye Movement",
+            description: "Keep your head still. Move your eyes quickly from top to bottom. Repeat continuously without straining.",
+            video: "farjadVerticalMovement"
         ),
-        targetedConditions: [.dryEyeSyndrome, .eyeFatigue],
+        targetedConditions: [.eyeFatigue, .oculomotorDysfunction, .digitalEyeStrain],
+        type: .offScreen
+    ),
+
+    Exercise(
+        id: 9,
+        name: "Horizontal Movement",
+        duration: 60,
+        instructions: ExerciseInstruction(
+            title: "Left–Right Eye Movement",
+            description: "Keep your head still. Move your eyes quickly from left to right. Repeat continuously without straining.",
+            video: "farjadHorizontalMovement"
+        ),
+        targetedConditions: [.eyeFatigue, .oculomotorDysfunction, .digitalEyeStrain],
         type: .offScreen
     ),
     
     Exercise(
-        id: 11,
-        name: "Smooth Pursuit",
-        duration: 120,
+        id: 10,
+        name: "Thumb Focus Rotation",
+        duration: 60,
         instructions: ExerciseInstruction(
-            title: "Smooth Pursuit Tracking",
-            description: "Follow a moving dot or ball on the screen with your eyes in all directions for 30 seconds each direction.",
-            video: "figure8"
+            title: "Head Rotation with Thumb Focus",
+            description: "Extend your arm and focus on your thumb. Slowly rotate your head left and right while keeping your eyes fixed on your thumb.",
+            video: "farjadThumbRotation"
         ),
-        targetedConditions: [.eyeMuscleTension, .smoothPursuitDysfunction],
-        type: .onScreen
+        targetedConditions: [.eyeFatigue, .digitalEyeStrain],
+        type: .offScreen
     ),
-//
-//    Exercise(
-//        id: 12,
-//        name: "Hidden Object Search",
-//        duration: 90,
-//        instructions: ExerciseInstruction(
-//            title: "Hidden Object Search",
-//            description: "Identify and tap the designated letter or object hidden among other shapes on the screen.",
-//            video: "figure8"
-//        ),
-//        targetedConditions: [.digitalEyeStrain, .eyeFatigue],
-//        type: .onScreen
-//    ),
-//
-//    Exercise(
-//        id: 13,
-//        name: "Color Adaptation",
-//        duration: 60,
-//        instructions: ExerciseInstruction(
-//            title: "Color Adaptation",
-//            description: "Identify and tap the odd color among similar colored objects displayed on the screen.",
-//            video: "figure8"
-//        ),
-//        targetedConditions: [.visualStress, .digitalEyeStrain],
-//        type: .onScreen
-//    )
+
+
 ]
 
 struct ExerciseInfoType {
@@ -255,68 +244,50 @@ let ExerciseInfo: [Int: ExerciseInfoType] = [
         ],
         impact: "Stimulates tear glands and relaxes muscles"
     ),
-
+    
     8: ExerciseInfoType(
-        icon: "Peripheral Focus",
+        icon: "Vertical Movement",
         bgColor: UIColor(hex: "FFFFFF"),
-        iconBGColor: UIColor(hex: "6B7CFF"),
+        iconBGColor: UIColor(hex: "4CAF50"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
         exerciseData: [
-            ExerciseStage(instruction: "Look at a distant object without focusing on details.", duration: 5) //120
+            ExerciseStage(instruction: "Look straight ahead. Keep your head still.", duration: 5),
+            ExerciseStage(instruction: "Move your eyes up.", duration: 5),
+            ExerciseStage(instruction: "Move your eyes down.", duration: 5),
+            ExerciseStage(instruction: "Repeat up and down movement continuously.", duration: 45)
         ],
-        impact: "Relaxes focusing muscles"
+        impact: "Improves vertical eye control and strengthens oculomotor coordination"
     ),
 
     9: ExerciseInfoType(
-        icon: "Warm Compress", // TODO: add Warm Compress icon
+        icon: "Horizontal Movement",
         bgColor: UIColor(hex: "FFFFFF"),
-        iconBGColor: UIColor(hex: "7FD16A"),
+        iconBGColor: UIColor(hex: "FF9800"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
         exerciseData: [
-            ExerciseStage(instruction: "Place warm cloth over closed eyes and relax.", duration: 5) //180
+            ExerciseStage(instruction: "Look straight ahead. Keep your head still.", duration: 5),
+            ExerciseStage(instruction: "Move your eyes to the left.", duration: 5),
+            ExerciseStage(instruction: "Move your eyes to the right.", duration: 5),
+            ExerciseStage(instruction: "Repeat left and right movement continuously.", duration: 45)
         ],
-        impact: "Improves oil gland function and tear stability"
+        impact: "Enhances horizontal tracking and improves eye movement speed"
     ),
-
+    
     10: ExerciseInfoType(
-        icon: "Saccadic Movement",
+        icon: "Thumb Focus",
         bgColor: UIColor(hex: "FFFFFF"),
-        iconBGColor: UIColor(hex: "FF7DB0"),
+        iconBGColor: UIColor(hex: "8E44AD"),
         storyboardName: defaultStoryboardName,
         storyboardID: defaultStoryboardID,
-        exerciseData: [],
-        impact: "Improves saccadic speed and eye movement accuracy, enhances visual scanning"
+        exerciseData: [
+            ExerciseStage(instruction: "Extend your arm and focus on your thumb.", duration: 5),
+            ExerciseStage(instruction: "Slowly rotate your head to the left while keeping focus on your thumb.", duration: 10),
+            ExerciseStage(instruction: "Slowly rotate your head to the right while keeping focus on your thumb.", duration: 10),
+            ExerciseStage(instruction: "Continue rotating left and right while maintaining focus.", duration: 35)
+        ],
+        impact: "Improves eye-head coordination and stabilizes gaze during head movement"
     ),
 
-    11: ExerciseInfoType(
-        icon: "Smooth Pursuit",
-        bgColor: UIColor(hex: "FFFFFF"),
-        iconBGColor: UIColor(hex: "9BC53D"),
-        storyboardName: "SmoothPursuit",
-        storyboardID: "SmoothPursuitViewController",
-        exerciseData: [],
-        impact: "Strengthens continuous eye tracking and coordination"
-    ),
-
-    12: ExerciseInfoType(
-        icon: "Brock",
-        bgColor: UIColor(hex: "FFFFFF"),
-        iconBGColor: UIColor(hex: "D1495B"),
-        storyboardName: defaultStoryboardName,
-        storyboardID: defaultStoryboardID,
-        exerciseData: [],
-        impact: "Exercises visual search and attention, disperses focus to reduce fixation strain"
-    ),
-
-    13: ExerciseInfoType(
-        icon: "Color Contrast",
-        bgColor: UIColor(hex: "FFFFFF"),
-        iconBGColor: UIColor(hex: "2E4057"),
-        storyboardName: defaultStoryboardName,
-        storyboardID: defaultStoryboardID,
-        exerciseData: [],
-        impact: "Improves color discrimination and visual processing flexibility"
-    )
 ]
