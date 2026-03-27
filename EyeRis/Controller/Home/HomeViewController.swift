@@ -232,23 +232,7 @@ extension ViewController: UICollectionViewDataSource {
 //            }
 //            return cell
             
-        case 5: // Blink Rate
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "blinkRate_cell",
-                for: indexPath
-            ) as! BlinkRateCollectionViewCell
-            
-            let rate = todayBlinkResult?.bpm ?? 0
-            cell.configure(rate: rate)
-            cell.blinkRateSliderView.maxValue = 22
-            
-            cell.onTapNavigation = { [weak self] in
-                self?.navigate(to: "BlinkRateHistory", with: "BlinkRateHistoryViewController")
-            }
-            
-            return cell
-            
-        case 6: // Last Test
+        case 5: // Last Acuity Test
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "lastTest_cell",
                 for: indexPath
@@ -264,6 +248,22 @@ extension ViewController: UICollectionViewDataSource {
                 dvaLE: lastDVA?.leftEyeScore ?? "--",
                 dvaRE: lastDVA?.rightEyeScore ?? "--"
             )
+            return cell
+            
+        case 6: // Blink Rate
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "blinkRate_cell",
+                for: indexPath
+            ) as! BlinkRateCollectionViewCell
+            
+            let rate = todayBlinkResult?.bpm ?? 0
+            cell.configure(rate: rate)
+            cell.blinkRateSliderView.maxValue = 22
+            
+            cell.onTapNavigation = { [weak self] in
+                self?.navigate(to: "BlinkRateHistory", with: "BlinkRateHistoryViewController")
+            }
+            
             return cell
             
         default:
@@ -304,7 +304,14 @@ extension ViewController: UICollectionViewDataSource {
             
         case 5:
             header.congfigure(
-                headerText: "Summary",
+                headerText: "Last Acuity Test",
+                hideNav: true
+            )
+            header.onTapNavigation = nil
+            
+        case 6:
+            header.congfigure(
+                headerText: "Blink Rate Summary",
                 hideNav: true
             )
             header.onTapNavigation = nil

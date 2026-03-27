@@ -75,13 +75,15 @@ extension ViewController {
                 section.boundarySupplementaryItems = [sectionHeaderItem]
                 return section
                 
-            case 5: // Blink Rate (example using bold header)
-                let section = Self.makeFullWidthSection(height: 165, top: 5, bottom: 15)
+            case 5: // Last Acuity Test
+                let section = Self.makeFullWidthSection(height: 216, top: 5, bottom: 15)
                 section.boundarySupplementaryItems = [sectionHeaderItem]
                 return section
                 
-            case 6: // Last Test
-                return Self.makeFullWidthSection(height: 216, top: 0, bottom: 40)
+            case 6: // Blink Rate
+                let section = Self.makeFullWidthSection(height: 165, top: 5, bottom: 40)
+                section.boundarySupplementaryItems = [sectionHeaderItem]
+                return section
                 
             default:
                 return nil
